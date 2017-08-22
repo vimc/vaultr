@@ -7,7 +7,10 @@ Description: Provides an interface to Hashicorp's vault over its http API.
 License: MIT + file LICENSE
 Suggests: testthat
 Imports:
+    R6,
     httr,
     jsonlite,
     prettyunits
+Suggests:
+    processx
 RoxygenNote: 6.0.1

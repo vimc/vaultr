@@ -11,7 +11,7 @@ vault <- new.env(parent = emptyenv())
 ##' \item{\code{VAULT_ADDR}: The address that your vault server is running on}
 ##'
 ##' \item{\code{VAULT_AUTH_GITHUB_TOKEN}: The github token that you
-##' have set up to work with vault}
+##' have set up to workwith vault}
 ##'
 ##' }
 ##'
