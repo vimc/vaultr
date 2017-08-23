@@ -4,14 +4,16 @@ vault_GET <- function(url, verify, token, path, ..., to_json = TRUE) {
   vault_client_response(res, to_json)
 }
 
-vault_PUT <- function(url, verify, token, path, body, ..., to_json = TRUE) {
+vault_PUT <- function(url, verify, token, path, body = NULL, ...,
+                      to_json = TRUE) {
   url <- paste0(url, path)
   res <- httr::PUT(url, verify, token, httr::accept_json(),
                    body = body, encode = "json", ...)
   vault_client_response(res, to_json)
 }
 
-vault_POST <- function(url, verify, token, path, body, ..., to_json = TRUE) {
+vault_POST <- function(url, verify, token, path, body = NULL, ...,
+                       to_json = TRUE) {
   url <- paste0(url, path)
   res <- httr::POST(url, verify, token, httr::accept_json(),
                     body = body, encode = "json", ...)

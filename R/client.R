@@ -1,5 +1,13 @@
-## OK, there's a _huge_ pile of faff to deal with here with getting
-vault_client <- R6::R6Class(
+vault_client <- function(url = "https://localhost:8200",
+                         token = NULL, cert = NULL, verify = NULL) {
+  R6_vault_client$new(url, token, cert, verify)
+}
+
+vault_client_generic <- function(...) {
+  vault_client(...)$generic()
+}
+
+R6_vault_client <- R6::R6Class(
   "vault_client",
   public = list(
     allow_redirects = NULL,
@@ -8,10 +16,7 @@ vault_client <- R6::R6Class(
     cert = NULL,
     verify = NULL,
 
-    initialize = function(url = "https://localhost:8200",
-                          token = NULL,
-                          cert = NULL,
-                          verify = NULL) {
+    initialize = function(url, token, cert, verify) {
       if (!is.null(token)) {
         self$.auth_set_token(token)
       }
@@ -26,6 +31,11 @@ vault_client <- R6::R6Class(
           self$verify <- httr::config(cainfo = verify)
         }
       }
+    },
+
+    ## Backends:
+    generic = function() {
+      R6_vault_client_generic$new(self)
     },
 
     ## Setup:
@@ -43,7 +53,7 @@ vault_client <- R6::R6Class(
       self$.put("/sys/init", body = body)
     },
 
-    ## Unseal
+    ## Unseal:
     unseal = function(key) {
       self$.put("/sys/unseal", body = list(key = key))
     },
@@ -58,21 +68,22 @@ vault_client <- R6::R6Class(
       }
       result
     },
-
     unseal_reset = function() {
-      self$.put("/sys/unseal", body = list(reset = TRUE), to_json = FALSE)
+      self$.put("/sys/unseal", body = list(reset = TRUE), to_json = TRUE)
     },
-
     seal = function() {
       self$.put("/sys/seal", to_json = FALSE)
+      invisible()
     },
-
     seal_status = function() {
       self$.get("/sys/seal-status")
     },
+    is_sealed = function() {
+      self$seal_status()$sealed
+    },
 
     ## System
-    list_secret_backends = function() {
+    list_backends = function() {
       data <- self$.get("/sys/mounts")
       cols <- c("type", "local", "description", "config")
       ## This bit is needed because the output I see deviates from the
@@ -92,8 +103,12 @@ vault_client <- R6::R6Class(
       ret
     },
 
+    sys_leader_status = function() {
+      self$.get("/sys/leader")
+    },
+
     ## Query
-    read = function(path, info = FALSE) {
+    read = function(path, field = NULL, info = FALSE) {
       assert_absolute_path(path)
       res <- tryCatch(self$.get(path),
                       vault_invalid_path = function(e) NULL)
@@ -101,6 +116,13 @@ vault_client <- R6::R6Class(
         ret <- NULL
       } else {
         ret <- res$data
+        if (!is.null(field)) {
+          assert_scalar_character(field)
+          ret <- res$data[[field]]
+          if (is.null(ret)) {
+            return(ret)
+          }
+        }
         if (info) {
           attr <- res[setdiff(names(res), "data")]
           attr(ret, "info") <- attr[lengths(attr) > 0]
@@ -108,10 +130,23 @@ vault_client <- R6::R6Class(
       }
       ret
     },
-    list = function(path) {
+    list = function(path, recursive = FALSE) {
       assert_absolute_path(path)
-      tryCatch(self$.get(path, query = list(list = TRUE)),
-               vault_invalid_path = function(e) NULL)
+      dat <- tryCatch(self$.get(path, query = list(list = TRUE)),
+                      vault_invalid_path = function(e) NULL)
+
+      ret <- file.path(sub("/+$", "", path),
+                       list_to_character(dat$data$keys))
+
+      if (recursive) {
+        i <- grepl("/$", ret)
+        if (any(i)) {
+          new <- unlist(lapply(sub("/$", "", ret[i]), self$list, TRUE),
+                        use.names = FALSE)
+          ret <- sort(c(ret[!i], new))
+        }
+      }
+      ret
     },
     write = function(path, data) {
       assert_named(data)
@@ -119,7 +154,7 @@ vault_client <- R6::R6Class(
       if (httr::status_code(res) == 200) {
         response_to_json(res)
       } else {
-        NULL
+        invisible(NULL)
       }
     },
     delete = function(path) {
@@ -157,3 +192,42 @@ vault_client <- R6::R6Class(
       self$token <- httr::add_headers("X-Vault-Token" = client_token)
     }
   ))
+
+R6_vault_client_generic <- R6::R6Class(
+  "vault_client_generic",
+  public = list(
+    vault = NULL,
+    initialize = function(vault) {
+      assert_is(vault, "vault_client")
+      self$vault <- vault
+    },
+
+    read = function(path, field = NULL, info = FALSE) {
+      check_path(path, "/secret/")
+      self$vault$read(path, field, info)
+    },
+
+    write = function(path, data, ttl = NULL) {
+      check_path(path, "/secret/")
+      if (!is.null(ttl)) {
+        data$ttl <- ttl
+      }
+      self$vault$write(path, data)
+    },
+
+    list = function(path, recursive = FALSE) {
+      check_path(path, "/secret")
+      self$vault$list(path, recursive)
+    },
+
+    delete = function(path) {
+      check_path(path, "/secret/")
+      self$vault$delete(path)
+    }))
+
+check_path <- function(path, starts_with) {
+  assert_scalar_character(path)
+  if (!identical(substr(path, 1L, nchar(starts_with)), starts_with)) {
+    stop(sprintf("Expected path to start with '%s'", starts_with))
+  }
+}

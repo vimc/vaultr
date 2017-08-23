@@ -53,28 +53,39 @@ server_manager <- R6::R6Class(
       self$keys <- result[["keys"]]
     },
     unseal = function() {
-      self$client$unseal_multi(self$keys)
+      if (self$client$is_sealed()) {
+        message("unsealing server")
+        self$client$unseal_multi(self$keys)
+      }
     },
     kill = function() {
+      message("killing server")
       self$process$kill()
     }
   ))
 
-test_client <- function(...) {
-  vault_client$new(verify = "server/server-cert.pem")
+manager <- NULL
+
+test_client <- function(ctor = vault_client) {
+  ctor(verify = "server/server-cert.pem",
+       token = manager$root_token)
 }
 
-server <- NULL
+
 server_start <- function() {
-  server <<- server_manager$new("server", test_client())
-  server$start()
-  server$sys_initialize()
-  server$unseal()
+  manager <<- server_manager$new("server", test_client())
+  manager$start()
+  manager$sys_initialize()
+  manager$unseal()
   invisible()
 }
 
 server_teardown <- function() {
-  if (server$process$is_alive()) {
-    server$process$kill()
+  if (manager$process$is_alive()) {
+    manager$process$kill()
   }
+}
+
+get_error <- function(expr) {
+  tryCatch(expr, error = identity)
 }

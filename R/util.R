@@ -11,6 +11,12 @@ list_to_character <- function(x) {
   vapply(x, identity, character(1))
 }
 
+assert_is <- function(x, what, name = deparse(substitute(x))) {
+  if (!inherits(x, what)) {
+    sprintf("Expected '%s' to be a %s", name, paste(what, collapse = " / "))
+  }
+}
+
 assert_length <- function(x, len, name = deparse(substitute(x))) {
   if (length(x) != len) {
     sprintf("Expected '%s' to be length %d", name, len)
