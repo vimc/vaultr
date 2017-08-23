@@ -89,3 +89,10 @@ server_teardown <- function() {
 get_error <- function(expr) {
   tryCatch(expr, error = identity)
 }
+
+skip_if_no_vault_auth_github_token <- function() {
+  if (nzchar(Sys.getenv("VAULT_AUTH_GITHUB_TOKEN"), "")) {
+    return(invisible(TRUE))
+  }
+  skip("No access token set")
+}

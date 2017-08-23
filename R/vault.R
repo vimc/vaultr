@@ -42,8 +42,9 @@ vault_auth <- function(addr = NULL, renew = FALSE, quiet = FALSE) {
 
   vault$token <- httr::add_headers("X-Vault-Token" = dat$auth$client_token)
   if (!quiet) {
+    message("Authenticating using github")
     lease <- dat$auth$lease_duration
-    message(sprintf("Authenticated using github, duration: %s s (%s)",
+    message(sprintf("...ok, duration: %s s (%s)",
                     lease, prettyunits::pretty_sec(lease, TRUE)))
   }
   invisible(TRUE)

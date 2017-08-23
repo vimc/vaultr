@@ -98,3 +98,42 @@ test_that("generic: recursive list", {
   expect_equal(cl$list("/secret/dir2", recursive = TRUE),
                c("/secret/dir2/leaf5", "/secret/dir2/leaf6"))
 })
+
+test_that("github auth", {
+  skip_on_travis()
+  skip_if_no_vault_auth_github_token()
+
+  cl <- test_client()
+
+  expect_false("github" %in% cl$list_auth_backends()$type)
+  cl$enable_auth_backend("github")
+  expect_true("github" %in% cl$list_auth_backends()$type)
+
+  cl$config_auth_github_write("vimc")
+  expect_equal(cl$config_auth_github_read()$organization, "vimc")
+
+  cl2 <- test_client()
+  cl2$token <- NULL
+
+  expect_error(cl2$list("/secret"), "missing client token")
+  cl2$auth("github")
+  expect_error(cl2$list("/secret"), "permission denied")
+  cl$config_auth_github_write_policy("development", "default")
+  expect_equal(cl$config_auth_github_read_policy("development"), "default")
+
+  rules <- c('path "secret/*" {',
+             '  policy = "write"',
+             '}')
+  cl$policy_write("standard", paste(rules, collapse = "\n"))
+  cl$config_auth_github_write_policy("development", "standard")
+  expect_equal(cl$config_auth_github_read_policy("development"), "standard")
+  expect_equal(cl$policy_read("standard"), paste(rules, collapse = "\n"))
+
+  expect_error(cl2$list("/secret"), "permission denied")
+  cl2$auth("github", renew = TRUE)
+
+  expect_silent(cl2$list("/secret"))
+
+  cl$disable_auth_backend("github")
+  expect_error(cl2$list("/secret"), "permission denied")
+})

@@ -107,6 +107,23 @@ R6_vault_client <- R6::R6Class(
       self$.get("/sys/leader")
     },
 
+    ## policy
+    policy_list = function() {
+      data <- self$.get("/sys/policy")
+      lapply(data$data, list_to_character)
+    },
+    policy_read = function(name) {
+      assert_scalar_character(name)
+      self$.get(paste0("/sys/policy/", name))$data$rules
+    },
+    policy_write = function(name, rules) {
+      assert_scalar_character(name)
+      assert_scalar_character(rules)
+      self$.put(paste0("/sys/policy/", name), body = list(rules = rules),
+                to_json = FALSE)
+      invisible(NULL)
+    },
+
     ## Query
     read = function(path, field = NULL, info = FALSE) {
       assert_absolute_path(path)
@@ -164,12 +181,89 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Auth
-    auth_github = function(gh_token = NULL, renew = FALSE) {
-      if (!self$.auth_needed(renew)) {
+    auth = function(type, ..., renew = FALSE, quiet = FALSE) {
+      switch(type,
+             github = self$auth_github(..., renew = renew, quiet = quiet),
+             stop(sprintf("Unknown auth type '%s'", type)))
+    },
+
+    auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE) {
+      if (self$.auth_needed(renew)) {
+        if (!quiet) {
+          message("Authenticating using github...", appendLF=FALSE)
+        }
         res <- self$.post("/auth/github/login",
                           body = list(token = vault_gh_token(gh_token)))
         self$.auth_set_token(res$auth$client_token)
+        if (!quiet) {
+          lease <- res$auth$lease_duration
+          message(sprintf("ok, duration: %s s (%s)",
+                          lease, prettyunits::pretty_sec(lease, TRUE)))
+        }
       }
+    },
+
+    list_auth_backends = function() {
+      data <- self$.get("/sys/auth")
+      ret <- data_frame(
+        name = sub("/$", "", names(data$data)),
+        type = vcapply(data$data, "[[", "type", USE.NAMES = FALSE),
+        local = vlapply(data$data, "[[", "local", USE.NAMES = FALSE),
+        description = vcapply(data$data, "[[", "description",
+                              USE.NAMES = FALSE))
+      ret$config <- unname(lapply(data$data, "[[", "config"))
+      ret
+    },
+
+    enable_auth_backend = function(type, description = NULL,
+                                   mount_point = NULL) {
+      if (is.null(mount_point)) {
+        mount_point <- type
+      }
+      assert_scalar_character(type)
+      if (!is.null(description)) {
+        assert_scalar_character(description)
+      }
+      assert_scalar_character(mount_point)
+
+      body <- list(type = type,
+                   description = description)
+      self$.post(paste0("/sys/auth/", mount_point), body = body,
+                 to_json = FALSE)
+      invisible(NULL)
+    },
+
+    disable_auth_backend = function(mount_point) {
+      assert_scalar_character(mount_point)
+      res <- self$.delete(paste0("/sys/auth/", mount_point), to_json = FALSE)
+      invisible(NULL)
+    },
+
+    ## This all comes out
+    config_auth_github_write = function(organization, base_url = NULL,
+                                        ttl = NULL, max_ttl = NULL) {
+      assert_scalar_character(organization)
+      body <- list(organization = organization,
+                   base_url = base_url,
+                   ttl = ttl,
+                   max_ttl = max_ttl)
+      body <- body[!vlapply(body, is.null)]
+      self$.post("/auth/github/config", body, to_json = FALSE)
+      invisible(TRUE)
+    },
+    config_auth_github_read = function() {
+      self$.get("/auth/github/config")$data
+    },
+    config_auth_github_write_policy = function(team, policy) {
+      assert_scalar_character(team)
+      assert_scalar_character(policy)
+      self$.post(paste0("/auth/github/map/teams/", team),
+                 body = list(value = policy), to_json = FALSE)
+      invisible(NULL)
+    },
+    config_auth_github_read_policy = function(team) {
+      assert_scalar_character(team)
+      self$.get(paste0("/auth/github/map/teams/", team))$data$value
     },
 
     ## HTTP verbs
