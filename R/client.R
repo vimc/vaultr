@@ -1,6 +1,14 @@
 vault_client <- function(url = "https://localhost:8200",
-                         token = NULL, cert = NULL, verify = NULL) {
-  R6_vault_client$new(url, token, cert, verify)
+                         token = NULL, cert = NULL, verify = NULL,
+                         auth = NULL, backend = NULL) {
+  cl <- R6_vault_client$new(url, token, cert, verify)
+  if (!is.null(auth)) {
+    cl$auth(auth)
+  }
+  if (!is.null(backend)) {
+    cl <- cl$backend(backend)
+  }
+  cl
 }
 
 vault_client_generic <- function(...) {
@@ -15,8 +23,10 @@ R6_vault_client <- R6::R6Class(
     url = NULL,
     cert = NULL,
     verify = NULL,
+    client = NULL,
 
     initialize = function(url, token, cert, verify) {
+      self$client <- self
       if (!is.null(token)) {
         self$.auth_set_token(token)
       }
@@ -34,6 +44,12 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Backends:
+    backend = function(backend_name) {
+      assert_scalar_character(backend_name)
+      switch(backend_name,
+             generic = self$generic(),
+             stop(sprintf("Unknown backend '%s'", backend)))
+    },
     generic = function() {
       R6_vault_client_generic$new(self)
     },
@@ -310,14 +326,19 @@ R6_vault_client_generic <- R6::R6Class(
     },
 
     list = function(path, recursive = FALSE) {
-      check_path(path, "/secret")
+      check_path(path, "/secret") # NOTE: no trailing
       self$vault$list(path, recursive)
     },
 
     delete = function(path) {
       check_path(path, "/secret/")
       self$vault$delete(path)
-    }))
+    },
+
+    auth = function(...) {
+      self$client$auth(...)
+    }
+  ))
 
 check_path <- function(path, starts_with) {
   assert_scalar_character(path)
