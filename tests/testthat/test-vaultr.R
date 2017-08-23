@@ -44,7 +44,7 @@ test_that("generic: nonexistant keys", {
                fixed = TRUE)
   expect_null(cl$read("/secret/foo"))
   expect_null(cl$delete("/secret/foo"))
-  expect_null(cl$list("/secret/foo"))
+  expect_equal(cl$list("/secret/foo"), character(0))
 })
 
 test_that("generic: invalid data", {
@@ -88,13 +88,17 @@ test_that("generic: recursive list", {
   for (i in seq_along(paths)) {
     cl$write(paths[[i]], list(value = i))
   }
+  on.exit({
+    for (i in paths) {
+      cl$delete(i)
+    }
+  })
 
   expect_equal(cl$list("/secret"),
                c("/secret/dir1/", "/secret/dir2/", "/secret/leaf7"))
   expect_equal(cl$list("/secret", recursive = TRUE),
                paths)
-  expect_equal(cl$list("/secret/leaf7", recursive = TRUE),
-               "/secret/leaf7")
+  expect_equal(cl$list("/secret/leaf7", recursive = TRUE), character(0))
   expect_equal(cl$list("/secret/dir2", recursive = TRUE),
                c("/secret/dir2/leaf5", "/secret/dir2/leaf6"))
 })

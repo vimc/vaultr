@@ -1,16 +1,36 @@
-vault_client <- function(url = "https://localhost:8200",
+##' Make a vault client
+##'
+##' @title Make a vault client
+##'
+##' @param addr Vault address, e.g. \code{https://localhost:8200}.  If
+##'   not given, defaults to the environment variable
+##'   \code{VAULT_ADDR}.
+##'
+##' @param token A token, if you already have one
+##'
+##' @param cert Client certificate
+##'
+##' @param verify Server certificate
+##'
+##' @param auth An authentication method (e.g., "github")
+##'
+##' @export
+vault_client <- function(addr = NULL,
                          token = NULL, cert = NULL, verify = NULL,
-                         auth = NULL, backend = NULL) {
-  cl <- R6_vault_client$new(url, token, cert, verify)
+                         auth = NULL) {
+  cl <- R6_vault_client$new(addr, token, cert, verify)
   if (!is.null(auth)) {
     cl$auth(auth)
-  }
-  if (!is.null(backend)) {
-    cl <- cl$backend(backend)
   }
   cl
 }
 
+##' Make a vault client for the "generic" interface.  Provides a much
+##' simpler interface than \code{vault_client}, with none of the
+##' administration functions.
+##' @title Make a generic vault client
+##' @param ... Passed to \code{vault_client}
+##' @export
 vault_client_generic <- function(...) {
   vault_client(...)$generic()
 }
@@ -25,12 +45,12 @@ R6_vault_client <- R6::R6Class(
     verify = NULL,
     client = NULL,
 
-    initialize = function(url, token, cert, verify) {
+    initialize = function(addr, token, cert, verify) {
       self$client <- self
       if (!is.null(token)) {
         self$.auth_set_token(token)
       }
-      self$url <- paste0(url, "/v1")
+      self$url <- paste0(vault_addr(addr), "/v1")
       self$cert <- cert
 
       if (!is.null(verify)) {
@@ -44,12 +64,6 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Backends:
-    backend = function(backend_name) {
-      assert_scalar_character(backend_name)
-      switch(backend_name,
-             generic = self$generic(),
-             stop(sprintf("Unknown backend '%s'", backend)))
-    },
     generic = function() {
       R6_vault_client_generic$new(self)
     },
@@ -201,6 +215,7 @@ R6_vault_client <- R6::R6Class(
       switch(type,
              github = self$auth_github(..., renew = renew, quiet = quiet),
              stop(sprintf("Unknown auth type '%s'", type)))
+      invisible(self)
     },
 
     auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE) {
@@ -208,8 +223,8 @@ R6_vault_client <- R6::R6Class(
         if (!quiet) {
           message("Authenticating using github...", appendLF=FALSE)
         }
-        res <- self$.post("/auth/github/login",
-                          body = list(token = vault_gh_token(gh_token)))
+        token <- vault_auth_github_token(gh_token)
+        res <- self$.post("/auth/github/login", body = list(token = token))
         self$.auth_set_token(res$auth$client_token)
         if (!quiet) {
           lease <- res$auth$lease_duration
@@ -337,12 +352,6 @@ R6_vault_client_generic <- R6::R6Class(
 
     auth = function(...) {
       self$client$auth(...)
+      invisible(self)
     }
   ))
-
-check_path <- function(path, starts_with) {
-  assert_scalar_character(path)
-  if (!identical(substr(path, 1L, nchar(starts_with)), starts_with)) {
-    stop(sprintf("Expected path to start with '%s'", starts_with))
-  }
-}
