@@ -4,16 +4,16 @@
 \alias{vault_client}
 \title{Make a vault client}
 \usage{
-vault_client(addr = NULL, auth = NULL, ..., cert = NULL, verify = NULL)
+vault_client(auth = NULL, ..., addr = NULL, cert = NULL, verify = NULL)
 }
 \arguments{
-\item{addr}{Vault address, e.g. \code{https://localhost:8200}.  If
-not given, defaults to the environment variable
-\code{VAULT_ADDR}.}
-
 \item{auth}{An authentication method (e.g., "github")}
 
 \item{...}{Additional arguments passed through to the auth method}
+
+\item{addr}{Vault address, e.g. \code{https://localhost:8200}.  If
+not given, defaults to the environment variable
+\code{VAULT_ADDR}.}
 
 \item{cert}{Client certificate}
 

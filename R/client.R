@@ -2,6 +2,10 @@
 ##'
 ##' @title Make a vault client
 ##'
+##' @param auth An authentication method (e.g., "github")
+##'
+##' @param ... Additional arguments passed through to the auth method
+##'
 ##' @param addr Vault address, e.g. \code{https://localhost:8200}.  If
 ##'   not given, defaults to the environment variable
 ##'   \code{VAULT_ADDR}.
@@ -10,13 +14,9 @@
 ##'
 ##' @param verify Server certificate
 ##'
-##' @param auth An authentication method (e.g., "github")
-##'
-##' @param ... Additional arguments passed through to the auth method
-##'
 ##' @export
-vault_client <- function(addr = NULL, auth = NULL, ...,
-                         cert = NULL, verify = NULL) {
+vault_client <- function(auth = NULL, ...,
+                         addr = NULL, cert = NULL, verify = NULL) {
   cl <- R6_vault_client$new(addr, cert, verify)
   if (!is.null(auth)) {
     cl$auth(auth, ...)
