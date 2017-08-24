@@ -1,0 +1,12 @@
+language: r
+sudo: false
+cache: packages
+
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+before_install:
+  - tests/testthat/server/install-server.sh
