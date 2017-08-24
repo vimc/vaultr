@@ -34,6 +34,12 @@ assert_scalar_character <- function(x, name = deparse(substitute(x))) {
   assert_character(x, name)
 }
 
+assert_scalar_character_or_null <- function(x, name = deparse(substitute(x))) {
+  if (!is.null(x)) {
+    assert_scalar_character(x, name)
+  }
+}
+
 assert_absolute_path <- function(path) {
   if (!is_absolute_path(path)) {
     stop("Expected an absolute path")

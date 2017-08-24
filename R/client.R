@@ -219,9 +219,7 @@ R6_vault_client <- R6::R6Class(
 
     auth_token = function(token, renew = FALSE, quiet = TRUE) {
       if (self$.auth_needed(renew)) {
-        if (!is.null(token)) {
-          assert_scalar_character(token)
-        }
+        assert_scalar_character_or_null(token)
         if (!quiet && !is.null(token)) {
           message("Authenticating using token")
         }
@@ -263,9 +261,7 @@ R6_vault_client <- R6::R6Class(
         mount_point <- type
       }
       assert_scalar_character(type)
-      if (!is.null(description)) {
-        assert_scalar_character(description)
-      }
+      assert_scalar_character_or_null(description)
       assert_scalar_character(mount_point)
 
       body <- list(type = type,
