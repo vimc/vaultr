@@ -45,6 +45,9 @@ vault_client_response <- function(res, to_json = TRUE) {
 }
 
 vault_error <- function(code, text, errors) {
+  if (!nzchar(text)) {
+    text <- httr::http_status(code)$message
+  }
   type <- switch(as.character(code),
                  "400" = "vault_invalid_request",
                  "401" = "vault_unauthorized",

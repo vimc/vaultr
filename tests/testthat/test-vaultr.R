@@ -103,6 +103,39 @@ test_that("generic: recursive list", {
                c("/secret/dir2/leaf5", "/secret/dir2/leaf6"))
 })
 
+test_that("generic: ttl", {
+  cl <- test_client(vault_client_generic)
+  cl$write("/secret/foo", list(password = "yo"), ttl = "1h")
+  res <- cl$read("/secret/foo")
+  expect_equal(res$password, "yo")
+  expect_equal(res$ttl, "1h")
+  res <- cl$read("/secret/foo", info = TRUE)
+  expect_equal(attr(res, "info")$lease_duration, 3600)
+})
+
+test_that("backends", {
+  cl <- test_client()
+  res <- cl$list_backends()
+  expect_is(res, "data.frame")
+  expect_equal(names(res), c("name", "type", "local", "description", "config"))
+})
+
+test_that("policy", {
+  cl <- test_client()
+  expect_true(setequal(cl$policy_list(), c("default", "root")))
+
+  rules <- paste('path "secret/*" {',
+                 '  policy = "read"',
+                 '}',
+                 sep = "\n")
+  cl$policy_write("read-secret", rules)
+  expect_true("read-secret" %in% cl$policy_list())
+  expect_equal(cl$policy_read("read-secret"), rules)
+  cl$policy_delete("read-secret")
+  expect_false("read-secret" %in% cl$policy_list())
+  expect_error(cl$policy_read("read-secret"), "Not Found")
+})
+
 context("vault: slow tests")
 
 test_that("github auth", {

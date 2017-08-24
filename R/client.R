@@ -119,7 +119,7 @@ R6_vault_client <- R6::R6Class(
       ## https://github.com/hashicorp/vault/blob/master/api/SPEC.md
       ok <- vlapply(data$data, function(x) setequal(names(x), cols))
       if (!any(ok)) {
-        stop("Unexpected output")
+        stop("Unexpected output") # nocov
       }
       ret <- data_frame(
         name = sub("/$", "", names(data$data)),
@@ -138,7 +138,7 @@ R6_vault_client <- R6::R6Class(
     ## policy
     policy_list = function() {
       data <- self$.get("/sys/policy")
-      lapply(data$data, list_to_character)
+      list_to_character(data$data$keys)
     },
     policy_read = function(name) {
       assert_scalar_character(name)
@@ -149,6 +149,11 @@ R6_vault_client <- R6::R6Class(
       assert_scalar_character(rules)
       self$.put(paste0("/sys/policy/", name), body = list(rules = rules),
                 to_json = FALSE)
+      invisible(NULL)
+    },
+    policy_delete = function(name) {
+      assert_scalar_character(name)
+      self$.delete(paste0("/sys/policy/", name), to_json = FALSE)
       invisible(NULL)
     },
 
