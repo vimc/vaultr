@@ -36,6 +36,8 @@ vault_client_generic <- function(...) {
 
 R6_vault_client <- R6::R6Class(
   "vault_client",
+  cloneable = FALSE,
+
   public = list(
     allow_redirects = NULL,
     token = NULL,
@@ -329,6 +331,8 @@ R6_vault_client <- R6::R6Class(
 
 R6_vault_client_generic <- R6::R6Class(
   "vault_client_generic",
+  cloneable = FALSE,
+
   public = list(
     vault = NULL,
     initialize = function(vault) {
