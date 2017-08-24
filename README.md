@@ -26,21 +26,21 @@ Tokens can be generated [here](https://github.com/settings/tokens/new) (see the 
 
 Then run
 
-```
+```r
 cl <- vaultr:::vault_client_generic("github")
 # Authenticating using github...ok, duration: 2764800 s (~32d)
 ```
 
 which will fetch a token via the github authentication.  From this point you can then list secrets like
 
-```
+```r
 cl$list("/secret")
 # [1] "/secret/foo"  "/secret/bar/"
 ```
 
 and read secrets with
 
-```
+```r
 cl$read("/secret/foo")
 # $password
 # [1] "ru5wig2iengohcohya5uj0Hairahm5Muengu4NiaThee7quiku"
@@ -50,13 +50,13 @@ cl$read("/secret/foo", "password")
 
 or set secrets with
 
-```
+```r
 cl$write("/secret/foo", list(password = "my new password"))
 ```
 
 or delete secrets with
 
-```
+```r
 cl$delete("/secret/foo")
 ```
 
