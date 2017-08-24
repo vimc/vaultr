@@ -6,21 +6,20 @@
 ##'   not given, defaults to the environment variable
 ##'   \code{VAULT_ADDR}.
 ##'
-##' @param token A token, if you already have one
-##'
 ##' @param cert Client certificate
 ##'
 ##' @param verify Server certificate
 ##'
 ##' @param auth An authentication method (e.g., "github")
 ##'
+##' @param ... Additional arguments passed through to the auth method
+##'
 ##' @export
-vault_client <- function(addr = NULL,
-                         token = NULL, cert = NULL, verify = NULL,
-                         auth = NULL) {
-  cl <- R6_vault_client$new(addr, token, cert, verify)
+vault_client <- function(addr = NULL, auth = NULL, ...,
+                         cert = NULL, verify = NULL) {
+  cl <- R6_vault_client$new(addr, cert, verify)
   if (!is.null(auth)) {
-    cl$auth(auth)
+    cl$auth(auth, ...)
   }
   cl
 }
@@ -45,11 +44,8 @@ R6_vault_client <- R6::R6Class(
     verify = NULL,
     client = NULL,
 
-    initialize = function(addr, token, cert, verify) {
+    initialize = function(addr, cert, verify) {
       self$client <- self
-      if (!is.null(token)) {
-        self$.auth_set_token(token)
-      }
       self$url <- paste0(vault_addr(addr), "/v1")
       self$cert <- cert
 
@@ -213,9 +209,22 @@ R6_vault_client <- R6::R6Class(
     ## Auth
     auth = function(type, ..., renew = FALSE, quiet = FALSE) {
       switch(type,
+             token = self$auth_token(..., renew = renew, quiet = quiet),
              github = self$auth_github(..., renew = renew, quiet = quiet),
              stop(sprintf("Unknown auth type '%s'", type)))
       invisible(self)
+    },
+
+    auth_token = function(token, renew = FALSE, quiet = TRUE) {
+      if (self$.auth_needed(renew)) {
+        if (!is.null(token)) {
+          assert_scalar_character(token)
+        }
+        if (!quiet && !is.null(token)) {
+          message("Authenticating using token")
+        }
+        self$.auth_set_token(token)
+      }
     },
 
     auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE) {
@@ -223,8 +232,8 @@ R6_vault_client <- R6::R6Class(
         if (!quiet) {
           message("Authenticating using github...", appendLF=FALSE)
         }
-        token <- vault_auth_github_token(gh_token)
-        res <- self$.post("/auth/github/login", body = list(token = token))
+        gh_token <- vault_auth_github_token(gh_token)
+        res <- self$.post("/auth/github/login", body = list(token = gh_token))
         self$.auth_set_token(res$auth$client_token)
         if (!quiet) {
           lease <- res$auth$lease_duration

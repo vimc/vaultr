@@ -103,6 +103,8 @@ test_that("generic: recursive list", {
                c("/secret/dir2/leaf5", "/secret/dir2/leaf6"))
 })
 
+context("vault: slow tests")
+
 test_that("github auth", {
   skip_on_travis()
   skip_if_no_vault_auth_github_token()
@@ -116,8 +118,7 @@ test_that("github auth", {
   cl$config_auth_github_write("vimc")
   expect_equal(cl$config_auth_github_read()$organization, "vimc")
 
-  cl2 <- test_client()
-  cl2$token <- NULL
+  cl2 <- test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "missing client token")
   cl2$auth("github")

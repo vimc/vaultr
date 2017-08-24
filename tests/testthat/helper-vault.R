@@ -67,9 +67,11 @@ server_manager <- R6::R6Class(
 manager <- NULL
 Sys.setenv("VAULT_ADDR" = "https://localhost:8200")
 
-test_client <- function(ctor = vault_client) {
-  ctor(verify = "server/server-cert.pem",
-       token = manager$root_token)
+test_client <- function(ctor = vault_client, auth = TRUE) {
+  ctor(auth = if (auth) "token" else NULL,
+       token = manager$root_token,
+       quiet = TRUE,
+       verify = "server/server-cert.pem")
 }
 
 
