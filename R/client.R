@@ -328,12 +328,12 @@ R6_vault_client_generic <- R6::R6Class(
     },
 
     read = function(path, field = NULL, info = FALSE) {
-      check_path(path, "/secret/")
+      assert_path_prefix(path, "/secret/")
       self$vault$read(path, field, info)
     },
 
     write = function(path, data, ttl = NULL) {
-      check_path(path, "/secret/")
+      assert_path_prefix(path, "/secret/")
       if (!is.null(ttl)) {
         data$ttl <- ttl
       }
@@ -341,12 +341,12 @@ R6_vault_client_generic <- R6::R6Class(
     },
 
     list = function(path, recursive = FALSE) {
-      check_path(path, "/secret") # NOTE: no trailing
+      assert_path_prefix(path, "/secret") # NOTE: no trailing
       self$vault$list(path, recursive)
     },
 
     delete = function(path) {
-      check_path(path, "/secret/")
+      assert_path_prefix(path, "/secret/")
       self$vault$delete(path)
     },
 

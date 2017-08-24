@@ -31,10 +31,3 @@ vcapply <- function(X, FUN, ...) {
 data_frame <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
-
-check_path <- function(path, starts_with) {
-  assert_scalar_character(path)
-  if (!identical(substr(path, 1L, nchar(starts_with)), starts_with)) {
-    stop(sprintf("Expected path to start with '%s'", starts_with))
-  }
-}
