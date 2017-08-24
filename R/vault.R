@@ -8,6 +8,9 @@ vault_addr <- function(addr) {
   if (is.na(addr)) {
     stop("vault address not found")
   }
+  if (!grepl("^https://.+", addr)) {
+    stop("Expected an https url for vault addr")
+  }
   addr
 }
 

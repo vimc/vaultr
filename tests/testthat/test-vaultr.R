@@ -1,5 +1,17 @@
 context("vaultr")
 
+test_that("addr", {
+  withr::with_envvar(c("VAULT_ADDR" = NA_character_), {
+    expect_error(vault_addr(NULL), "vault address not found")
+    expect_error(vault_addr(NA_character_), "vault address not found")
+  })
+  expect_error(vault_addr(1), "invalid input for vault addr")
+  expect_error(vault_addr(letters), "invalid input for vault addr")
+
+  expect_error(vault_addr(""), "Expected an https url for vault addr")
+  expect_error(vault_addr("http://yo"), "Expected an https url for vault addr")
+})
+
 test_that("unseal_multi", {
   on.exit(manager$unseal()) # in case things go wrong
 
@@ -111,6 +123,15 @@ test_that("generic: ttl", {
   expect_equal(res$ttl, "1h")
   res <- cl$read("/secret/foo", info = TRUE)
   expect_equal(attr(res, "info")$lease_duration, 3600)
+  cl$delete("/secret/foo")
+})
+
+test_that("generic: auth", {
+  cl <- test_client(vault_client_generic, auth = FALSE)
+  expect_error(cl$read("/secret/foo"), "missing client token")
+  expect_message(cl$auth("token", manager$root_token),
+                 "Authenticating using token")
+  expect_null(cl$read("/secret/foo"))
 })
 
 test_that("backends", {
@@ -134,6 +155,22 @@ test_that("policy", {
   cl$policy_delete("read-secret")
   expect_false("read-secret" %in% cl$policy_list())
   expect_error(cl$policy_read("read-secret"), "Not Found")
+})
+
+test_that("insecure", {
+  cl <- vault_client(auth = "token",
+                     token = manager$root_token,
+                     quiet = TRUE,
+                     verify = FALSE)
+  expect_equal(cl$list("/secret"), character(0))
+  expect_equal(cl$verify$options$ssl_verifypeer, 0)
+})
+
+test_that("auth: message", {
+  cl <- test_client(auth = FALSE)
+  expect_message(cl$auth("token", manager$root_token),
+                 "Authenticating using token")
+  expect_silent(cl$auth("token", manager$root_token))
 })
 
 context("vault: slow tests")

@@ -365,7 +365,7 @@ R6_vault_client_generic <- R6::R6Class(
     },
 
     auth = function(...) {
-      self$client$auth(...)
+      self$vault$auth(...)
       invisible(self)
     }
   ))
