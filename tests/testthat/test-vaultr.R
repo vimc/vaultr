@@ -12,6 +12,17 @@ test_that("addr", {
   expect_error(vault_addr("http://yo"), "Expected an https url for vault addr")
 })
 
+test_that("auth_github_token", {
+  withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = NA_character_), {
+    expect_equal(vault_auth_github_token(NULL), NA_character_)
+    expect_equal(vault_auth_github_token("abcd"), "abcd")
+  })
+  withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = "1234"), {
+    expect_equal(vault_auth_github_token(NULL), "1234")
+    expect_equal(vault_auth_github_token("abcd"), "abcd")
+  })
+})
+
 test_that("unseal_multi", {
   on.exit(manager$unseal()) # in case things go wrong
 
@@ -176,8 +187,7 @@ test_that("auth: message", {
 context("vault: slow tests")
 
 test_that("github auth", {
-  skip_on_travis()
-  skip_if_no_vault_auth_github_token()
+  try_auth <- has_auth_github_token()
 
   cl <- test_client()
 
@@ -191,8 +201,11 @@ test_that("github auth", {
   cl2 <- test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "missing client token")
-  cl2$auth("github")
-  expect_error(cl2$list("/secret"), "permission denied")
+
+  if (try_auth) {
+    cl2$auth("github")
+    expect_error(cl2$list("/secret"), "permission denied")
+  }
   cl$config_auth_github_write_policy("development", "default")
   expect_equal(cl$config_auth_github_read_policy("development"), "default")
 
@@ -204,11 +217,15 @@ test_that("github auth", {
   expect_equal(cl$config_auth_github_read_policy("development"), "standard")
   expect_equal(cl$policy_read("standard"), paste(rules, collapse = "\n"))
 
-  expect_error(cl2$list("/secret"), "permission denied")
-  cl2$auth("github", renew = TRUE)
-
-  expect_silent(cl2$list("/secret"))
+  if (try_auth) {
+    expect_error(cl2$list("/secret"), "permission denied")
+    cl2$auth("github", renew = TRUE)
+    expect_silent(cl2$list("/secret"))
+  }
 
   cl$disable_auth_backend("github")
-  expect_error(cl2$list("/secret"), "permission denied")
+
+  if (try_auth) {
+    expect_error(cl2$list("/secret"), "permission denied")
+  }
 })
