@@ -206,15 +206,15 @@ test_that("github auth", {
     cl2$auth("github")
     expect_error(cl2$list("/secret"), "permission denied")
   }
-  cl$config_auth_github_write_policy("development", "default")
-  expect_equal(cl$config_auth_github_read_policy("development"), "default")
+  cl$config_auth_github_write_policy("robots", "default")
+  expect_equal(cl$config_auth_github_read_policy("robots"), "default")
 
   rules <- c('path "secret/*" {',
              '  policy = "write"',
              '}')
   cl$policy_write("standard", paste(rules, collapse = "\n"))
-  cl$config_auth_github_write_policy("development", "standard")
-  expect_equal(cl$config_auth_github_read_policy("development"), "standard")
+  cl$config_auth_github_write_policy("robots", "standard")
+  expect_equal(cl$config_auth_github_read_policy("robots"), "standard")
   expect_equal(cl$policy_read("standard"), paste(rules, collapse = "\n"))
 
   if (try_auth) {
