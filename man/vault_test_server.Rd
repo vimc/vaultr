@@ -16,14 +16,10 @@ vault_test_server()
 
 vault_test_client(...)
 
-vault_test_server_install(path = ".vault", quiet = FALSE,
-  version = "0.7.3")
+vault_test_server_install(quiet = FALSE, version = "0.7.3")
 }
 \arguments{
 \item{...}{Argument passed through to create the new client}
-
-\item{path}{Path to install the server to; must be an existing
-directory.}
 
 \item{quiet}{Suppress progress bars on install}
 

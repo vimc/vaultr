@@ -50,21 +50,22 @@ vault_test_client <- function(...) {
 
 ##' @rdname vault_test_server
 ##'
-##' @param path Path to install the server to; must be an existing
-##'   directory.
-##'
 ##' @param quiet Suppress progress bars on install
 ##'
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(path = ".vault", quiet = FALSE,
+vault_test_server_install <- function(quiet = FALSE,
                                       version = "0.7.3") {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
+  }
+  path <- Sys_getenv("VAULT_BIN_PATH", NULL)
+  if (is.null(path)) {
+    stop("VAULT_BIN_PATH is not set")
   }
   dir.create(path, FALSE, TRUE)
   dest <- file.path(path, "vault")

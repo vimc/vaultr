@@ -50,6 +50,7 @@ test_that("invalid port", {
 })
 
 test_that("install: not on CRAN", {
+  skip("rework")
   withr::with_envvar(c(NOT_CRAN = NA_character_), {
     expect_error(vault_test_server_install(tempfile()),
                  "Do not run this on CRAN")
@@ -57,6 +58,7 @@ test_that("install: not on CRAN", {
 })
 
 test_that("install: opt-in", {
+  skip("rework")
   testthat::skip_on_cran()
   withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = NA_character_), {
     expect_error(vault_test_server_install(tempfile()),
@@ -65,6 +67,7 @@ test_that("install: opt-in", {
 })
 
 test_that("install", {
+  skip("rework")
   testthat::skip_on_cran()
   skip_if_no_internet()
   dest <- tempfile()
@@ -79,6 +82,7 @@ test_that("install", {
 })
 
 test_that("port collision", {
+  skip("rework")
   testthat::skip_on_cran()
   skip_if_no_vault_test_server()
   server <- server_manager$new()
@@ -87,6 +91,7 @@ test_that("port collision", {
 })
 
 test_that("reinstall", {
+  skip("rework")
   testthat::skip_on_cran()
   skip_if_no_internet()
   path <- tempfile()
