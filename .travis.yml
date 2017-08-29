@@ -8,10 +8,6 @@ r_packages:
 after_success:
   - Rscript -e 'covr::codecov()'
 
-before_script:
-  - mkdir -p .vault
-  - inst/server/install-server.R .vault
-
 env:
   global:
     - VAULT_BIN_PATH=$PWD/.vault
