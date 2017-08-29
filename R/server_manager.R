@@ -2,7 +2,6 @@
 ## useful for other packages that want to use vault in their testing.
 
 vault_test_server_start <- function() {
-  loadNamespace("testthat")
   server <- server_manager$new()
   if (server$can_run()) {
     vault_env$server <- server
@@ -26,14 +25,38 @@ vault_test_client <- function(...) {
   vault_env$server$new_client(...)
 }
 
+vault_test_data <- function() {
+  ret <- list(bin = NULL, port = NULL, address = NULL, url = NULL)
+  if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+    port <- Sys.getenv("VAULTR_TEST_SERVER_PORT", NA_character_)
+    if (!is.na(port)) {
+      if (!grepl("^[0-9]+$", port)) {
+        stop(sprintf("Invalid port '%s'", port))
+      }
+      ret$port <- port
+      ret$address <- sprintf("127.0.0.1:%s", port)
+      ret$url  <- sprintf("https://127.0.0.1:%s", port)
+    }
+
+    bin <- Sys.which("vault")
+    if (nzchar(bin)) {
+      ret$bin <- unname(bin)
+    }
+  }
+  ret
+}
+
 server_manager <- R6::R6Class(
   "server_manager",
 
   public = list(
+    port = NULL,
     address = NULL,
+    url = NULL,
+
     config_path = NULL,
     client = NULL,
-    vault_bin = NULL,
+    bin = NULL,
 
     keys = NULL,
     root_token = NULL,
@@ -41,31 +64,21 @@ server_manager <- R6::R6Class(
     process = NULL,
 
     initialize = function() {
-      if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
-        return()
-      }
-      port <- Sys.getenv("VAULTR_TEST_SERVER_PORT", NA_character_)
-      if (!is.na(port)) {
-        if (!grepl("^[0-9]+$", port)) {
-          stop(sprintf("Invalid port '%s'", port))
-        }
-        self$address <- sprintf("127.0.0.1:%s", port)
-      }
-      vault_bin <- Sys.which("vault")
-      if (nzchar(vault_bin)) {
-        self$vault_bin <- unname(vault_bin)
-      }
+      dat <- vault_test_data()
+      self$bin <- dat$bin
+      self$port <- dat$port
+      self$address <- dat$address
+      self$url <- dat$url
     },
     can_run = function() {
-      !is.null(self$address) && !is.null(self$vault_bin)
+      !is.null(self$address) && !is.null(self$bin)
     },
     start = function() {
-      if (is.na(self$address)) {
-        stop("'VAULTR_TEST_SERVER_PORT' not set")
-      }
-      vault <- Sys.which("vault")
-      if (!nzchar(vault)) {
+      if (is.null(self$bin)) {
         stop("vault executable not found")
+      }
+      if (is.null(self$address)) {
+        stop("'VAULTR_TEST_SERVER_PORT' not set")
       }
 
       ## Write out a temporary configuration
@@ -79,7 +92,7 @@ server_manager <- R6::R6Class(
       message("Starting vault server at ", self$address)
       args <- c("server", paste0("-config=", path))
       self$process <-
-        processx::process$new(vault, args, stdout = "|", stderr = "|")
+        processx::process$new(self$bin, args, stdout = "|", stderr = "|")
       on.exit(self$process$kill())
 
       vault_addr <- paste0("https://", self$address)
@@ -110,13 +123,12 @@ server_manager <- R6::R6Class(
       invisible(self)
     },
     sys_initialize = function() {
-      if (self$client$sys_is_initialized()) {
-        stop("server is already initialized")
+      if (!self$client$sys_is_initialized()) {
+        message("Initializing vault")
+        result <- self$client$sys_initialize()
+        self$root_token <- result[["root_token"]]
+        self$keys <- result[["keys"]]
       }
-      message("Initializing vault")
-      result <- self$client$sys_initialize()
-      self$root_token <- result[["root_token"]]
-      self$keys <- result[["keys"]]
     },
     unseal = function() {
       if (self$client$is_sealed()) {
