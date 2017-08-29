@@ -48,3 +48,40 @@ test_that("invalid port", {
     expect_error(server_manager$new(), "Invalid port 'one'", fixed = TRUE)
   })
 })
+
+test_that("install: not on CRAN", {
+  withr::with_envvar(c(NOT_CRAN = NA_character_), {
+    expect_error(vault_test_server_install(tempfile()),
+                 "Do not run this on CRAN")
+  })
+})
+
+test_that("install: opt-in", {
+  testthat::skip_on_cran()
+  withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = NA_character_), {
+    expect_error(vault_test_server_install(tempfile()),
+                 "Please read the documentation")
+  })
+})
+
+test_that("install: missing directory", {
+  testthat::skip_on_cran()
+  withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
+    expect_error(vault_test_server_install(tempfile()),
+                 "must be an existing directory")
+  })
+})
+
+test_that("install", {
+  testthat::skip_on_cran()
+  skip_if_no_internet()
+  dest <- tempfile()
+  dir.create(dest)
+  res <- withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
+    vault_test_server_install(dest, TRUE)
+  })
+  expect_equal(res, file.path(dest, "vault"))
+  expect_true(file.exists(res))
+  expect_equal(dir(dest), "vault")
+  expect_equal(system2(res, "-help", stdout = FALSE, stderr = FALSE), 0)
+})

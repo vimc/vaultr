@@ -2,3 +2,8 @@
 
 export(vault_client)
 export(vault_client_generic)
+export(vault_test_client)
+export(vault_test_server)
+export(vault_test_server_install)
+export(vault_test_server_start)
+export(vault_test_server_stop)

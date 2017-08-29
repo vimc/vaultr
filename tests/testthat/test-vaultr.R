@@ -201,7 +201,7 @@ context("vault: slow tests")
 
 test_that("github auth", {
   skip_if_no_vault_test_server()
-  try_auth <- has_auth_github_token()
+  try_auth <- has_auth_github_token() && has_internet()
 
   cl <- vault_test_client()
 

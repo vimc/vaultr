@@ -1,6 +1,20 @@
 ## This is intended primarily for test use, but it might also be
 ## useful for other packages that want to use vault in their testing.
 
+##' Control a server for use with testing.  This is designed to be
+##' used only by other packages that wish to run tests against a vault
+##' server.
+##'
+##' The function \code{vault_test_server_install} will install a test
+##' server, but \emph{only} if the user opts in by setting the
+##' environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
+##' \code{"true"}.  This will download a ~50MB binary from
+##' \url{https://vaultproject.io} so use with care.  It is intended
+##' \emph{only} for use in automated testing environments.
+##'
+##' @title Control a test vault server
+##' @export
+##' @rdname vault_test_server
 vault_test_server_start <- function() {
   server <- server_manager$new()
   if (server$can_run()) {
@@ -11,18 +25,52 @@ vault_test_server_start <- function() {
   }
 }
 
+##' @rdname vault_test_server
+##' @export
 vault_test_server_stop <- function() {
   if (!is.null(vault_env$server)) {
     vault_env$server$kill()
   }
 }
 
+##' @rdname vault_test_server
+##' @export
 vault_test_server <- function() {
   vault_env$server
 }
 
+##' @rdname vault_test_server
+##' @export
+##' @param ... Argument passed through to create the new client
 vault_test_client <- function(...) {
   vault_env$server$new_client(...)
+}
+
+##' @rdname vault_test_server
+##'
+##' @param path Path to install the server to; must be an existing
+##'   directory.
+##'
+##' @param quiet Suppress progress bars on install
+##'
+##' @export
+vault_test_server_install <- function(path, quiet = FALSE) {
+  if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
+    stop("Do not run this on CRAN")
+  }
+  if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
+    stop("Please read the documentation for vault_test_server_install")
+  }
+  if (!isTRUE(file.info(path)$isdir)) {
+    stop("'path' must be an existing directory")
+  }
+  install <- system.file("server/install-server.R", package = "vaultr",
+                         mustWork = TRUE)
+  ok <- system2(install, path, stdout = !quiet, stderr = !quiet)
+  if (ok != 0L) {
+    stop("Error installing vault server") # nocov
+  }
+  file.path(path, "vault")
 }
 
 vault_test_data <- function() {

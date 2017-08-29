@@ -26,3 +26,14 @@ has_auth_github_token <- function() {
 get_error <- function(expr) {
   tryCatch(expr, error = identity)
 }
+
+has_internet <- function() {
+  !is.null(suppressWarnings(utils::nsl("www.google.com")))
+}
+
+skip_if_no_internet <- function() {
+  if (has_internet()) {
+    return()
+  }
+  testthat::skip("no internet")
+}
