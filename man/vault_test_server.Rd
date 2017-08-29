@@ -28,13 +28,16 @@ vault_test_server_install(quiet = FALSE, version = "0.7.3")
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.
+server.  You will need to set \code{VAULT_BIN_PATH} to point at
+the directory containing the vault binary.
 }
 \details{
 The function \code{vault_test_server_install} will install a test
 server, but \emph{only} if the user opts in by setting the
 environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-\code{"true"}.  This will download a ~50MB binary from
-\url{https://vaultproject.io} so use with care.  It is intended
-\emph{only} for use in automated testing environments.
+\code{"true"}, and by setting \code{VAULT_BIN_PATH} to the
+directory where the binary should be downloaded to.  This will
+download a ~50MB binary from \url{https://vaultproject.io} so use
+with care.  It is intended \emph{only} for use in automated
+testing environments.
 }
