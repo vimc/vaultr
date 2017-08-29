@@ -43,7 +43,9 @@ vault_test_server <- function() {
 ##' @export
 ##' @param ... Argument passed through to create the new client
 vault_test_client <- function(...) {
-  vault_env$server$new_client(...)
+  if (!is.null(vault_env)) {
+    vault_env$server$new_client(...)
+  }
 }
 
 ##' @rdname vault_test_server
