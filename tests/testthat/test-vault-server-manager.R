@@ -49,40 +49,7 @@ test_that("invalid port", {
   })
 })
 
-test_that("install: not on CRAN", {
-  skip("rework")
-  withr::with_envvar(c(NOT_CRAN = NA_character_), {
-    expect_error(vault_test_server_install(tempfile()),
-                 "Do not run this on CRAN")
-  })
-})
-
-test_that("install: opt-in", {
-  skip("rework")
-  testthat::skip_on_cran()
-  withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = NA_character_), {
-    expect_error(vault_test_server_install(tempfile()),
-                 "Please read the documentation")
-  })
-})
-
-test_that("install", {
-  skip("rework")
-  testthat::skip_on_cran()
-  skip_if_no_internet()
-  dest <- tempfile()
-  dir.create(dest)
-  res <- withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
-    vault_test_server_install(dest, TRUE)
-  })
-  expect_equal(res, file.path(dest, "vault"))
-  expect_true(file.exists(res))
-  expect_equal(dir(dest), "vault")
-  expect_equal(system2(res, "-help", stdout = FALSE, stderr = FALSE), 0)
-})
-
 test_that("port collision", {
-  skip("rework")
   testthat::skip_on_cran()
   skip_if_no_vault_test_server()
   server <- server_manager$new()
@@ -90,15 +57,61 @@ test_that("port collision", {
                "vault is already running at https://127.0.0.1:18200")
 })
 
-test_that("reinstall", {
-  skip("rework")
+test_that("install: not on CRAN", {
+  testthat::skip_on_cran()
+  withr::with_envvar(c(NOT_CRAN = NA_character_), {
+    expect_error(vault_test_server_install(tempfile()),
+                 "Do not run this on CRAN")
+  })
+})
+
+test_that("install: opt-in", {
+  testthat::skip_on_cran()
+  withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = NA_character_), {
+    expect_error(vault_test_server_install(tempfile()),
+                 "Please read the documentation")
+  })
+})
+
+test_that("install: need VAULT_BIN_PATH", {
+  testthat::skip_on_cran()
+  vars <- c(VAULT_BIN_PATH = NA_character_,
+            VAULTR_TEST_SERVER_INSTALL = "true")
+  withr::with_envvar(vars, {
+    expect_error(vault_test_server_install(), "VAULT_BIN_PATH is not set")
+  })
+})
+
+test_that("install", {
   testthat::skip_on_cran()
   skip_if_no_internet()
+
   path <- tempfile()
+  vars <- c(VAULT_BIN_PATH = path,
+            VAULTR_TEST_SERVER_INSTALL = "true")
+
+  res <- withr::with_envvar(vars, {
+    vault_test_server_install(TRUE)
+  })
+
+  expect_equal(res, file.path(path, "vault"))
+  expect_true(file.exists(res))
+  expect_equal(dir(path), "vault")
+  expect_equal(system2(res, "-help", stdout = FALSE, stderr = FALSE), 0)
+})
+
+test_that("reinstall", {
+  testthat::skip_on_cran()
+  skip_if_no_internet()
+
+  path <- tempfile()
+  vars <- c(VAULT_BIN_PATH = path,
+            VAULTR_TEST_SERVER_INSTALL = "true")
+
   dir.create(path)
   dest <- file.path(path, "vault")
   writeLines("vault", dest)
-  res <- withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
+  res <- withr::with_envvar(vars, {
     expect_message(vault_test_server_install(path, TRUE),
                    "vault already installed at")
   })
