@@ -64,14 +64,6 @@ test_that("install: opt-in", {
   })
 })
 
-test_that("install: missing directory", {
-  testthat::skip_on_cran()
-  withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
-    expect_error(vault_test_server_install(tempfile()),
-                 "must be an existing directory")
-  })
-})
-
 test_that("install", {
   testthat::skip_on_cran()
   skip_if_no_internet()

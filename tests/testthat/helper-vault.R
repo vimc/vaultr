@@ -1,11 +1,3 @@
-## We always want this run on travis, so set it manually.  The other
-## option would be to do this in the .travis.yml 'env' section, but
-## getting that working with the secure variables seems to be a bit of
-## a trick.
-if (identical(Sys.getenv("TRAVIS"), "true")) {
-  Sys.setenv(VAULTR_TEST_SERVER_PORT= 18200)
-}
-
 skip_if_no_vault_test_server <- function() {
   if (is.null(vault_test_server())) {
     testthat::skip("Test server not running")

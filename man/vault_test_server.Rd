@@ -16,7 +16,8 @@ vault_test_server()
 
 vault_test_client(...)
 
-vault_test_server_install(path, quiet = FALSE)
+vault_test_server_install(path = ".vault", quiet = FALSE,
+  version = "0.7.3")
 }
 \arguments{
 \item{...}{Argument passed through to create the new client}
@@ -25,6 +26,8 @@ vault_test_server_install(path, quiet = FALSE)
 directory.}
 
 \item{quiet}{Suppress progress bars on install}
+
+\item{version}{Version of vault to install}
 }
 \description{
 Control a server for use with testing.  This is designed to be

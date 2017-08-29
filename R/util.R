@@ -61,3 +61,12 @@ Sys_getenv <- function(var, unset = NULL, as = "character") {
 vault_arg <- function(x, var, as = "character") {
   x %||% Sys_getenv(var, NULL, as)
 }
+
+download_file <- function(url, path = tempfile(), quiet = FALSE) {
+  r <- httr::GET(url, httr::write_disk(path), if (!quiet) httr::progress())
+  if (!quiet) {
+    cat("\n")
+  }
+  httr::stop_for_status(r)
+  path
+}

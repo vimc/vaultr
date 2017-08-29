@@ -1,7 +1,7 @@
 RSCRIPT = Rscript --no-init-file
 
 test:
-	${RSCRIPT} -e 'library(methods); devtools::test()'
+	VAULT_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e 'library(methods); devtools::test()'
 
 roxygen:
 	@mkdir -p man
@@ -10,6 +10,12 @@ roxygen:
 install:
 	R CMD INSTALL .
 
+install_vault:
+	VAULTR_TEST_SERVER_INSTALL=true inst/server/install-server.R .vault
+
+uninstall_vault:
+	rm -rf .vault
+
 build:
 	R CMD build .
 
@@ -17,7 +23,7 @@ check:
 	_R_CHECK_CRAN_INCOMING_=FALSE make check_all
 
 check_all:
-	${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
+	VAULT_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
 
 vignettes/%.Rmd: vignettes/src/%.R
 	${RSCRIPT} -e 'library(sowsear); sowsear("$<", output="$@")'

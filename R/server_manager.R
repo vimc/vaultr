@@ -55,28 +55,23 @@ vault_test_client <- function(...) {
 ##'
 ##' @param quiet Suppress progress bars on install
 ##'
+##' @param version Version of vault to install
+##'
 ##' @export
-vault_test_server_install <- function(path, quiet = FALSE) {
+vault_test_server_install <- function(path = ".vault", quiet = FALSE,
+                                      version = "0.7.3") {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  if (!isTRUE(file.info(path)$isdir)) {
-    stop("'path' must be an existing directory")
-  }
+  dir.create(path, FALSE, TRUE)
   dest <- file.path(path, "vault")
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
   } else {
-    install <- system.file("server/install-server.R", package = "vaultr",
-                           mustWork = TRUE)
-    output <- if (quiet) FALSE else ""
-    ok <- system2(install, path, stdout = output, stderr = output)
-    if (ok != 0L) {
-      stop("Error installing vault server") # nocov
-    }
+    vault_install(path, quiet, version)
   }
   invisible(dest)
 }
@@ -94,9 +89,10 @@ vault_test_data <- function() {
       ret$url  <- sprintf("https://127.0.0.1:%s", port)
     }
 
-    bin <- Sys.which("vault")
-    if (nzchar(bin)) {
-      ret$bin <- unname(bin)
+    bin_path <- Sys_getenv("VAULT_BIN_PATH", ".vault")
+    bin <- file.path(bin_path, "vault")
+    if (file.exists(bin)) {
+      ret$bin <- normalizePath(bin)
     }
   }
   ret
@@ -210,3 +206,34 @@ server_manager <- R6::R6Class(
       ctor(auth_method = if (auth) NULL else FALSE, quiet = TRUE, ...)
     }
   ))
+
+vault_platform <- function() {
+  sysname <- Sys.info()[["sysname"]]
+  switch(sysname,
+         Darwin = "darwin",
+         Windows = "windows",
+         Linux = "linux",
+         stop("Unknown sysname"))
+}
+
+vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
+  sprintf("https://releases.hashicorp.com/vault/%s/vault_%s_%s_%s.zip",
+          version, version, platform, arch)
+}
+
+vault_install <- function(dest, quiet, version = "0.7.3") {
+  dest_bin <- file.path(dest, "vault")
+  if (!file.exists(dest_bin)) {
+    message(sprintf("installing vault to '%s'", dest))
+    url <- vault_url(version)
+    zip <- download_file(url, quiet = quiet)
+    tmp <- tempfile()
+    dir.create(tmp)
+    utils::unzip(zip, exdir = tmp)
+    ok <- file.copy(file.path(tmp, "vault"), dest_bin)
+    unlink(tmp, recursive = TRUE)
+    file.remove(zip)
+    Sys.chmod(dest_bin, "755")
+  }
+  invisible(dest_bin)
+}
