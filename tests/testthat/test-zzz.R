@@ -1,1 +1,1 @@
-server_teardown()
+vault_test_server_stop()

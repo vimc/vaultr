@@ -113,21 +113,29 @@ R6_vault_client <- R6::R6Class(
     ## System
     list_backends = function() {
       data <- self$.get("/sys/mounts")
-      cols <- c("type", "local", "description", "config")
-      ## This bit is needed because the output I see deviates from the
-      ## API spec:
-      ## https://github.com/hashicorp/vault/blob/master/api/SPEC.md
-      ok <- vlapply(data$data, function(x) setequal(names(x), cols))
+
+      ## The colums returned here vary by version:
+      ##
+      ## 0.7.3 - type, local, description, config
+      ## 0.8.1 - type, local, description, config, accessor
+      ##
+      cols <- names(data$data[[1]])
+      ## sort out the orderig
+      first <- c("type", "local", "description")
+      cols <- c(first, setdiff(cols, c(first, "config")), "config")
+
+      ok <- vlapply(data$data[-1], function(x) setequal(names(x), cols))
       if (!any(ok)) {
         stop("Unexpected output") # nocov
       }
-      ret <- data_frame(
-        name = sub("/$", "", names(data$data)),
-        type = vcapply(data$data, "[[", "type", USE.NAMES = FALSE),
-        local = vlapply(data$data, "[[", "local", USE.NAMES = FALSE),
-        description = vcapply(data$data, "[[", "description",
-                              USE.NAMES = FALSE))
-      ret$config <- unname(lapply(data$data, "[[", "config"))
+
+      ret <- lapply(setdiff(cols, "config"), function(x)
+        vapply(data$data, "[[", if (x == "local") FALSE else "", x,
+               USE.NAMES = FALSE))
+      names(ret) <- setdiff(cols, "config")
+      ret <- c(list(name = sub("/$", "", names(data$data))), ret)
+      ret <- as.data.frame(ret, stringsAsFactors = FALSE)
+      ret$config <- lapply(data$data, "[[", "config")
       ret
     },
 

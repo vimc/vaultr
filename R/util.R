@@ -31,3 +31,14 @@ vcapply <- function(X, FUN, ...) {
 data_frame <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
+
+strsub <- function(str, tr) {
+  assert_character(tr)
+  assert_named(tr)
+  from <- names(tr)
+  to <- unname(tr)
+  for (i in seq_along(from)) {
+    str <- gsub(from[[i]], to[[i]], str, fixed = TRUE)
+  }
+  str
+}

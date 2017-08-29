@@ -24,10 +24,11 @@ test_that("auth_github_token", {
 })
 
 test_that("unseal_multi", {
-  on.exit(manager$unseal()) # in case things go wrong
+  skip_if_no_vault_test_server()
+  on.exit(vault_test_server()$unseal()) # in case things go wrong
 
-  keys <- manager$keys
-  cl <- test_client()
+  keys <- vault_test_server()$keys
+  cl <- vault_test_client()
 
   expect_true(cl$sys_is_initialized())
   st <- cl$seal_status()
@@ -57,12 +58,14 @@ test_that("unseal_multi", {
 })
 
 test_that("sys_leader_status", {
-  st <- test_client()$sys_leader_status()
+  skip_if_no_vault_test_server()
+  st <- vault_test_client()$sys_leader_status()
   expect_true("ha_enabled" %in% names(st))
 })
 
 test_that("generic: nonexistant keys", {
-  cl <- test_client(vault_client_generic)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic)
   expect_error(cl$read("foo"), "Expected path to start with '/secret/'",
                fixed = TRUE)
   expect_null(cl$read("/secret/foo"))
@@ -71,13 +74,15 @@ test_that("generic: nonexistant keys", {
 })
 
 test_that("generic: invalid data", {
-  cl <- test_client(vault_client_generic)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic)
   expect_error(cl$write("/secret/foo", NULL), "'data' must be named")
   expect_error(cl$write("/secret/foo", "a"), "'data' must be named")
 })
 
 test_that("generic: basic CRUD", {
-  cl <- test_client(vault_client_generic)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic)
   expect_null(cl$write("/secret/foo", list(value = "whatever")))
   expect_identical(cl$list("/secret/"), "/secret/foo")
   expect_identical(cl$read("/secret/foo"), list(value = "whatever"))
@@ -99,7 +104,8 @@ test_that("generic: basic CRUD", {
 })
 
 test_that("generic: recursive list", {
-  cl <- test_client(vault_client_generic)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic)
 
   paths <- c("/secret/dir1/dira/leaf1",
              "/secret/dir1/dira/leaf2",
@@ -127,7 +133,8 @@ test_that("generic: recursive list", {
 })
 
 test_that("generic: ttl", {
-  cl <- test_client(vault_client_generic)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic)
   cl$write("/secret/foo", list(password = "yo"), ttl = "1h")
   res <- cl$read("/secret/foo")
   expect_equal(res$password, "yo")
@@ -138,22 +145,26 @@ test_that("generic: ttl", {
 })
 
 test_that("generic: auth", {
-  cl <- test_client(vault_client_generic, auth = FALSE)
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(vault_client_generic, auth = FALSE)
   expect_error(cl$read("/secret/foo"), "missing client token")
-  expect_message(cl$auth("token", manager$root_token),
+  expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_null(cl$read("/secret/foo"))
 })
 
 test_that("backends", {
-  cl <- test_client()
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client()
   res <- cl$list_backends()
   expect_is(res, "data.frame")
-  expect_equal(names(res), c("name", "type", "local", "description", "config"))
+  expect_true(all(c("name", "type", "local", "description", "config") %in%
+                  names(res)))
 })
 
 test_that("policy", {
-  cl <- test_client()
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client()
   expect_true(setequal(cl$policy_list(), c("default", "root")))
 
   rules <- paste('path "secret/*" {',
@@ -169,8 +180,9 @@ test_that("policy", {
 })
 
 test_that("insecure", {
+  skip_if_no_vault_test_server()
   cl <- vault_client(auth = "token",
-                     token = manager$root_token,
+                     token = vault_test_server()$root_token,
                      quiet = TRUE,
                      verify = FALSE)
   expect_equal(cl$list("/secret"), character(0))
@@ -178,18 +190,20 @@ test_that("insecure", {
 })
 
 test_that("auth: message", {
-  cl <- test_client(auth = FALSE)
-  expect_message(cl$auth("token", manager$root_token),
+  skip_if_no_vault_test_server()
+  cl <- vault_test_client(auth = FALSE)
+  expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
-  expect_silent(cl$auth("token", manager$root_token))
+  expect_silent(cl$auth("token", vault_test_server()$root_token))
 })
 
 context("vault: slow tests")
 
 test_that("github auth", {
+  skip_if_no_vault_test_server()
   try_auth <- has_auth_github_token()
 
-  cl <- test_client()
+  cl <- vault_test_client()
 
   expect_false("github" %in% cl$list_auth_backends()$type)
   cl$enable_auth_backend("github")
@@ -198,7 +212,7 @@ test_that("github auth", {
   cl$config_auth_github_write("vimc")
   expect_equal(cl$config_auth_github_read()$organization, "vimc")
 
-  cl2 <- test_client(auth = FALSE)
+  cl2 <- vault_test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "missing client token")
 
