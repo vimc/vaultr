@@ -86,3 +86,11 @@ test_that("install", {
   expect_equal(dir(dest), "vault")
   expect_equal(system2(res, "-help", stdout = FALSE, stderr = FALSE), 0)
 })
+
+test_that("port collision", {
+  testthat::skip_on_cran()
+  skip_if_no_vault_test_server()
+  server <- server_manager$new()
+  expect_error(server$up(),
+               "vault is already running at https://127.0.0.1:18200")
+})

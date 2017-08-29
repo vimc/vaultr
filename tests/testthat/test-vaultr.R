@@ -181,7 +181,7 @@ test_that("policy", {
 
 test_that("insecure", {
   skip_if_no_vault_test_server()
-  cl <- vault_client(auth = "token",
+  cl <- vault_client(auth_method = "token",
                      token = vault_test_server()$root_token,
                      quiet = TRUE,
                      verify = FALSE)

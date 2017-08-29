@@ -4,21 +4,23 @@
 \alias{vault_client}
 \title{Make a vault client}
 \usage{
-vault_client(auth = NULL, ..., addr = NULL, cert = NULL, verify = NULL)
+vault_client(auth_method = NULL, ..., addr = NULL, verify = NULL)
 }
 \arguments{
-\item{auth}{An authentication method (e.g., "github")}
+\item{auth_method}{An authentication method (e.g., "token",
+"github").  If \code{NULL}, we try the value of
+\code{VAULTR_AUTH_METHOD}, and if that is not set then
+authentication is not done.}
 
 \item{...}{Additional arguments passed through to the auth method}
 
 \item{addr}{Vault address, e.g. \code{https://localhost:8200}.  If
 not given, defaults to the environment variable
-\code{VAULT_ADDR}.}
+\code{VAULT_ADDR}}
 
-\item{cert}{Client certificate}
-
-\item{verify}{Server certificate}
+\item{verify}{Server certificate (or \code{VAULT_CAPATH})}
 }
 \description{
-Make a vault client
+Make a vault client.  The defaults for arguments are controlled by
+environment variables.
 }

@@ -42,3 +42,22 @@ strsub <- function(str, tr) {
   }
   str
 }
+
+Sys_getenv <- function(var, unset = NULL, as = "character") {
+  value <- Sys.getenv(var, NA_character_)
+  if (is.na(value)) {
+    value <- unset
+  } else if (as == "integer") {
+    if (!grepl("^-?[0-9]+$", value)) {
+      stop(sprintf("Invalid input for integer '%s'", value))
+    }
+    value <- as.integer(value)
+  } else if (as != "character") {
+    stop("invalid value for 'as'")
+  }
+  value
+}
+
+vault_arg <- function(x, var, as = "character") {
+  x %||% Sys_getenv(var, NULL, as)
+}

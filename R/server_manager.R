@@ -104,7 +104,6 @@ server_manager <- R6::R6Class(
     address = NULL,
     url = NULL,
 
-    config_path = NULL,
     client = NULL,
     bin = NULL,
 
@@ -139,20 +138,29 @@ server_manager <- R6::R6Class(
       path <- tempfile()
       writeLines(strsub(cfg, tr), path)
 
+      cacert <- file.path(config_path, "server-cert.pem")
+
+      self$client <- self$new_client(auth = FALSE, addr = self$url,
+                                     verify = cacert)
+      res <- try(self$client$sys_is_initialized(), silent = TRUE)
+      if (!inherits(res, "try-error")) {
+        stop("vault is already running at ", self$url)
+      }
+
       message("Starting vault server at ", self$address)
       args <- c("server", paste0("-config=", path))
       self$process <-
         processx::process$new(self$bin, args, stdout = "|", stderr = "|")
       on.exit(self$process$kill())
 
-      vault_addr <- paste0("https://", self$address)
-      self$client <- self$new_client(auth = FALSE, addr = vault_addr)
       for (i in 1:20) {
         res <- try(self$client$sys_is_initialized(), silent = TRUE)
         if (!inherits(res, "try-error")) {
+          Sys.setenv(VAULT_ADDR = self$url)
+          Sys.setenv(VAULT_CAPATH = file.path(config_path, "server-cert.pem"))
+
           message("...vault server is now listening")
           on.exit()
-          Sys.setenv(VAULT_ADDR = vault_addr)
           return(TRUE)
         }
         # nocov start
@@ -178,6 +186,8 @@ server_manager <- R6::R6Class(
         result <- self$client$sys_initialize()
         self$root_token <- result[["root_token"]]
         self$keys <- result[["keys"]]
+        Sys.setenv(VAULT_TOKEN = self$root_token)
+        Sys.setenv(VAULTR_AUTH_METHOD = "token")
       }
     },
     unseal = function() {
@@ -191,9 +201,6 @@ server_manager <- R6::R6Class(
       self$process$kill()
     },
     new_client = function(ctor = vault_client, auth = TRUE, ...) {
-      pem <- system.file("server/server-cert.pem", package = "vaultr",
-                         mustWork = TRUE)
-      ctor(auth = if (auth) "token" else NULL,
-           token = self$root_token, quiet = TRUE, verify = pem, ...)
+      ctor(auth_method = if (auth) NULL else FALSE, quiet = TRUE, ...)
     }
   ))

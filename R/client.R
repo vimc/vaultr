@@ -1,25 +1,30 @@
-##' Make a vault client
+##' Make a vault client.  The defaults for arguments are controlled by
+##' environment variables.
 ##'
 ##' @title Make a vault client
 ##'
-##' @param auth An authentication method (e.g., "github")
+##' @param auth_method An authentication method (e.g., "token",
+##'   "github").  If \code{NULL}, we try the value of
+##'   \code{VAULTR_AUTH_METHOD}, and if that is not set then
+##'   authentication is not done.
 ##'
 ##' @param ... Additional arguments passed through to the auth method
 ##'
 ##' @param addr Vault address, e.g. \code{https://localhost:8200}.  If
 ##'   not given, defaults to the environment variable
-##'   \code{VAULT_ADDR}.
+##'   \code{VAULT_ADDR}
 ##'
-##' @param cert Client certificate
-##'
-##' @param verify Server certificate
+##' @param verify Server certificate (or \code{VAULT_CAPATH})
 ##'
 ##' @export
-vault_client <- function(auth = NULL, ...,
-                         addr = NULL, cert = NULL, verify = NULL) {
-  cl <- R6_vault_client$new(addr, cert, verify)
-  if (!is.null(auth)) {
-    cl$auth(auth, ...)
+vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL) {
+
+  auth_method <- vault_arg(auth_method, "VAULTR_AUTH_METHOD")
+  verify <- vault_arg(verify, "VAULT_CAPATH")
+
+  cl <- R6_vault_client$new(addr, verify)
+  if (!is.null(auth_method)) {
+    cl$auth(auth_method, ...)
   }
   cl
 }
@@ -42,14 +47,12 @@ R6_vault_client <- R6::R6Class(
     allow_redirects = NULL,
     token = NULL,
     url = NULL,
-    cert = NULL,
     verify = NULL,
     client = NULL,
 
-    initialize = function(addr, cert, verify) {
+    initialize = function(addr, verify) {
       self$client <- self
       self$url <- paste0(vault_addr(addr), "/v1")
-      self$cert <- cert
 
       if (!is.null(verify)) {
         if (identical(as.vector(verify), FALSE)) {
@@ -222,16 +225,17 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Auth
-    auth = function(type, ..., renew = FALSE, quiet = FALSE) {
-      switch(type,
+    auth = function(method, ..., renew = FALSE, quiet = FALSE) {
+      switch(method,
              token = self$auth_token(..., renew = renew, quiet = quiet),
              github = self$auth_github(..., renew = renew, quiet = quiet),
-             stop(sprintf("Unknown auth type '%s'", type)))
+             stop(sprintf("Unknown auth method '%s'", method)))
       invisible(self)
     },
 
-    auth_token = function(token, renew = FALSE, quiet = TRUE) {
+    auth_token = function(token = NULL, renew = FALSE, quiet = TRUE) {
       if (self$.auth_needed(renew)) {
+        token <- vault_arg(token, "VAULT_TOKEN")
         assert_scalar_character_or_null(token)
         if (!quiet && !is.null(token)) {
           message("Authenticating using token")
