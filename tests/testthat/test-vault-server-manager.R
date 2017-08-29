@@ -74,7 +74,6 @@ test_that("install: missing directory", {
 
 test_that("install", {
   testthat::skip_on_cran()
-  testthat::skip_on_travis() # not sure why this is failing
   skip_if_no_internet()
   dest <- tempfile()
   dir.create(dest)
@@ -93,4 +92,18 @@ test_that("port collision", {
   server <- server_manager$new()
   expect_error(server$up(),
                "vault is already running at https://127.0.0.1:18200")
+})
+
+test_that("reinstall", {
+  testthat::skip_on_cran()
+  skip_if_no_internet()
+  path <- tempfile()
+  dir.create(path)
+  dest <- file.path(path, "vault")
+  writeLines("vault", dest)
+  res <- withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true"), {
+    expect_message(vault_test_server_install(path, TRUE),
+                   "vault already installed at")
+  })
+  expect_identical(readLines(dest), "vault")
 })

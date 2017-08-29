@@ -66,13 +66,19 @@ vault_test_server_install <- function(path, quiet = FALSE) {
   if (!isTRUE(file.info(path)$isdir)) {
     stop("'path' must be an existing directory")
   }
-  install <- system.file("server/install-server.R", package = "vaultr",
-                         mustWork = TRUE)
-  ok <- system2(install, path, stdout = !quiet, stderr = !quiet)
-  if (ok != 0L) {
-    stop("Error installing vault server") # nocov
+  dest <- file.path(path, "vault")
+  if (file.exists(dest)) {
+    message("vault already installed at ", dest)
+  } else {
+    install <- system.file("server/install-server.R", package = "vaultr",
+                           mustWork = TRUE)
+    output <- if (quiet) FALSE else ""
+    ok <- system2(install, path, stdout = output, stderr = output)
+    if (ok != 0L) {
+      stop("Error installing vault server") # nocov
+    }
   }
-  file.path(path, "vault")
+  invisible(dest)
 }
 
 vault_test_data <- function() {
