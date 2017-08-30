@@ -1,28 +1,11 @@
-vault_GET <- function(url, verify, token, path, ..., to_json = TRUE) {
-  url <- paste0(url, path)
-  res <- httr::GET(url, verify, token, httr::accept_json(), ...)
-  vault_client_response(res, to_json)
-}
-
-vault_PUT <- function(url, verify, token, path, body = NULL, ...,
-                      to_json = TRUE) {
-  url <- paste0(url, path)
-  res <- httr::PUT(url, verify, token, httr::accept_json(),
-                   body = body, encode = "json", ...)
-  vault_client_response(res, to_json)
-}
-
-vault_POST <- function(url, verify, token, path, body = NULL, ...,
-                       to_json = TRUE) {
-  url <- paste0(url, path)
-  res <- httr::POST(url, verify, token, httr::accept_json(),
-                    body = body, encode = "json", ...)
-  vault_client_response(res, to_json)
-}
-
-vault_DELETE <- function(url, verify, token, path, ..., to_json = TRUE) {
-  url <- paste0(url, path)
-  res <- httr::DELETE(url, verify, token, httr::accept_json(), ...)
+vault_request <- function(verb, url, verify, token, path, ...,
+                          body = NULL, to_json = TRUE,
+                          allow_missing_token = FALSE) {
+  if (is.null(token) && !allow_missing_token) {
+    stop("Have not authenticated against vault")
+  }
+  res <- verb(paste0(url, path), verify, token, httr::accept_json(),
+              body = body, encode = "json", ...)
   vault_client_response(res, to_json)
 }
 

@@ -24,6 +24,7 @@ vault_test_server_start <- function() {
     vault_env$server <- server
     server$up()
   } else {
+    message("Not starting vault server")
     NULL
   }
 }

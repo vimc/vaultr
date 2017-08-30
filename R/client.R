@@ -71,7 +71,7 @@ R6_vault_client <- R6::R6Class(
 
     ## Setup:
     sys_is_initialized = function() {
-      self$.get("/sys/init")$initialized
+      self$.get("/sys/init", allow_missing_token = TRUE)$initialized
     },
     sys_initialize = function(secret_shares = 5L, secret_threshold = 3,
                           pgp_keys = NULL) {
@@ -81,12 +81,14 @@ R6_vault_client <- R6::R6Class(
         assert_length(pgp_keys, 5)
         body$pgp_keys <- pgp_keys
       }
-      self$.put("/sys/init", body = body)
+      self$.put("/sys/init", body = body,
+                allow_missing_token = TRUE)
     },
 
     ## Unseal:
     unseal = function(key) {
-      self$.put("/sys/unseal", body = list(key = key))
+      self$.put("/sys/unseal", body = list(key = key),
+                allow_missing_token = TRUE)
     },
 
     unseal_multi = function(keys) {
@@ -100,14 +102,15 @@ R6_vault_client <- R6::R6Class(
       result
     },
     unseal_reset = function() {
-      self$.put("/sys/unseal", body = list(reset = TRUE), to_json = TRUE)
+      self$.put("/sys/unseal", body = list(reset = TRUE),
+                to_json = TRUE, allow_missing_token = TRUE)
     },
     seal = function() {
       self$.put("/sys/seal", to_json = FALSE)
       invisible()
     },
     seal_status = function() {
-      self$.get("/sys/seal-status")
+      self$.get("/sys/seal-status", allow_missing_token = TRUE)
     },
     is_sealed = function() {
       self$seal_status()$sealed
@@ -250,7 +253,8 @@ R6_vault_client <- R6::R6Class(
           message("Authenticating using github...", appendLF=FALSE)
         }
         gh_token <- vault_auth_github_token(gh_token)
-        res <- self$.post("/auth/github/login", body = list(token = gh_token))
+        res <- self$.post("/auth/github/login", body = list(token = gh_token),
+                          allow_missing_token = TRUE)
         self$.auth_set_token(res$auth$client_token)
         if (!quiet) {
           lease <- res$auth$lease_duration
@@ -303,7 +307,7 @@ R6_vault_client <- R6::R6Class(
                    ttl = ttl,
                    max_ttl = max_ttl)
       body <- body[!vlapply(body, is.null)]
-      self$.post("/auth/github/config", body, to_json = FALSE)
+      self$.post("/auth/github/config", body = body, to_json = FALSE)
       invisible(TRUE)
     },
     config_auth_github_read = function() {
@@ -323,22 +327,33 @@ R6_vault_client <- R6::R6Class(
 
     ## HTTP verbs
     .get = function(...) {
-      vault_GET(self$url, self$verify, self$token, ...)
+      vault_request(httr::GET, self$url, self$verify, self$token, ...)
     },
     .put = function(...) {
-      vault_PUT(self$url, self$verify, self$token, ...)
+      vault_request(httr::PUT, self$url, self$verify, self$token, ...)
     },
     .post = function(...) {
-      vault_POST(self$url, self$verify, self$token, ...)
+      vault_request(httr::POST, self$url, self$verify, self$token, ...)
     },
     .delete = function(...) {
-      vault_DELETE(self$url, self$verify, self$token, ...)
+      vault_request(httr::DELETE, self$url, self$verify, self$token, ...)
     },
+
     .auth_needed = function(renew) {
       renew || is.null(self$token)
     },
-    .auth_set_token = function(client_token) {
-      self$token <- httr::add_headers("X-Vault-Token" = client_token)
+    .auth_set_token = function(client_token, verify = TRUE) {
+      token <- httr::add_headers("X-Vault-Token" = client_token)
+      if (verify) {
+        res <- httr::POST(paste0(self$url, "/sys/capabilities-self"),
+                          self$verify, token,
+                          body = list(path = "/sys/"), encode = "json")
+        code <- httr::status_code(res)
+        if (code > 400) {
+          stop(sprintf("Token verification failed with code %d", code))
+        }
+      }
+      self$token <- token
     }
   ))
 

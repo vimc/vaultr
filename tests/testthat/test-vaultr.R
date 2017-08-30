@@ -147,7 +147,7 @@ test_that("generic: ttl", {
 test_that("generic: auth", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic, auth = FALSE)
-  expect_error(cl$read("/secret/foo"), "missing client token")
+  expect_error(cl$read("/secret/foo"), "Have not authenticated against vault")
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_null(cl$read("/secret/foo"))
@@ -214,7 +214,7 @@ test_that("github auth", {
 
   cl2 <- vault_test_client(auth = FALSE)
 
-  expect_error(cl2$list("/secret"), "missing client token")
+  expect_error(cl2$list("/secret"), "Have not authenticated against vault")
 
   if (try_auth) {
     cl2$auth("github")
