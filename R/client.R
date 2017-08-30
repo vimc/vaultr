@@ -19,13 +19,10 @@
 ##' @export
 vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL) {
 
-  auth_method <- vault_arg(auth_method, "VAULTR_AUTH_METHOD")
   verify <- vault_arg(verify, "VAULT_CAPATH")
 
   cl <- R6_vault_client$new(addr, verify)
-  if (!is.null(auth_method)) {
-    cl$auth(auth_method, ...)
-  }
+  cl$auth(auth_method, ...)
   cl
 }
 
@@ -228,26 +225,40 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Auth
-    auth = function(method, ..., renew = FALSE, quiet = FALSE) {
-      switch(method,
-             token = self$auth_token(..., renew = renew, quiet = quiet),
-             github = self$auth_github(..., renew = renew, quiet = quiet),
-             stop(sprintf("Unknown auth method '%s'", method)))
+    auth = function(method, ..., renew = FALSE, quiet = FALSE, verify = TRUE) {
+      method <- vault_arg(method, "VAULTR_AUTH_METHOD")
+      if (is.null(method) || identical(method, FALSE)) {
+        if (!quiet) {
+          message("Not authenticating vault")
+        }
+        return(invisible(self))
+      }
+      assert_scalar_character(method)
+      fn <- switch(method,
+                   token = self$auth_token,
+                   github = self$auth_github,
+                   stop(sprintf("Unknown auth method '%s'", method)))
+      fn(..., renew = renew, quiet = quiet, verify = verify)
       invisible(self)
     },
 
-    auth_token = function(token = NULL, renew = FALSE, quiet = TRUE) {
+    auth_token = function(token = NULL, renew = FALSE, quiet = TRUE,
+                          verify = TRUE) {
       if (self$.auth_needed(renew)) {
         token <- vault_arg(token, "VAULT_TOKEN")
-        assert_scalar_character_or_null(token)
+        if (is.null(token)) {
+          stop("token not found (check $VAULT_TOKEN environment variable)")
+        }
+        assert_scalar_character(token)
         if (!quiet && !is.null(token)) {
           message("Authenticating using token")
         }
-        self$.auth_set_token(token)
+        self$.auth_set_token(token, verify)
       }
     },
 
-    auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE) {
+    auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE,
+                           verify = TRUE) {
       if (self$.auth_needed(renew)) {
         if (!quiet) {
           message("Authenticating using github...", appendLF=FALSE)
@@ -255,13 +266,17 @@ R6_vault_client <- R6::R6Class(
         gh_token <- vault_auth_github_token(gh_token)
         res <- self$.post("/auth/github/login", body = list(token = gh_token),
                           allow_missing_token = TRUE)
-        self$.auth_set_token(res$auth$client_token)
+        self$.auth_set_token(res$auth$client_token, verify)
         if (!quiet) {
           lease <- res$auth$lease_duration
           message(sprintf("ok, duration: %s s (%s)",
                           lease, prettyunits::pretty_sec(lease, TRUE)))
         }
       }
+    },
+
+    is_authorized = function() {
+      !is.null(self$token)
     },
 
     list_auth_backends = function() {
@@ -349,7 +364,7 @@ R6_vault_client <- R6::R6Class(
                           self$verify, token,
                           body = list(path = "/sys/"), encode = "json")
         code <- httr::status_code(res)
-        if (code > 400) {
+        if (code >= 400) {
           stop(sprintf("Token verification failed with code %d", code))
         }
       }
