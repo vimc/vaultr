@@ -5,7 +5,6 @@ Title: API Client for Vault
 Version: 0.0.2
 Description: Provides an interface to Hashicorp's vault over its http API.
 License: MIT + file LICENSE
-Suggests: testthat
 Imports:
     R6,
     httr,
