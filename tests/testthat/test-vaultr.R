@@ -237,6 +237,27 @@ test_that("github auth", {
     expect_silent(cl2$list("/secret"))
   }
 
+  ## Set up some keys:
+  path_keys <- tempfile()
+  dir.create(path_keys)
+  Sys.setenv(USER_KEY = path_keys, USER_PUBKEY = path_keys)
+  cyphr::ssh_keygen(path_keys, FALSE)
+
+  ## Now, we test the caching.
+  cache_dir <- tempfile()
+  cl3 <- vault_test_client(auth = FALSE)
+  expect_false(file.exists(cache_dir))
+  expect_message(t1 <- system.time(cl3$auth("github", cache_dir = cache_dir)),
+                 "Saving (encrypted) token to cache", fixed = TRUE)
+  expect_true(file.exists(cache_dir))
+  expect_equal(base64url::base64_urldecode(dir(cache_dir)), cl3$url)
+
+  cl4 <- vault_test_client(auth = FALSE)
+  expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
+                 "Using cached token", fixed = TRUE)
+
+  expect_lt(t2[["elapsed"]], t1[["elapsed"]])
+
   cl$disable_auth_backend("github")
 
   if (try_auth) {

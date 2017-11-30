@@ -70,3 +70,7 @@ download_file <- function(url, path = tempfile(), quiet = FALSE) {
   httr::stop_for_status(r)
   path
 }
+
+isFALSE <- function(x) {
+  identical(as.vector(x), FALSE)
+}
