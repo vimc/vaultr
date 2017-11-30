@@ -17,9 +17,9 @@
 ##' @param verify Server certificate (or \code{VAULT_CAPATH})
 ##'
 ##' @export
-vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL,
-                         cache = NULL) {
+vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL) {
   verify <- vault_arg(verify, "VAULT_CAPATH")
+  ## TODO: this means that the auth 'verify' argument can't be used!
 
   cl <- R6_vault_client$new(addr, verify)
   cl$auth(auth_method, ...)
