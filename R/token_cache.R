@@ -53,7 +53,7 @@ token_client_del <- function(server, cache_dir, quiet) {
 token_cache_path <- function(server, cache_dir) {
   cache_dir <- vault_arg(cache_dir, "VAULTR_CACHE_DIR")
   if (!(is.null(cache_dir) || isFALSE(cache_dir))) {
-    file.path(cache_dir, base64url::base64_urlencode(server))
+    file.path(cache_dir, mangle_url(server))
   } else {
     NULL
   }
@@ -68,4 +68,8 @@ ssh_key <- function(private = TRUE) {
                                   error = function(e) NULL)
   }
   vault_env$ssh_key
+}
+
+mangle_url <- function(server) {
+  gsub("(://|/|:)", "_", server)
 }

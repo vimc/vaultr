@@ -258,7 +258,7 @@ test_that("github auth", {
                                             renew = TRUE)),
                  "Saving cached token to persistent cache", fixed = TRUE)
   expect_true(file.exists(cache_dir))
-  expect_equal(base64url::base64_urldecode(dir(cache_dir)), cl3$url)
+  expect_equal(dir(cache_dir), mangle_url(cl3$url))
 
   cl4 <- vault_test_client(auth = FALSE)
   expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
