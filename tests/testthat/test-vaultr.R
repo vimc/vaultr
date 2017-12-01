@@ -206,6 +206,7 @@ test_that("github auth", {
 
   expect_false("github" %in% cl$list_auth_backends()$type)
   cl$enable_auth_backend("github")
+  on.exit(cl$disable_auth_backend("github"))
   expect_true("github" %in% cl$list_auth_backends()$type)
 
   cl$config_auth_github_write("vimc")
@@ -235,6 +236,12 @@ test_that("github auth", {
     expect_error(cl2$list("/secret"), "permission denied")
     cl2$auth("github", renew = TRUE)
     expect_silent(cl2$list("/secret"))
+  }
+
+  skip_if_not_installed("cyphr")
+  skip_if_no_internet()
+  if (!has_github_token()) {
+    skip("Rest of github tests require token")
   }
 
   ## Set up some keys:

@@ -60,6 +60,9 @@ token_cache_path <- function(server, cache_dir) {
 }
 
 ssh_key <- function(private = TRUE) {
+  if (!requireNamespace("cyphr", quietly = TRUE)) {
+    return(NULL)
+  }
   if (is.null(vault_env$ssh_key)) {
     vault_env$ssh_key <- tryCatch(cyphr::keypair_openssl(NULL, NULL),
                                   error = function(e) NULL)

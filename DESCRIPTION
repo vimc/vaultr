@@ -8,11 +8,11 @@ License: MIT + file LICENSE
 Imports:
     R6,
     base64url,
-    cyphr,
     httr,
     jsonlite,
     prettyunits
 Suggests:
+    cyphr,
     processx,
     testthat,
     withr
