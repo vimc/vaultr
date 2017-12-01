@@ -148,6 +148,7 @@ test_that("generic: auth", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic, auth = FALSE)
   expect_error(cl$read("/secret/foo"), "Have not authenticated against vault")
+  clear_env(vault_env$tokens)
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_null(cl$read("/secret/foo"))
@@ -192,6 +193,7 @@ test_that("insecure", {
 test_that("auth: message", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(auth = FALSE)
+  clear_env(vault_env$tokens)
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_silent(cl$auth("token", vault_test_server()$root_token))
@@ -240,7 +242,7 @@ test_that("github auth", {
 
   skip_if_not_installed("cyphr")
   skip_if_no_internet()
-  if (!has_github_token()) {
+  if (!has_auth_github_token()) {
     skip("Rest of github tests require token")
   }
 
