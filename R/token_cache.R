@@ -1,3 +1,40 @@
+##' Clear all cached token
+##'
+##' Vaultr stores tokens in two places - one session specific and one
+##' persistent.  This function clears these out which might be useful
+##' in debugging (otherwise pass in the \code{renew} argument to
+##' \code{auth}).  It also comes in useful in testing packages that
+##' depend on vaultr.
+##'
+##' @title Clear vaultr token cache
+##'
+##' @param session Logical, indicating if we should clear the session
+##'   keys
+##'
+##' @param persistent Logical, indicating if we should clear the
+##'   persistent keys
+##'
+##' @param cache_dir Location of persistent keys (otherwise uses the
+##'   \code{VAULTR_CACHE_DIR} environment variable)
+##'
+##' @export
+vault_clear_token_cache <- function(session = TRUE, persistent = TRUE,
+                                    cache_dir = NULL) {
+  ## TODO: consider per-server deletion of tokens
+  if (session) {
+    clear_env(vault_env$tokens)
+  }
+  if (persistent) {
+    cache_dir <- vault_arg(cache_dir, "VAULTR_CACHE_DIR")
+    if (!is.null(cache_dir)) {
+      if (!all(grepl("https?_", dir(cache_dir)))) {
+        stop(sprintf("Unexpected files in %s - not deleting", cache_dir))
+      }
+      unlink(cache_dir, recursive = TRUE)
+    }
+  }
+}
+
 token_cache_get <- function(server, cache_dir, quiet) {
   if (server %in% names(vault_env$tokens)) {
     if (!quiet) {
