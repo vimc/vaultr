@@ -236,20 +236,14 @@ R6_vault_client <- R6::R6Class(
       }
       assert_scalar_character(method)
 
+      if (renew) {
+        token_client_del(self$url, cache_dir, quiet)
+      }
       if (self$.auth_needed(renew)) {
-        cache_dir <- vault_arg(cache_dir, "VAULTR_CACHE_DIR")
-        use_cache <- !(is.null(cache_dir) || isFALSE(cache_dir))
-        if (use_cache) {
-          assert_scalar_character(cache_dir)
-          cache_path <-
-            file.path(cache_dir, base64url::base64_urlencode(self$url))
-        }
-
-        if (!renew && use_cache && file.exists(cache_path)) {
-          if (!quiet) {
-            message("Using cached token")
-          }
-          token <- rawToChar(cyphr::decrypt_file(cache_path, ssh_key()))
+        token <- token_cache_get(self$url, cache_dir, quiet)
+        if (!is.null(token)) {
+          ## TODO: if token verification fails here we should try and
+          ## reauthenticate.
           self$.auth_set_token(token, verify)
         } else {
           fn <- switch(method,
@@ -257,15 +251,8 @@ R6_vault_client <- R6::R6Class(
                        github = self$auth_github,
                        stop(sprintf("Unknown auth method '%s'", method)))
           fn(..., quiet = quiet, verify = verify)
-
-          if (use_cache) {
-            dir.create(cache_dir, FALSE, TRUE)
-            if (!quiet) {
-              message("Saving (encrypted) token to cache")
-            }
-            cyphr::encrypt_string(self$token$headers[["X-Vault-Token"]],
-                                  ssh_key(), cache_path)
-          }
+          token_cache_set(self$url, self$token$headers[["X-Vault-Token"]],
+                          cache_dir, quiet)
         }
       }
 
@@ -435,11 +422,3 @@ R6_vault_client_generic <- R6::R6Class(
       invisible(self)
     }
   ))
-
-
-ssh_key <- function(private = TRUE) {
-  if (is.null(vault_env$ssh_key)) {
-    vault_env$ssh_key <- cyphr::keypair_openssl(NULL, NULL)
-  }
-  vault_env$ssh_key
-}

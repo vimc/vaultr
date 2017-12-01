@@ -74,3 +74,7 @@ download_file <- function(url, path = tempfile(), quiet = FALSE) {
 isFALSE <- function(x) {
   identical(as.vector(x), FALSE)
 }
+
+clear_env <- function(env) {
+  rm(list = ls(env, all.names = TRUE), envir = env)
+}

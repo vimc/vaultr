@@ -202,7 +202,6 @@ context("vault: slow tests")
 test_that("github auth", {
   skip_if_no_vault_test_server()
   try_auth <- has_auth_github_token() && has_internet()
-
   cl <- vault_test_client()
 
   expect_false("github" %in% cl$list_auth_backends()$type)
@@ -212,6 +211,7 @@ test_that("github auth", {
   cl$config_auth_github_write("vimc")
   expect_equal(cl$config_auth_github_read()$organization, "vimc")
 
+  clear_env(vault_env$tokens)
   cl2 <- vault_test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "Have not authenticated against vault")
@@ -247,16 +247,23 @@ test_that("github auth", {
   cache_dir <- tempfile()
   cl3 <- vault_test_client(auth = FALSE)
   expect_false(file.exists(cache_dir))
-  expect_message(t1 <- system.time(cl3$auth("github", cache_dir = cache_dir)),
-                 "Saving (encrypted) token to cache", fixed = TRUE)
+  expect_message(t1 <- system.time(cl3$auth("github", cache_dir = cache_dir,
+                                            renew = TRUE)),
+                 "Saving cached token to persistent cache", fixed = TRUE)
   expect_true(file.exists(cache_dir))
   expect_equal(base64url::base64_urldecode(dir(cache_dir)), cl3$url)
 
   cl4 <- vault_test_client(auth = FALSE)
   expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
-                 "Using cached token", fixed = TRUE)
+                 "Using cached token from this session", fixed = TRUE)
+
+  clear_env(vault_env$tokens)
+  cl5 <- vault_test_client(auth = FALSE)
+  expect_message(t3 <- system.time(cl5$auth("github", cache_dir = cache_dir)),
+                 "Using cached token from persistent cache", fixed = TRUE)
 
   expect_lt(t2[["elapsed"]], t1[["elapsed"]])
+  expect_lt(t3[["elapsed"]], t1[["elapsed"]])
 
   cl$disable_auth_backend("github")
 
