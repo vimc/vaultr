@@ -148,7 +148,7 @@ test_that("generic: auth", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic, auth = FALSE)
   expect_error(cl$read("/secret/foo"), "Have not authenticated against vault")
-  clear_env(vault_env$tokens)
+  vault_clear_token_cache()
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_null(cl$read("/secret/foo"))
@@ -193,10 +193,49 @@ test_that("insecure", {
 test_that("auth: message", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(auth = FALSE)
-  clear_env(vault_env$tokens)
+  vault_clear_token_cache()
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_silent(cl$auth("token", vault_test_server()$root_token))
+})
+
+test_that("cache clearing - session", {
+  vault_clear_token_cache()
+  expect_silent(vault_clear_token_cache())
+  v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
+  for (el in v) {
+    vault_env$tokens[[el]] <- TRUE
+  }
+  expect_silent(vault_clear_token_cache(FALSE))
+  expect_equal(sort(ls(vault_env$tokens)), sort(v))
+  expect_message(vault_clear_token_cache(),
+                 "Removing session tokens\n.*https://127.0.0.1:18200/v1")
+
+  for (el in v) {
+    vault_env$tokens[[el]] <- TRUE
+  }
+  expect_silent(vault_clear_token_cache(quiet = TRUE))
+  expect_equal(ls(vault_env$tokens), character(0))
+})
+
+test_that("cache clearning - persistent", {
+  cache_dir <- tempfile()
+  dir.create(cache_dir)
+  v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
+  writeLines("", file.path(cache_dir, "hello"))
+  for (el in v) {
+    writeLines("", file.path(cache_dir, mangle_url(el)))
+  }
+
+  expect_error(vault_clear_token_cache(cache_dir = cache_dir),
+               "Unexpected files in .* - not deleting")
+  expect_equal(sort(dir(cache_dir)), sort(c(mangle_url(v), "hello")))
+
+  file.remove(file.path(cache_dir, "hello"))
+  expect_message(vault_clear_token_cache(cache_dir = cache_dir),
+                 "Removing persistent tokens\n.*https_127.0.0.1_18200_v1")
+  expect_false(file.exists(cache_dir))
+  expect_silent(vault_clear_token_cache(cache_dir = cache_dir))
 })
 
 context("vault: slow tests")
@@ -214,7 +253,7 @@ test_that("github auth", {
   cl$config_auth_github_write("vimc")
   expect_equal(cl$config_auth_github_read()$organization, "vimc")
 
-  clear_env(vault_env$tokens)
+  vault_clear_token_cache()
   cl2 <- vault_test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "Have not authenticated against vault")
@@ -266,7 +305,7 @@ test_that("github auth", {
   expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
                  "Using cached token from this session", fixed = TRUE)
 
-  clear_env(vault_env$tokens)
+  vault_clear_token_cache()
   cl5 <- vault_test_client(auth = FALSE)
   expect_message(t3 <- system.time(cl5$auth("github", cache_dir = cache_dir)),
                  "Using cached token from persistent cache", fixed = TRUE)

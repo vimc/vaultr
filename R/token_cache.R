@@ -17,20 +17,36 @@
 ##' @param cache_dir Location of persistent keys (otherwise uses the
 ##'   \code{VAULTR_CACHE_DIR} environment variable)
 ##'
+##' @param quiet Logical, indicating if messages should be ommited
+##'
 ##' @export
 vault_clear_token_cache <- function(session = TRUE, persistent = TRUE,
-                                    cache_dir = NULL) {
+                                    cache_dir = NULL, quiet = FALSE) {
   ## TODO: consider per-server deletion of tokens
   if (session) {
-    clear_env(vault_env$tokens)
+    tokens <- ls(vault_env$tokens, all.names = TRUE)
+    if (length(tokens) > 0L) {
+      if (!quiet) {
+        message("Removing session tokens\n",
+                paste(sprintf("  - %s", sort(tokens)), collapse = "\n"))
+      }
+      clear_env(vault_env$tokens)
+    }
   }
   if (persistent) {
     cache_dir <- vault_arg(cache_dir, "VAULTR_CACHE_DIR")
     if (!is.null(cache_dir)) {
-      if (!all(grepl("https?_", dir(cache_dir)))) {
+      tokens <- dir(cache_dir, all.files = TRUE, no.. = TRUE)
+      if (!all(grepl("^https?_", tokens))) {
         stop(sprintf("Unexpected files in %s - not deleting", cache_dir))
       }
-      unlink(cache_dir, recursive = TRUE)
+      if (length(tokens) > 0L) {
+        if (!quiet) {
+          message("Removing persistent tokens\n",
+                  paste(sprintf("  - %s", sort(tokens)), collapse = "\n"))
+        }
+        unlink(cache_dir, recursive = TRUE)
+      }
     }
   }
 }

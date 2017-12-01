@@ -5,7 +5,7 @@
 \title{Clear vaultr token cache}
 \usage{
 vault_clear_token_cache(session = TRUE, persistent = TRUE,
-  cache_dir = NULL)
+  cache_dir = NULL, quiet = FALSE)
 }
 \arguments{
 \item{session}{Logical, indicating if we should clear the session
@@ -16,6 +16,8 @@ persistent keys}
 
 \item{cache_dir}{Location of persistent keys (otherwise uses the
 \code{VAULTR_CACHE_DIR} environment variable)}
+
+\item{quiet}{Logical, indicating if messages should be ommited}
 }
 \description{
 Clear all cached token
