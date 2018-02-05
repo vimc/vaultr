@@ -18,8 +18,8 @@
 ##'
 ##' @export
 vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL) {
-
   verify <- vault_arg(verify, "VAULT_CAPATH")
+  ## TODO: this means that the auth 'verify' argument can't be used!
 
   cl <- R6_vault_client$new(addr, verify)
   cl$auth(auth_method, ...)
@@ -225,7 +225,8 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Auth
-    auth = function(method, ..., renew = FALSE, quiet = FALSE, verify = TRUE) {
+    auth = function(method, ..., renew = FALSE, quiet = FALSE, verify = TRUE,
+                    cache_dir = NULL) {
       method <- vault_arg(method, "VAULTR_AUTH_METHOD")
       if (is.null(method) || identical(method, FALSE)) {
         if (!quiet) {
@@ -234,44 +235,54 @@ R6_vault_client <- R6::R6Class(
         return(invisible(self))
       }
       assert_scalar_character(method)
-      fn <- switch(method,
-                   token = self$auth_token,
-                   github = self$auth_github,
-                   stop(sprintf("Unknown auth method '%s'", method)))
-      fn(..., renew = renew, quiet = quiet, verify = verify)
+
+      if (renew) {
+        token_client_del(self$url, cache_dir, quiet)
+      }
+      if (self$.auth_needed(renew)) {
+        token <- token_cache_get(self$url, cache_dir, quiet)
+        if (!is.null(token)) {
+          ## TODO: if token verification fails here we should try and
+          ## reauthenticate.
+          self$.auth_set_token(token, verify)
+        } else {
+          fn <- switch(method,
+                       token = self$auth_token,
+                       github = self$auth_github,
+                       stop(sprintf("Unknown auth method '%s'", method)))
+          fn(..., quiet = quiet, verify = verify)
+          token_cache_set(self$url, self$token$headers[["X-Vault-Token"]],
+                          cache_dir, quiet)
+        }
+      }
+
       invisible(self)
     },
 
-    auth_token = function(token = NULL, renew = FALSE, quiet = TRUE,
-                          verify = TRUE) {
-      if (self$.auth_needed(renew)) {
-        token <- vault_arg(token, "VAULT_TOKEN")
-        if (is.null(token)) {
-          stop("token not found (check $VAULT_TOKEN environment variable)")
-        }
-        assert_scalar_character(token)
-        if (!quiet && !is.null(token)) {
-          message("Authenticating using token")
-        }
-        self$.auth_set_token(token, verify)
+    auth_token = function(token = NULL, quiet = TRUE, verify = TRUE) {
+      token <- vault_arg(token, "VAULT_TOKEN")
+      if (is.null(token)) {
+        stop("token not found (check $VAULT_TOKEN environment variable)")
       }
+      assert_scalar_character(token)
+      if (!quiet && !is.null(token)) {
+        message("Authenticating using token")
+      }
+      self$.auth_set_token(token, verify)
     },
 
-    auth_github = function(gh_token = NULL, renew = FALSE, quiet = FALSE,
-                           verify = TRUE) {
-      if (self$.auth_needed(renew)) {
-        if (!quiet) {
-          message("Authenticating using github...", appendLF=FALSE)
-        }
-        gh_token <- vault_auth_github_token(gh_token)
-        res <- self$.post("/auth/github/login", body = list(token = gh_token),
-                          allow_missing_token = TRUE)
-        self$.auth_set_token(res$auth$client_token, verify)
-        if (!quiet) {
-          lease <- res$auth$lease_duration
-          message(sprintf("ok, duration: %s s (%s)",
-                          lease, prettyunits::pretty_sec(lease, TRUE)))
-        }
+    auth_github = function(gh_token = NULL, quiet = FALSE, verify = TRUE) {
+      if (!quiet) {
+        message("Authenticating using github...", appendLF=FALSE)
+      }
+      gh_token <- vault_auth_github_token(gh_token)
+      res <- self$.post("/auth/github/login", body = list(token = gh_token),
+                        allow_missing_token = TRUE)
+      self$.auth_set_token(res$auth$client_token, verify)
+      if (!quiet) {
+        lease <- res$auth$lease_duration
+        message(sprintf("ok, duration: %s s (%s)",
+                        lease, prettyunits::pretty_sec(lease, TRUE)))
       }
     },
 

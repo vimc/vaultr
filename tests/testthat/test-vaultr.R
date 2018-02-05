@@ -148,6 +148,7 @@ test_that("generic: auth", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic, auth = FALSE)
   expect_error(cl$read("/secret/foo"), "Have not authenticated against vault")
+  vault_clear_token_cache()
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_null(cl$read("/secret/foo"))
@@ -192,9 +193,49 @@ test_that("insecure", {
 test_that("auth: message", {
   skip_if_no_vault_test_server()
   cl <- vault_test_client(auth = FALSE)
+  vault_clear_token_cache()
   expect_message(cl$auth("token", vault_test_server()$root_token),
                  "Authenticating using token")
   expect_silent(cl$auth("token", vault_test_server()$root_token))
+})
+
+test_that("cache clearing - session", {
+  vault_clear_token_cache()
+  expect_silent(vault_clear_token_cache())
+  v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
+  for (el in v) {
+    vault_env$tokens[[el]] <- TRUE
+  }
+  expect_silent(vault_clear_token_cache(FALSE))
+  expect_equal(sort(ls(vault_env$tokens)), sort(v))
+  expect_message(vault_clear_token_cache(),
+                 "Removing session tokens\n.*https://127.0.0.1:18200/v1")
+
+  for (el in v) {
+    vault_env$tokens[[el]] <- TRUE
+  }
+  expect_silent(vault_clear_token_cache(quiet = TRUE))
+  expect_equal(ls(vault_env$tokens), character(0))
+})
+
+test_that("cache clearning - persistent", {
+  cache_dir <- tempfile()
+  dir.create(cache_dir)
+  v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
+  writeLines("", file.path(cache_dir, "hello"))
+  for (el in v) {
+    writeLines("", file.path(cache_dir, mangle_url(el)))
+  }
+
+  expect_error(vault_clear_token_cache(cache_dir = cache_dir),
+               "Unexpected files in .* - not deleting")
+  expect_equal(sort(dir(cache_dir)), sort(c(mangle_url(v), "hello")))
+
+  file.remove(file.path(cache_dir, "hello"))
+  expect_message(vault_clear_token_cache(cache_dir = cache_dir),
+                 "Removing persistent tokens\n.*https_127.0.0.1_18200_v1")
+  expect_false(file.exists(cache_dir))
+  expect_silent(vault_clear_token_cache(cache_dir = cache_dir))
 })
 
 context("vault: slow tests")
@@ -202,16 +243,17 @@ context("vault: slow tests")
 test_that("github auth", {
   skip_if_no_vault_test_server()
   try_auth <- has_auth_github_token() && has_internet()
-
   cl <- vault_test_client()
 
   expect_false("github" %in% cl$list_auth_backends()$type)
   cl$enable_auth_backend("github")
+  on.exit(cl$disable_auth_backend("github"))
   expect_true("github" %in% cl$list_auth_backends()$type)
 
   cl$config_auth_github_write("vimc")
   expect_equal(cl$config_auth_github_read()$organization, "vimc")
 
+  vault_clear_token_cache()
   cl2 <- vault_test_client(auth = FALSE)
 
   expect_error(cl2$list("/secret"), "Have not authenticated against vault")
@@ -236,6 +278,40 @@ test_that("github auth", {
     cl2$auth("github", renew = TRUE)
     expect_silent(cl2$list("/secret"))
   }
+
+  skip_if_not_installed("cyphr")
+  skip_if_no_internet()
+  if (!has_auth_github_token()) {
+    skip("Rest of github tests require token")
+  }
+
+  ## Set up some keys:
+  path_keys <- tempfile()
+  dir.create(path_keys)
+  Sys.setenv(USER_KEY = path_keys, USER_PUBKEY = path_keys)
+  cyphr::ssh_keygen(path_keys, FALSE)
+
+  ## Now, we test the caching.
+  cache_dir <- tempfile()
+  cl3 <- vault_test_client(auth = FALSE)
+  expect_false(file.exists(cache_dir))
+  expect_message(t1 <- system.time(cl3$auth("github", cache_dir = cache_dir,
+                                            renew = TRUE)),
+                 "Saving cached token to persistent cache", fixed = TRUE)
+  expect_true(file.exists(cache_dir))
+  expect_equal(dir(cache_dir), mangle_url(cl3$url))
+
+  cl4 <- vault_test_client(auth = FALSE)
+  expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
+                 "Using cached token from this session", fixed = TRUE)
+
+  vault_clear_token_cache()
+  cl5 <- vault_test_client(auth = FALSE)
+  expect_message(t3 <- system.time(cl5$auth("github", cache_dir = cache_dir)),
+                 "Using cached token from persistent cache", fixed = TRUE)
+
+  expect_lt(t2[["elapsed"]], t1[["elapsed"]])
+  expect_lt(t3[["elapsed"]], t1[["elapsed"]])
 
   cl$disable_auth_backend("github")
 
