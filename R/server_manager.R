@@ -29,6 +29,7 @@ vault_test_server_start <- function() {
   }
 }
 
+
 ##' @rdname vault_test_server
 ##' @export
 vault_test_server_stop <- function() {
@@ -37,11 +38,13 @@ vault_test_server_stop <- function() {
   }
 }
 
+
 ##' @rdname vault_test_server
 ##' @export
 vault_test_server <- function() {
   vault_env$server
 }
+
 
 ##' @rdname vault_test_server
 ##' @export
@@ -51,6 +54,7 @@ vault_test_client <- function(...) {
     vault_env$server$new_client(...)
   }
 }
+
 
 ##' @rdname vault_test_server
 ##'
@@ -80,6 +84,7 @@ vault_test_server_install <- function(quiet = FALSE, version = "0.7.3") {
   invisible(dest)
 }
 
+
 vault_test_data <- function() {
   ret <- list(bin = NULL, port = NULL, address = NULL, url = NULL)
   if (identical(Sys.getenv("NOT_CRAN"), "true")) {
@@ -101,6 +106,7 @@ vault_test_data <- function() {
   }
   ret
 }
+
 
 server_manager <- R6::R6Class(
   "server_manager",
@@ -128,9 +134,11 @@ server_manager <- R6::R6Class(
       self$address <- dat$address
       self$url <- dat$url
     },
+
     can_run = function() {
       !is.null(self$address) && !is.null(self$bin)
     },
+
     start = function() {
       if (is.null(self$bin)) {
         stop("vault executable not found")
@@ -186,12 +194,14 @@ server_manager <- R6::R6Class(
       }
       stop("Unable to start vault") # nocov
     },
+
     up = function() {
       self$start()
       self$sys_initialize()
       self$unseal()
       invisible(self)
     },
+
     sys_initialize = function() {
       if (!self$client$sys_is_initialized()) {
         message("Initializing vault")
@@ -202,20 +212,24 @@ server_manager <- R6::R6Class(
         Sys.setenv(VAULTR_AUTH_METHOD = "token")
       }
     },
+
     unseal = function() {
       if (self$client$is_sealed()) {
         message("Unsealing vault")
         self$client$unseal_multi(self$keys)
       }
     },
+
     kill = function() {
       message("Stopping vault server")
       self$process$kill()
     },
+
     new_client = function(ctor = vault_client, auth = TRUE, ...) {
       ctor(auth_method = if (auth) NULL else FALSE, quiet = TRUE, ...)
     }
   ))
+
 
 vault_platform <- function() {
   sysname <- Sys.info()[["sysname"]]
@@ -226,10 +240,12 @@ vault_platform <- function() {
          stop("Unknown sysname"))
 }
 
+
 vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
   sprintf("https://releases.hashicorp.com/vault/%s/vault_%s_%s_%s.zip",
           version, version, platform, arch)
 }
+
 
 vault_install <- function(dest, quiet, version = "0.7.3") {
   dest_bin <- file.path(dest, "vault")
