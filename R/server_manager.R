@@ -116,6 +116,9 @@ server_manager <- R6::R6Class(
     keys = NULL,
     root_token = NULL,
 
+    stdout = NULL,
+    stderr = NULL,
+
     process = NULL,
 
     initialize = function() {
@@ -155,8 +158,11 @@ server_manager <- R6::R6Class(
 
       message("Starting vault server at ", self$address)
       args <- c("server", paste0("-config=", path))
+      self$stdout <- tempfile()
+      self$stderr <- tempfile()
       self$process <-
-        processx::process$new(self$bin, args, stdout = "|", stderr = "|")
+        processx::process$new(self$bin, args,
+                              stdout = self$stdout, stderr = self$stderr)
       on.exit(self$process$kill())
 
       for (i in 1:20) {
