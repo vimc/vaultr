@@ -1,0 +1,239 @@
+## For the first shot at refactoring,
+##
+## * we use the silly name 'vault_client2' which will eventually
+##   replace vault_client
+##
+## * no attempt at backward compatibility - we'll see how the tests go
+##   and work through from there.
+vault_client2 <- function(addr = NULL, tls_config = NULL) {
+  R6_vault_client2$new(addr, tls_config)
+}
+
+
+R6_vault_client2 <- R6::R6Class(
+  "vault_client",
+
+  public = list(
+    .api_client = NULL,
+    auth = NULL,
+
+    initialize = function(addr, tls_config) {
+      self$.api_client <- vault_api_client$new(addr, tls_config)
+      self$auth <- R6_vault_client_auth$new(self$.api_client)
+    },
+
+    ## Basic methods:
+    read = function(path, field = NULL, info = FALSE) {
+      assert_absolute_path(path)
+      res <- tryCatch(
+        self$.api_client$GET(path),
+        vault_invalid_path = function(e) NULL)
+
+      if (is.null(res)) {
+        ret <- NULL
+      } else {
+        ret <- res$data
+        if (!is.null(field)) {
+          assert_scalar_character(field)
+          ret <- res$data[[field]]
+        } else if (info) {
+          attr <- res[setdiff(names(res), "data")]
+          attr(ret, "info") <- attr[lengths(attr) > 0]
+        }
+      }
+      ret
+    },
+
+    write = function(path, data) {
+      assert_named(data)
+      assert_absolute_path(path)
+      res <- self$.api_client$POST(path, body = data, to_json = FALSE)
+      if (httr::status_code(res) == 200) {
+        response_to_json(res)
+      } else {
+        invisible(NULL)
+      }
+    },
+
+    delete = function(path) {
+      assert_absolute_path(path)
+      self$.api_client$DELETE(path, to_json = FALSE)
+      invisible(NULL)
+    },
+
+    ## NOTE: no recursive list here
+    list = function(path, full_names = FALSE) {
+      assert_absolute_path(path)
+      root <- sub("/+$", "", path)
+
+      dat <- tryCatch(
+        self$.api_client$GET(path, query = list(list = TRUE)),
+        vault_invalid_path = function(e) NULL)
+
+      ret <- list_to_character(dat$data$keys)
+
+      if (full_names) {
+        ret <- file.path(root, ret)
+      }
+
+      ret
+    },
+
+    login = function(..., method = "token", renew = FALSE, quiet = FALSE,
+                     token_only = FALSE) {
+      do_auth <- renew || token_only || !self$.api_client$is_authenticated()
+      data <- drop_null(list(...))
+      assert_named(data)
+      token <- vault_login_info(method)(self$.api_client, data, quiet)
+      if (token_only) {
+        token
+      } else {
+        self$.api_client$set_token(token, verify = FALSE)
+      }
+    },
+
+    status = function(...) {
+      self$.api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
+    },
+
+    upwrap = function(...) {
+      stop("unwrap not yet implemented")
+    }
+  ))
+
+
+R6_vault_client_auth <- R6::R6Class(
+  "vault_client_auth",
+  public = list(
+    .api_client = NULL,
+
+    initialize = function(api_client) {
+      self$.api_client <- api_client
+    },
+
+    list = function(detailed = FALSE) {
+      if (detailed) {
+        stop("Detailed auth information not supported")
+      }
+      dat <- self$.api_client$GET("/sys/auth")
+      path <- dat$data
+
+      cols <- c("type", "accessor", "description")
+
+      ret <- lapply(cols, function(v)
+        vapply(dat$data, "[[", "", v, USE.NAMES = FALSE))
+      names(ret) <- cols
+
+      ## TODO: empty strings here might be better as NA
+      as.data.frame(c(list(path = names(dat$data)), ret),
+                    stringsAsFactors = FALSE, check.names = FALSE)
+    },
+
+    enable = function(type, description = NULL, local = FALSE,
+                      path = NULL, plugin_name = NULL) {
+      assert_scalar_character(type)
+      if (is.null(description)) {
+        description <- ""
+      } else {
+        assert_scalar_character(description)
+      }
+      assert_scalar_logical(local)
+      if (is.null(path)) {
+        path <- type
+      } else {
+        assert_scalar_character(path)
+      }
+      assert_scalar_character_or_null(plugin_name)
+
+      data <- drop_null(list(type = type,
+                             description = description,
+                             local = local,
+                             plugin_name = plugin_name))
+      self$.api_client$POST(paste0("/sys/auth/", path),
+                            body = data, to_json = FALSE)
+      invisible(NULL)
+    },
+
+    disable = function(path) {
+      assert_scalar_character(path)
+      self$.api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
+      invisible(NULL)
+    }
+  ))
+
+
+## These functions all get client tokens in different ways - there are
+## more of these - there should be a key/value one too.  I am not
+## certain that any of these really need verification though aside
+## from the plain token because everything else is going to go
+## _through_ the vault anyway.  So perhaps we just check the first:
+vault_token_token <- function(client, data, quiet) {
+  token <- vault_arg(data$token, "VAULT_TOKEN")
+  if (is.null(token)) {
+    stop("token not found (check $VAULT_TOKEN environment variable)")
+  }
+  assert_scalar_character(token)
+  if (!quiet) {
+    message("Verifying token")
+  }
+  client$verify_token(token)
+  token
+}
+
+
+vault_token_github <- function(client, data, quiet) {
+  if (!quiet) {
+    message("Authenticating using github...", appendLF = FALSE)
+  }
+
+  token <- vault_auth_github_token(data$token)
+  res <- client$POST("/auth/github/login",
+                     body = list(token = token),
+                     allow_missing_token = TRUE)
+  if (!quiet) {
+    lease <- res$auth$lease_duration
+    message(sprintf("ok, duration: %s s (%s)",
+                    lease, prettyunits::pretty_sec(lease, TRUE)))
+  }
+
+  res$auth$client_token
+}
+
+
+vault_login_userpass <- function(client, data, quiet) {
+  ## TODO: check that data contains both username and password
+  ##
+  ## TODO: get password using getPass in an interactive session, with
+  ## a wrapper for ease of testing
+  if (is.null(data$password)) {
+    msg <- sprintf("Password for '%s': ", data$username)
+    data$password <- getPass::getPass(msg)
+  }
+  assert_scalar_character(data$username, "username")
+  assert_scalar_character(data$password, "password")
+
+  path <- paste0("/auth/userpass/login/", data$username)
+  data <- list(password = data$password)
+  res <- client$POST(path, body = data, allow_missing_token = TRUE)
+
+  if (!quiet) {
+    lease <- res$auth$lease_duration
+    message(sprintf("ok, duration: %s s (%s)",
+                    lease, prettyunits::pretty_sec(lease, TRUE)))
+  }
+
+  res$auth$client_token
+}
+
+
+vault_login_info <- function(method) {
+  vault_methods <- list(
+    token = vault_token_token,
+    github = vault_token_github,
+    userpass = vault_login_userpass)
+  ret <- vault_methods[[method]]
+  if (is.null(ret)) {
+    stop(sprintf("Authentication method '%s' not supported", method))
+  }
+  ret
+}
