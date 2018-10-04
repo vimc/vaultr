@@ -5,11 +5,13 @@ assert_is <- function(x, what, name = deparse(substitute(x))) {
   }
 }
 
+
 assert_length <- function(x, len, name = deparse(substitute(x))) {
   if (length(x) != len) {
     stop(sprintf("'%s' must have length %d", name, len))
   }
 }
+
 
 assert_scalar <- function(x, name = deparse(substitute(x))) {
   if (length(x) != 1) {
@@ -17,22 +19,39 @@ assert_scalar <- function(x, name = deparse(substitute(x))) {
   }
 }
 
+
 assert_character <- function(x, name = deparse(substitute(x))) {
   if (!is.character(x)) {
     stop(sprintf("'%s' must be a character", name), call. = FALSE)
   }
 }
 
+
+assert_logical <- function(x, name = deparse(substitute(x))) {
+  if (!is.logical(x)) {
+    stop(sprintf("'%s' must be a logical", name), call. = FALSE)
+  }
+}
+
+
 assert_named <- function(x, name = deparse(substitute(x))) {
-  if (is.null(names(x))) {
+  if (is.null(names(x)) && length(x) > 0L) {
     stop(sprintf("'%s' must be named", name))
   }
 }
+
 
 assert_scalar_character <- function(x, name = deparse(substitute(x))) {
   assert_scalar(x, name)
   assert_character(x, name)
 }
+
+
+assert_scalar_logical <- function(x, name = deparse(substitute(x))) {
+  assert_scalar(x, name)
+  assert_logical(x, name)
+}
+
 
 assert_scalar_character_or_null <- function(x, name = deparse(substitute(x))) {
   if (!is.null(x)) {
@@ -40,15 +59,26 @@ assert_scalar_character_or_null <- function(x, name = deparse(substitute(x))) {
   }
 }
 
+
 assert_absolute_path <- function(path) {
   if (!is_absolute_path(path)) {
     stop("Expected an absolute path")
   }
 }
 
+
 assert_path_prefix <- function(path, starts_with) {
   assert_scalar_character(path)
   if (!identical(substr(path, 1L, nchar(starts_with)), starts_with)) {
     stop(sprintf("Expected path to start with '%s'", starts_with))
+  }
+}
+
+
+assert_file_exists <- function(path, name = deparse(substitute(path))) {
+  assert_scalar_character(path, description)
+  if (!file.exists(path)) {
+    stop(sprintf("The path '%s' does not exist (for '%s')", path, name),
+         call. = FALSE)
   }
 }

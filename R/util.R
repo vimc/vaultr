@@ -78,3 +78,8 @@ isFALSE <- function(x) {
 clear_env <- function(env) {
   rm(list = ls(env, all.names = TRUE), envir = env)
 }
+
+
+drop_null <- function(x) {
+  x[!vlapply(x, is.null)]
+}
