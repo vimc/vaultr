@@ -29,3 +29,12 @@ skip_if_no_internet <- function() {
   }
   testthat::skip("no internet")
 }
+
+
+read_vault_env <- function() {
+  txt <- readLines(".vault-env")
+  tmp <- tempfile()
+  on.exit(unlink(tmp))
+  writeLines(sub("^export\\s+", "", readLines(".vault-env")), tmp)
+  readRenviron(tmp)
+}

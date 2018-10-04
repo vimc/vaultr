@@ -199,6 +199,7 @@ server_manager <- R6::R6Class(
       self$start()
       self$sys_initialize()
       self$unseal()
+      self$write_env()
       invisible(self)
     },
 
@@ -209,7 +210,6 @@ server_manager <- R6::R6Class(
         self$root_token <- result[["root_token"]]
         self$keys <- result[["keys"]]
         Sys.setenv(VAULT_TOKEN = self$root_token)
-        Sys.setenv(VAULTR_AUTH_METHOD = "token")
       }
     },
 
@@ -218,6 +218,15 @@ server_manager <- R6::R6Class(
         message("Unsealing vault")
         self$client$unseal_multi(self$keys)
       }
+    },
+
+    write_env = function(path = ".vault-env") {
+      data <- c(VAULT_ADDR = self$url,
+                VAULT_CAPATH = Sys.getenv("VAULT_CAPATH"),
+                VAULT_TOKEN = self$root_token,
+                VAULTR_AUTH_METHOD = "token")
+      str <- sprintf("export %s=%s", names(data), unname(data))
+      writeLines(str, path)
     },
 
     kill = function() {
