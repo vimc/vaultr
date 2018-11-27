@@ -13,20 +13,44 @@ vault_client2 <- function(addr = NULL, tls_config = NULL) {
 R6_vault_client2 <- R6::R6Class(
   "vault_client",
 
+  private = list(
+    api_client = NULL),
+
   public = list(
-    .api_client = NULL,
     auth = NULL,
+    audit = NULL,
+    kv = NULL,
+    lease = NULL,
+    operator = NULL,
+    policy = NULL,
+    secrets = NULL,
+    token = NULL,
 
     initialize = function(addr, tls_config) {
-      self$.api_client <- vault_api_client$new(addr, tls_config)
-      self$auth <- R6_vault_client_auth$new(self$.api_client)
+      api_client <- vault_api_client$new(addr, tls_config)
+
+      private$api_client <- api_client
+
+      self$auth <- R6_vault_client_auth$new(api_client)
+      ## self$audit <- R6_vault_client_audit$new(api_client)
+      ## self$kv <- R6_vault_cllient_kv$new(api_client)
+      ## self$lease <- R6_vault_cllient_lease$new(api_client)
+      ## self$operator <- R6_vault_cllient_operator$new(api_client)
+      ## self$policy <- R6_vault_cllient_policy$new(api_client)
+      ## self$secrets <- R6_vault_cllient_secrets$new(api_client)
+      ## self$token <- R6_vault_cllient_token$new(api_client)
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "base",
+                          "core methods for interacting with vault")
     },
 
     ## Basic methods:
     read = function(path, field = NULL, info = FALSE) {
       assert_absolute_path(path)
       res <- tryCatch(
-        self$.api_client$GET(path),
+        private$api_client$GET(path),
         vault_invalid_path = function(e) NULL)
 
       if (is.null(res)) {
@@ -47,7 +71,7 @@ R6_vault_client2 <- R6::R6Class(
     write = function(path, data) {
       assert_named(data)
       assert_absolute_path(path)
-      res <- self$.api_client$POST(path, body = data, to_json = FALSE)
+      res <- private$api_client$POST(path, body = data, to_json = FALSE)
       if (httr::status_code(res) == 200) {
         response_to_json(res)
       } else {
@@ -57,7 +81,7 @@ R6_vault_client2 <- R6::R6Class(
 
     delete = function(path) {
       assert_absolute_path(path)
-      self$.api_client$DELETE(path, to_json = FALSE)
+      private$api_client$DELETE(path, to_json = FALSE)
       invisible(NULL)
     },
 
@@ -67,7 +91,7 @@ R6_vault_client2 <- R6::R6Class(
       root <- sub("/+$", "", path)
 
       dat <- tryCatch(
-        self$.api_client$GET(path, query = list(list = TRUE)),
+        private$api_client$GET(path, query = list(list = TRUE)),
         vault_invalid_path = function(e) NULL)
 
       ret <- list_to_character(dat$data$keys)
@@ -81,19 +105,19 @@ R6_vault_client2 <- R6::R6Class(
 
     login = function(..., method = "token", renew = FALSE, quiet = FALSE,
                      token_only = FALSE) {
-      do_auth <- renew || token_only || !self$.api_client$is_authenticated()
+      do_auth <- renew || token_only || !private$api_client$is_authenticated()
       data <- drop_null(list(...))
       assert_named(data)
-      token <- vault_login_info(method)(self$.api_client, data, quiet)
+      token <- vault_login_info(method)(private$api_client, data, quiet)
       if (token_only) {
         token
       } else {
-        self$.api_client$set_token(token, verify = FALSE)
+        private$api_client$set_token(token, verify = FALSE)
       }
     },
 
     status = function(...) {
-      self$.api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
+      private$api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
     },
 
     upwrap = function(...) {
@@ -102,20 +126,27 @@ R6_vault_client2 <- R6::R6Class(
   ))
 
 
+## Interact with auth methods.  This is an administrative command.
 R6_vault_client_auth <- R6::R6Class(
   "vault_client_auth",
-  public = list(
-    .api_client = NULL,
 
+  private = list(api_client = NULL),
+
+  public = list(
     initialize = function(api_client) {
-      self$.api_client <- api_client
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "auth",
+                          "administer vault's authentication methods")
     },
 
     list = function(detailed = FALSE) {
       if (detailed) {
         stop("Detailed auth information not supported")
       }
-      dat <- self$.api_client$GET("/sys/auth")
+      dat <- private$api_client$GET("/sys/auth")
       path <- dat$data
 
       cols <- c("type", "accessor", "description")
@@ -149,14 +180,14 @@ R6_vault_client_auth <- R6::R6Class(
                              description = description,
                              local = local,
                              plugin_name = plugin_name))
-      self$.api_client$POST(paste0("/sys/auth/", path),
+      private$api_client$POST(paste0("/sys/auth/", path),
                             body = data, to_json = FALSE)
       invisible(NULL)
     },
 
     disable = function(path) {
       assert_scalar_character(path)
-      self$.api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
+      private$api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
       invisible(NULL)
     }
   ))
@@ -207,7 +238,7 @@ vault_login_userpass <- function(client, data, quiet) {
   ## a wrapper for ease of testing
   if (is.null(data$password)) {
     msg <- sprintf("Password for '%s': ", data$username)
-    data$password <- getPass::getPass(msg)
+    data$password <- read_password(msg)
   }
   assert_scalar_character(data$username, "username")
   assert_scalar_character(data$password, "password")
@@ -236,4 +267,33 @@ vault_login_info <- function(method) {
     stop(sprintf("Authentication method '%s' not supported", method))
   }
   ret
+}
+
+
+vault_client_format <- function(object, brief, name, description) {
+  if (brief) {
+    return(description)
+  }
+  nms <- setdiff(ls(object), c("format", "clone", "delete", "initialize"))
+  fns <- vlapply(nms, function(x) is.function(object[[x]]))
+  is_obj <- vlapply(nms, function(x) inherits(object[[x]], "R6"))
+
+  calls <- vcapply(nms[fns], function(x) capture_args(object[[x]], x),
+                   USE.NAMES = FALSE)
+  if (any(is_obj)) {
+    objs <- c(
+      "  Command groups:",
+      vcapply(nms[is_obj], function(x)
+        sprintf("    %s: %s", x, object[[x]]$format(TRUE)),
+        USE.NAMES = FALSE))
+  } else {
+    objs <- NULL
+  }
+
+
+
+  c(sprintf("<vault: %s>", name),
+    objs,
+    "  Commands:",
+    calls)
 }

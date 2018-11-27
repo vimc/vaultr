@@ -7,6 +7,7 @@ Description: Provides an interface to Hashicorp's vault over its http API.
 License: MIT + file LICENSE
 Imports:
     R6,
+    getPass,
     httr,
     jsonlite,
     prettyunits
