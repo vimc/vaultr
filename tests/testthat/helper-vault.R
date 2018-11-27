@@ -38,3 +38,15 @@ read_vault_env <- function() {
   writeLines(sub("^export\\s+", "", readLines(".vault-env")), tmp)
   readRenviron(tmp)
 }
+
+
+## This wants refactoring because we'll move away from global state
+## and instead use a version that starts and stops at each use.
+test_vault_client <- function(..., login = TRUE) {
+  read_vault_env()
+  cl <- vault_client2(...)
+  if (login) {
+    cl$login()
+  }
+  cl
+}

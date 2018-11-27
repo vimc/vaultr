@@ -13,6 +13,8 @@ vault_client2 <- function(addr = NULL, tls_config = NULL) {
 R6_vault_client2 <- R6::R6Class(
   "vault_client",
 
+  cloneable = FALSE,
+
   private = list(
     api_client = NULL),
 
@@ -48,7 +50,6 @@ R6_vault_client2 <- R6::R6Class(
 
     ## Basic methods:
     read = function(path, field = NULL, info = FALSE) {
-      assert_absolute_path(path)
       res <- tryCatch(
         private$api_client$GET(path),
         vault_invalid_path = function(e) NULL)
@@ -70,7 +71,6 @@ R6_vault_client2 <- R6::R6Class(
 
     write = function(path, data) {
       assert_named(data)
-      assert_absolute_path(path)
       res <- private$api_client$POST(path, body = data, to_json = FALSE)
       if (httr::status_code(res) == 200) {
         response_to_json(res)
@@ -80,14 +80,12 @@ R6_vault_client2 <- R6::R6Class(
     },
 
     delete = function(path) {
-      assert_absolute_path(path)
       private$api_client$DELETE(path, to_json = FALSE)
       invisible(NULL)
     },
 
     ## NOTE: no recursive list here
     list = function(path, full_names = FALSE) {
-      assert_absolute_path(path)
       root <- sub("/+$", "", path)
 
       dat <- tryCatch(
@@ -116,7 +114,7 @@ R6_vault_client2 <- R6::R6Class(
       }
     },
 
-    status = function(...) {
+    status = function() {
       private$api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
     },
 
@@ -188,8 +186,6 @@ R6_vault_client_auth <- R6::R6Class(
       assert_scalar_logical(local)
       if (is.null(path)) {
         path <- type
-      } else {
-        assert_scalar_character(path)
       }
       assert_scalar_character_or_null(plugin_name)
 
@@ -203,7 +199,6 @@ R6_vault_client_auth <- R6::R6Class(
     },
 
     disable = function(path) {
-      assert_scalar_character(path)
       private$api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
       invisible(NULL)
     }

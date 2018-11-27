@@ -4,7 +4,8 @@ vault_request <- function(verb, url, verify, token, path, ...,
   if (is.null(token) && !allow_missing_token) {
     stop("Have not authenticated against vault")
   }
-  res <- verb(paste0(url, path), verify, token, httr::accept_json(),
+  res <- verb(paste0(url, prepare_path(path)), verify, token,
+              httr::accept_json(),
               body = body, encode = "json", ...)
   vault_client_response(res, to_json)
 }

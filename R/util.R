@@ -134,3 +134,17 @@ capture_args <- function(f, name, indent = 4, width = getOption("width"),
 read_password <- function(prompt) {
   getPass::getPass(prompt, TRUE) # nocov
 }
+
+
+prepare_path <- function(path) {
+  assert_scalar_character(path)
+  if (!is_absolute_path(path)) {
+    path <- paste0("/", path)
+  }
+  path
+}
+
+
+rand_str <- function(n) {
+  paste0(sample(letters, n, TRUE), collapse = "")
+}
