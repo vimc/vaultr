@@ -32,13 +32,13 @@ R6_vault_client2 <- R6::R6Class(
       private$api_client <- api_client
 
       self$auth <- R6_vault_client_auth$new(api_client)
-      ## self$audit <- R6_vault_client_audit$new(api_client)
-      ## self$kv <- R6_vault_cllient_kv$new(api_client)
-      ## self$lease <- R6_vault_cllient_lease$new(api_client)
-      ## self$operator <- R6_vault_cllient_operator$new(api_client)
-      ## self$policy <- R6_vault_cllient_policy$new(api_client)
-      ## self$secrets <- R6_vault_cllient_secrets$new(api_client)
-      ## self$token <- R6_vault_cllient_token$new(api_client)
+      self$audit <- R6_vault_client_audit$new(api_client)
+      self$kv <- R6_vault_client_kv$new(api_client)
+      self$lease <- R6_vault_client_lease$new(api_client)
+      self$operator <- R6_vault_client_operator$new(api_client)
+      self$policy <- R6_vault_client_policy$new(api_client)
+      self$secrets <- R6_vault_client_secrets$new(api_client)
+      self$token <- R6_vault_client_token$new(api_client)
     },
 
     format = function(brief = FALSE) {
@@ -126,6 +126,23 @@ R6_vault_client2 <- R6::R6Class(
   ))
 
 
+R6_vault_client_audit <- R6::R6Class(
+  "vault_client_audit",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "audit",
+                          "Interact with vault's audit devices")
+    }
+  ))
+
+
 ## Interact with auth methods.  This is an administrative command.
 R6_vault_client_auth <- R6::R6Class(
   "vault_client_auth",
@@ -189,6 +206,108 @@ R6_vault_client_auth <- R6::R6Class(
       assert_scalar_character(path)
       private$api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
       invisible(NULL)
+    }
+  ))
+
+
+R6_vault_client_kv <- R6::R6Class(
+  "vault_client_kv",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "kv",
+                          "Interact with vault's key/value store")
+    }
+  ))
+
+
+R6_vault_client_lease <- R6::R6Class(
+  "vault_client_lease",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "lease",
+                          "Interact with leases")
+    }
+  ))
+
+
+R6_vault_client_operator <- R6::R6Class(
+  "vault_client_operator",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "operator",
+                          "Administration commands for vault operators")
+    }
+  ))
+
+
+R6_vault_client_policy <- R6::R6Class(
+  "vault_client_policy",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "policy",
+                          "Interact with policies")
+    }
+  ))
+
+
+R6_vault_client_secrets <- R6::R6Class(
+  "vault_client_secrets",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "secrets",
+                          "Interact with secret engines")
+    }
+  ))
+
+
+R6_vault_client_token <- R6::R6Class(
+  "vault_client_token",
+
+  private = list(api_client = NULL),
+
+  public = list(
+    initialize = function(api_client) {
+      private$api_client <- api_client
+    },
+
+    format = function(brief = FALSE) {
+      vault_client_format(self, brief, "token",
+                          "Interact with tokens")
     }
   ))
 
