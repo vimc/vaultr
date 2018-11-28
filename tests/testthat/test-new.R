@@ -1,5 +1,7 @@
 context("new version")
 
+## -- basic
+
 test_that("read/write/list", {
   cl <- test_vault_client()
 
@@ -23,4 +25,42 @@ test_that("status", {
 
   expect_is(status, "list")
   expect_equal(status$progress, 0L)
+})
+
+## -- auth
+
+test_that("auth", {
+  cl <- test_vault_client()
+  expect_is(cl$auth, "vault_client_auth")
+  d <- cl$auth$list()
+  expect_equal(d$path, "token/")
+  expect_equal(d$type, "token")
+})
+
+
+test_that("basic auth", {
+  cl <- test_vault_client()
+  cl$auth$enable("userpass", "user / password based auth")
+  d <- cl$auth$list()
+  expect_setequal(d$path, c("token/", "userpass/"))
+  expect_setequal(d$type, c("token", "userpass"))
+
+  cl2 <- test_vault_client(login = FALSE)
+  expect_error(cl2$login(method = "userpass",
+                         username = "rich",
+                         password = "password"))
+
+  cl$write("/auth/userpass/users/rich",
+           list(password = "password", policies = "admins"))
+  t <- cl2$login(method = "userpass",
+                 username = "rich",
+                 password = "password")
+  expect_is(t, "character")
+  expect_match(t, "^[-[:xdigit:]]+$")
+
+  expect_equal(cl$list("auth/userpass/users"), "rich")
+
+  ## Cleanup:
+  cl$delete("auth/userpass/users/rich")
+  cl$auth$disable("userpass")
 })

@@ -104,14 +104,15 @@ R6_vault_client2 <- R6::R6Class(
     login = function(..., method = "token", renew = FALSE, quiet = FALSE,
                      token_only = FALSE) {
       do_auth <- renew || token_only || !private$api_client$is_authenticated()
-      data <- drop_null(list(...))
-      assert_named(data)
-      token <- vault_login_info(method)(private$api_client, data, quiet)
-      if (token_only) {
-        token
+      if (do_auth) {
+        token <- vault_login(private$api_client, method, quiet, ...)
       } else {
+        token <- NULL
+      }
+      if (!token_only) {
         private$api_client$set_token(token, verify = FALSE)
       }
+      invisible(token)
     },
 
     status = function() {
@@ -305,83 +306,6 @@ R6_vault_client_token <- R6::R6Class(
                           "Interact with tokens")
     }
   ))
-
-
-## These functions all get client tokens in different ways - there are
-## more of these - there should be a key/value one too.  I am not
-## certain that any of these really need verification though aside
-## from the plain token because everything else is going to go
-## _through_ the vault anyway.  So perhaps we just check the first:
-vault_token_token <- function(client, data, quiet) {
-  token <- vault_arg(data$token, "VAULT_TOKEN")
-  if (is.null(token)) {
-    stop("token not found (check $VAULT_TOKEN environment variable)")
-  }
-  assert_scalar_character(token)
-  if (!quiet) {
-    message("Verifying token")
-  }
-  client$verify_token(token)
-  token
-}
-
-
-vault_token_github <- function(client, data, quiet) {
-  if (!quiet) {
-    message("Authenticating using github...", appendLF = FALSE)
-  }
-
-  token <- vault_auth_github_token(data$token)
-  res <- client$POST("/auth/github/login",
-                     body = list(token = token),
-                     allow_missing_token = TRUE)
-  if (!quiet) {
-    lease <- res$auth$lease_duration
-    message(sprintf("ok, duration: %s s (%s)",
-                    lease, prettyunits::pretty_sec(lease, TRUE)))
-  }
-
-  res$auth$client_token
-}
-
-
-vault_login_userpass <- function(client, data, quiet) {
-  ## TODO: check that data contains both username and password
-  ##
-  ## TODO: get password using getPass in an interactive session, with
-  ## a wrapper for ease of testing
-  if (is.null(data$password)) {
-    msg <- sprintf("Password for '%s': ", data$username)
-    data$password <- read_password(msg)
-  }
-  assert_scalar_character(data$username, "username")
-  assert_scalar_character(data$password, "password")
-
-  path <- paste0("/auth/userpass/login/", data$username)
-  data <- list(password = data$password)
-  res <- client$POST(path, body = data, allow_missing_token = TRUE)
-
-  if (!quiet) {
-    lease <- res$auth$lease_duration
-    message(sprintf("ok, duration: %s s (%s)",
-                    lease, prettyunits::pretty_sec(lease, TRUE)))
-  }
-
-  res$auth$client_token
-}
-
-
-vault_login_info <- function(method) {
-  vault_methods <- list(
-    token = vault_token_token,
-    github = vault_token_github,
-    userpass = vault_login_userpass)
-  ret <- vault_methods[[method]]
-  if (is.null(ret)) {
-    stop(sprintf("Authentication method '%s' not supported", method))
-  }
-  ret
-}
 
 
 vault_client_format <- function(object, brief, name, description) {
