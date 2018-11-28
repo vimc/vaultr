@@ -43,23 +43,27 @@ strsub <- function(str, tr) {
   str
 }
 
-Sys_getenv <- function(var, unset = NULL, as = "character") {
-  value <- Sys.getenv(var, NA_character_)
+Sys_getenv <- function(name, unset = NULL, mode = "character", error = FALSE) {
+  value <- Sys.getenv(name, NA_character_)
   if (is.na(value)) {
+    if (error) {
+      stop(sprintf("Environment variable '%s' was not set", name),
+           call. = FALSE)
+    }
     value <- unset
-  } else if (as == "integer") {
+  } else if (mode == "integer") {
     if (!grepl("^-?[0-9]+$", value)) {
       stop(sprintf("Invalid input for integer '%s'", value))
     }
     value <- as.integer(value)
-  } else if (as != "character") {
-    stop("invalid value for 'as'")
+  } else if (mode != "character") {
+    stop("invalid value for 'mode'")
   }
   value
 }
 
-vault_arg <- function(x, var, as = "character") {
-  x %||% Sys_getenv(var, NULL, as)
+vault_arg <- function(x, name, mode = "character") {
+  x %||% Sys_getenv(name, NULL, mode)
 }
 
 download_file <- function(url, path = tempfile(), quiet = FALSE) {
