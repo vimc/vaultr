@@ -163,7 +163,6 @@ R6_vault_client_auth <- R6::R6Class(
         stop("Detailed auth information not supported")
       }
       dat <- private$api_client$GET("/sys/auth")
-      path <- dat$data
 
       cols <- c("type", "accessor", "description")
 
@@ -287,6 +286,48 @@ R6_vault_client_secrets <- R6::R6Class(
     format = function(brief = FALSE) {
       vault_client_format(self, brief, "secrets",
                           "Interact with secret engines")
+    },
+
+    disable = function(path) {
+      if (!is_absolute_path(path)) {
+        path <- paste0("/", path)
+      }
+      private$api_client$DELETE(paste0("/sys/mounts", path), to_json = FALSE)
+      invisible(NULL)
+    },
+
+    enable = function(type, path = type, description = NULL, version = NULL) {
+      ## TODO: there are many additional options here that are not
+      ## currently supported and which would come through the "config"
+      ## argument.
+      assert_scalar_character(type)
+      assert_scalar_character(path)
+      assert_scalar_character_or_null(description)
+
+      if (!is_absolute_path(path)) {
+        path <- paste0("/", path)
+      }
+      data <- list(type = type,
+                   description = description)
+      if (!is.null(version)) {
+        data$options <- list(version = as.character(version))
+      }
+      private$api_client$POST(paste0("/sys/mounts", path),
+                              body = data, to_json = FALSE)
+      invisible(path)
+    },
+
+    list = function(detailed = FALSE) {
+      if (detailed) {
+        stop("Detailed auth information not supported")
+      }
+      dat <- private$api_client$GET("/sys/mounts")
+      cols <- c("type", "accessor", "description")
+      ret <- lapply(cols, function(v)
+        vapply(dat$data, "[[", "", v, USE.NAMES = FALSE))
+      names(ret) <- cols
+      as.data.frame(c(list(path = names(dat$data)), ret),
+                    stringsAsFactors = FALSE, check.names = FALSE)
     }
   ))
 
@@ -327,8 +368,6 @@ vault_client_format <- function(object, brief, name, description) {
   } else {
     objs <- NULL
   }
-
-
 
   c(sprintf("<vault: %s>", name),
     objs,

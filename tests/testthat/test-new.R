@@ -64,3 +64,17 @@ test_that("basic auth", {
   cl$delete("auth/userpass/users/rich")
   cl$auth$disable("userpass")
 })
+
+
+## --- secrets
+
+test_that("enable/disable a secret engine", {
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", version = 2)
+  d <- cl$secrets$list()
+  expect_true("kv/" %in% d$path)
+  expect_equal(d$type["kv/" == d$path], "kv")
+  cl$secrets$disable("kv")
+  d <- cl$secrets$list()
+  expect_false("kv/" %in% d$path)
+})
