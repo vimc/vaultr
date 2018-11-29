@@ -199,3 +199,22 @@ test_that("kv: list", {
   kv$put(sprintf("%s/b/c", p), list(key = 1))
   expect_setequal(kv$list(p), c("a", "b/"))
 })
+
+
+test_that("kv: undelete", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+
+  kv$delete(path, 1)
+  expect_null(kv$get(path, 1))
+  kv$undelete(path, 1)
+  expect_equal(kv$get(path, 1), list(key = 1))
+})

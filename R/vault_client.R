@@ -241,7 +241,11 @@ R6_vault_client_kv <- R6::R6Class(
       } else {
         if (multiple_allowed) {
           assert_integer(version)
-          list(versions = version)
+          ## NOTE: The 'I' here is to stop httr "helpfully" unboxing
+          ## length-1 arrays.  The alternative solution would be to
+          ## manually convert to json, which is what we'll need to do
+          ## if dropping httr in favour of plain curl
+          list(versions = I(version))
         } else {
           assert_scalar_integer(version)
           list(version = version)
@@ -288,8 +292,6 @@ R6_vault_client_kv <- R6::R6Class(
       stop("not implemented")
     },
 
-    ## enable-versioning
-
     get = function(path, version = NULL, field = NULL,
                    metadata = FALSE, mount = NULL) {
       path <- private$validate_path(path, mount)
@@ -333,10 +335,6 @@ R6_vault_client_kv <- R6::R6Class(
       res$data
     },
 
-    patch = function(...) {
-      stop("not implemented")
-    },
-
     put = function(path, data, cas = NULL, mount = NULL) {
       assert_named(data)
       body <- list(data = data)
@@ -349,12 +347,14 @@ R6_vault_client_kv <- R6::R6Class(
       invisible(ret$data)
     },
 
-    rollback = function(...) {
+    patch = function(...) {
       stop("not implemented")
     },
 
-    undelete = function(...) {
-      stop("not implemented")
+    undelete = function(path, version, mount = NULL) {
+      path <- private$validate_path(path, mount)
+      body <- private$validate_version(version, TRUE)
+      private$api_client$POST(path$undelete, body = body, to_json = FALSE)
     }
   ))
 
