@@ -218,3 +218,22 @@ test_that("kv: undelete", {
   kv$undelete(path, 1)
   expect_equal(kv$get(path, 1), list(key = 1))
 })
+
+
+test_that("kv: destroy", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+
+  kv$destroy(path, 2)
+  expect_null(kv$get(path))
+  kv$undelete(path, 2)
+  expect_null(kv$get(path))
+})

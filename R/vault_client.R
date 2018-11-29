@@ -287,9 +287,12 @@ R6_vault_client_kv <- R6::R6Class(
       invisible(NULL)
     },
 
-    destroy = function(path, version) {
-
-      stop("not implemented")
+    destroy = function(path, version, mount = NULL) {
+      path <- private$validate_path(path, mount)
+      body <- private$validate_version(version, TRUE)
+      res <- private$api_client$POST(path$destroy, body = body,
+                                     to_json = FALSE)
+      invisible(NULL)
     },
 
     get = function(path, version = NULL, field = NULL,
@@ -355,6 +358,7 @@ R6_vault_client_kv <- R6::R6Class(
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)
       private$api_client$POST(path$undelete, body = body, to_json = FALSE)
+      invisible(NULL)
     }
   ))
 
