@@ -228,7 +228,19 @@ R6_vault_client_kv <- R6::R6Class(
 
       list(mount = mount,
            relative = relative,
-           full = sprintf("/%s/data/%s", mount, relative))
+           data = sprintf("/%s/data/%s", mount, relative),
+           metadata = sprintf("/%s/metadata/%s", mount, relative),
+           delete = sprintf("/%s/delete/%s", mount, relative),
+           undelete = sprintf("/%s/undelete/%s", mount, relative))
+    },
+
+    validate_version = function(version) {
+      if (is.null(version)) {
+        NULL
+      } else {
+        assert_scalar_integer(version)
+        list(version = version)
+      }
     }
   ),
 
@@ -260,8 +272,28 @@ R6_vault_client_kv <- R6::R6Class(
 
     ## enable-versioning
 
-    get = function(path, version = NULL) {
-      stop("not implemented")
+    get = function(path, version = NULL, field = NULL,
+                   metadata = FALSE, mount = NULL) {
+      path <- private$validate_path(path, mount)
+      query <- private$validate_version(version)
+      assert_scalar_logical(metadata)
+      assert_scalar_character_or_null(field)
+
+      res <- tryCatch(
+        private$api_client$GET(path$data, query = query),
+        vault_invalid_path = function(e) NULL)
+
+      if (is.null(res)) {
+        return(NULL)
+      }
+
+      ret <- res$data$data
+      if (!is.null(field)) {
+        ret <- ret[[field]]
+      } else if (metadata) {
+        attr(ret, "metadata") <- res$data$metadata
+      }
+      ret
     },
 
     list = function(...) {
@@ -284,7 +316,7 @@ R6_vault_client_kv <- R6::R6Class(
         body$options <- list(cas = cas)
       }
       path <- private$validate_path(path, mount)
-      ret <- private$api_client$POST(path$full, body = body, to_json = TRUE)
+      ret <- private$api_client$POST(path$data, body = body, to_json = TRUE)
       invisible(ret$data)
     },
 

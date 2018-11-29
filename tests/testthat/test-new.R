@@ -82,7 +82,7 @@ test_that("enable/disable a secret engine", {
 
 ## --- k/v
 
-test_that("kv", {
+test_that("kv: basic set/get", {
   p <- rand_str(10)
   cl <- test_vault_client()
   cl$secrets$enable("kv", p, version = 2)
@@ -95,4 +95,9 @@ test_that("kv", {
   meta <- kv$put(path, data)
   expect_is(meta, "list")
   expect_equal(meta$version, 1L)
+
+  expect_equal(kv$get(path), data)
+  expect_equal(kv$get(path, field = "key"), data$key)
+  expect_equal(kv$get(path, metadata = TRUE),
+               structure(data, metadata = meta))
 })
