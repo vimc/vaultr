@@ -256,6 +256,11 @@ R6_vault_client_kv <- R6::R6Class(
                           "Interact with vault's key/value store")
     },
 
+    config = function(mount = NULL) {
+      path <- sprintf("%s/config", mount %||% private$mount)
+      private$api_client$GET(path)
+    },
+
     custom_mount = function(mount) {
       R6_vault_client_kv$new(private$api_client, mount)
     },
@@ -301,7 +306,10 @@ R6_vault_client_kv <- R6::R6Class(
     },
 
     metadata = function(...) {
-      stop("not implemented")
+      path <- private$validate_path(path, mount)
+      query <- private$validate_version(version)
+      data <- private$api_client$GET(path$data, query = query)
+
     },
 
     patch = function(...) {

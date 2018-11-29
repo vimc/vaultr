@@ -101,3 +101,14 @@ test_that("kv: basic set/get", {
   expect_equal(kv$get(path, metadata = TRUE),
                structure(data, metadata = meta))
 })
+
+
+test_that("kv: config", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+  config <- cl$kv$config(p)
+  expect_is(config, "list")
+  expect_equal(config$lease_duration, 0)
+})
