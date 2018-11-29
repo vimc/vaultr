@@ -212,7 +212,7 @@ R6_vault_client_kv <- R6::R6Class(
     api_client = NULL,
     mount = NULL,
 
-    validate_path = function(path, mount) {
+    validate_path = function(path, mount, zero_length_ok = FALSE) {
       path <- sub("^/", "", path)
       mount <- mount %||% private$mount
 
@@ -222,7 +222,7 @@ R6_vault_client_kv <- R6::R6Class(
       }
       relative <- substr(path, nchar(mount) + 2, nchar(path))
 
-      if (!nzchar(relative)) {
+      if (!zero_length_ok && !nzchar(relative)) {
         stop("Invalid path")
       }
 
@@ -231,7 +231,8 @@ R6_vault_client_kv <- R6::R6Class(
            data = sprintf("/%s/data/%s", mount, relative),
            metadata = sprintf("/%s/metadata/%s", mount, relative),
            delete = sprintf("/%s/delete/%s", mount, relative),
-           undelete = sprintf("/%s/undelete/%s", mount, relative))
+           undelete = sprintf("/%s/undelete/%s", mount, relative),
+           destroy = sprintf("/%s/destroy/%s", mount, relative))
     },
 
     validate_version = function(version, multiple_allowed = FALSE) {
@@ -313,8 +314,12 @@ R6_vault_client_kv <- R6::R6Class(
       ret
     },
 
-    list = function(...) {
-      stop("not implemented")
+    list = function(path, mount = NULL) {
+      path <- private$validate_path(path, mount, TRUE)
+      res <- tryCatch(
+        private$api_client$LIST(path$metadata),
+        vault_invalid_path = function(e) NULL)
+      list_to_character(res$data$keys)
     },
 
     metadata = function(path, mount = NULL) {

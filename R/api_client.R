@@ -53,6 +53,10 @@ vault_api_client <- R6::R6Class(
       self$request(httr::GET, path, ...)
     },
 
+    LIST = function(path, ...) {
+      self$request(httr_LIST, path, ...)
+    },
+
     POST = function(path, ...) {
       self$request(httr::POST, path, ...)
     },
@@ -92,4 +96,9 @@ vault_base_url <- function(addr, api_prefix) {
   }
 
   paste0(addr, api_prefix)
+}
+
+
+httr_LIST <- function(...) {
+  httr::VERB("LIST", ...)
 }

@@ -180,3 +180,22 @@ test_that("kv: delete multiple versions", {
   expect_true(nzchar(m$versions[["2"]]$deletion_time))
   expect_false(nzchar(m$versions[["3"]]$deletion_time))
 })
+
+
+test_that("kv: list", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+  kv$put(path, list(key = 1))
+
+  expect_equal(kv$list(p), "a")
+  expect_equal(kv$list(path), character(0))
+
+  kv$put(sprintf("%s/b/c", p), list(key = 1))
+  expect_setequal(kv$list(p), c("a", "b/"))
+})
