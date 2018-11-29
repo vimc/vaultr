@@ -281,8 +281,7 @@ R6_vault_client_kv <- R6::R6Class(
         private$api_client$DELETE(path$data, to_json = FALSE)
       } else {
         body <- private$validate_version(version, TRUE)
-        res <- private$api_client$POST(path$delete, body = body,
-                                       to_json = FALSE)
+        private$api_client$POST(path$delete, body = body, to_json = FALSE)
       }
       invisible(NULL)
     },
@@ -290,8 +289,7 @@ R6_vault_client_kv <- R6::R6Class(
     destroy = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)
-      res <- private$api_client$POST(path$destroy, body = body,
-                                     to_json = FALSE)
+      private$api_client$POST(path$destroy, body = body, to_json = FALSE)
       invisible(NULL)
     },
 
@@ -327,7 +325,7 @@ R6_vault_client_kv <- R6::R6Class(
       list_to_character(res$data$keys)
     },
 
-    metadata = function(path, mount = NULL) {
+    metadata_get = function(path, mount = NULL) {
       path <- private$validate_path(path, mount)
       res <- tryCatch(
         private$api_client$GET(path$metadata),
@@ -336,6 +334,21 @@ R6_vault_client_kv <- R6::R6Class(
         return(NULL)
       }
       res$data
+    },
+
+    metadata_put = function(path, cas_required = NULL, max_versions = NULL,
+                            mount = NULL) {
+      path <- private$validate_path(path, mount)
+      body <- drop_null(list(
+        cas_required = cas_required, max_versions = max_versions))
+      private$api_client$POST(path$metadata, body = body, to_json = FALSE)
+      invisible(NULL)
+    },
+
+    metadata_delete = function(path, mount = NULL) {
+      path <- private$validate_path(path, mount)
+      private$api_client$DELETE(path$metadata, to_json = FALSE)
+      invisible(NULL)
     },
 
     put = function(path, data, cas = NULL, mount = NULL) {

@@ -129,7 +129,7 @@ test_that("kv: versions", {
 
   expect_equal(kv$get(path, 1), list(key = 1))
   expect_equal(kv$get(path, 2), list(key = 2))
-  m <- kv$metadata(path)
+  m <- kv$metadata_get(path)
   expect_equal(length(m$versions), 2)
   expect_setequal(names(m$versions), c("1", "2"))
   expect_equal(m$current_version, 2L)
@@ -153,7 +153,7 @@ test_that("kv: delete latest version", {
   expect_equal(kv$get(path, version = 1), list(key = 1))
   expect_null(kv$get(path))
 
-  m <- kv$metadata(path)
+  m <- kv$metadata_get(path)
   expect_false(nzchar(m$versions[["1"]]$deletion_time))
   expect_true(nzchar(m$versions[["2"]]$deletion_time))
 })
@@ -175,7 +175,7 @@ test_that("kv: delete multiple versions", {
 
   kv$delete(path, version = 1:2)
 
-  m <- kv$metadata(path)
+  m <- kv$metadata_get(path)
   expect_true(nzchar(m$versions[["1"]]$deletion_time))
   expect_true(nzchar(m$versions[["2"]]$deletion_time))
   expect_false(nzchar(m$versions[["3"]]$deletion_time))
@@ -236,4 +236,38 @@ test_that("kv: destroy", {
   expect_null(kv$get(path))
   kv$undelete(path, 2)
   expect_null(kv$get(path))
+})
+
+
+test_that("kv: metadata put", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  path <- sprintf("%s/a", p)
+  kv <- cl$kv$custom_mount(p)
+  kv$metadata_put(path, cas_required = TRUE, max_versions = 10)
+  d <- kv$metadata_get(path)
+  expect_true(d$cas_required)
+  expect_equal(d$max_versions, 10)
+  expect_equal(d$versions, setNames(list(), character()))
+})
+
+
+test_that("kv: metadata delete", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+
+  kv$metadata_delete(path)
+  expect_null(kv$get(path))
+  expect_null(kv$metadata_get(path))
 })
