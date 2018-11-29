@@ -78,3 +78,21 @@ test_that("enable/disable a secret engine", {
   d <- cl$secrets$list()
   expect_false("kv/" %in% d$path)
 })
+
+
+## --- k/v
+
+test_that("kv", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  kv <- cl$kv$custom_mount(p)
+
+  path <- sprintf("%s/a", p)
+  data <- list(key = rand_str(10))
+  meta <- kv$put(path, data)
+  expect_is(meta, "list")
+  expect_equal(meta$version, 1L)
+})

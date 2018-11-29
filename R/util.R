@@ -152,3 +152,7 @@ prepare_path <- function(path) {
 rand_str <- function(n) {
   paste0(sample(letters, n, TRUE), collapse = "")
 }
+
+string_starts_with <- function(x, sub) {
+  substr(x, 1, nchar(sub)) == sub
+}

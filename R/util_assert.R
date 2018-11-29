@@ -26,6 +26,18 @@ assert_character <- function(x, name = deparse(substitute(x))) {
   }
 }
 
+assert_integer <- function(x, strict = FALSE, name = deparse(substitute(x)),
+                           what = "integer") {
+  if (!(is.integer(x))) {
+    usable_as_integer <-
+      !strict && is.numeric(x) && (max(abs(round(x) - x)) < 1e-8)
+    if (!usable_as_integer) {
+      stop(sprintf("'%s' must be %s", name, what), call. = FALSE)
+    }
+  }
+  invisible(x)
+}
+
 
 assert_logical <- function(x, name = deparse(substitute(x))) {
   if (!is.logical(x)) {
@@ -44,6 +56,13 @@ assert_named <- function(x, name = deparse(substitute(x))) {
 assert_scalar_character <- function(x, name = deparse(substitute(x))) {
   assert_scalar(x, name)
   assert_character(x, name)
+}
+
+
+assert_scalar_integer <- function(x, strict = FALSE,
+                                  name = deparse(substitute(x))) {
+  assert_scalar(x, name)
+  assert_integer(x, strict, name)
 }
 
 

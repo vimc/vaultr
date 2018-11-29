@@ -35,7 +35,7 @@ R6_vault_client2 <- R6::R6Class(
 
       self$auth <- R6_vault_client_auth$new(api_client)
       self$audit <- R6_vault_client_audit$new(api_client)
-      self$kv <- R6_vault_client_kv$new(api_client)
+      self$kv <- R6_vault_client_kv$new(api_client, "secret")
       self$lease <- R6_vault_client_lease$new(api_client)
       self$operator <- R6_vault_client_operator$new(api_client)
       self$policy <- R6_vault_client_policy$new(api_client)
@@ -208,16 +208,92 @@ R6_vault_client_auth <- R6::R6Class(
 R6_vault_client_kv <- R6::R6Class(
   "vault_client_kv",
 
-  private = list(api_client = NULL),
+  private = list(
+    api_client = NULL,
+    mount = NULL,
+
+    validate_path = function(path, mount) {
+      path <- sub("^/", "", path)
+      mount <- mount %||% private$mount
+
+      if (!string_starts_with(path, mount)) {
+        stop(sprintf(
+          "Invalid mount given for this path - expected '%s'", mount))
+      }
+      relative <- substr(path, nchar(mount) + 2, nchar(path))
+
+      if (!nzchar(relative)) {
+        stop("Invalid path")
+      }
+
+      list(mount = mount,
+           relative = relative,
+           full = sprintf("/%s/data/%s", mount, relative))
+    }
+  ),
 
   public = list(
-    initialize = function(api_client) {
+    initialize = function(api_client, mount) {
+      assert_scalar_character(mount)
+      private$mount <- sub("^/", "", mount)
       private$api_client <- api_client
     },
 
     format = function(brief = FALSE) {
       vault_client_format(self, brief, "kv",
                           "Interact with vault's key/value store")
+    },
+
+    custom_mount = function(mount) {
+      R6_vault_client_kv$new(private$api_client, mount)
+    },
+
+    delete = function(path, version) {
+      ## TODO: the cli supports 'versions' but what does that
+      ## correspond to in the api?
+      stop("not implemented")
+    },
+
+    destroy = function(path, version) {
+      stop("not implemented")
+    },
+
+    ## enable-versioning
+
+    get = function(path, version = NULL) {
+      stop("not implemented")
+    },
+
+    list = function(...) {
+      stop("not implemented")
+    },
+
+    metadata = function(...) {
+      stop("not implemented")
+    },
+
+    patch = function(...) {
+      stop("not implemented")
+    },
+
+    put = function(path, data, cas = NULL, mount = NULL) {
+      assert_named(data)
+      body <- list(data = data)
+      if (!is.null(cas)) {
+        assert_scalar_integer(cas)
+        body$options <- list(cas = cas)
+      }
+      path <- private$validate_path(path, mount)
+      ret <- private$api_client$POST(path$full, body = body, to_json = TRUE)
+      invisible(ret$data)
+    },
+
+    rollback = function(...) {
+      stop("not implemented")
+    },
+
+    undelete = function(...) {
+      stop("not implemented")
     }
   ))
 
