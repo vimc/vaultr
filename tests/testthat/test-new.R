@@ -80,6 +80,19 @@ test_that("enable/disable a secret engine", {
 })
 
 
+test_that("move a secret engine", {
+  cl <- test_vault_client()
+  p1 <- rand_str(10)
+  p2 <- rand_str(10)
+  cl$secrets$enable("kv", p1, version = 2)
+  cl$secrets$move(p1, p2)
+  d <- cl$secrets$list()
+  cl$secrets$disable(p2)
+  expect_true(paste0(p2, "/") %in% d$path)
+  expect_false(paste0(p1, "/") %in% d$path)
+})
+
+
 ## --- k/v
 
 test_that("kv: basic set/get", {

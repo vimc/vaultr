@@ -482,6 +482,14 @@ R6_vault_client_secrets <- R6::R6Class(
       names(ret) <- cols
       as.data.frame(c(list(path = names(dat$data)), ret),
                     stringsAsFactors = FALSE, check.names = FALSE)
+    },
+
+    move = function(from, to) {
+      assert_scalar_character(from)
+      assert_scalar_character(to)
+      body <- list(from = from, to = to)
+      private$api_client$POST("/sys/remount", body = body, to_json = FALSE)
+      invisible(NULL)
     }
   ))
 
