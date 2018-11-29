@@ -112,3 +112,71 @@ test_that("kv: config", {
   expect_is(config, "list")
   expect_equal(config$lease_duration, 0)
 })
+
+
+test_that("kv: versions", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+
+  expect_equal(kv$get(path, 1), list(key = 1))
+  expect_equal(kv$get(path, 2), list(key = 2))
+  m <- kv$metadata(path)
+  expect_equal(length(m$versions), 2)
+  expect_setequal(names(m$versions), c("1", "2"))
+  expect_equal(m$current_version, 2L)
+})
+
+
+test_that("kv: delete latest version", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+
+  kv$delete(path)
+  expect_equal(kv$get(path, version = 1), list(key = 1))
+  expect_null(kv$get(path))
+
+  m <- kv$metadata(path)
+  expect_false(nzchar(m$versions[["1"]]$deletion_time))
+  expect_true(nzchar(m$versions[["2"]]$deletion_time))
+})
+
+
+test_that("kv: delete multiple versions", {
+  p <- rand_str(10)
+  cl <- test_vault_client()
+  cl$secrets$enable("kv", p, version = 2)
+  on.exit(cl$secrets$disable(p))
+
+  cl <- test_vault_client()
+  kv <- cl$kv$custom_mount(p)
+  path <- sprintf("%s/a", p)
+
+  kv$put(path, list(key = 1))
+  kv$put(path, list(key = 2))
+  kv$put(path, list(key = 3))
+
+  kv$delete(path, version = 1:2)
+
+  m <- kv$metadata(path)
+  expect_true(nzchar(m$versions[["1"]]$deletion_time))
+  expect_true(nzchar(m$versions[["2"]]$deletion_time))
+  expect_false(nzchar(m$versions[["3"]]$deletion_time))
+})

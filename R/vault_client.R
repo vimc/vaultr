@@ -234,12 +234,17 @@ R6_vault_client_kv <- R6::R6Class(
            undelete = sprintf("/%s/undelete/%s", mount, relative))
     },
 
-    validate_version = function(version) {
+    validate_version = function(version, multiple_allowed = FALSE) {
       if (is.null(version)) {
         NULL
       } else {
-        assert_scalar_integer(version)
-        list(version = version)
+        if (multiple_allowed) {
+          assert_integer(version)
+          list(versions = version)
+        } else {
+          assert_scalar_integer(version)
+          list(version = version)
+        }
       }
     }
   ),
@@ -265,13 +270,20 @@ R6_vault_client_kv <- R6::R6Class(
       R6_vault_client_kv$new(private$api_client, mount)
     },
 
-    delete = function(path, version) {
-      ## TODO: the cli supports 'versions' but what does that
-      ## correspond to in the api?
-      stop("not implemented")
+    delete = function(path, version = NULL, mount = NULL) {
+      path <- private$validate_path(path, mount)
+      if (is.null(version)) {
+        private$api_client$DELETE(path$data, to_json = FALSE)
+      } else {
+        body <- private$validate_version(version, TRUE)
+        res <- private$api_client$POST(path$delete, body = body,
+                                       to_json = FALSE)
+      }
+      invisible(NULL)
     },
 
     destroy = function(path, version) {
+
       stop("not implemented")
     },
 
@@ -305,11 +317,15 @@ R6_vault_client_kv <- R6::R6Class(
       stop("not implemented")
     },
 
-    metadata = function(...) {
+    metadata = function(path, mount = NULL) {
       path <- private$validate_path(path, mount)
-      query <- private$validate_version(version)
-      data <- private$api_client$GET(path$data, query = query)
-
+      res <- tryCatch(
+        private$api_client$GET(path$metadata),
+        vault_invalid_path = function(e) NULL)
+      if (is.null(res)) {
+        return(NULL)
+      }
+      res$data
     },
 
     patch = function(...) {
