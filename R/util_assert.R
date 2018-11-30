@@ -95,7 +95,7 @@ assert_path_prefix <- function(path, starts_with) {
 
 
 assert_file_exists <- function(path, name = deparse(substitute(path))) {
-  assert_scalar_character(path, description)
+  assert_scalar_character(path, name)
   if (!file.exists(path)) {
     stop(sprintf("The path '%s' does not exist (for '%s')", path, name),
          call. = FALSE)
