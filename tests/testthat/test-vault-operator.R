@@ -78,3 +78,16 @@ test_that("seal", {
   cl$operator$seal()
   expect_true(cl$operator$seal_status()$sealed)
 })
+
+
+test_that("rotate", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  d1 <- cl$operator$key_status()
+  expect_null(cl$operator$rotate())
+  d2 <- cl$operator$key_status()
+
+  expect_equal(d1$term, 1)
+  expect_equal(d2$term, 2)
+})

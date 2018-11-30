@@ -403,6 +403,10 @@ R6_vault_client_operator <- R6::R6Class(
                           "Administration commands for vault operators")
     },
 
+    key_status = function() {
+      private$api_client$GET("/sys/key-status")
+    },
+
     is_initialized = function() {
       d <- private$api_client$GET("/sys/init", allow_missing_token = TRUE)
       d$initialized
@@ -460,6 +464,11 @@ R6_vault_client_operator <- R6::R6Class(
         ans$keys_base64 <- list_to_character(ans$keys_base64)
       }
       ans
+    },
+
+    rotate = function() {
+      private$api_client$PUT("/sys/rotate")
+      invisible(NULL)
     },
 
     seal = function() {
