@@ -13,10 +13,19 @@
 ##' testing environments.
 ##'
 ##' @title Control a test vault server
+##'
+##' @param https Logical scalar, indicating if a https-using server
+##'   should be created, rather than the default vault dev-mode
+##'   server.  This is still \emph{entirely} insecure, and uses self
+##'   signed certificates that are bundled with the package.
+##'
+##' @param init Logical scalar, indicating if the https-using server
+##'   should be initialised.
+##'
 ##' @export
 ##' @rdname vault_test_server
-vault_test_server <- function(https = FALSE) {
-  vault_server_manager()$new_server(https)
+vault_test_server <- function(https = FALSE, init = TRUE) {
+  vault_server_manager()$new_server(https, init)
 }
 
 
@@ -116,12 +125,12 @@ R6_vault_server_manager <- R6::R6Class(
       ret
     },
 
-    new_server = function(https = FALSE) {
+    new_server = function(https = FALSE, init = TRUE) {
       if (!self$enabled) {
         testthat::skip("vault server is not enabled")
       }
       tryCatch(
-        vault_server_instance$new(self$bin, self$new_port(), https),
+        vault_server_instance$new(self$bin, self$new_port(), https, init),
         error = function(e)
           testthat::skip(paste("vault server failed to start:",
                                e$message)))
@@ -137,17 +146,19 @@ vault_server_instance <- R6::R6Class(
 
     process = NULL,
     addr = NULL,
+    cacert = NULL,
 
     token = NULL,
     keys = NULL,
 
-    initialize = function(bin, port, https = FALSE) {
+    initialize = function(bin, port, https, init) {
       assert_scalar_integer(port)
       self$port <- port
 
       bin <- normalizePath(bin, mustWork = TRUE)
       if (https) {
-        dat <- vault_server_start_https(bin, self$port)
+        assert_scalar_logical(init)
+        dat <- vault_server_start_https(bin, self$port, init)
       } else {
         dat <- vault_server_start_dev(bin, self$port)
       }
@@ -158,8 +169,8 @@ vault_server_instance <- R6::R6Class(
     },
 
     client = function(login = TRUE, quiet = TRUE) {
-      cl <- vault_client2(self$addr)
-      if (login) {
+      cl <- vault_client2(self$addr, self$cacert)
+      if (login && !is.null(self$token)) {
         cl$login(token = self$token, quiet = quiet)
       }
       cl
@@ -264,6 +275,7 @@ vault_server_start_https <- function(bin, port, init) {
   on.exit(process$kill())
 
   addr <- sprintf("https://127.0.0.1:%d", port)
+  cacert <- file.path(config_path, "server-cert.pem")
   cl <- vault_client2(addr, cacert)
 
   ## Here, our test function is a bit different because we're not
@@ -271,20 +283,24 @@ vault_server_start_https <- function(bin, port, init) {
   ## accept connections
   vault_server_wait(function() !cl$operator$is_initialized(), process)
 
-  n <- 3
-  t <- 2
-  res <- cl$sys$init(n, t)
-  keys <- res$keys_base64
-  for (i in seq_len(t)) {
-    cl$sys$unseal(keys[[i]])
+  if (init) {
+    res <- cl$operator$init(5, 3) # 5 / 3 key split
+    keys <- res$keys_base64
+    root_token <- res$root_token
+    for (k in keys) {
+      cl$operator$unseal(k)
+    }
+  } else {
+    keys <- NULL
+    root_token <- NULL
   }
-
   on.exit()
 
   list(process = process,
        addr = addr,
-       token = res$root_token,
-       keys = keys)
+       token = root_token,
+       keys = keys,
+       cacert = cacert)
 }
 
 

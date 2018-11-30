@@ -48,3 +48,23 @@ test_that("cancel rekey", {
   ans <- cl$operator$rekey_status()
   expect_false(ans$started)
 })
+
+
+test_that("init", {
+  srv <- vault_test_server(https = TRUE, init = FALSE)
+  cl <- srv$client()
+
+  dat <- cl$operator$init(5, 3)
+  expect_is(dat$keys, "character")
+  expect_is(dat$keys_base64, "character")
+  expect_equal(length(dat$keys), 5)
+  expect_equal(length(dat$keys_base64), 5)
+
+  v <- c("sealed", "progress")
+  expect_equal(cl$operator$unseal(dat$keys[[1]])[v],
+               list(sealed = TRUE, progress = 1L))
+  expect_equal(cl$operator$unseal(dat$keys[[2]])[v],
+               list(sealed = TRUE, progress = 2L))
+  expect_equal(cl$operator$unseal(dat$keys[[3]])[v],
+               list(sealed = FALSE, progress = 0L))
+})
