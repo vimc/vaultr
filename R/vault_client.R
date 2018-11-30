@@ -354,7 +354,7 @@ R6_vault_client_kv <- R6::R6Class(
         body$options <- list(cas = cas)
       }
       path <- private$validate_path(path, mount)
-      private$api_client$POST(path$data, body = body)
+      ret <- private$api_client$POST(path$data, body = body)
       invisible(ret$data)
     },
 
