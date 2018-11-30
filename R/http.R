@@ -28,7 +28,10 @@ vault_client_response <- function(res, to_json = TRUE) {
     }
     stop(vault_error(code, text, errors))
   }
-  if (to_json) {
+
+  if (code == 204) {
+    res <- NULL
+  } else if (to_json) {
     res <- response_to_json(res)
   }
   res
