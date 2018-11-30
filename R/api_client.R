@@ -61,6 +61,10 @@ vault_api_client <- R6::R6Class(
       self$request(httr::POST, path, ...)
     },
 
+    PUT = function(path, ...) {
+      self$request(httr::PUT, path, ...)
+    },
+
     DELETE = function(path, ...) {
       self$request(httr::DELETE, path, ...)
     }
