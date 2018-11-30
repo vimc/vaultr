@@ -95,8 +95,8 @@ vault_base_url <- function(addr, api_prefix) {
   if (is.na(addr)) {
     stop("vault address not found")
   }
-  if (!grepl("^https://.+", addr)) {
-    stop("Expected an https url for vault addr")
+  if (!grepl("^https?://.+", addr)) {
+    stop("Expected an http or https url for vault addr")
   }
 
   paste0(addr, api_prefix)
