@@ -406,6 +406,11 @@ R6_vault_client_operator <- R6::R6Class(
     format = function(brief = FALSE) {
       vault_client_format(self, brief, "operator",
                           "Administration commands for vault operators")
+    },
+
+    is_initialized = function() {
+      d <- private$api_client$GET("/sys/init", allow_missing_token = TRUE)
+      d$initialized
     }
   ))
 
