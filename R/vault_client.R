@@ -112,7 +112,7 @@ R6_vault_client2 <- R6::R6Class(
     },
 
     status = function() {
-      private$api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
+      self$operator$seal_status()
     },
 
     upwrap = function(...) {
@@ -460,6 +460,15 @@ R6_vault_client_operator <- R6::R6Class(
         ans$keys_base64 <- list_to_character(ans$keys_base64)
       }
       ans
+    },
+
+    seal = function() {
+      private$api_client$PUT("/sys/seal")
+      invisible(NULL)
+    },
+
+    seal_status = function() {
+      private$api_client$GET("/sys/seal-status", allow_missing_token = TRUE)
     },
 
     unseal = function(key, reset = FALSE) {

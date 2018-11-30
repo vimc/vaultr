@@ -68,3 +68,13 @@ test_that("init", {
   expect_equal(cl$operator$unseal(dat$keys[[3]])[v],
                list(sealed = FALSE, progress = 0L))
 })
+
+
+test_that("seal", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  expect_false(cl$operator$seal_status()$sealed)
+  cl$operator$seal()
+  expect_true(cl$operator$seal_status()$sealed)
+})
