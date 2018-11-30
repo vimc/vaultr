@@ -48,6 +48,10 @@ R6_vault_client2 <- R6::R6Class(
                           "core methods for interacting with vault")
     },
 
+    api = function() {
+      private$api_client
+    },
+
     ## Basic methods:
     read = function(path, field = NULL, info = FALSE) {
       res <- tryCatch(
