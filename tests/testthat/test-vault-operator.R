@@ -91,3 +91,12 @@ test_that("rotate", {
   expect_equal(d1$term, 1)
   expect_equal(d2$term, 2)
 })
+
+
+test_that("leader status", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  d <- cl$operator$leader_status()
+  expect_false(d$ha_enabled)
+})

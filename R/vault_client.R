@@ -425,6 +425,10 @@ R6_vault_client_operator <- R6::R6Class(
       res
     },
 
+    leader_status = function() {
+      private$api_client$GET("/sys/leader")
+    },
+
     rekey_status = function() {
       private$api_client$GET("/sys/rekey/init")
     },
