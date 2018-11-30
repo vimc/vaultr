@@ -1,6 +1,7 @@
 context("vaultr")
 
 test_that("addr", {
+  skip("old tests disabled")
   withr::with_envvar(c("VAULT_ADDR" = NA_character_), {
     expect_error(vault_addr(NULL), "vault address not found")
     expect_error(vault_addr(NA_character_), "vault address not found")
@@ -13,6 +14,7 @@ test_that("addr", {
 })
 
 test_that("auth_github_token", {
+  skip("old tests disabled")
   withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = NA_character_), {
     expect_equal(vault_auth_github_token(NULL), NA_character_)
     expect_equal(vault_auth_github_token("abcd"), "abcd")
@@ -24,6 +26,7 @@ test_that("auth_github_token", {
 })
 
 test_that("unseal_multi", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   on.exit(vault_test_server()$unseal()) # in case things go wrong
 
@@ -58,12 +61,14 @@ test_that("unseal_multi", {
 })
 
 test_that("sys_leader_status", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   st <- vault_test_client()$sys_leader_status()
   expect_true("ha_enabled" %in% names(st))
 })
 
 test_that("generic: nonexistant keys", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic)
   expect_error(cl$read("foo"), "Expected path to start with '/secret/'",
@@ -74,6 +79,7 @@ test_that("generic: nonexistant keys", {
 })
 
 test_that("generic: invalid data", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic)
   expect_error(cl$write("/secret/foo", NULL), "'data' must be named")
@@ -81,6 +87,7 @@ test_that("generic: invalid data", {
 })
 
 test_that("generic: basic CRUD", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic)
   expect_null(cl$write("/secret/foo", list(value = "whatever")))
@@ -104,6 +111,7 @@ test_that("generic: basic CRUD", {
 })
 
 test_that("generic: recursive list", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic)
 
@@ -133,6 +141,7 @@ test_that("generic: recursive list", {
 })
 
 test_that("generic: ttl", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic)
   cl$write("/secret/foo", list(password = "yo"), ttl = "1h")
@@ -145,6 +154,7 @@ test_that("generic: ttl", {
 })
 
 test_that("generic: auth", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(vault_client_generic, auth = FALSE)
   expect_error(cl$read("/secret/foo"), "Have not authenticated against vault")
@@ -155,6 +165,7 @@ test_that("generic: auth", {
 })
 
 test_that("backends", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client()
   res <- cl$list_backends()
@@ -164,6 +175,7 @@ test_that("backends", {
 })
 
 test_that("policy", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client()
   expect_true(setequal(cl$policy_list(), c("default", "root")))
@@ -181,6 +193,7 @@ test_that("policy", {
 })
 
 test_that("insecure", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_client(auth_method = "token",
                      token = vault_test_server()$root_token,
@@ -191,6 +204,7 @@ test_that("insecure", {
 })
 
 test_that("auth: message", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   cl <- vault_test_client(auth = FALSE)
   vault_clear_token_cache()
@@ -219,6 +233,7 @@ test_that("cache clearing - session", {
 })
 
 test_that("cache clearning - persistent", {
+  skip("old tests disabled")
   cache_dir <- tempfile()
   dir.create(cache_dir)
   v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
@@ -241,6 +256,7 @@ test_that("cache clearning - persistent", {
 context("vault: slow tests")
 
 test_that("github auth", {
+  skip("old tests disabled")
   skip_if_no_vault_test_server()
   try_auth <- has_auth_github_token() && has_internet()
   cl <- vault_test_client()
