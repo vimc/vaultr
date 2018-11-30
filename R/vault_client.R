@@ -71,16 +71,12 @@ R6_vault_client2 <- R6::R6Class(
 
     write = function(path, data) {
       assert_named(data)
-      res <- private$api_client$POST(path, body = data, to_json = FALSE)
-      if (httr::status_code(res) == 200) {
-        response_to_json(res)
-      } else {
-        invisible(NULL)
-      }
+      private$api_client$POST(path, body = data)
+      invisible(NULL)
     },
 
     delete = function(path) {
-      private$api_client$DELETE(path, to_json = FALSE)
+      private$api_client$DELETE(path)
       invisible(NULL)
     },
 
@@ -193,13 +189,12 @@ R6_vault_client_auth <- R6::R6Class(
                              description = description,
                              local = local,
                              plugin_name = plugin_name))
-      private$api_client$POST(paste0("/sys/auth/", path),
-                            body = data, to_json = FALSE)
+      private$api_client$POST(paste0("/sys/auth/", path), body = data)
       invisible(NULL)
     },
 
     disable = function(path) {
-      private$api_client$DELETE(paste0("/sys/auth/", path), to_json = FALSE)
+      private$api_client$DELETE(paste0("/sys/auth/", path))
       invisible(NULL)
     }
   ))
@@ -278,10 +273,10 @@ R6_vault_client_kv <- R6::R6Class(
     delete = function(path, version = NULL, mount = NULL) {
       path <- private$validate_path(path, mount)
       if (is.null(version)) {
-        private$api_client$DELETE(path$data, to_json = FALSE)
+        private$api_client$DELETE(path$data)
       } else {
         body <- private$validate_version(version, TRUE)
-        private$api_client$POST(path$delete, body = body, to_json = FALSE)
+        private$api_client$POST(path$delete, body = body)
       }
       invisible(NULL)
     },
@@ -289,7 +284,7 @@ R6_vault_client_kv <- R6::R6Class(
     destroy = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)
-      private$api_client$POST(path$destroy, body = body, to_json = FALSE)
+      private$api_client$POST(path$destroy, body = body)
       invisible(NULL)
     },
 
@@ -341,13 +336,13 @@ R6_vault_client_kv <- R6::R6Class(
       path <- private$validate_path(path, mount)
       body <- drop_null(list(
         cas_required = cas_required, max_versions = max_versions))
-      private$api_client$POST(path$metadata, body = body, to_json = FALSE)
+      private$api_client$POST(path$metadata, body = body)
       invisible(NULL)
     },
 
     metadata_delete = function(path, mount = NULL) {
       path <- private$validate_path(path, mount)
-      private$api_client$DELETE(path$metadata, to_json = FALSE)
+      private$api_client$DELETE(path$metadata)
       invisible(NULL)
     },
 
@@ -359,7 +354,7 @@ R6_vault_client_kv <- R6::R6Class(
         body$options <- list(cas = cas)
       }
       path <- private$validate_path(path, mount)
-      ret <- private$api_client$POST(path$data, body = body, to_json = TRUE)
+      private$api_client$POST(path$data, body = body)
       invisible(ret$data)
     },
 
@@ -370,7 +365,7 @@ R6_vault_client_kv <- R6::R6Class(
     undelete = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)
-      private$api_client$POST(path$undelete, body = body, to_json = FALSE)
+      private$api_client$POST(path$undelete, body = body)
       invisible(NULL)
     }
   ))
@@ -472,7 +467,7 @@ R6_vault_client_secrets <- R6::R6Class(
       if (!is_absolute_path(path)) {
         path <- paste0("/", path)
       }
-      private$api_client$DELETE(paste0("/sys/mounts", path), to_json = FALSE)
+      private$api_client$DELETE(paste0("/sys/mounts", path))
       invisible(NULL)
     },
 
@@ -492,8 +487,7 @@ R6_vault_client_secrets <- R6::R6Class(
       if (!is.null(version)) {
         data$options <- list(version = as.character(version))
       }
-      private$api_client$POST(paste0("/sys/mounts", path),
-                              body = data, to_json = FALSE)
+      private$api_client$POST(paste0("/sys/mounts", path), body = data)
       invisible(path)
     },
 
@@ -514,7 +508,7 @@ R6_vault_client_secrets <- R6::R6Class(
       assert_scalar_character(from)
       assert_scalar_character(to)
       body <- list(from = from, to = to)
-      private$api_client$POST("/sys/remount", body = body, to_json = FALSE)
+      private$api_client$POST("/sys/remount", body = body)
       invisible(NULL)
     }
   ))
