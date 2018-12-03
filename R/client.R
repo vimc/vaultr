@@ -225,8 +225,7 @@ R6_vault_client <- R6::R6Class(
     },
 
     ## Auth
-    auth = function(method, ..., renew = FALSE, quiet = FALSE, verify = TRUE,
-                    cache_dir = NULL) {
+    auth = function(method, ..., renew = FALSE, quiet = FALSE, verify = TRUE) {
       method <- vault_arg(method, "VAULTR_AUTH_METHOD")
       if (is.null(method) || identical(method, FALSE)) {
         if (!quiet) {
@@ -236,24 +235,12 @@ R6_vault_client <- R6::R6Class(
       }
       assert_scalar_character(method)
 
-      if (renew) {
-        token_client_del(self$url, cache_dir, quiet)
-      }
       if (self$.auth_needed(renew)) {
-        token <- token_cache_get(self$url, cache_dir, quiet)
-        if (!is.null(token)) {
-          ## TODO: if token verification fails here we should try and
-          ## reauthenticate.
-          self$.auth_set_token(token, verify)
-        } else {
-          fn <- switch(method,
-                       token = self$auth_token,
-                       github = self$auth_github,
-                       stop(sprintf("Unknown auth method '%s'", method)))
-          fn(..., quiet = quiet, verify = verify)
-          token_cache_set(self$url, self$token$headers[["X-Vault-Token"]],
-                          cache_dir, quiet)
-        }
+        fn <- switch(method,
+                     token = self$auth_token,
+                     github = self$auth_github,
+                     stop(sprintf("Unknown auth method '%s'", method)))
+        fn(..., quiet = quiet, verify = verify)
       }
 
       invisible(self)

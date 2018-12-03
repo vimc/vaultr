@@ -214,6 +214,7 @@ test_that("auth: message", {
 })
 
 test_that("cache clearing - session", {
+  skip("old tests disabled")
   vault_clear_token_cache()
   expect_silent(vault_clear_token_cache())
   v <- c("https://127.0.0.1:18200/v1", "https://vault.server.com/v1")
