@@ -718,6 +718,23 @@ R6_vault_client_token <- R6::R6Class(
       data <- res$data
       data$policies <- list_to_character(data$policies)
       data
+    },
+
+    renew = function(token, increment = NULL) {
+      body <- list(token = assert_scalar_character(token))
+      if (!is.null(increment)) {
+        body$increment <- assert_is_duration(increment)
+      }
+      res <- private$api_client$POST("/auth/token/renew", body = body)
+      info <- res$auth
+      info$policies <- list_to_character(info$policies)
+      info
+    },
+
+    revoke = function(token) {
+      body <- list(token = assert_scalar_character(token))
+      private$api_client$POST("/auth/token/revoke", body = body)
+      invisible(NULL)
     }
   ))
 
