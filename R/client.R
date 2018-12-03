@@ -280,9 +280,7 @@ R6_vault_client <- R6::R6Class(
                         allow_missing_token = TRUE)
       self$.auth_set_token(res$auth$client_token, verify)
       if (!quiet) {
-        lease <- res$auth$lease_duration
-        message(sprintf("ok, duration: %s s (%s)",
-                        lease, prettyunits::pretty_sec(lease, TRUE)))
+        message(pretty_lease(res$auth$lease_duration))
       }
     },
 

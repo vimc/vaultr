@@ -47,9 +47,7 @@ vault_token_github <- function(client, data, quiet) {
                      body = list(token = token),
                      allow_missing_token = TRUE)
   if (!quiet) {
-    lease <- res$auth$lease_duration
-    message(sprintf("ok, duration: %s s (%s)",
-                    lease, prettyunits::pretty_sec(lease, TRUE)))
+    message(pretty_lease(res$auth$lease_duration))
   }
 
   res$auth$client_token
@@ -69,9 +67,7 @@ vault_login_userpass <- function(client, data, quiet) {
   res <- client$POST(path, body = data, allow_missing_token = TRUE)
 
   if (!quiet) {
-    lease <- res$auth$lease_duration
-    message(sprintf("ok, duration: %s s (%s)",
-                    lease, prettyunits::pretty_sec(lease, TRUE)))
+    message(pretty_lease(res$auth$lease_duration))
   }
 
   res$auth$client_token

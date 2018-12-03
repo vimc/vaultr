@@ -9,8 +9,7 @@ Imports:
     R6,
     getPass,
     httr,
-    jsonlite,
-    prettyunits
+    jsonlite
 Suggests:
     cyphr,
     processx,

@@ -178,3 +178,21 @@ free_port <- function(port, max_tries = 10, verbose = FALSE) {
                port - max_tries + 1, port),
        call. = FALSE)
 }
+
+
+pretty_secs <- function(n) {
+  if (n < 60) { # less than a minute
+    sprintf("%ds", n)
+  } else if (n < 60 * 60) { # less than an hour
+    sprintf("~%dm", round(n / 60))
+  } else if (n < 60 * 60 * 24) { # less than a day
+    sprintf("~%dh", round(n / 60 / 60))
+  } else { # more than a day
+    sprintf("~%dd", round(n / 60 / 60 / 24))
+  }
+}
+
+
+pretty_lease <- function(lease) {
+  message(sprintf("ok, duration: %s s (%s)", lease, pretty_sec(lease)))
+}

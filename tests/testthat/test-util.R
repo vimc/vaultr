@@ -14,3 +14,14 @@ test_that("Sys_getenv", {
                  "Invalid input for integer 'foo'")
   })
 })
+
+
+test_that("pretty_secs", {
+  expect_equal(pretty_secs(1), "1s")
+  expect_equal(pretty_secs(10), "10s")
+  expect_equal(pretty_secs(100), "~2m")
+  expect_equal(pretty_secs(1000), "~17m")
+  expect_equal(pretty_secs(10000), "~3h")
+  expect_equal(pretty_secs(100000), "~1d")
+  expect_equal(pretty_secs(1000000), "~12d")
+})
