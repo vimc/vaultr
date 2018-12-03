@@ -26,16 +26,6 @@ vault_client <- function(auth_method = NULL, ..., addr = NULL, verify = NULL) {
   cl
 }
 
-##' Make a vault client for the "generic" interface.  Provides a much
-##' simpler interface than \code{vault_client}, with none of the
-##' administration functions.
-##' @title Make a generic vault client
-##' @param ... Passed to \code{vault_client}
-##' @export
-vault_client_generic <- function(...) {
-  vault_client(...)$generic()
-}
-
 R6_vault_client <- R6::R6Class(
   "vault_client",
   cloneable = FALSE,
@@ -59,11 +49,6 @@ R6_vault_client <- R6::R6Class(
           self$verify <- httr::config(cainfo = verify)
         }
       }
-    },
-
-    ## Backends:
-    generic = function() {
-      R6_vault_client_generic$new(self)
     },
 
     ## Setup:
@@ -365,45 +350,5 @@ R6_vault_client <- R6::R6Class(
         }
       }
       self$token <- token
-    }
-  ))
-
-R6_vault_client_generic <- R6::R6Class(
-  "vault_client_generic",
-  cloneable = FALSE,
-
-  public = list(
-    vault = NULL,
-    initialize = function(vault) {
-      assert_is(vault, "vault_client")
-      self$vault <- vault
-    },
-
-    read = function(path, field = NULL, info = FALSE) {
-      assert_path_prefix(path, "/secret/")
-      self$vault$read(path, field, info)
-    },
-
-    write = function(path, data, ttl = NULL) {
-      assert_path_prefix(path, "/secret/")
-      if (!is.null(ttl)) {
-        data$ttl <- ttl
-      }
-      self$vault$write(path, data)
-    },
-
-    list = function(path, recursive = FALSE) {
-      assert_path_prefix(path, "/secret") # NOTE: no trailing
-      self$vault$list(path, recursive)
-    },
-
-    delete = function(path) {
-      assert_path_prefix(path, "/secret/")
-      self$vault$delete(path)
-    },
-
-    auth = function(...) {
-      self$vault$auth(...)
-      invisible(self)
     }
   ))

@@ -2,6 +2,5 @@
 
 export(envvar)
 export(vault_client)
-export(vault_client_generic)
 export(vault_test_server)
 export(vault_test_server_install)
