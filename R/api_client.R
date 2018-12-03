@@ -85,14 +85,9 @@ vault_tls_config <- function(tls_config) {
 
 
 vault_base_url <- function(addr, api_prefix) {
-  addr <- addr %||%
-    getOption("vault.addr",
-              Sys.getenv("VAULT_ADDR", NA_character_))
+  addr <- addr %||% Sys.getenv("VAULT_ADDR", "")
   assert_scalar_character(addr)
-  if (!is.character(addr) || length(addr) != 1L) {
-    stop("invalid input for vault addr")
-  }
-  if (is.na(addr)) {
+  if (!nzchar(addr)) {
     stop("vault address not found")
   }
   if (!grepl("^https?://.+", addr)) {
