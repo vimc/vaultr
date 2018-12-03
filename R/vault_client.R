@@ -662,6 +662,62 @@ R6_vault_client_token <- R6::R6Class(
     format = function(brief = FALSE) {
       vault_client_format(self, brief, "token",
                           "Interact with tokens")
+    },
+
+    capabilities = function(path, token) {
+      assert_character(path)
+      if (is.null(token)) {
+        vault_path <- "/sys/capabilities-self"
+        body <- list(paths = I(path))
+      } else {
+        vault_path <- "/sys/capabilities"
+        body <- list(paths = I(path), token = token)
+      }
+      data <- private$api_client$POST(vault_path, body = body)
+      lapply(data$data[path], list_to_character)
+    },
+
+    client = function() {
+      token <- private$api_client$token
+      if (is.null(token)) {
+        stop("Client has not yet authenticated against vault")
+      }
+      token
+    },
+
+    create = function(role_name = NULL, id = NULL, policies = NULL,
+                      meta = NULL, orphan = FALSE, no_default_policy = FALSE,
+                      max_ttl = NULL, display_name = NULL,
+                      use_limit = 0L, period = NULL, ttl = NULL) {
+      body <- list(
+        role_name = role_name %&&% assert_scalar_character(role_name),
+        policies = policies %&&% I(assert_character(policies)),
+        meta = meta,
+        no_default_policy = assert_scalar_logical(no_default_policy),
+        explicit_max_ttl = max_ttl %&&% assert_is_duration(max_ttl),
+        display_name = display_name %&&% assert_scalar_character(display_name),
+        num_uses = use_limit %&&% assert_scalar_integer(use_limit),
+        ttl = ttl %&&% assert_is_duration(ttl),
+        ## root only:
+        id = role_name %&&% assert_scalar_character(id),
+        period = period %&&% assert_is_duration(period),
+        no_parent = assert_scalar_logical(orphan))
+      body <- drop_null(body)
+      res <- private$api_client$POST("/auth/token/create", body = body)
+
+      info <- res$auth
+      info$policies <- list_to_character(info$policies)
+      token <- info$client_token
+      attr(token, "info") <- info
+      token
+    },
+
+    lookup = function(token = NULL) {
+      body <- list(token = assert_scalar_character(token))
+      res <- private$api_client$POST("/auth/token/lookup", body = body)
+      data <- res$data
+      data$policies <- list_to_character(data$policies)
+      data
     }
   ))
 

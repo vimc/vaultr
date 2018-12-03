@@ -7,6 +7,10 @@ response_to_json <- function(res) {
   if (is.null(a)) b else a
 }
 
+`%&&%` <- function(a, b) {
+  if (is.null(a)) NULL else b
+}
+
 list_to_character <- function(x) {
   vapply(x, identity, character(1))
 }
