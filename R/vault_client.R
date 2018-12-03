@@ -243,6 +243,12 @@ R6_vault_client_auth <- R6::R6Class(
     disable = function(path) {
       private$api_client$DELETE(paste0("/sys/auth/", path))
       invisible(NULL)
+    }),
+
+  ## Build these just in time
+  active = list(
+    github = function() {
+      R6_vault_client_auth_github$new(private$api_client, "github")
     }
   ))
 

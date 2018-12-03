@@ -34,3 +34,21 @@ test_that("basic auth", {
 
   expect_equal(cl$list("auth/userpass/users"), "rich")
 })
+
+
+test_that("github auth", {
+  skip("not automated yet")
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("github")
+  cl$auth$github$configuration()
+
+  cl$auth$github$configure(organization = "vimc")
+  expect_equal(cl$auth$github$configuration()$organization, "vimc")
+
+  token <- cl$auth$github$login()
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = token)
+})
