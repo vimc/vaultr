@@ -198,5 +198,5 @@ pretty_sec <- function(n) {
 
 
 pretty_lease <- function(lease) {
-  message(sprintf("ok, duration: %s s (%s)", lease, pretty_sec(lease)))
+  sprintf("ok, duration: %s s (%s)", lease, pretty_sec(lease))
 }
