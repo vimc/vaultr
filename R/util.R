@@ -184,7 +184,7 @@ free_port <- function(port, max_tries = 10, verbose = FALSE) {
 }
 
 
-pretty_secs <- function(n) {
+pretty_sec <- function(n) {
   if (n < 60) { # less than a minute
     sprintf("%ds", n)
   } else if (n < 60 * 60) { # less than an hour
