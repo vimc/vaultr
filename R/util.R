@@ -205,3 +205,13 @@ pretty_lease <- function(lease) {
 squote <- function(x) {
   sprintf("'%s'", x)
 }
+
+
+encode64 <- function(input) {
+  jsonlite::base64_enc(input)
+}
+
+
+decode64 <- function(input) {
+  jsonlite::base64_dec(input)
+}

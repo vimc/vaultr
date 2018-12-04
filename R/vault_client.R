@@ -27,6 +27,7 @@ R6_vault_client2 <- R6::R6Class(
     policy = NULL,
     secrets = NULL,
     token = NULL,
+    tools = NULL,
 
     initialize = function(addr, tls_config) {
       api_client <- vault_api_client$new(addr, tls_config)
@@ -41,6 +42,7 @@ R6_vault_client2 <- R6::R6Class(
       self$policy <- R6_vault_client_policy$new(api_client)
       self$secrets <- R6_vault_client_secrets$new(api_client)
       self$token <- R6_vault_client_token$new(api_client)
+      self$tools <- R6_vault_client_tools$new(api_client)
     },
 
     format = function(brief = FALSE) {
