@@ -123,17 +123,17 @@ R6_vault_client2 <- R6::R6Class(
         }
         token <- args[[1]]
       } else {
-        if (!(method %in% names(vault_env$login))) {
-          stop(sprintf("Unknown login method '%s' - must be one of %s",
-                       method,
-                       paste(squote(names(vault_env$login)), collapse = ", ")),
-               call. = FALSE)
-        }
-        ## TODO: Feedback usage information here?
         auth <- self$auth[[method]]
+        if (!inherits(auth, "R6")) {
+          stop(sprintf(
+            "Unknown login method '%s' - must be one of %s",
+            method, paste(squote(self$auth$methods()), collapse = ", ")),
+            call. = FALSE)
+        }
         if (!is.null(mount)) {
           auth <- auth$custom_mount(mount)
         }
+        ## TODO: Feedback usage information here?
         data <- auth$login(...)
         if (!quiet) {
           message(pretty_lease(data$lease_duration))
@@ -235,6 +235,12 @@ R6_vault_client_auth <- R6::R6Class(
     format = function(brief = FALSE) {
       vault_client_format(self, brief, "auth",
                           "administer vault's authentication methods")
+    },
+
+    methods = function() {
+      nms <- ls(self)
+      i <- vlapply(nms, function(x) inherits(self[[x]], "R6"))
+      sort(nms[i])
     },
 
     list = function(detailed = FALSE) {
