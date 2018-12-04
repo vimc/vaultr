@@ -4,11 +4,11 @@ context("vault: token")
 test_that("capabilities-self", {
   srv <- vault_test_server()
   cl <- srv$client()
-  expect_equal(cl$token$capabilities("/secret", NULL),
+  expect_equal(cl$token$capabilities_self("/secret"),
                list("/secret" = "root"))
-  expect_equal(cl$token$capabilities("secret", NULL),
+  expect_equal(cl$token$capabilities_self("secret"),
                list("secret" = "root"))
-  expect_equal(cl$token$capabilities(c("secret", "/secret"), NULL),
+  expect_equal(cl$token$capabilities_self(c("secret", "/secret")),
                list("secret" = "root", "/secret" = "root"))
 })
 
