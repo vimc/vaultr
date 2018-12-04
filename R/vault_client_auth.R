@@ -57,15 +57,12 @@ R6_vault_client_auth_github <- R6::R6Class(
       private$api_client$GET(path)$data
     },
 
-    login = function(token = NULL, quiet = FALSE) {
+    login = function(token = NULL) {
       path <- sprintf("/auth/%s/login", private$mount)
       body <- list(token = vault_auth_github_token(token))
       res <- private$api_client$POST(path, body = body,
                                      allow_missing_token = TRUE)
-      if (!quiet) {
-        message(pretty_lease(res$auth$lease_duration))
-      }
-      res$auth$client_token
+      res$auth
     }
   ))
 
@@ -149,7 +146,7 @@ R6_vault_client_auth_userpass <- R6::R6Class(
         vault_invalid_path = function(e) character(0))
     },
 
-    login = function(username, password = NULL, quiet = FALSE) {
+    login = function(username, password = NULL) {
       assert_scalar_character(username, "username")
       if (is.null(password)) {
         msg <- sprintf("Password for '%s': ", username)
@@ -161,11 +158,6 @@ R6_vault_client_auth_userpass <- R6::R6Class(
       body <- list(password = password)
       res <- private$api_client$POST(path, body = body,
                                      allow_missing_token = TRUE)
-
-      if (!quiet) {
-        message(pretty_lease(res$auth$lease_duration))
-      }
-
-      res$auth$client_token
+      res$auth
     }
   ))

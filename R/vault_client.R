@@ -101,17 +101,53 @@ R6_vault_client2 <- R6::R6Class(
       ret
     },
 
-    login = function(..., method = "token", renew = FALSE, quiet = FALSE,
+    login = function(..., method = "token", mount = NULL,
+                     renew = FALSE, quiet = FALSE,
                      token_only = FALSE) {
-      do_auth <- renew || token_only || !private$api_client$is_authenticated()
-      if (do_auth) {
-        token <- vault_login(private$api_client, method, quiet, ...)
+      do_auth <-
+        assert_scalar_logical(renew) ||
+        assert_scalar_logical(token_only) ||
+        !private$api_client$is_authenticated()
+      if (!do_auth) {
+        return(NULL)
+      }
+
+      assert_scalar_character(method)
+      args <- list(...)
+      assert_named(args, "...")
+
+      if (method == "token") {
+        if (length(args) != 1L) {
+          stop("Invalid arguments to login with method = 'token'",
+               call. = FALSE)
+        }
+        token <- args[[1]]
       } else {
-        token <- NULL
+        if (!(method %in% names(vault_env$login))) {
+          stop(sprintf("Unknown login method '%s' - must be one of %s",
+                       method,
+                       paste(squote(names(vault_env$login)), collapse = ", ")),
+               call. = FALSE)
+        }
+        ## TODO: Feedback usage information here?
+        auth <- self$auth[[method]]
+        if (!is.null(mount)) {
+          auth <- auth$custom_mount(mount)
+        }
+        data <- auth$login(...)
+        if (!quiet) {
+          message(pretty_lease(data$lease_duration))
+        }
+        token <- data$client_token
       }
+
       if (!token_only) {
-        private$api_client$set_token(token, verify = FALSE)
+        if (!quiet) {
+          message("Verifying token")
+        }
+        private$api_client$set_token(token, verify = method == "token")
       }
+
       invisible(token)
     },
 

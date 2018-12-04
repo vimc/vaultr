@@ -50,14 +50,30 @@ test_that("userpass", {
   d <- cl$auth$userpass$read("rich")
   expect_equal(d$policies, character(0))
 
-  expect_error(cl$auth$userpass$login("rich", "wrong", quiet = TRUE))
-  expect_silent(
-    token <- cl$auth$userpass$login("rich", "pass", quiet = TRUE))
+  expect_error(cl$auth$userpass$login("rich", "wrong"))
+  expect_silent(auth <- cl$auth$userpass$login("rich", "pass"))
+  token <- auth$client_token
   expect_is(token, "character")
   expect_match(token, "^[-[:xdigit:]]+$")
 
   cl2 <- srv$client(login = FALSE)
   expect_error(cl2$login(token = token), NA)
+})
+
+
+test_that("userpass: login", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  token <- cl$token$client()
+  cl$token$capabilities_self("/sys")
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass", "default")
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(method = "userpass",
+            username = "rich", password = "pass")
 })
 
 
@@ -69,8 +85,8 @@ test_that("userpass: update password", {
   cl$auth$userpass$add("rich", "pass")
   cl$auth$userpass$update_password("rich", "word")
 
-  expect_error(cl$auth$userpass$login("rich", "pass", quiet = TRUE))
-  expect_silent(cl$auth$userpass$login("rich", "word", quiet = TRUE))
+  expect_error(cl$auth$userpass$login("rich", "pass"))
+  expect_silent(cl$auth$userpass$login("rich", "word"))
 })
 
 
@@ -95,7 +111,7 @@ test_that("userpass: delete user", {
   cl$auth$userpass$add("rich", "pass")
   cl$auth$userpass$delete("rich")
   expect_equal(cl$auth$userpass$list(), character(0))
-  expect_error(cl$auth$userpass$login("rich", "pass", quiet = TRUE))
+  expect_error(cl$auth$userpass$login("rich", "pass"))
 })
 
 
@@ -110,7 +126,8 @@ test_that("github auth", {
   cl$auth$github$configure(organization = "vimc")
   expect_equal(cl$auth$github$configuration()$organization, "vimc")
 
-  token <- cl$auth$github$login()
+  auth <- cl$auth$github$login()
+  token <- auth$client_token
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(token = token)

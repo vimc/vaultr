@@ -200,3 +200,8 @@ pretty_sec <- function(n) {
 pretty_lease <- function(lease) {
   sprintf("ok, duration: %s s (%s)", lease, pretty_sec(lease))
 }
+
+
+squote <- function(x) {
+  sprintf("'%s'", x)
+}

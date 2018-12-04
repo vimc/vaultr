@@ -23,6 +23,12 @@ vault_api_client <- R6::R6Class(
     },
 
     set_token = function(token, verify = FALSE) {
+      if (verify) {
+        dat <- self$verify_token(token)
+        if (!dat$success) {
+          stop(dat$error)
+        }
+      }
       self$token <- token
       self$auth <- httr::add_headers("X-Vault-Token" = token)
     },
@@ -41,12 +47,11 @@ vault_api_client <- R6::R6Class(
       res <- tryCatch(
         vault_request(httr::POST, self$base_url, self$tls_config, auth,
                       "/sys/capabilities-self",
-                      body = list(path = "/sys"), encode = "json"),
+                      body = list(path = "/sys")),
         error = identity)
       success <- !inherits(res, "error")
       list(success = success,
-           error = if (!success) success,
-           auth = if (success) auth)
+           error = if (!success) res)
     },
 
     GET = function(path, ...) {
