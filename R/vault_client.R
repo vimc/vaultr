@@ -249,6 +249,10 @@ R6_vault_client_auth <- R6::R6Class(
   active = list(
     github = function() {
       R6_vault_client_auth_github$new(private$api_client, "github")
+    },
+
+    userpass = function() {
+      R6_vault_client_auth_userpass$new(private$api_client, "userpass")
     }
   ))
 

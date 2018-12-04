@@ -36,6 +36,69 @@ test_that("basic auth", {
 })
 
 
+test_that("userpass", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", "user / password based auth")
+  expect_true("userpass" %in% cl$auth$list()$type)
+  expect_equal(cl$auth$userpass$list(), character(0))
+
+  cl$auth$userpass$add("rich", "pass")
+  expect_equal(cl$auth$userpass$list(), "rich")
+
+  d <- cl$auth$userpass$read("rich")
+  expect_equal(d$policies, character(0))
+
+  expect_error(cl$auth$userpass$login("rich", "wrong", quiet = TRUE))
+  expect_silent(
+    token <- cl$auth$userpass$login("rich", "pass", quiet = TRUE))
+  expect_is(token, "character")
+  expect_match(token, "^[-[:xdigit:]]+$")
+
+  cl2 <- srv$client(login = FALSE)
+  expect_error(cl2$login(token = token), NA)
+})
+
+
+test_that("userpass: update password", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$update_password("rich", "word")
+
+  expect_error(cl$auth$userpass$login("rich", "pass", quiet = TRUE))
+  expect_silent(cl$auth$userpass$login("rich", "word", quiet = TRUE))
+})
+
+
+test_that("userpass: update policies", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass")
+  expect_equal(cl$auth$userpass$read("rich")$policies, character(0))
+
+  cl$auth$userpass$update_policies("rich", "root")
+  expect_equal(cl$auth$userpass$read("rich")$policies, "root")
+})
+
+
+test_that("userpass: delete user", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$delete("rich")
+  expect_equal(cl$auth$userpass$list(), character(0))
+  expect_error(cl$auth$userpass$login("rich", "pass", quiet = TRUE))
+})
+
+
 test_that("github auth", {
   skip("not automated yet")
   srv <- vault_test_server()
