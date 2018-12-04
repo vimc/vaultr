@@ -36,7 +36,7 @@ R6_vault_client_token <- R6::R6Class(
     capabilities_accessor = function(path, accessor) {
       body <- list(paths = I(assert_character(path)),
                    accessor = assert_scalar_character(accessor))
-      data <- private$api_client$POST("/sys/capabilities", body = body)
+      data <- private$api_client$POST("/sys/capabilities-accessor", body = body)
       lapply(data$data[path], list_to_character)
     },
 
