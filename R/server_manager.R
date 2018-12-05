@@ -177,14 +177,14 @@ vault_server_instance <- R6::R6Class(
     },
 
     finalize = function() {
-      if (!is.null(self$process)) {
-        self$process$kill()
-      }
+      self$kill()
     },
 
     kill = function() {
-      self$process$kill()
-      self$process <- NULL
+      if (!is.null(self$process)) {
+        self$process$kill()
+        self$process <- NULL
+      }
     }
   ))
 
