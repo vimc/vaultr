@@ -2,7 +2,7 @@ vault_request <- function(verb, url, verify, token, path, ...,
                           body = NULL, to_json = TRUE,
                           allow_missing_token = FALSE) {
   if (is.null(token) && !allow_missing_token) {
-    stop("Have not authenticated against vault")
+    stop("Have not authenticated against vault", call. = FALSE)
   }
   res <- verb(paste0(url, prepare_path(path)), verify, token,
               httr::accept_json(),
