@@ -26,20 +26,11 @@ vault_api_client <- R6::R6Class(
       if (verify) {
         dat <- self$verify_token(token)
         if (!dat$success) {
-          stop(dat$error)
+          stop("Token validation failed with error: ", dat$error)
         }
       }
       self$token <- token
       self$auth <- httr::add_headers("X-Vault-Token" = token)
-    },
-
-    get_token = function() {
-      self$token
-    },
-
-    clear_token = function() {
-      self$token <- NULL
-      self$auth <- NULL
     },
 
     verify_token = function(token) {
@@ -92,8 +83,9 @@ vault_tls_config <- function(tls_config) {
 vault_base_url <- function(addr, api_prefix) {
   addr <- addr %||% Sys.getenv("VAULT_ADDR", "")
   assert_scalar_character(addr)
+  assert_scalar_character(api_prefix)
   if (!nzchar(addr)) {
-    stop("vault address not found")
+    stop("vault address not found: perhaps set 'VAULT_ADDR'", call. = FALSE)
   }
   if (!grepl("^https?://.+", addr)) {
     stop("Expected an http or https url for vault addr")

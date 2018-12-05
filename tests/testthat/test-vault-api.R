@@ -29,3 +29,36 @@ test_that("error fallback", {
   expect_equal(err$code, 400L)
   expect_equal(err$message, "an error message")
 })
+
+
+test_that("token validation", {
+  srv <- vault_test_server()
+  cl <- srv$client(login = FALSE)
+  api <- cl$api()
+  expect_error(api$set_token(fake_token(), verify = TRUE),
+               "Token validation failed with error")
+})
+
+
+test_that("skip ssl validation", {
+  srv <- vault_test_server(https = TRUE)
+
+  cl1 <- vault_client2(srv$addr, FALSE)
+  cl1$login(token = srv$token, quiet = TRUE)
+  expect_equal(cl1$list("/secret"), character(0))
+})
+
+
+test_that("vault_base_url", {
+  withr::with_envvar(c(VAULT_ADDR = NA_character_), {
+    expect_error(vault_base_url(NULL, "/v1"),
+                 "vault address not found")
+  })
+
+  expect_error(vault_base_url("file://foo", "/v1"),
+               "Expected an http or https url for vault addr")
+
+  expect_equal(
+    vault_base_url("https://vault.example.com", "/v1"),
+    "https://vault.example.com/v1")
+})
