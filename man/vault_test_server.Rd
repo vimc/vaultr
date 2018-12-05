@@ -5,7 +5,8 @@
 \alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{
-vault_test_server(https = FALSE, init = TRUE)
+vault_test_server(https = FALSE, init = TRUE,
+  if_disabled = testthat::skip)
 
 vault_test_server_install(quiet = FALSE, version = "0.10.3")
 }
@@ -18,6 +19,11 @@ signed certificates that are bundled with the package.}
 \item{init}{Logical scalar, indicating if the https-using server
 should be initialised.}
 
+\item{if_disabled}{Callback function to run if the vault server is
+not enabled.  The default, designed to be used within tests, is
+\code{testthat::skip}.  Alternatively, inspect the
+\code{$enabled} property of the returned object.}
+
 \item{quiet}{Suppress progress bars on install}
 
 \item{version}{Version of vault to install}
@@ -25,14 +31,14 @@ should be initialised.}
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.  You will need to set \code{VAULT_BIN_PATH} to point at
-the directory containing the vault binary.
+server.  You will need to set \code{VAULTR_VAULT_BIN_PATH} to
+point at the directory containing the vault binary.
 }
 \details{
 The function \code{vault_test_server_install} will install a test
 server, but \emph{only} if the user opts in by setting the
 environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-\code{"true"}, and by setting \code{VAULT_BIN_PATH} to the
+\code{"true"}, and by setting \code{VAULTR_VAULT_BIN_PATH} to the
 directory where the binary should be downloaded to.  This will
 download a ~100MB binary from \url{https://vaultproject.io} so use
 with care.  It is intended \emph{only} for use in automated

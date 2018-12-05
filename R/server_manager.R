@@ -1,12 +1,12 @@
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set \code{VAULT_BIN_PATH} to point at
-##' the directory containing the vault binary.
+##' server.  You will need to set \code{VAULTR_VAULT_BIN_PATH} to
+##' point at the directory containing the vault binary.
 ##'
 ##' The function \code{vault_test_server_install} will install a test
 ##' server, but \emph{only} if the user opts in by setting the
 ##' environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-##' \code{"true"}, and by setting \code{VAULT_BIN_PATH} to the
+##' \code{"true"}, and by setting \code{VAULTR_VAULT_BIN_PATH} to the
 ##' directory where the binary should be downloaded to.  This will
 ##' download a ~100MB binary from \url{https://vaultproject.io} so use
 ##' with care.  It is intended \emph{only} for use in automated
@@ -22,10 +22,16 @@
 ##' @param init Logical scalar, indicating if the https-using server
 ##'   should be initialised.
 ##'
+##' @param if_disabled Callback function to run if the vault server is
+##'   not enabled.  The default, designed to be used within tests, is
+##'   \code{testthat::skip}.  Alternatively, inspect the
+##'   \code{$enabled} property of the returned object.
+##'
 ##' @export
 ##' @rdname vault_test_server
-vault_test_server <- function(https = FALSE, init = TRUE) {
-  vault_server_manager()$new_server(https, init)
+vault_test_server <- function(https = FALSE, init = TRUE,
+                              if_disabled = testthat::skip) {
+  vault_server_manager()$new_server(https, init, if_disabled)
 }
 
 
@@ -43,9 +49,9 @@ vault_test_server_install <- function(quiet = FALSE, version = "0.10.3") {
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  path <- Sys_getenv("VAULT_BIN_PATH", NULL)
+  path <- Sys_getenv("VAULTR_VAULT_BIN_PATH", NULL)
   if (is.null(path)) {
-    stop("VAULT_BIN_PATH is not set")
+    stop("VAULTR_VAULT_BIN_PATH is not set")
   }
   dir.create(path, FALSE, TRUE)
   dest <- file.path(path, "vault")
@@ -72,7 +78,7 @@ vault_server_manager_bin <- function() {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     return(NULL)
   }
-  path <- Sys_getenv("VAULT_BIN_PATH", NULL)
+  path <- Sys_getenv("VAULTR_VAULT_BIN_PATH", NULL)
   if (is.null(path)) {
     return(NULL)
   }
@@ -107,7 +113,7 @@ R6_vault_server_manager <- R6::R6Class(
     port = NULL,
     enabled = FALSE,
 
-    initialize = function(bin, port = 18200L) {
+    initialize = function(bin, port) {
       if (is.null(bin)) {
         self$enabled <- FALSE
       } else {
@@ -125,15 +131,17 @@ R6_vault_server_manager <- R6::R6Class(
       ret
     },
 
-    new_server = function(https = FALSE, init = TRUE) {
+    new_server = function(https = FALSE, init = TRUE,
+                          if_disabled = testthat::skip) {
       if (!self$enabled) {
-        testthat::skip("vault server is not enabled")
+        if_disabled("vault is not enabled")
+      } else {
+        tryCatch(
+          vault_server_instance$new(self$bin, self$new_port(), https, init),
+          error = function(e)
+            testthat::skip(paste("vault server failed to start:",
+                                 e$message)))
       }
-      tryCatch(
-        vault_server_instance$new(self$bin, self$new_port(), https, init),
-        error = function(e)
-          testthat::skip(paste("vault server failed to start:",
-                               e$message)))
     }
   ))
 
@@ -207,7 +215,7 @@ vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
     }
     if (!process$is_alive() || Sys.time() > t1) {
       err <- paste(readLines(process$get_error_file()), collapse = "\n")
-      stop("vault has died: ", err)
+      stop("vault has died:\n", err)
     }
     message("...waiting for Vault to start")
     Sys.sleep(0.1)
@@ -304,8 +312,7 @@ vault_server_start_https <- function(bin, port, init) {
 }
 
 
-vault_platform <- function() {
-  sysname <- Sys.info()[["sysname"]]
+vault_platform <- function(sysname = Sys.info()[["sysname"]]) {
   switch(sysname,
          Darwin = "darwin",
          Windows = "windows",
