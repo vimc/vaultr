@@ -114,6 +114,8 @@ test_that("list", {
   kv$put(path, list(key = 1))
 
   expect_equal(kv$list(p), "a")
+  expect_equal(kv$list(p, TRUE), file.path(p, "a"))
+
   expect_equal(kv$list(path), character(0))
 
   kv$put(sprintf("%s/b/c", p), list(key = 1))
@@ -191,4 +193,35 @@ test_that("metadata delete", {
   kv$metadata_delete(path)
   expect_null(kv$get(path))
   expect_null(kv$metadata_get(path))
+})
+
+
+test_that("mount validation", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("kv", "secret2", version = 2)
+  kv <- cl$kv2$custom_mount("secret2")
+
+  expect_error(
+    kv$list("/secret"),
+    "Invalid mount given for this path - expected 'secret2'")
+  expect_error(
+    kv$put("/secret2", list(a = 1)),
+    "Invalid path")
+})
+
+
+test_that("put+cas", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("kv", "secret2", version = 2)
+  kv <- cl$kv2$custom_mount("secret2")
+
+  d <- kv$put("secret2/a", list(a = 1))
+  expect_error(kv$put("secret2/a", list(a = 2), cas = 2))
+  expect_equal(kv$get("secret2/a", field = "a"), 1)
+  expect_silent(kv$put("secret2/a", list(a = 2), cas = 1))
+  expect_equal(kv$get("secret2/a", field = "a"), 2)
 })

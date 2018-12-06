@@ -118,7 +118,7 @@ R6_vault_client_kv2 <- R6::R6Class(
         vault_invalid_path = function(e) NULL)
       ret <- list_to_character(res$data$keys)
       if (full_names) {
-        ret <- file.path(sub("/+$", "", path), ret)
+        ret <- file.path(sub("/+$", "", path$mount), ret)
       }
       ret
     },
@@ -161,9 +161,10 @@ R6_vault_client_kv2 <- R6::R6Class(
       invisible(ret$data)
     },
 
-    patch = function(...) {
-      stop("not implemented")
-    },
+    ## TODO: implement patch
+    ## patch = function(...) {
+    ##   stop("not implemented")
+    ## },
 
     undelete = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
