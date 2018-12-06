@@ -7,7 +7,7 @@ test_that("basic set/get", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
 
   path <- sprintf("%s/a", p)
   data <- list(key = rand_str(10))
@@ -28,7 +28,7 @@ test_that("config", {
 
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
-  config <- cl$kv$config(p)
+  config <- cl$kv2$config(p)
   expect_is(config, "list")
   expect_equal(config$lease_duration, 0)
 })
@@ -41,7 +41,7 @@ test_that("versions", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
 
   kv$put(path, list(key = 1))
@@ -63,7 +63,7 @@ test_that("delete latest version", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
 
   kv$put(path, list(key = 1))
@@ -86,7 +86,7 @@ test_that("delete multiple versions", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
 
   kv$put(path, list(key = 1))
@@ -109,7 +109,7 @@ test_that("list", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
   kv$put(path, list(key = 1))
 
@@ -128,7 +128,7 @@ test_that("undelete", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
   kv$put(path, list(key = 1))
   kv$put(path, list(key = 2))
@@ -147,7 +147,7 @@ test_that("destroy", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
   kv$put(path, list(key = 1))
   kv$put(path, list(key = 2))
@@ -167,7 +167,7 @@ test_that("metadata put", {
   cl$secrets$enable("kv", p, version = 2)
 
   path <- sprintf("%s/a", p)
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   kv$metadata_put(path, cas_required = TRUE, max_versions = 10)
   d <- kv$metadata_get(path)
   expect_true(d$cas_required)
@@ -183,7 +183,7 @@ test_that("metadata delete", {
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
 
-  kv <- cl$kv$custom_mount(p)
+  kv <- cl$kv2$custom_mount(p)
   path <- sprintf("%s/a", p)
   kv$put(path, list(key = 1))
   kv$put(path, list(key = 2))
