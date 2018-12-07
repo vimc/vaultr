@@ -35,3 +35,22 @@ test_that("re-login", {
   expect_error(cl$login(method = "impossible", renew = TRUE),
                "Unknown login method 'impossible' - must be one of")
 })
+
+
+test_that("format", {
+  srv <- vault_test_server()
+  cl <- srv$client(login = FALSE)
+
+  str <- withr::with_options(list(width = 80), cl$format())
+  expect_equal(str[[1]], "<vault: base>")
+  expect_match(str, "login\\(.+\n", all = FALSE)
+
+  ## recurse:
+  str <- withr::with_options(list(width = 80), cl$auth$format())
+  expect_true(any(grepl("Command groups:", str)))
+  expect_match(str, "github:", fixed = TRUE, all = FALSE)
+
+  ## recurse:
+  str <- withr::with_options(list(width = 80), cl$audit$format())
+  expect_false(any(grepl("Command groups:", str)))
+})
