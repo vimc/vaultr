@@ -140,7 +140,7 @@ capture_args <- function(f, name, indent = 4, width = getOption("width"),
 
 
 read_password <- function(prompt) {
-  getPass::getPass(prompt, TRUE) # nocov
+  getPass::getPass(prompt, TRUE)
 }
 
 

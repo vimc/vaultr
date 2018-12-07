@@ -12,6 +12,7 @@ Imports:
     jsonlite
 Suggests:
     cyphr,
+    mockery,
     processx,
     testthat,
     withr

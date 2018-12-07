@@ -78,13 +78,7 @@ R6_vault_client_auth_userpass <- R6::R6Class(
     },
 
     login = function(username, password = NULL) {
-      assert_scalar_character(username, "username")
-      if (is.null(password)) {
-        msg <- sprintf("Password for '%s': ", username)
-        password <- read_password(msg)
-      }
-      assert_scalar_character(password, "password")
-
+      data <- userpass_data(username, password)
       path <- sprintf("/auth/%s/login/%s", private$mount, username)
       body <- list(password = password)
       res <- private$api_client$POST(path, body = body,
@@ -92,3 +86,16 @@ R6_vault_client_auth_userpass <- R6::R6Class(
       res$auth
     }
   ))
+
+
+## Needs to be a free function so that we can mock out the password
+## read reliably
+userpass_data <- function(username, password) {
+  assert_scalar_character(username, "username")
+  if (is.null(password)) {
+    msg <- sprintf("Password for '%s': ", username)
+    password <- read_password(msg)
+  }
+  assert_scalar_character(password, "password")
+  list(username = username, password = password)
+}
