@@ -94,15 +94,6 @@ assert_absolute_path <- function(path) {
 }
 
 
-assert_path_prefix <- function(path, starts_with) {
-  assert_scalar_character(path)
-  if (!identical(substr(path, 1L, nchar(starts_with)), starts_with)) {
-    stop(sprintf("Expected path to start with '%s'", starts_with))
-  }
-  invisible(path)
-}
-
-
 assert_file_exists <- function(path, name = deparse(substitute(path))) {
   assert_scalar_character(path, name)
   if (!file.exists(path)) {
@@ -112,7 +103,7 @@ assert_file_exists <- function(path, name = deparse(substitute(path))) {
 }
 
 
-assert_is_duration <- function(x, name = deparse(substitute(path))) {
+assert_is_duration <- function(x, name = deparse(substitute(x))) {
   assert_scalar_character(x)
   if (!grepl("^[0-9]+h$", x)) {
     stop(sprintf("'%s' is not a valid time duration for '%s'", x, name),
