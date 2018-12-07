@@ -4,15 +4,19 @@ skip_if_no_vault_test_server <- function() {
   }
 }
 
-skip_if_no_vault_auth_github_token <- function() {
-  if (has_auth_github_token()) {
+skip_if_no_vaultr_test_github_pat <- function() {
+  if (has_vaultr_test_github_pat()) {
     return(invisible(TRUE))
   }
   skip("No access token set")
 }
 
-has_auth_github_token <- function() {
-  nzchar(Sys.getenv("VAULT_AUTH_GITHUB_TOKEN"), "")
+has_vaultr_test_github_pat <- function() {
+  nzchar(vaultr_test_github_pat())
+}
+
+vaultr_test_github_pat <- function() {
+  Sys.getenv("VAULTR_TEST_GITHUB_PAT", "")
 }
 
 get_error <- function(expr) {

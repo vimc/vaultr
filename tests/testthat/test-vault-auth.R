@@ -113,22 +113,3 @@ test_that("userpass: delete user", {
   expect_equal(cl$auth$userpass$list(), character(0))
   expect_error(cl$auth$userpass$login("rich", "pass"))
 })
-
-
-test_that("github auth", {
-  skip("not automated yet")
-  srv <- vault_test_server()
-  cl <- srv$client()
-
-  cl$auth$enable("github")
-  cl$auth$github$configuration()
-
-  cl$auth$github$configure(organization = "vimc")
-  expect_equal(cl$auth$github$configuration()$organization, "vimc")
-
-  auth <- cl$auth$github$login()
-  token <- auth$client_token
-
-  cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
-})
