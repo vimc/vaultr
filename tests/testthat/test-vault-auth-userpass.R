@@ -50,6 +50,20 @@ test_that("userpass", {
 })
 
 
+test_that("custom mount", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", path = "userpass2")
+  up <- cl$auth$userpass$custom_mount("userpass2")
+  expect_is(up, "vault_client_auth_userpass")
+
+  up$add("rich", "pass")
+  expect_equal(up$read("rich")$policies, character(0))
+  expect_error(cl$auth$userpass$read("rich"))
+})
+
+
 test_that("login", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -128,4 +142,59 @@ test_that("delete user", {
   cl$auth$userpass$delete("rich")
   expect_equal(cl$auth$userpass$list(), character(0))
   expect_error(cl$auth$userpass$login("rich", "pass"))
+})
+
+
+test_that("create with policy", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass", "standard")
+
+  expect_equal(cl$auth$userpass$read("rich")$policies, "standard")
+
+  token <- cl$auth$userpass$login("rich", "pass")$client_token
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = token)
+  expect_true("standard" %in% cl2$token$lookup_self()$policies)
+
+  ## Can we read and write where expected:
+  cl2$write("secret/a/b", list(value = 1))
+  expect_equal(cl2$read("secret/a/b"), list(value = 1))
+
+  ## Are we forbidden where expected:
+  err <- tryCatch(cl2$write("secret/b", list(value = 1)), error = identity)
+  expect_is(err, "vault_error")
+  expect_is(err, "vault_forbidden")
+})
+
+
+test_that("update policy", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$userpass$add("rich", "pass")
+
+  cl$auth$userpass$update_policies("rich", "standard")
+  token <- cl$auth$userpass$login("rich", "pass")$client_token
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = token)
+  expect_true("standard" %in% cl2$token$lookup_self()$policies)
+
+  ## Can we read and write where expected:
+  cl2$write("secret/a/b", list(value = 1))
+  expect_equal(cl2$read("secret/a/b"), list(value = 1))
+
+  ## Are we forbidden where expected:
+  err <- tryCatch(cl2$write("secret/b", list(value = 1)), error = identity)
+  expect_is(err, "vault_error")
+  expect_is(err, "vault_forbidden")
 })
