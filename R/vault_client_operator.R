@@ -43,19 +43,14 @@ R6_vault_client_operator <- R6::R6Class(
       private$api_client$GET("/sys/rekey/init")
     },
 
-    rekey_start = function(secret_shares, secret_threshold, pgp_keys = NULL,
+    rekey_start = function(secret_shares, secret_threshold,
                            backup = FALSE, require_verification = FALSE) {
       assert_scalar_integer(secret_shares)
       assert_scalar_integer(secret_threshold)
-      if (!is.null(pgp_keys)) {
-        assert_character(pgp_keys)
-        assert_length(pgp_keys, secret_threshold)
-      }
       assert_scalar_logical(backup)
       assert_scalar_logical(require_verification)
       body <- list(secret_shares = secret_shares,
                    secret_threshold = secret_threshold,
-                   pgp_keys = unname(pgp_keys),
                    backup = backup,
                    require_verification = require_verification)
       ## TODO: this is incorrect in the vault api docs
