@@ -158,20 +158,28 @@ is_directory <- function(path) {
 }
 
 
-free_port <- function(port, max_tries = 10, verbose = FALSE) {
+free_port <- function(port, max_tries = 10) {
   for (i in seq_len(max_tries)) {
-    con <- tryCatch(suppressWarnings(socketConnection(
-      "localhost", port = port, timeout = 0.1, open = "r")),
-      error = function(e) NULL)
-    if (is.null(con)) {
+    if (check_port(port)) {
       return(port)
     }
-    close(con)
     port <- port + 1L
   }
   stop(sprintf("Did not find a free port between %d..%d",
-               port - max_tries + 1, port),
+               port - max_tries, port - 1),
        call. = FALSE)
+}
+
+
+check_port <- function(port) {
+  con <- tryCatch(suppressWarnings(socketConnection(
+    "localhost", port = port, timeout = 0.1, open = "r")),
+    error = function(e) NULL)
+  if (is.null(con)) {
+    return(TRUE)
+  }
+  close(con)
+  FALSE
 }
 
 

@@ -25,3 +25,14 @@ test_that("pretty_sec", {
   expect_equal(pretty_sec(100000), "~1d")
   expect_equal(pretty_sec(1000000), "~12d")
 })
+
+
+test_that("free_port: failure", {
+  skip_on_cran()
+  skip_if_not_installed("mockery")
+  mockery::stub(free_port, "check_port", FALSE)
+  expect_error(free_port(10000, 0),
+               "Did not find a free port between 10000..9999")
+  expect_error(free_port(10000, 10),
+               "Did not find a free port between 10000..10009")
+})
