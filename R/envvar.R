@@ -11,5 +11,10 @@
 ##'   "character" (the default) or "integer"
 ##' @export
 envvar <- function(name, mode = "character") {
-  Sys_getenv(name, NULL, mode, TRUE)
+  value <- Sys_getenv(name, NULL, mode)
+  if (is.null(value)) {
+    stop(sprintf("Environment variable '%s' was not set", name),
+         call. = FALSE)
+  }
+  value
 }

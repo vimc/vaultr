@@ -47,13 +47,9 @@ strsub <- function(str, tr) {
   str
 }
 
-Sys_getenv <- function(name, unset = NULL, mode = "character", error = FALSE) {
+Sys_getenv <- function(name, unset = NULL, mode = "character") {
   value <- Sys.getenv(name, NA_character_)
   if (is.na(value)) {
-    if (error) {
-      stop(sprintf("Environment variable '%s' was not set", name),
-           call. = FALSE)
-    }
     value <- unset
   } else if (mode == "integer") {
     if (!grepl("^-?[0-9]+$", value)) {
@@ -72,19 +68,8 @@ vault_arg <- function(x, name, mode = "character") {
 
 download_file <- function(url, path = tempfile(), quiet = FALSE) {
   r <- httr::GET(url, httr::write_disk(path), if (!quiet) httr::progress())
-  if (!quiet) {
-    cat("\n")
-  }
   httr::stop_for_status(r)
   path
-}
-
-isFALSE <- function(x) {
-  identical(as.vector(x), FALSE)
-}
-
-clear_env <- function(env) {
-  rm(list = ls(env, all.names = TRUE), envir = env)
 }
 
 

@@ -12,6 +12,8 @@ test_that("Sys_getenv", {
     expect_equal(Sys_getenv("VAULTR_NONEXISTANT"), "foo")
     expect_error(Sys_getenv("VAULTR_NONEXISTANT", mode = "integer"),
                  "Invalid input for integer 'foo'")
+    expect_error(Sys_getenv("VAULTR_NONEXISTANT", mode = "other"),
+                 "Invalid value for 'mode'")
   })
 })
 
