@@ -43,7 +43,7 @@ R6_vault_client_secrets <- R6::R6Class(
 
     list = function(detailed = FALSE) {
       if (detailed) {
-        stop("Detailed auth information not supported")
+        stop("Detailed secret information not supported")
       }
       dat <- private$api_client$GET("/sys/mounts")
       cols <- c("type", "accessor", "description")

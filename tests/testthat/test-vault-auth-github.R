@@ -21,7 +21,7 @@ test_that("github set policy: group", {
   cl$auth$github$configure(organization = "vimc")
   cl$auth$github$write("robots", "default")
   d <- cl$auth$github$read("robots")
-  expect_equal(d$policies, "default")
+  expect_equal(d$value, "default")
   expect_equal(cl$read("/auth/github/map/teams/robots"), d)
 })
 
@@ -34,7 +34,7 @@ test_that("github set policy: group", {
   cl$auth$github$write("richfitz", "default", TRUE)
 
   d <- cl$auth$github$read("richfitz", TRUE)
-  expect_equal(d$policies, "default")
+  expect_equal(d$value, "default")
   expect_equal(cl$read("/auth/github/map/users/richfitz"), d)
 })
 

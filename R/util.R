@@ -57,7 +57,7 @@ Sys_getenv <- function(name, unset = NULL, mode = "character") {
     }
     value <- as.integer(value)
   } else if (mode != "character") {
-    stop("invalid value for 'mode'")
+    stop("Invalid value for 'mode'")
   }
   value
 }

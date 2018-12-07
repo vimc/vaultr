@@ -8,4 +8,6 @@ test_that("auth", {
   d <- cl$auth$list()
   expect_equal(d$path, "token/")
   expect_equal(d$type, "token")
+  expect_error(cl$auth$list(TRUE),
+               "Detailed auth information not supported")
 })

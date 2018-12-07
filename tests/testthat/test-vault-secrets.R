@@ -1,6 +1,19 @@
 context("vault: secrets")
 
 
+test_that("secrets", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_is(cl$secrets, "vault_client_secrets")
+  d <- cl$secrets$list()
+  expect_is(d, "data.frame")
+  expect_true("secret/" %in% d$path)
+  expect_true("kv" %in% d$type)
+  expect_error(cl$secrets$list(TRUE),
+               "Detailed secret information not supported")
+})
+
+
 test_that("enable/disable a secret engine", {
   srv <- vault_test_server()
   cl <- srv$client()
