@@ -45,7 +45,8 @@ vault_api_client <- R6::R6Class(
         error = identity)
       success <- !inherits(res, "error")
       list(success = success,
-           error = if (!success) res)
+           error = if (!success) res,
+           token = if (success) token)
     },
 
     GET = function(path, ...) {

@@ -85,28 +85,26 @@ R6_vault_client2 <- R6::R6Class(
         return(NULL)
       }
 
-      assert_scalar_character(method)
-      args <- list(...)
-      assert_named(args, "...")
+      auth <- self$auth[[method]]
+      if (!inherits(auth, "R6")) {
+        stop(sprintf(
+          "Unknown login method '%s' - must be one of %s",
+          method, paste(squote(self$auth$methods()), collapse = ", ")),
+          call. = FALSE)
+      }
+      if (!is.null(mount)) {
+        if (method == "token") {
+          stop("method 'token' does not accept a custom mount")
+        }
+        auth <- auth$custom_mount(mount)
+      }
 
+      ## TODO: Feedback usage information here on failure?
+      assert_scalar_character(method)
+      assert_named(list(...), "...")
       if (method == "token") {
-        if (length(args) != 1L) {
-          stop("Invalid arguments to login with method = 'token'",
-               call. = FALSE)
-        }
-        token <- args[[1]]
+        token <- private$api_client$verify_token(..., quiet = quiet)$token
       } else {
-        auth <- self$auth[[method]]
-        if (!inherits(auth, "R6")) {
-          stop(sprintf(
-            "Unknown login method '%s' - must be one of %s",
-            method, paste(squote(self$auth$methods()), collapse = ", ")),
-            call. = FALSE)
-        }
-        if (!is.null(mount)) {
-          auth <- auth$custom_mount(mount)
-        }
-        ## TODO: Feedback usage information here?
         data <- auth$login(...)
         if (!quiet) {
           message(pretty_lease(data$lease_duration))
@@ -114,11 +112,7 @@ R6_vault_client2 <- R6::R6Class(
         token <- data$client_token
       }
 
-      if (!token_only) {
-        private$api_client$set_token(token, verify = method == "token",
-                                     quiet = quiet)
-      }
-
+      private$api_client$set_token(token)
       invisible(token)
     },
 

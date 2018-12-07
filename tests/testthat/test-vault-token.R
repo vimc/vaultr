@@ -69,3 +69,20 @@ test_that("access via auth", {
   cl <- srv$client()
   expect_equal(cl$auth$token, cl$token)
 })
+
+
+test_that("login: incorrect args", {
+  srv <- vault_test_server()
+  cl <- srv$client(login = FALSE)
+  token <- srv$token
+  ## Can't detect these errors by string because they're R's
+  expect_error(cl$login(method = "token"))
+  expect_error(cl$login(t0ken = token, method = "token"))
+  expect_error(cl$login(token = token, other = "thing", method = "token"))
+
+  expect_error(cl$login(token = token, mount = "token2"),
+               "method 'token' does not accept a custom mount")
+
+  expect_message(cl$login(token = token), "Verifying")
+  expect_equal(cl$token$lookup_self()$policies, "root")
+})
