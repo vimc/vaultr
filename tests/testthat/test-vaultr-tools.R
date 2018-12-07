@@ -37,4 +37,8 @@ test_that("hash", {
   expect_equal(
     cl$tools$hash(data, format = "base64"),
     "VecCyTvYP13B6r3H4MJouKdiay6ACKe5YCMZLv1AwqQ=")
+
+  expect_error(
+    cl$tools$hash("data", format = "base64"),
+    "Expected raw data")
 })
