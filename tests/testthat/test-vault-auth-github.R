@@ -79,3 +79,33 @@ test_that("github auth", {
   expect_is(err, "vault_error")
   expect_is(err, "vault_forbidden")
 })
+
+
+test_that("github token", {
+  fake1 <- fake_token()
+  fake2 <- fake_token()
+
+  withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = NA_character_), {
+    expect_null(vault_auth_github_token(NULL))
+    expect_equal(vault_auth_github_token(fake1), fake1)
+  })
+
+  withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = fake2), {
+    expect_equal(vault_auth_github_token(NULL), fake2)
+    expect_equal(vault_auth_github_token(fake1), fake1)
+  })
+})
+
+
+test_that("missing github token", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  ## Configure github:
+  cl$auth$enable("github")
+  withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = NA_character_), {
+    expect_error(
+      cl$auth$github$login(NULL),
+      "GitHub token was not found: perhaps set 'VAULT_AUTH_GITHUB_TOKEN'")
+  })
+})

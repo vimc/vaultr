@@ -13,10 +13,3 @@ vault_addr <- function(addr) {
   }
   addr
 }
-
-vault_auth_github_token <- function(token) {
-  if (is.null(token)) {
-    token <- Sys.getenv("VAULT_AUTH_GITHUB_TOKEN", NA_character_)
-  }
-  token
-}
