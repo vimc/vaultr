@@ -209,3 +209,18 @@ test_that("disable", {
   err <- tryCatch(cl$auth$userpass$add("rich", "pass"), error = identity)
   expect_is(err, "vault_invalid_path")
 })
+
+
+test_that("login, custom mount", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  path <- "userpass2"
+  cl$auth$enable("userpass", path = path)
+  cl$auth$userpass$custom_mount(path)$add("rich", "pass")
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(username = "rich", password = "pass",
+            method = "userpass", mount = path)
+  expect_equal(cl2$token$lookup_self()$meta$username, "rich")
+})

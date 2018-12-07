@@ -26,3 +26,12 @@ test_that("status", {
   expect_is(status, "list")
   expect_equal(status$progress, 0L)
 })
+
+
+test_that("re-login", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_null(cl$login(method = "impossible"))
+  expect_error(cl$login(method = "impossible", renew = TRUE),
+               "Unknown login method 'impossible' - must be one of")
+})

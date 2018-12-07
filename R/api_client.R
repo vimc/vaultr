@@ -22,9 +22,9 @@ vault_api_client <- R6::R6Class(
       !is.null(self$token)
     },
 
-    set_token = function(token, verify = FALSE) {
+    set_token = function(token, verify = FALSE, quiet = FALSE) {
       if (verify) {
-        dat <- self$verify_token(token)
+        dat <- self$verify_token(token, quiet)
         if (!dat$success) {
           stop("Token validation failed with error: ", dat$error)
         }
@@ -33,7 +33,10 @@ vault_api_client <- R6::R6Class(
       self$auth <- httr::add_headers("X-Vault-Token" = token)
     },
 
-    verify_token = function(token) {
+    verify_token = function(token, quiet = TRUE) {
+      if (!quiet) {
+        message("Verifying token")
+      }
       auth <- httr::add_headers("X-Vault-Token" = token)
       res <- tryCatch(
         vault_request(httr::POST, self$base_url, self$tls_config, auth,

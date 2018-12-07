@@ -115,10 +115,8 @@ R6_vault_client2 <- R6::R6Class(
       }
 
       if (!token_only) {
-        if (!quiet) {
-          message("Verifying token")
-        }
-        private$api_client$set_token(token, verify = method == "token")
+        private$api_client$set_token(token, verify = method == "token",
+                                     quiet = quiet)
       }
 
       invisible(token)
@@ -126,10 +124,6 @@ R6_vault_client2 <- R6::R6Class(
 
     status = function() {
       self$operator$seal_status()
-    },
-
-    upwrap = function(...) {
-      stop("unwrap not yet implemented")
     }
   ))
 

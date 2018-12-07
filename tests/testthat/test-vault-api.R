@@ -35,7 +35,11 @@ test_that("token validation", {
   srv <- vault_test_server()
   cl <- srv$client(login = FALSE)
   api <- cl$api()
-  expect_error(api$set_token(fake_token(), verify = TRUE),
+
+  expect_silent(api$verify_token(fake_token(), TRUE))
+  expect_message(api$verify_token(fake_token(), FALSE), "Verifying token")
+
+  expect_error(api$set_token(fake_token(), verify = TRUE, quiet = TRUE),
                "Token validation failed with error")
 })
 
