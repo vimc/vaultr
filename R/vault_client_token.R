@@ -107,7 +107,7 @@ R6_vault_client_token <- R6::R6Class(
 
     renew_self = function(increment = NULL) {
       body <- list(
-        increment %&&% assert_is_duration(increment))
+        increment = increment %&&% assert_is_duration(increment))
       res <- private$api_client$POST("/auth/token/renew-self",
                                      body = drop_null(body))
       info <- res$auth

@@ -13,6 +13,27 @@ test_that("capabilities-self", {
 })
 
 
+test_that("capabilities-self", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  expect_equal(
+    cl$token$capabilities("sys", srv$token),
+    list("sys" = "root"))
+})
+
+
+test_that("capabilities-accessor", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  ac <- cl$token$lookup_self()$accessor
+
+  expect_equal(
+    cl$token$capabilities_accessor("sys", ac),
+    list("sys" = "root"))
+})
+
+
 test_that("create token", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -35,6 +56,16 @@ test_that("lookup", {
 })
 
 
+test_that("lookup-accessor", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  ac <- cl$token$lookup_self()$accessor
+
+  data <- cl$token$lookup_accessor(ac)
+  expect_equal(data$policies, "root")
+})
+
+
 test_that("revoke", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -50,6 +81,18 @@ test_that("revoke", {
 })
 
 
+test_that("renew-self", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  res1 <- cl$token$create()
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = res1)
+  cl2$token$revoke_self()
+  expect_error(cl2$write("/secret/foo", list(a = 1)))
+})
+
+
 test_that("renew", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -59,6 +102,20 @@ test_that("renew", {
 
   res2 <- cl$token$renew(res1, "100h")
   expect_equal(res2$lease_duration, 360000)
+  ttl <- cl$token$lookup(res1)$ttl
+  expect_true(ttl > 3600)
+})
+
+
+test_that("renew-self", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  res1 <- cl$token$create(ttl = "1h")
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = res1)
+  cl2$token$renew_self("100h")
+
   ttl <- cl$token$lookup(res1)$ttl
   expect_true(ttl > 3600)
 })
@@ -85,4 +142,11 @@ test_that("login: incorrect args", {
 
   expect_message(cl$login(token = token), "Verifying")
   expect_equal(cl$token$lookup_self()$policies, "root")
+})
+
+
+test_that("token list", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_true(cl$token$lookup_self()$accessor %in% cl$token$list())
 })
