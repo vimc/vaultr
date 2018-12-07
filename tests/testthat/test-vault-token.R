@@ -81,15 +81,55 @@ test_that("revoke", {
 })
 
 
-test_that("renew-self", {
+test_that("revoke-self", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  token <- cl$token$create()
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = token)
+  cl2$token$revoke_self()
+  expect_error(cl2$write("/secret/foo", list(a = 1)))
+})
+
+
+test_that("revoke-accessor", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  token <- cl$token$create()
+  ac <- cl$token$lookup(token)$accessor
+
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(token = token)
+  cl2$token$revoke_accessor(ac)
+  expect_error(cl2$write("/secret/foo", list(a = 1)))
+})
+
+
+test_that("revoke-and-orphan", {
   srv <- vault_test_server()
   cl <- srv$client()
 
   res1 <- cl$token$create()
+
   cl2 <- srv$client(login = FALSE)
   cl2$login(token = res1)
-  cl2$token$revoke_self()
-  expect_error(cl2$write("/secret/foo", list(a = 1)))
+  cl2$write("/secret/foo", list(a = 1))
+
+  res2 <- cl2$token$create()
+  cl$token$revoke_and_orphan(res1)
+
+  expect_error(cl$token$lookup(res1))
+  data <- cl$token$lookup(res2)
+  expect_true(data$orphan)
+})
+
+
+test_that("revoke-and-orphan", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_null(cl$token$tidy())
 })
 
 
@@ -111,12 +151,12 @@ test_that("renew-self", {
   srv <- vault_test_server()
   cl <- srv$client()
 
-  res1 <- cl$token$create(ttl = "1h")
+  token <- cl$token$create(ttl = "1h")
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res1)
+  cl2$login(token = token)
   cl2$token$renew_self("100h")
 
-  ttl <- cl$token$lookup(res1)$ttl
+  ttl <- cl$token$lookup(token)$ttl
   expect_true(ttl > 3600)
 })
 
