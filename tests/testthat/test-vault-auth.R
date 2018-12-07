@@ -11,3 +11,12 @@ test_that("auth", {
   expect_error(cl$auth$list(TRUE),
                "Detailed auth information not supported")
 })
+
+
+test_that("introspect methods", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  expect_setequal(cl$auth$methods(),
+                  c("token", "github", "userpass"))
+})

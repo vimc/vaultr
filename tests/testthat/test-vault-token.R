@@ -62,3 +62,10 @@ test_that("renew", {
   ttl <- cl$token$lookup(res1)$ttl
   expect_true(ttl > 3600)
 })
+
+
+test_that("access via auth", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_equal(cl$auth$token, cl$token)
+})

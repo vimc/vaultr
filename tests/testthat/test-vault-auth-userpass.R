@@ -198,3 +198,14 @@ test_that("update policy", {
   expect_is(err, "vault_error")
   expect_is(err, "vault_forbidden")
 })
+
+
+test_that("disable", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$auth$enable("userpass", "user / password based auth")
+  cl$auth$disable("userpass")
+  err <- tryCatch(cl$auth$userpass$add("rich", "pass"), error = identity)
+  expect_is(err, "vault_invalid_path")
+})
