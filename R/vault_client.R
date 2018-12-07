@@ -120,30 +120,3 @@ R6_vault_client2 <- R6::R6Class(
       self$operator$seal_status()
     }
   ))
-
-
-vault_client_format <- function(object, brief, name, description) {
-  if (brief) {
-    return(description)
-  }
-  nms <- setdiff(ls(object), c("format", "clone", "delete", "initialize"))
-  fns <- vlapply(nms, function(x) is.function(object[[x]]))
-  is_obj <- vlapply(nms, function(x) inherits(object[[x]], "R6"))
-
-  calls <- vcapply(nms[fns], function(x) capture_args(object[[x]], x),
-                   USE.NAMES = FALSE)
-  if (any(is_obj)) {
-    objs <- c(
-      "  Command groups:",
-      vcapply(nms[is_obj], function(x)
-        sprintf("    %s: %s", x, object[[x]]$format(TRUE)),
-        USE.NAMES = FALSE))
-  } else {
-    objs <- NULL
-  }
-
-  c(sprintf("<vault: %s>", name),
-    objs,
-    "  Commands:",
-    calls)
-}
