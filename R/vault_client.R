@@ -3,9 +3,20 @@
 ##' variables (see Details) and values provided as arguments override
 ##' these defaults.
 ##'
-##'
-##'
 ##' @title Make a valut client
+##'
+##' @param login Login method.  Specify a string to be passed along as
+##'   the \code{method} argument to \code{$login}.  The default
+##'   \code{FALSE} means not to login.  \code{TRUE} means to login
+##'   using a default method specified by the environment variable
+##'   \code{VAULTR_LOGIN_METHOD} - if that variable is not set, an
+##'   error is thrown.  The value of \code{NULL} is the same as
+##'   \code{TRUE} but does not throw an error if
+##'   \code{VAULTR_LOGIN_METHOD} is not set.  Supported methods are
+##'   \code{token}, \code{github} and \code{userpass}.
+##'
+##' @param ... Additional arguments passed along to the authentication
+##'   method indicated by \code{login}, if used.
 ##'
 ##' @param addr The value address \emph{including protocol and port},
 ##'   e.g., \code{https://vault.example.com:8200}.  If not given, the
@@ -22,6 +33,11 @@
 ##' @author Rich FitzJohn
 vault_client2 <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
   client <- R6_vault_client2$new(addr, tls_config)
+  method <- vault_client_login_method(login)
+  if (!is.null(method)) {
+    client$login(..., method = login)
+  }
+  client
 }
 
 
@@ -135,3 +151,24 @@ R6_vault_client2 <- R6::R6Class(
       self$operator$seal_status()
     }
   ))
+
+
+vault_client_login_method <- function(login) {
+  if (isFALSE(login)) {
+    return(NULL)
+  }
+  if (is.null(login) || isTRUE(login)) {
+    required <- isTRUE(login)
+    login <- Sys_getenv("VAULTR_LOGIN_METHOD", NULL)
+    if (is.null(login)) {
+      if (required) {
+        stop("Default login method not set in 'VAULTR_LOGIN_METHOD'",
+             call. = FALSE)
+      } else {
+        return(NULL)
+      }
+    }
+  }
+  assert_scalar_character(login)
+  login
+}

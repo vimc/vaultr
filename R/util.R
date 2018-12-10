@@ -162,3 +162,8 @@ encode64 <- function(input) {
 decode64 <- function(input) {
   jsonlite::base64_dec(input)
 }
+
+
+isFALSE <- function(x) {
+  is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}
