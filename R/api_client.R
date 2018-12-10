@@ -10,8 +10,8 @@ vault_api_client <- R6::R6Class(
     auth = NULL,
 
     initialize = function(addr = NULL, tls_config = NULL) {
-      self$addr <- addr
-      self$base_url <- vault_base_url(addr, "/v1")
+      self$addr <- vault_addr(addr)
+      self$base_url <- vault_base_url(self$addr, "/v1")
       self$tls_config <- vault_tls_config(tls_config)
     },
 
@@ -86,17 +86,22 @@ vault_tls_config <- function(tls_config) {
 }
 
 
-vault_base_url <- function(addr, api_prefix) {
+
+vault_addr <- function(addr) {
   addr <- addr %||% Sys.getenv("VAULT_ADDR", "")
   assert_scalar_character(addr)
-  assert_scalar_character(api_prefix)
   if (!nzchar(addr)) {
     stop("vault address not found: perhaps set 'VAULT_ADDR'", call. = FALSE)
   }
   if (!grepl("^https?://.+", addr)) {
     stop("Expected an http or https url for vault addr")
   }
+  addr
+}
 
+
+vault_base_url <- function(addr, api_prefix) {
+  assert_scalar_character(api_prefix)
   paste0(addr, api_prefix)
 }
 

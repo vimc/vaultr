@@ -80,7 +80,7 @@ R6_vault_client_auth_userpass <- R6::R6Class(
     login = function(username, password = NULL) {
       data <- userpass_data(username, password)
       path <- sprintf("/auth/%s/login/%s", private$mount, username)
-      body <- list(password = password)
+      body <- list(password = data$password)
       res <- private$api_client$POST(path, body = body,
                                      allow_missing_token = TRUE)
       res$auth

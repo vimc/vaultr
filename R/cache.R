@@ -14,7 +14,7 @@ token_cache <- R6::R6Class(
       }
     },
 
-    get = function(api_client = NULL, use_cache = TRUE, quiet = TRUE) {
+    get = function(api_client, use_cache = TRUE, quiet = TRUE) {
       if (!use_cache) {
         return(NULL)
       }
@@ -32,6 +32,10 @@ token_cache <- R6::R6Class(
 
     clear = function() {
       self$tokens <- setNames(list(), character())
+    },
+
+    delete = function(api_client) {
+      self$tokens[[self$client_addr(api_client)]] <- NULL
     },
 
     list = function() {

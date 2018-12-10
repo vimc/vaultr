@@ -186,6 +186,26 @@ vault_server_instance <- R6::R6Class(
       self$kill()
     },
 
+    env = function() {
+      c(VAULT_ADDR = self$addr,
+        VAULT_TOKEN = self$token %||% NA_character_,
+        VAULT_CACERT = self$cacert %||% NA_character_,
+        VAULTR_AUTH_METHOD = "token")
+    },
+
+    export = function() {
+      env <- self$env()
+      i <- is.na(env)
+      do.call("Sys.setenv", as.list(env[!i]))
+      if (any(i)) {
+        Sys.unsetenv(names(env[i]))
+      }
+    },
+
+    clear_cached_token = function() {
+      vault_env$cache$delete(self)
+    },
+
     kill = function() {
       if (!is.null(self$process)) {
         self$process$kill()

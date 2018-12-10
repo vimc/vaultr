@@ -2,7 +2,7 @@ vault_client_format <- function(object, brief, name, description) {
   if (brief) {
     return(description)
   }
-  nms <- setdiff(ls(object), c("format", "clone", "delete", "initialize"))
+  nms <- setdiff(ls(object), c("format", "clone", "initialize"))
   fns <- vlapply(nms, function(x) is.function(object[[x]]))
   is_obj <- vlapply(nms, function(x) inherits(object[[x]], "R6"))
 

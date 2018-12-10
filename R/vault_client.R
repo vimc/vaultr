@@ -35,7 +35,7 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
   client <- R6_vault_client$new(addr, tls_config)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
-    client$login(..., method = login)
+    client$login(..., method = method)
   }
   client
 }

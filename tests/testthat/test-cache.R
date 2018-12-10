@@ -83,6 +83,22 @@ test_that("multiple servers", {
 })
 
 
+test_that("delete", {
+  cache <- token_cache$new()
+  cl1 <- fake_api_client("a", TRUE)
+  cl2 <- fake_api_client("b", TRUE)
+  t1 <- fake_token()
+  t2 <- fake_token()
+
+  cache$set(cl1, t1)
+  cache$set(cl2, t2)
+
+  cache$delete(cl1)
+
+  expect_setequal(cache$list(), c(cl2$addr))
+})
+
+
 test_that("token_only skips cache", {
   srv <- vault_test_server()
   cl <- srv$client()

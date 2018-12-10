@@ -55,11 +55,10 @@ test_that("skip ssl validation", {
 
 test_that("vault_base_url", {
   withr::with_envvar(c(VAULT_ADDR = NA_character_), {
-    expect_error(vault_base_url(NULL, "/v1"),
-                 "vault address not found")
+    expect_error(vault_addr(NULL), "vault address not found")
   })
 
-  expect_error(vault_base_url("file://foo", "/v1"),
+  expect_error(vault_addr("file://foo"),
                "Expected an http or https url for vault addr")
 
   expect_equal(

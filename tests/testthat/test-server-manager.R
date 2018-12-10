@@ -135,3 +135,41 @@ test_that("vault_platform", {
   expect_equal(vault_platform("Linux"), "linux")
   expect_error(vault_platform("Solaris"), "Unknown sysname")
 })
+
+
+test_that("env", {
+  srv <- vault_test_server()
+  env <- srv$env()
+  expect_equal(env[["VAULT_ADDR"]], srv$addr)
+  expect_equal(env[["VAULT_TOKEN"]], srv$token)
+  expect_equal(env[["VAULTR_AUTH_METHOD"]], "token")
+  expect_equal(env[["VAULT_CACERT"]], NA_character_)
+  expect_setequal(names(env),
+                  c("VAULT_ADDR", "VAULT_TOKEN", "VAULT_CACERT",
+                    "VAULTR_AUTH_METHOD"))
+
+  env[] <- NA_character_
+  withr::with_envvar(env, {
+    srv$export()
+    expect_equal(Sys.getenv("VAULT_ADDR"), srv$addr)
+    expect_equal(Sys.getenv("VAULT_TOKEN"), srv$token)
+    expect_equal(Sys.getenv("VAULTR_AUTH_METHOD"), "token")
+    expect_identical(Sys.getenv("VAULT_CACERT", NA_character_), NA_character_)
+  })
+})
+
+
+test_that("clear tokens", {
+  srv <- vault_test_server()
+  vault_env$cache$clear()
+
+  cl <- srv$client()
+  cl$auth$enable("userpass")
+  cl$auth$userpass$add("alice", "password")
+  cl2 <- srv$client(login = FALSE)
+  cl2$login(method = "userpass", username = "alice", password = "password")
+
+  expect_equal(vault_env$cache$list(), srv$addr)
+  srv$clear_cached_token()
+  expect_equal(vault_env$cache$list(), character(0))
+})
