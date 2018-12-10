@@ -1,9 +1,11 @@
 Package: vaultr
 Author: Rich FitzJohn
 Maintainer: Rich FitzJohn <rich.fitzjohn@gmail.com>
-Title: API Client for Vault
-Version: 0.1.0
-Description: Provides an interface to Hashicorp's vault over its http API.
+Title: Vault Client
+Version: 0.2.0
+Description: Provides an interface to a 'HashiCorp' vault server over
+  its http API.  This allows for secure storage and retrieval of
+  secrets over a network, such as tokens, passwords and certificates.
 License: MIT + file LICENSE
 Imports:
     R6,
