@@ -143,18 +143,38 @@ R6_vault_client_token <- R6::R6Class(
                       assert_scalar_character(role_name))
       data <- private$api_client$GET(path)$data
       data$allowed_policies <- list_to_character(data$allowed_policies)
+      data$disallowed_policies <- list_to_character(data$disallowed_policies)
       data
     },
 
     role_list = function() {
-      data <- private$api_client$LIST("/auth/token/roles")$data
-      data$allowed_policies <- list_to_character(data$allowed_policies)
-      data
+      dat <- tryCatch(private$api_client$LIST("/auth/token/roles"),
+                      vault_invalid_path = function(e) NULL)
+      list_to_character(dat$data$keys)
     },
 
-    ## This one is another big POST with lots of fields
-    role_update = function(...) {
-      stop("not implemented")
+    role_update = function(role_name, allowed_policies = NULL,
+                           disallowed_policies = NULL, orphan = NULL,
+                           period = NULL, renewable = NULL,
+                           explicit_max_ttl = NULL, path_suffix = NULL,
+                           bound_cidrs = NULL, service_type = NULL) {
+      path <- sprintf("/auth/token/roles/%s",
+                      assert_scalar_character(role_name))
+      body <- list(
+        allowed_policies =
+          allowed_policies %&&% assert_character(allowed_policies),
+        disallowed_policies =
+          disallowed_policies %&&% assert_character(disallowed_policies),
+        orphan = orphan %&&% assert_scalar_logical(orphan),
+        period = period %&&% assert_duration(period),
+        renewable = orphan %&&% assert_scalar_logical(orphan),
+        explicit_max_ttl =
+          explicit_max_ttl %&&% assert_scalar_integer(explicit_max_ttl),
+        path_suffix = path_suffix %&&% assert_scalar_character(path_suffix),
+        bound_cidrs = bound_cidrs %&&% assert_character(bound_cidrs),
+        service_type = service_type %&&% assert_scalar_character(service_type))
+      private$api_client$POST(path, body = drop_null(body))
+      invisible(NULL)
     },
 
     role_delete = function(role_name) {

@@ -190,3 +190,37 @@ test_that("token list", {
   cl <- srv$client()
   expect_true(cl$token$lookup_self()$accessor %in% cl$token$list())
 })
+
+
+test_that("role update", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$policy$write("read-a", 'path "secret/a/*" {\n  policy = "read"}')
+  cl$policy$write("read-b", 'path "secret/b/*" {\n  policy = "read"}')
+  cl$token$role_update("nomad", allowed_policies = c("read-a", "read-b"))
+
+  dat <- cl$token$role_read("nomad")
+  expect_equal(dat$allowed_policies, c("read-a", "read-b"))
+  expect_equal(dat$disallowed_policies, character())
+
+  expect_equal(cl$token$role_list(), "nomad")
+})
+
+
+test_that("role delete", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$token$role_update("nomad")
+  expect_equal(cl$token$role_list(), "nomad")
+  cl$token$role_delete("nomad")
+  expect_equal(cl$token$role_list(), character(0))
+})
+
+
+test_that("role list", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  expect_equal(cl$token$role_list(), character(0))
+})
