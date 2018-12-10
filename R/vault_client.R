@@ -1,12 +1,27 @@
-## For the first shot at refactoring,
-##
-## * we use the silly name 'vault_client2' which will eventually
-##   replace vault_client
-##
-## * no attempt at backward compatibility - we'll see how the tests go
-##   and work through from there.
-vault_client2 <- function(addr = NULL, tls_config = NULL) {
-  R6_vault_client2$new(addr, tls_config)
+##' Make a vault client.  This must be done before accessing the
+##' vault.  The deafults for arguments are controlled by environment
+##' variables (see Details) and values provided as arguments override
+##' these defaults.
+##'
+##'
+##'
+##' @title Make a valut client
+##'
+##' @param addr The value address \emph{including protocol and port},
+##'   e.g., \code{https://vault.example.com:8200}.  If not given, the
+##'   default is the environment variable \code{VAULT_ADDR}, which is
+##'   the same as used by vault's command line client.
+##'
+##' @param tls_config TLS (https) configuration.  For most uses this
+##'   can be left blank.  However, if your vault server uses a
+##'   self-signed certificate you will need to provide this.  Defaults
+##'   to the environment variable \code{VAULT_CAPATH}, which is the
+##'   same as vault's command line client.
+##'
+##' @export
+##' @author Rich FitzJohn
+vault_client2 <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
+  client <- R6_vault_client2$new(addr, tls_config)
 }
 
 
@@ -103,7 +118,7 @@ R6_vault_client2 <- R6::R6Class(
       assert_scalar_character(method)
       assert_named(list(...), "...")
       if (method == "token") {
-        token <- private$api_client$verify_token(..., quiet = quiet)$token
+        token <- auth$login(..., quiet = quiet)
       } else {
         data <- auth$login(...)
         if (!quiet) {

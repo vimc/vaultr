@@ -187,5 +187,30 @@ R6_vault_client_token <- R6::R6Class(
     tidy = function() {
       private$api_client$POST("/auth/token/tidy")
       invisible(NULL)
+    },
+
+    ## Not really a *login* as such, but this is where we centralise
+    ## the variable lookup information:
+    login = function(token = NULL, quiet = FALSE) {
+      token <- vault_auth_vault_token(token)
+      res <- private$api_client$verify_token(token, quiet = quiet)
+      if (!res$success) {
+        stop(paste("Token login failed with error:", res$error$message),
+             call. = FALSE)
+      }
+      res$token
     }
   ))
+
+
+vault_auth_vault_token <- function(token) {
+  if (is.null(token)) {
+    token <- Sys_getenv("VAULT_TOKEN", NULL)
+  }
+  if (is.null(token)) {
+    stop("Vault token was not found: perhaps set 'VAULT_TOKEN'",
+         call. = FALSE)
+  }
+  assert_scalar_character(token)
+  token
+}

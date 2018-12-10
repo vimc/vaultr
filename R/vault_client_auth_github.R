@@ -61,12 +61,7 @@ R6_vault_client_auth_github <- R6::R6Class(
 
     login = function(token = NULL) {
       path <- sprintf("/auth/%s/login", private$mount)
-      token <- vault_auth_github_token(token)
-      if (is.null(token)) {
-        stop(
-          "GitHub token was not found: perhaps set 'VAULT_AUTH_GITHUB_TOKEN'")
-      }
-      body <- list(token = assert_scalar_character(token))
+      body <- list(token = vault_auth_github_token(token))
       res <- private$api_client$POST(path, body = body,
                                      allow_missing_token = TRUE)
       res$auth
@@ -78,5 +73,10 @@ vault_auth_github_token <- function(token) {
   if (is.null(token)) {
     token <- Sys_getenv("VAULT_AUTH_GITHUB_TOKEN", NULL)
   }
+  if (is.null(token)) {
+    stop(
+      "GitHub token was not found: perhaps set 'VAULT_AUTH_GITHUB_TOKEN'")
+  }
+  assert_scalar_character(token)
   token
 }

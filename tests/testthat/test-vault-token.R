@@ -224,3 +224,31 @@ test_that("role list", {
   cl <- srv$client()
   expect_equal(cl$token$role_list(), character(0))
 })
+
+
+test_that("login", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+  t <- fake_token()
+  expect_error(cl$token$login(t),
+               "Token login failed with error: .+")
+})
+
+
+test_that("find vault token", {
+  t1 <- fake_token()
+  t2 <- fake_token()
+
+  withr::with_envvar(c(VAULT_TOKEN = NA_character_), {
+    expect_equal(vault_auth_vault_token(t1), t1)
+    expect_error(vault_auth_vault_token(NULL),
+                 "Vault token was not found: perhaps set 'VAULT_TOKEN'")
+    expect_error(vault_auth_vault_token(1), "'token' must be a character")
+  })
+
+  withr::with_envvar(c(VAULT_TOKEN = t2), {
+    expect_equal(vault_auth_vault_token(t1), t1)
+    expect_equal(vault_auth_vault_token(NULL), t2)
+    expect_error(vault_auth_vault_token(1), "'token' must be a character")
+  })
+})

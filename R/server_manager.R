@@ -177,7 +177,7 @@ vault_server_instance <- R6::R6Class(
     },
 
     client = function(login = TRUE, quiet = TRUE) {
-      cl <- vault_client2(self$addr, self$cacert)
+      cl <- vault_client2(addr = self$addr, tls_verify = self$cacert)
       if (login && !is.null(self$token)) {
         cl$login(token = self$token, quiet = quiet)
       }
@@ -236,7 +236,7 @@ vault_server_start_dev <- function(bin, port) {
 
   addr <- sprintf("http://127.0.0.1:%d", port)
 
-  cl <- vault_client2(addr)
+  cl <- vault_client2(addr = addr)
   vault_server_wait(cl$operator$is_initialized, process)
   on.exit()
 
@@ -284,7 +284,7 @@ vault_server_start_https <- function(bin, port, init) {
 
   addr <- sprintf("https://127.0.0.1:%d", port)
   cacert <- file.path(config_path, "server-cert.pem")
-  cl <- vault_client2(addr, cacert)
+  cl <- vault_client2(addr = addr, tls_verify = cacert)
 
   ## Here, our test function is a bit different because we're not
   ## expecting the server to be *initialised*, just to be ready to
