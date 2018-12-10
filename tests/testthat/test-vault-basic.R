@@ -57,15 +57,15 @@ test_that("format", {
 
 
 test_that("login method", {
-  withr::with_envvar(c("VAULTR_LOGIN_METHOD" = NA_character_), {
+  withr::with_envvar(c("VAULTR_AUTH_METHOD" = NA_character_), {
     expect_null(vault_client_login_method(NULL))
     expect_null(vault_client_login_method(FALSE))
     expect_error(vault_client_login_method(TRUE),
-                 "Default login method not set in 'VAULTR_LOGIN_METHOD'")
+                 "Default login method not set in 'VAULTR_AUTH_METHOD'")
     expect_equal(vault_client_login_method("token"), "token")
   })
 
-  withr::with_envvar(c("VAULTR_LOGIN_METHOD" = "github"), {
+  withr::with_envvar(c("VAULTR_AUTH_METHOD" = "github"), {
     expect_equal(vault_client_login_method(NULL), "github")
     expect_null(vault_client_login_method(FALSE))
     expect_equal(vault_client_login_method(TRUE), "github")

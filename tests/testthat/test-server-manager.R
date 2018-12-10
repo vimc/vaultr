@@ -14,9 +14,9 @@ test_that("safeguards for install", {
   })
 
   withr::with_envvar(c(VAULTR_TEST_SERVER_INSTALL = "true",
-                       VAULTR_VAULT_BIN_PATH = NA_character_), {
+                       VAULTR_TEST_SERVER_BIN_PATH = NA_character_), {
     expect_error(vault_test_server_install(),
-                 "VAULTR_VAULT_BIN_PATH is not set")
+                 "VAULTR_TEST_SERVER_BIN_PATH is not set")
   })
 })
 
@@ -26,7 +26,7 @@ test_that("install", {
   skip_if_no_internet()
 
   path <- tempfile()
-  vars <- c(VAULTR_VAULT_BIN_PATH = path,
+  vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
             VAULTR_TEST_SERVER_INSTALL = "true")
 
   res <- withr::with_envvar(vars, {
@@ -45,7 +45,7 @@ test_that("reinstall", {
   skip_if_no_internet()
 
   path <- tempfile()
-  vars <- c(VAULTR_VAULT_BIN_PATH = path,
+  vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
             VAULTR_TEST_SERVER_INSTALL = "true")
 
   dir.create(path)
@@ -66,29 +66,29 @@ test_that("safeguards for run", {
     expect_null(vault_server_manager_bin())
   })
 
-  withr::with_envvar(c(VAULTR_VAULT_BIN_PATH = NA_character_), {
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = NA_character_), {
     expect_null(vault_server_manager_bin())
   })
 
-  withr::with_envvar(c(VAULTR_VAULT_BIN_PATH = tempfile()), {
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = tempfile()), {
     expect_null(vault_server_manager_bin())
   })
 
   path <- tempfile()
   file.create(path)
-  withr::with_envvar(c(VAULTR_VAULT_BIN_PATH = path), {
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
     expect_null(vault_server_manager_bin())
   })
 
   path <- tempfile()
   dir.create(path)
-  withr::with_envvar(c(VAULTR_VAULT_BIN_PATH = path), {
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
     expect_null(vault_server_manager_bin())
   })
 
   vault <- file.path(path, "vault")
   file.create(vault)
-  withr::with_envvar(c(VAULTR_VAULT_BIN_PATH = path), {
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
     expect_equal(normalizePath(vault_server_manager_bin()),
                  normalizePath(vault))
   })

@@ -9,10 +9,10 @@
 ##'   the \code{method} argument to \code{$login}.  The default
 ##'   \code{FALSE} means not to login.  \code{TRUE} means to login
 ##'   using a default method specified by the environment variable
-##'   \code{VAULTR_LOGIN_METHOD} - if that variable is not set, an
+##'   \code{VAULTR_AUTH_METHOD} - if that variable is not set, an
 ##'   error is thrown.  The value of \code{NULL} is the same as
 ##'   \code{TRUE} but does not throw an error if
-##'   \code{VAULTR_LOGIN_METHOD} is not set.  Supported methods are
+##'   \code{VAULTR_AUTH_METHOD} is not set.  Supported methods are
 ##'   \code{token}, \code{github} and \code{userpass}.
 ##'
 ##' @param ... Additional arguments passed along to the authentication
@@ -159,10 +159,10 @@ vault_client_login_method <- function(login) {
   }
   if (is.null(login) || isTRUE(login)) {
     required <- isTRUE(login)
-    login <- Sys_getenv("VAULTR_LOGIN_METHOD", NULL)
+    login <- Sys_getenv("VAULTR_AUTH_METHOD", NULL)
     if (is.null(login)) {
       if (required) {
-        stop("Default login method not set in 'VAULTR_LOGIN_METHOD'",
+        stop("Default login method not set in 'VAULTR_AUTH_METHOD'",
              call. = FALSE)
       } else {
         return(NULL)

@@ -1,12 +1,12 @@
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set \code{VAULTR_VAULT_BIN_PATH} to
+##' server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
 ##' point at the directory containing the vault binary.
 ##'
 ##' The function \code{vault_test_server_install} will install a test
 ##' server, but \emph{only} if the user opts in by setting the
 ##' environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-##' \code{"true"}, and by setting \code{VAULTR_VAULT_BIN_PATH} to the
+##' \code{"true"}, and by setting \code{VAULTR_TEST_SERVER_BIN_PATH} to the
 ##' directory where the binary should be downloaded to.  This will
 ##' download a ~100MB binary from \url{https://vaultproject.io} so use
 ##' with care.  It is intended \emph{only} for use in automated
@@ -49,9 +49,9 @@ vault_test_server_install <- function(quiet = FALSE, version = "0.10.3") {
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  path <- Sys_getenv("VAULTR_VAULT_BIN_PATH", NULL)
+  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
   if (is.null(path)) {
-    stop("VAULTR_VAULT_BIN_PATH is not set")
+    stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
   dir.create(path, FALSE, TRUE)
   dest <- file.path(path, "vault")
@@ -78,7 +78,7 @@ vault_server_manager_bin <- function() {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     return(NULL)
   }
-  path <- Sys_getenv("VAULTR_VAULT_BIN_PATH", NULL)
+  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
   if (is.null(path)) {
     return(NULL)
   }

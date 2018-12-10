@@ -31,14 +31,14 @@ not enabled.  The default, designed to be used within tests, is
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.  You will need to set \code{VAULTR_VAULT_BIN_PATH} to
+server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
 point at the directory containing the vault binary.
 }
 \details{
 The function \code{vault_test_server_install} will install a test
 server, but \emph{only} if the user opts in by setting the
 environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-\code{"true"}, and by setting \code{VAULTR_VAULT_BIN_PATH} to the
+\code{"true"}, and by setting \code{VAULTR_TEST_SERVER_BIN_PATH} to the
 directory where the binary should be downloaded to.  This will
 download a ~100MB binary from \url{https://vaultproject.io} so use
 with care.  It is intended \emph{only} for use in automated
