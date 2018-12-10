@@ -25,15 +25,25 @@ check:
 check_all:
 	VAULTR_TEST_SERVER_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
 
-vignettes/%.Rmd: vignettes/src/%.R
+vignettes_src/%.Rmd: vignettes_src/%.R
 	${RSCRIPT} -e 'library(sowsear); sowsear("$<", output="$@")'
 
-## This will eventually swap out for devtools::build_vignettes(), but
-## in current version it's not working when offline.  For now I'll
-## just do the copy manually.
-vignettes: vignettes/vaultr.Rmd
-	${RSCRIPT} -e 'tools::buildVignettes(dir = ".")'
-	mkdir -p inst/doc
-	cp vignettes/*.html vignettes/*.Rmd inst/doc
+vignettes/vaultr.Rmd: vignettes_src/vaultr.Rmd
+	cd vignettes_src && Rscript -e 'knitr::knit("vaultr.Rmd")'
+	mv vignettes_src/vaultr.md $@
+	sed -i.bak 's/[[:space:]]*$$//' $@
+	rm -f $@.bak
+
+vignettes/packages.Rmd: vignettes_src/packages.Rmd
+	cd vignettes_src && Rscript -e 'knitr::knit("packages.Rmd")'
+	mv vignettes_src/packages.md $@
+	sed -i.bak 's/[[:space:]]*$$//' $@
+	rm -f $@.bak
+
+vignettes_install: vignettes/vaultr.Rmd vignettes/packages.Rmd
+	Rscript -e 'library(methods); devtools::build_vignettes()'
+
+vignettes:
+	make vignettes_install
 
 .PHONY: test roxygen install build check check_all vignettes
