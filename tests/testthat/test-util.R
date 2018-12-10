@@ -38,3 +38,9 @@ test_that("free_port: failure", {
   expect_error(free_port(10000, 10),
                "Did not find a free port between 10000..10009")
 })
+
+
+test_that("free_port: used", {
+  srv <- vault_test_server()
+  expect_false(check_port(srv$port))
+})
