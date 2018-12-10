@@ -2,19 +2,8 @@ language: r
 sudo: false
 cache: packages
 
-addons:
-  apt:
-    sources:
-      - sourceline: 'ppa:chris-lea/libsodium'
-    packages:
-      - libsodium-dev
-      - libssl-dev
-
 r_packages:
   - covr
-
-r_github_packages:
-  - ropensci/cyphr
 
 after_success:
   - Rscript -e 'covr::codecov()'

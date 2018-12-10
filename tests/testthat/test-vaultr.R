@@ -295,44 +295,4 @@ test_that("github auth", {
     cl2$auth("github", renew = TRUE)
     expect_silent(cl2$list("/secret"))
   }
-
-  skip_if_not_installed("cyphr")
-  skip_if_no_internet()
-  if (!has_auth_github_token()) {
-    skip("Rest of github tests require token")
-  }
-
-  ## Set up some keys:
-  path_keys <- tempfile()
-  dir.create(path_keys)
-  Sys.setenv(USER_KEY = path_keys, USER_PUBKEY = path_keys)
-  cyphr::ssh_keygen(path_keys, FALSE)
-
-  ## Now, we test the caching.
-  cache_dir <- tempfile()
-  cl3 <- vault_test_client(auth = FALSE)
-  expect_false(file.exists(cache_dir))
-  expect_message(t1 <- system.time(cl3$auth("github", cache_dir = cache_dir,
-                                            renew = TRUE)),
-                 "Saving cached token to persistent cache", fixed = TRUE)
-  expect_true(file.exists(cache_dir))
-  expect_equal(dir(cache_dir), mangle_url(cl3$url))
-
-  cl4 <- vault_test_client(auth = FALSE)
-  expect_message(t2 <- system.time(cl4$auth("github", cache_dir = cache_dir)),
-                 "Using cached token from this session", fixed = TRUE)
-
-  vault_clear_token_cache()
-  cl5 <- vault_test_client(auth = FALSE)
-  expect_message(t3 <- system.time(cl5$auth("github", cache_dir = cache_dir)),
-                 "Using cached token from persistent cache", fixed = TRUE)
-
-  expect_lt(t2[["elapsed"]], t1[["elapsed"]])
-  expect_lt(t3[["elapsed"]], t1[["elapsed"]])
-
-  cl$disable_auth_backend("github")
-
-  if (try_auth) {
-    expect_error(cl2$list("/secret"), "permission denied")
-  }
 })
