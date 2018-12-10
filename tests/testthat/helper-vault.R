@@ -54,3 +54,11 @@ test_vault_client <- function(..., login = TRUE) {
   }
   cl
 }
+
+
+## Enough interface to use for the token cache:
+fake_api_client <- function(addr, success) {
+  force(success)
+  list(addr = addr,
+       verify_token = function(token, quiet) list(success = success))
+}

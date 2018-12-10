@@ -107,7 +107,7 @@ R6_vault_client <- R6::R6Class(
 
     login = function(..., method = "token", mount = NULL,
                      renew = FALSE, quiet = FALSE,
-                     token_only = FALSE) {
+                     token_only = FALSE, use_cache = TRUE) {
       do_auth <-
         assert_scalar_logical(renew) ||
         assert_scalar_logical(token_only) ||
@@ -136,14 +136,24 @@ R6_vault_client <- R6::R6Class(
       if (method == "token") {
         token <- auth$login(..., quiet = quiet)
       } else {
-        data <- auth$login(...)
-        if (!quiet) {
-          message(pretty_lease(data$lease_duration))
+        token <- vault_env$cache$get(private$api_client,
+                                     use_cache && !token_only)
+        if (is.null(token)) {
+          data <- auth$login(...)
+          if (!quiet) {
+            message(pretty_lease(data$lease_duration))
+          }
+          token <- data$client_token
+          if (!token_only) {
+            vault_env$cache$set(private$api_client, token, use_cache)
+          }
         }
-        token <- data$client_token
       }
 
-      private$api_client$set_token(token)
+      if (!token_only) {
+        private$api_client$set_token(token)
+      }
+
       invisible(token)
     },
 

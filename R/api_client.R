@@ -3,12 +3,14 @@ vault_api_client <- R6::R6Class(
   "vault_api_client",
 
   public = list(
+    addr = NULL,
     base_url = NULL,
     tls_config = NULL,
     token = NULL,
     auth = NULL,
 
     initialize = function(addr = NULL, tls_config = NULL) {
+      self$addr <- addr
       self$base_url <- vault_base_url(addr, "/v1")
       self$tls_config <- vault_tls_config(tls_config)
     },

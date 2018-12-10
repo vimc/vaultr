@@ -178,7 +178,8 @@ vault_server_instance <- R6::R6Class(
 
     client = function(login = TRUE, quiet = TRUE) {
       vault_client(if (login) "token" else FALSE, token = self$token,
-                    quiet = quiet, addr = self$addr, tls_config = self$cacert)
+                   quiet = quiet, addr = self$addr, tls_config = self$cacert,
+                   use_cache = FALSE)
     },
 
     finalize = function() {
