@@ -186,5 +186,6 @@ R6_vault_client_token <- R6::R6Class(
 
     tidy = function() {
       private$api_client$POST("/auth/token/tidy")
+      invisible(NULL)
     }
   ))
