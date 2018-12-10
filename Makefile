@@ -51,4 +51,11 @@ README.md: README.Rmd
 	sed -i.bak 's/[[:space:]]*$$//' README.md
 	rm -f $@.bak
 
+pkgdown:
+	Rscript -e "library(methods); pkgdown::build_site()"
+
+website: pkgdown
+	./scripts/update_web.sh
+
+
 .PHONY: test roxygen install build check check_all vignettes
