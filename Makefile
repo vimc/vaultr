@@ -46,4 +46,9 @@ vignettes_install: vignettes/vaultr.Rmd vignettes/packages.Rmd
 vignettes:
 	make vignettes_install
 
+README.md: README.Rmd
+	Rscript -e "options(warnPartialMatchArgs=FALSE); knitr::knit('$<')"
+	sed -i.bak 's/[[:space:]]*$$//' README.md
+	rm -f $@.bak
+
 .PHONY: test roxygen install build check check_all vignettes

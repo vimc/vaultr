@@ -10,49 +10,37 @@ Vault provides a platform for distributing secrets across machines.  This packag
 
 ## Usage
 
-
+```{r, include = FALSE}
+srv <- vaultr::vault_test_server()
+srv$export()
+local({
+  cl <- srv$client()
+  cl$write("/secret/database/admin", list(value = "s3cret"))
+  cl$write("/secret/database/readonly", list(value = "passw0rd"))
+})
+knitr::opts_chunk$set(error = FALSE)
+```
 
 Create a vault client with the `vault_client` function:
 
-
-```r
+```{r}
 vault <- vaultr::vault_client(login = TRUE)
-```
-
-```
-## Verifying token
 ```
 
 Interact with vault using this object:like
 
-
-```r
+```{r}
 vault$list("secret/database")
-```
-
-```
-## [1] "admin"    "readonly"
 ```
 
 and read secrets with
 
-
-```r
+```{r}
 vault$read("secret/database/admin")
 ```
 
-```
-## $value
-## [1] "s3cret"
-```
-
-
-```r
+```{r}
 vault$read("secret/database/readonly", field = "value")
-```
-
-```
-## [1] "passw0rd"
 ```
 
 or set secrets with
