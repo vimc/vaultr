@@ -3,7 +3,7 @@
 ##' variables (see Details) and values provided as arguments override
 ##' these defaults.
 ##'
-##' @title Make a valut client
+##' @title Make a vault client
 ##'
 ##' @param login Login method.  Specify a string to be passed along as
 ##'   the \code{method} argument to \code{$login}.  The default
@@ -31,8 +31,8 @@
 ##'
 ##' @export
 ##' @author Rich FitzJohn
-vault_client2 <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
-  client <- R6_vault_client2$new(addr, tls_config)
+vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
+  client <- R6_vault_client$new(addr, tls_config)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
     client$login(..., method = login)
@@ -41,7 +41,7 @@ vault_client2 <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 }
 
 
-R6_vault_client2 <- R6::R6Class(
+R6_vault_client <- R6::R6Class(
   "vault_client",
 
   cloneable = FALSE,

@@ -48,7 +48,7 @@ read_vault_env <- function() {
 ## and instead use a version that starts and stops at each use.
 test_vault_client <- function(..., login = TRUE) {
   read_vault_env()
-  cl <- vault_client2(...)
+  cl <- vault_client(...)
   if (login) {
     cl$login()
   }

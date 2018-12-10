@@ -47,7 +47,7 @@ test_that("token validation", {
 test_that("skip ssl validation", {
   srv <- vault_test_server(https = TRUE)
 
-  cl1 <- vault_client2(srv$addr, FALSE)
+  cl1 <- vault_client(addr = srv$addr, tls_config = FALSE)
   cl1$login(token = srv$token, quiet = TRUE)
   expect_equal(cl1$list("/secret"), character(0))
 })
