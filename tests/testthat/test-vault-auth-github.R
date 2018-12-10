@@ -86,7 +86,9 @@ test_that("github token", {
   fake2 <- fake_token()
 
   withr::with_envvar(c("VAULT_AUTH_GITHUB_TOKEN" = NA_character_), {
-    expect_null(vault_auth_github_token(NULL))
+    expect_error(
+      vault_auth_github_token(NULL),
+      "GitHub token was not found: perhaps set 'VAULT_AUTH_GITHUB_TOKEN'")
     expect_equal(vault_auth_github_token(fake1), fake1)
   })
 

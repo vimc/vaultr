@@ -52,7 +52,7 @@ test_that("cancel rekey", {
 
 test_that("init", {
   srv <- vault_test_server(https = TRUE, init = FALSE)
-  cl <- srv$client()
+  cl <- srv$client(login = FALSE)
 
   dat <- cl$operator$init(5, 3)
   expect_is(dat$keys, "character")
