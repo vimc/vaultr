@@ -7,3 +7,4 @@
 ^\.vault$
 ^README.Rmd$
 ^vignettes_src$
+^scripts$
