@@ -7,6 +7,8 @@ Description: Provides an interface to a 'HashiCorp' vault server over
   its http API.  This allows for secure storage and retrieval of
   secrets over a network, such as tokens, passwords and certificates.
 License: MIT + file LICENSE
+URL: https://github.com/vimc/vaultr
+BugReports: https://github.com/vimc/vaultr/issues
 Imports:
     R6,
     getPass,
