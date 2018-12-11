@@ -1,5 +1,9 @@
+^Meta$
+^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^Makefile$
 ^\.travis\.yml$
 ^\.vault$
+^README.Rmd$
+^vignettes_src$

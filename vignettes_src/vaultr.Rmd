@@ -1,0 +1,185 @@
+---
+title: "vaultr"
+author: "Rich FitzJohn"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vaultr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+``` {r include = FALSE}
+srv <- vaultr::vault_test_server()
+srv$export()
+local({
+  cl <- srv$client()
+  cl$write("/secret/database/admin", list(value = "s3cret"))
+  cl$write("/secret/database/readonly", list(value = "passw0rd"))
+  cl$policy$write("basic", 'path "secret/*" {\n  policy = "read"}')
+  cl$auth$enable("userpass")
+  cl$auth$userpass$add("alice", "p4ssw0rd", "basic")
+  cl$auth$enable("github")
+  cl$auth$github$configure(organization = "vimc")
+  cl$auth$github$write("robots", "basic")
+  Sys.setenv("VAULT_AUTH_GITHUB_TOKEN" = Sys.getenv("VAULTR_TEST_GITHUB_PAT"))
+})
+```
+
+## Connecting to vault
+
+The first part of the vignette assumes that vault is set up; later
+we show how to control login behaviour and configure vault itself.
+Access of vault requires several environment variables configured,
+in particular:
+
+* `VAULT_ADDR`: the address of vault
+* `VAULT_TOKEN`: the token to authenticate to vault with
+* `VAULTR_AUTH_METHOD`: the method to use to authenticate with
+  (login to) vault.
+
+(environment variables starting with `VAULT_` are shared with the
+vault cli, variables starting `VAULTR_` are specific to this
+package).
+
+in this vignette, these are already configured:
+``` {r }
+Sys.getenv(c("VAULT_ADDR", "VAULT_TOKEN", "VAULTR_AUTH_METHOD"))
+```
+
+To access vault, first create a client:
+``` {r }
+vault <- vaultr::vault_client(login = TRUE, quiet = TRUE)
+```
+
+This creates an [`R6`](https://CRAN.R-project.org/package=R6)
+object with methods for interacting with vault:
+``` {r }
+vault
+```
+
+Because there are many methods, these are organised
+_hierarchically_, similar to the vault cli client.  For example
+`vault$auth` contains commands for interacting with authentication
+backends (and itself contains further command groups):
+``` {r }
+vault$auth
+```
+
+## Reading, writing, listing and deleteing secrets
+
+It is anticipated that the vast majority of `vaultr` usage will be
+interacting with vault's key-value stores - this is is done with
+the `$read`, `$write`, `$list` and `$delete` methods of the base
+vault client object.  By default, a vault server will have a
+[version-1 key value
+store](https://www.vaultproject.io/docs/secrets/kv/kv-v1.html)
+mounted at `/secret`.
+
+List secrets with `$list`:
+``` {r }
+vault$list("secret")
+vault$list("secret/database")
+```
+
+values that terminate in `/` are "directories".
+
+Read secrets with `$read`:
+``` {r }
+vault$read("secret/database/readonly")
+```
+
+secrets are returned as a `list`, because multiple secrets may be
+stored at a path.  To access a single field, use the `field`
+argument:
+``` {r }
+vault$read("secret/database/readonly", field = "value")
+```
+
+Delete secrets with `$delete`:
+``` {r }
+vault$delete("secret/database/readonly")
+```
+
+After which the data is no longer available:
+``` {r }
+vault$read("secret/database/readonly")
+```
+
+Write new secrets with `$write`:
+``` {r }
+vault$write("secret/webserver", list(password = "horsestaple"))
+```
+
+(be aware that this may well write the secret into your R history
+file `.Rhistory` - to be more secure you may want to read these in
+from environment variables and use `Sys.getenv()` to read them into
+R).
+
+## Alternative login approaches
+
+Using the `token` approach for authentication requires that you
+have already authenticated with vault to get a token.  It is
+usually more convenient to instead use some other method.  Vault
+itself supports [many authentication
+methods](https://www.vaultproject.io/docs/auth/index.html) but
+`vaultr` currently supports only GitHub and username/password at
+this point.
+
+**This document should not be used as a reference point for
+configuring vault in any situation other than testing.  Please
+refer to the [vault
+documentation](https://www.vaultproject.io/docs/auth/index.html)
+first.**
+
+If you want to configure vault from R rather than the command line
+client, you will find a very close mapping between argument
+names. We will here assume that the methods are already configured
+by your vault administrator and show how to interact with them.
+
+### Username and password (`userpass`)
+
+Assume vault has been configured to support
+[userpass](https://www.vaultproject.io/docs/auth/userpass.html)
+authentication and that a user `alice` exists with password
+`p4ssw0rd`.
+``` {r }
+cl <- vaultr::vault_client(login = "userpass", username = "alice",
+                           password = "p4ssw0rd")
+cl$read("secret/webserver")
+```
+
+This is obviously insecure!  `vaultr` can use
+[`getPass`](https://cran.r-project.org/package=getPass) to securely
+prompt for a password:
+
+```r
+cl <- vaultr::vault_client(login = "userpass", username = "alice")
+## Password for 'alice': ********
+## ok, duration: 2764800 s (~32d)
+```
+
+### GitHub (`github`)
+
+Assume vault has been configured to support
+[GitHub](https://www.vaultproject.io/docs/auth/github.html), and
+that the environment variable `VAULT_AUTH_GITHUB_TOKEN` contains a
+personal access token for a team that has been configured to have
+vault access.
+
+``` {r include = FALSE}
+srv$clear_cached_token()
+```
+
+This time login is a little slower because vault has to talk with
+GitHub to verify the user:
+``` {r }
+cl <- vaultr::vault_client(login = "github")
+cl$read("secret/webserver")
+```
+
+Subsequent logins are cached within a session though (based on the
+vault address)
+``` {r }
+cl <- vaultr::vault_client(login = "github")
+```

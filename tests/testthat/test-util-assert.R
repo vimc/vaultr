@@ -49,3 +49,36 @@ test_that("assert_absolute_path", {
   expect_error(assert_absolute_path("foo/bar"), "Expected an absolute path")
   expect_silent(assert_absolute_path("/foo"))
 })
+
+
+test_that("assert_file_exists", {
+  thing <- tempfile()
+  expect_error(assert_file_exists(thing),
+               "The path '.+' does not exist \\(for 'thing'\\)")
+  file.create(thing)
+  expect_silent(assert_file_exists(thing))
+})
+
+
+test_that("assert_is_duration", {
+  var <- "1"
+  expect_error(assert_is_duration(var),
+               "'1' is not a valid time duration for 'var'", fixed = TRUE)
+  var <- "1h"
+  expect_silent(assert_is_duration(var))
+})
+
+
+test_that("assert_integer", {
+  expect_error(assert_integer(pi), "'pi' must be integer")
+  expect_silent(assert_integer(1L))
+  expect_silent(assert_integer(1))
+  expect_silent(assert_integer(1 + 1e-15))
+})
+
+
+test_that("assert_logical", {
+  expect_error(assert_logical(pi), "'pi' must be a logical")
+  expect_silent(assert_logical(TRUE))
+  expect_silent(assert_logical(FALSE))
+})

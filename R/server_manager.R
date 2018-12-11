@@ -1,58 +1,37 @@
-## This is intended primarily for test use, but it might also be
-## useful for other packages that want to use vault in their testing.
-
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set \code{VAULT_BIN_PATH} to point at
-##' the directory containing the vault binary.
+##' server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
+##' point at the directory containing the vault binary.
 ##'
 ##' The function \code{vault_test_server_install} will install a test
 ##' server, but \emph{only} if the user opts in by setting the
 ##' environment variable \code{VAULTR_TEST_SERVER_INSTALL} to
-##' \code{"true"}, and by setting \code{VAULT_BIN_PATH} to the
+##' \code{"true"}, and by setting \code{VAULTR_TEST_SERVER_BIN_PATH} to the
 ##' directory where the binary should be downloaded to.  This will
-##' download a ~50MB binary from \url{https://vaultproject.io} so use
+##' download a ~100MB binary from \url{https://vaultproject.io} so use
 ##' with care.  It is intended \emph{only} for use in automated
 ##' testing environments.
 ##'
 ##' @title Control a test vault server
+##'
+##' @param https Logical scalar, indicating if a https-using server
+##'   should be created, rather than the default vault dev-mode
+##'   server.  This is still \emph{entirely} insecure, and uses self
+##'   signed certificates that are bundled with the package.
+##'
+##' @param init Logical scalar, indicating if the https-using server
+##'   should be initialised.
+##'
+##' @param if_disabled Callback function to run if the vault server is
+##'   not enabled.  The default, designed to be used within tests, is
+##'   \code{testthat::skip}.  Alternatively, inspect the
+##'   \code{$enabled} property of the returned object.
+##'
 ##' @export
 ##' @rdname vault_test_server
-vault_test_server_start <- function() {
-  server <- server_manager$new()
-  if (server$can_run()) {
-    vault_env$server <- server
-    server$up()
-  } else {
-    message("Not starting vault server")
-    NULL
-  }
-}
-
-
-##' @rdname vault_test_server
-##' @export
-vault_test_server_stop <- function() {
-  if (!is.null(vault_env$server)) {
-    vault_env$server$kill()
-  }
-}
-
-
-##' @rdname vault_test_server
-##' @export
-vault_test_server <- function() {
-  vault_env$server
-}
-
-
-##' @rdname vault_test_server
-##' @export
-##' @param ... Argument passed through to create the new client
-vault_test_client <- function(...) {
-  if (!is.null(vault_env)) {
-    vault_env$server$new_client(...)
-  }
+vault_test_server <- function(https = FALSE, init = TRUE,
+                              if_disabled = testthat::skip) {
+  vault_server_manager()$new_server(https, init, if_disabled)
 }
 
 
@@ -63,16 +42,16 @@ vault_test_client <- function(...) {
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "0.7.3") {
+vault_test_server_install <- function(quiet = FALSE, version = "0.10.3") {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  path <- Sys_getenv("VAULT_BIN_PATH", NULL)
+  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
   if (is.null(path)) {
-    stop("VAULT_BIN_PATH is not set")
+    stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
   dir.create(path, FALSE, TRUE)
   dest <- file.path(path, "vault")
@@ -85,154 +64,273 @@ vault_test_server_install <- function(quiet = FALSE, version = "0.7.3") {
 }
 
 
-vault_test_data <- function() {
-  ret <- list(bin = NULL, port = NULL, address = NULL, url = NULL)
-  if (identical(Sys.getenv("NOT_CRAN"), "true")) {
-    port <- Sys.getenv("VAULTR_TEST_SERVER_PORT", NA_character_)
-    if (!is.na(port)) {
-      if (!grepl("^[0-9]+$", port)) {
-        stop(sprintf("Invalid port '%s'", port))
-      }
-      ret$port <- port
-      ret$address <- sprintf("127.0.0.1:%s", port)
-      ret$url  <- sprintf("https://127.0.0.1:%s", port)
-    }
-
-    bin_path <- Sys_getenv("VAULT_BIN_PATH", ".vault")
-    bin <- file.path(bin_path, "vault")
-    if (file.exists(bin)) {
-      ret$bin <- normalizePath(bin)
-    }
+vault_server_manager <- function() {
+  if (is.null(vault_env$server_manager)) {
+    bin <- vault_server_manager_bin()
+    port <- vault_server_manager_port()
+    vault_env$server_manager <- R6_vault_server_manager$new(bin, port)
   }
-  ret
+  vault_env$server_manager
 }
 
 
-server_manager <- R6::R6Class(
-  "server_manager",
+vault_server_manager_bin <- function() {
+  if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
+    return(NULL)
+  }
+  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
+  if (is.null(path)) {
+    return(NULL)
+  }
+  if (!file.exists(path) || !is_directory(path)) {
+    return(NULL)
+  }
+  bin <- file.path(path, "vault")
+  if (!file.exists(bin)) {
+    return(NULL)
+  }
+  normalizePath(bin, mustWork = TRUE)
+}
+
+
+vault_server_manager_port <- function() {
+  port <- Sys.getenv("VAULTR_TEST_SERVER_PORT", NA_character_)
+  if (is.na(port)) {
+    return(18200L)
+  }
+  if (!grepl("^[0-9]+$", port)) {
+    stop(sprintf("Invalid port '%s'", port))
+  }
+  as.integer(port)
+}
+
+
+R6_vault_server_manager <- R6::R6Class(
+  "vault_server_manager",
 
   public = list(
-    port = NULL,
-    address = NULL,
-    url = NULL,
-
-    client = NULL,
     bin = NULL,
+    port = NULL,
+    enabled = FALSE,
 
-    keys = NULL,
-    root_token = NULL,
-
-    stdout = NULL,
-    stderr = NULL,
-
-    process = NULL,
-
-    initialize = function() {
-      dat <- vault_test_data()
-      self$bin <- dat$bin
-      self$port <- dat$port
-      self$address <- dat$address
-      self$url <- dat$url
-    },
-
-    can_run = function() {
-      !is.null(self$address) && !is.null(self$bin)
-    },
-
-    start = function() {
-      if (is.null(self$bin)) {
-        stop("vault executable not found")
-      }
-      if (is.null(self$address)) {
-        stop("'VAULTR_TEST_SERVER_PORT' not set")
-      }
-
-      ## Write out a temporary configuration
-      config_path <- system.file("server", package = "vaultr", mustWork = TRUE)
-      cfg <- readLines(file.path(config_path, "vault-tls.hcl"))
-      tr <- c(VAULT_CONFIG_PATH = config_path,
-              VAULT_ADDR = self$address)
-      path <- tempfile()
-      writeLines(strsub(cfg, tr), path)
-
-      cacert <- file.path(config_path, "server-cert.pem")
-
-      self$client <- self$new_client(auth = FALSE, addr = self$url,
-                                     verify = cacert)
-      res <- try(self$client$sys_is_initialized(), silent = TRUE)
-      if (!inherits(res, "try-error")) {
-        stop("vault is already running at ", self$url)
-      }
-
-      message("Starting vault server at ", self$address)
-      args <- c("server", paste0("-config=", path))
-      self$stdout <- tempfile()
-      self$stderr <- tempfile()
-      self$process <-
-        processx::process$new(self$bin, args,
-                              stdout = self$stdout, stderr = self$stderr)
-      on.exit(self$process$kill())
-
-      for (i in 1:20) {
-        res <- try(self$client$sys_is_initialized(), silent = TRUE)
-        if (!inherits(res, "try-error")) {
-          Sys.setenv(VAULT_ADDR = self$url)
-          Sys.setenv(VAULT_CAPATH = file.path(config_path, "server-cert.pem"))
-
-          message("...vault server is now listening")
-          on.exit()
-          return(TRUE)
-        }
-        # nocov start
-        if (!self$process$is_alive()) {
-          err <- paste(self$process$read_all_output_lines(), collapse = "\n")
-          stop("vault has died: ", err)
-        }
-        message("...waiting for Vault to start")
-        Sys.sleep(0.1)
-        # nocov end
-      }
-      stop("Unable to start vault") # nocov
-    },
-
-    up = function() {
-      self$start()
-      self$sys_initialize()
-      self$unseal()
-      invisible(self)
-    },
-
-    sys_initialize = function() {
-      if (!self$client$sys_is_initialized()) {
-        message("Initializing vault")
-        result <- self$client$sys_initialize()
-        self$root_token <- result[["root_token"]]
-        self$keys <- result[["keys"]]
-        Sys.setenv(VAULT_TOKEN = self$root_token)
-        Sys.setenv(VAULTR_AUTH_METHOD = "token")
+    initialize = function(bin, port) {
+      if (is.null(bin)) {
+        self$enabled <- FALSE
+      } else {
+        assert_scalar_character(bin)
+        assert_scalar_integer(port)
+        self$bin <- normalizePath(bin, mustWork = TRUE)
+        self$port <- port
+        self$enabled <- TRUE
       }
     },
 
-    unseal = function() {
-      if (self$client$is_sealed()) {
-        message("Unsealing vault")
-        self$client$unseal_multi(self$keys)
+    new_port = function() {
+      ret <- free_port(self$port)
+      self$port <- self$port + 1L
+      ret
+    },
+
+    new_server = function(https = FALSE, init = TRUE,
+                          if_disabled = testthat::skip) {
+      if (!self$enabled) {
+        if_disabled("vault is not enabled")
+      } else {
+        tryCatch(
+          vault_server_instance$new(self$bin, self$new_port(), https, init),
+          error = function(e)
+            testthat::skip(paste("vault server failed to start:",
+                                 e$message)))
       }
-    },
-
-    kill = function() {
-      message("Stopping vault server")
-      self$process$kill()
-    },
-
-    new_client = function(ctor = vault_client, auth = TRUE, ...) {
-      ctor(auth_method = if (auth) NULL else FALSE, quiet = TRUE, ...)
     }
   ))
 
 
-vault_platform <- function() {
-  sysname <- Sys.info()[["sysname"]]
+vault_server_instance <- R6::R6Class(
+  "vault_server_instance",
+
+  public = list(
+    port = NULL,
+
+    process = NULL,
+    addr = NULL,
+    cacert = NULL,
+
+    token = NULL,
+    keys = NULL,
+
+    initialize = function(bin, port, https, init) {
+      assert_scalar_integer(port)
+      self$port <- port
+
+      bin <- normalizePath(bin, mustWork = TRUE)
+      if (https) {
+        assert_scalar_logical(init)
+        dat <- vault_server_start_https(bin, self$port, init)
+      } else {
+        dat <- vault_server_start_dev(bin, self$port)
+      }
+
+      for (i in names(dat)) {
+        self[[i]] <- dat[[i]]
+      }
+    },
+
+    client = function(login = TRUE, quiet = TRUE) {
+      vault_client(if (login) "token" else FALSE, token = self$token,
+                   quiet = quiet, addr = self$addr, tls_config = self$cacert,
+                   use_cache = FALSE)
+    },
+
+    finalize = function() {
+      self$kill()
+    },
+
+    env = function() {
+      c(VAULT_ADDR = self$addr,
+        VAULT_TOKEN = self$token %||% NA_character_,
+        VAULT_CACERT = self$cacert %||% NA_character_,
+        VAULTR_AUTH_METHOD = "token")
+    },
+
+    export = function() {
+      env <- self$env()
+      i <- is.na(env)
+      do.call("Sys.setenv", as.list(env[!i]))
+      if (any(i)) {
+        Sys.unsetenv(names(env[i]))
+      }
+    },
+
+    clear_cached_token = function() {
+      vault_env$cache$delete(self)
+    },
+
+    kill = function() {
+      if (!is.null(self$process)) {
+        self$process$kill()
+        self$process <- NULL
+      }
+    }
+  ))
+
+
+
+fake_token <- function() {
+  data <- sample(c(0:9, letters[1:6]), 32, TRUE)
+  n <- c(8, 4, 4, 4, 12)
+  paste(vcapply(split(data, rep(seq_along(n), n)), paste0, collapse = "",
+                USE.NAMES = FALSE), collapse = "-")
+}
+
+
+vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
+  t1 <- Sys.time() + timeout
+  repeat {
+    ok <- tryCatch(test(), error = function(e) FALSE)
+    if (ok) {
+      break
+    }
+    if (!process$is_alive() || Sys.time() > t1) {
+      err <- paste(readLines(process$get_error_file()), collapse = "\n")
+      stop("vault has died:\n", err)
+    }
+    message("...waiting for Vault to start")
+    Sys.sleep(0.1)
+  }
+}
+
+
+vault_server_start_dev <- function(bin, port) {
+  token <- fake_token()
+  args <- c("server", "-dev",
+            sprintf("-dev-listen-address=127.0.0.1:%s", port),
+            sprintf("-dev-root-token-id=%s", token))
+  stdout <- tempfile()
+  stderr <- tempfile()
+  process <-
+    processx::process$new(bin, args, stdout = stdout, stderr = stderr)
+  on.exit(process$kill())
+
+  addr <- sprintf("http://127.0.0.1:%d", port)
+
+  cl <- vault_client(addr = addr)
+  vault_server_wait(cl$operator$is_initialized, process)
+  on.exit()
+
+  txt <- readLines(process$get_output_file())
+  re <- "\\s*Unseal Key:\\s+([^ ]+)\\s*$"
+  i <- grep(re, txt)
+  key <- NULL
+  if (length(i) == 1L) {
+    key <- sub(re, "\\1", txt[[i]])
+  }
+
+  ## See https://www.vaultproject.io/docs/secrets/kv/kv-v2.html#setup
+  ##
+  ## > when running a dev-mode server, the v2 kv secrets engine is
+  ## > enabled by default at the path secret/ (for non-dev servers, it
+  ## > is currently v1)
+  cl$login(token = token, quiet = TRUE)
+  info <- cl$secrets$list()
+
+  description <- info$description[info$path == "secret/"]
+  cl$secrets$disable("/secret")
+  cl$secrets$enable("kv", "/secret", description, 1L)
+
+  list(process = process,
+       addr = addr,
+       keys = key,
+       token = token)
+}
+
+
+vault_server_start_https <- function(bin, port, init) {
+  ## Create a server configuration:
+  config_path <- system.file("server", package = "vaultr", mustWork = TRUE)
+  cfg <- readLines(file.path(config_path, "vault-tls.hcl"))
+  tr <- c(VAULT_CONFIG_PATH = config_path,
+          VAULT_ADDR = sprintf("127.0.0.1:%s", port))
+  path <- tempfile()
+  writeLines(strsub(cfg, tr), path)
+
+  args <- c("server", paste0("-config=", path))
+  stdout <- tempfile()
+  stderr <- tempfile()
+  process <- processx::process$new(bin, args, stdout = stdout, stderr = stderr)
+  on.exit(process$kill())
+
+  addr <- sprintf("https://127.0.0.1:%d", port)
+  cacert <- file.path(config_path, "server-cert.pem")
+  cl <- vault_client(addr = addr, tls_config = cacert)
+
+  ## Here, our test function is a bit different because we're not
+  ## expecting the server to be *initialised*, just to be ready to
+  ## accept connections
+  vault_server_wait(function() !cl$operator$is_initialized(), process)
+
+  if (init) {
+    res <- cl$operator$init(5, 3) # 5 / 3 key split
+    keys <- res$keys_base64
+    root_token <- res$root_token
+    for (k in keys) {
+      cl$operator$unseal(k)
+    }
+  } else {
+    keys <- NULL
+    root_token <- NULL
+  }
+  on.exit()
+
+  list(process = process,
+       addr = addr,
+       token = root_token,
+       keys = keys,
+       cacert = cacert)
+}
+
+
+vault_platform <- function(sysname = Sys.info()[["sysname"]]) {
   switch(sysname,
          Darwin = "darwin",
          Windows = "windows",
@@ -247,7 +345,7 @@ vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
 }
 
 
-vault_install <- function(dest, quiet, version = "0.7.3") {
+vault_install <- function(dest, quiet, version) {
   dest_bin <- file.path(dest, "vault")
   if (!file.exists(dest_bin)) {
     message(sprintf("installing vault to '%s'", dest))

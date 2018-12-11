@@ -4,15 +4,19 @@ skip_if_no_vault_test_server <- function() {
   }
 }
 
-skip_if_no_vault_auth_github_token <- function() {
-  if (has_auth_github_token()) {
+skip_if_no_vaultr_test_github_pat <- function() {
+  if (has_vaultr_test_github_pat()) {
     return(invisible(TRUE))
   }
   skip("No access token set")
 }
 
-has_auth_github_token <- function() {
-  nzchar(Sys.getenv("VAULT_AUTH_GITHUB_TOKEN"), "")
+has_vaultr_test_github_pat <- function() {
+  nzchar(vaultr_test_github_pat())
+}
+
+vaultr_test_github_pat <- function() {
+  Sys.getenv("VAULTR_TEST_GITHUB_PAT", "")
 }
 
 get_error <- function(expr) {
@@ -28,4 +32,33 @@ skip_if_no_internet <- function() {
     return()
   }
   testthat::skip("no internet")
+}
+
+
+read_vault_env <- function() {
+  txt <- readLines(".vault-env")
+  tmp <- tempfile()
+  on.exit(unlink(tmp))
+  writeLines(sub("^export\\s+", "", readLines(".vault-env")), tmp)
+  readRenviron(tmp)
+}
+
+
+## This wants refactoring because we'll move away from global state
+## and instead use a version that starts and stops at each use.
+test_vault_client <- function(..., login = TRUE) {
+  read_vault_env()
+  cl <- vault_client(...)
+  if (login) {
+    cl$login()
+  }
+  cl
+}
+
+
+## Enough interface to use for the token cache:
+fake_api_client <- function(addr, success) {
+  force(success)
+  list(addr = addr,
+       verify_token = function(token, quiet) list(success = success))
 }

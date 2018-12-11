@@ -1,18 +1,24 @@
 Package: vaultr
-Author: Rich FitzJohn
-Maintainer: Rich FitzJohn <rich.fitzjohn@gmail.com>
-Title: API Client for Vault
-Version: 0.0.3
-Description: Provides an interface to Hashicorp's vault over its http API.
+Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
+    email = "rich.fitzjohn@gmail.com"))
+Title: Vault Client
+Version: 0.2.0
+Description: Provides an interface to a 'HashiCorp' vault server over
+  its http API.  This allows for secure storage and retrieval of
+  secrets over a network, such as tokens, passwords and certificates.
 License: MIT + file LICENSE
 Imports:
     R6,
+    getPass,
     httr,
-    jsonlite,
-    prettyunits
+    jsonlite
 Suggests:
-    cyphr,
+    knitr,
+    mockery,
     processx,
+    rmarkdown,
     testthat,
     withr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
+Encoding: UTF-8
+VignetteBuilder: knitr
