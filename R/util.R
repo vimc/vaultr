@@ -106,7 +106,7 @@ is_directory <- function(path) {
 }
 
 
-free_port <- function(port, max_tries = 10) {
+free_port <- function(port, max_tries = 20) {
   for (i in seq_len(max_tries)) {
     if (check_port(port)) {
       return(port)

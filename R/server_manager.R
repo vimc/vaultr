@@ -126,6 +126,7 @@ R6_vault_server_manager <- R6::R6Class(
     },
 
     new_port = function() {
+      gc() # try and free up any previous cases
       ret <- free_port(self$port)
       self$port <- self$port + 1L
       ret
@@ -236,7 +237,7 @@ vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
       stop("vault has died:\n", err)
     }
     message("...waiting for Vault to start")
-    Sys.sleep(0.1)
+    Sys.sleep(poll)
   }
 }
 
