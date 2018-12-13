@@ -177,6 +177,10 @@ vault_server_instance <- R6::R6Class(
       }
     },
 
+    version = function() {
+      self$client(FALSE)$api()$server_version()
+    },
+
     client = function(login = TRUE, quiet = TRUE) {
       vault_client(if (login) "token" else FALSE, token = self$token,
                    quiet = quiet, addr = self$addr, tls_config = self$cacert,
