@@ -111,3 +111,21 @@ assert_is_duration <- function(x, name = deparse(substitute(x))) {
   }
   invisible(x)
 }
+
+
+assert_vault_version <- function(required, api_client, api, description) {
+  have <- api_client$server_version()
+  if (required > have) {
+    stop(vault_invalid_version(required, have, api, description))
+  }
+}
+
+
+vault_invalid_version <- function(required, server_version, api, description) {
+  str <- sprintf("%s (%s) requires vault version >= %s but server is %s",
+                 description, api, required, server_version)
+  err <- list(message = str)
+  class(err) <- c("vault_invalid_version",
+                  "vault_error", "error", "condition")
+  err
+}

@@ -35,9 +35,11 @@ skip_if_no_internet <- function() {
 }
 
 
-skip_if_vault_before <- function(version, server) {
-  if (server$version() < version) {
-    testthat::skip("This test requires vault >= %s", as.character(version))
+skip_if_vault_before <- function(required, server, api, description) {
+  have <- server$version()
+  if (have < required) {
+    testthat::skip(
+      vault_invalid_version(required, have, api, description)$message)
   }
 }
 

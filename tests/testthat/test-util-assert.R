@@ -82,3 +82,15 @@ test_that("assert_logical", {
   expect_silent(assert_logical(TRUE))
   expect_silent(assert_logical(FALSE))
 })
+
+
+test_that("assert_vault_version", {
+  cl <- list(server_version = function() numeric_version("0.9.4"))
+  expect_error(
+    assert_vault_version("1.0.0", cl, "/api/path", "action"),
+    "action (/api/path) requires vault version >= 1.0.0 but server is 0.9.4",
+    class = "vault_invalid_version",
+    fixed = TRUE)
+  expect_silent(
+    assert_vault_version("0.9.4", cl, "/api/path", "action"))
+})
