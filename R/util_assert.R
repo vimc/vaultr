@@ -129,3 +129,13 @@ vault_invalid_version <- function(required, server_version, api, description) {
                   "vault_error", "error", "condition")
   err
 }
+
+
+match_value <- function(arg, choices, name = deparse(substitute(arg))) {
+  assert_scalar_character(arg)
+  if (!(arg %in% choices)) {
+    stop(sprintf("%s must be one of %s",
+                 name, paste(squote(choices), collapse = ", ")))
+  }
+  arg
+}

@@ -94,3 +94,9 @@ test_that("assert_vault_version", {
   expect_silent(
     assert_vault_version("0.9.4", cl, "/api/path", "action"))
 })
+
+
+test_that("match_value", {
+  expect_error(match_value("foo", letters), "must be one of")
+  expect_silent(match_value("a", letters))
+})
