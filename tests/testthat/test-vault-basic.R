@@ -53,6 +53,10 @@ test_that("format", {
   ## recurse:
   str <- withr::with_options(list(width = 80), cl$audit$format())
   expect_false(any(grepl("Command groups:", str)))
+
+  str <- withr::with_options(list(width = 80), cl$secrets$format())
+  expect_true(any(grepl("Command groups:", str)))
+  expect_match(str, "transit:", fixed = TRUE, all = FALSE)
 })
 
 

@@ -4,8 +4,12 @@ R6_vault_client_secrets <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    ## it would be really nice to directly support mounting this elsewhere
+    transit = NULL,
+
     initialize = function(api_client) {
       private$api_client <- api_client
+      self$transit <- R6_vault_client_transit$new(api_client, "transit")
     },
 
     format = function(brief = FALSE) {
