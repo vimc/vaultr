@@ -42,7 +42,7 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "0.10.3") {
+vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
