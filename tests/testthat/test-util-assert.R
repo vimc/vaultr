@@ -100,3 +100,19 @@ test_that("match_value", {
   expect_error(match_value("foo", letters), "must be one of")
   expect_silent(match_value("a", letters))
 })
+
+
+test_that("assert_scalar_logical_or_null", {
+  expect_null(assert_scalar_logical_or_null(NULL))
+  expect_true(assert_scalar_logical_or_null(TRUE))
+  expect_error(assert_scalar_logical_or_null("1", "data"),
+               "'data' must be a logical")
+})
+
+
+test_that("assert_scalar_character_or_null", {
+  expect_null(assert_scalar_character_or_null(NULL))
+  expect_equal(assert_scalar_character_or_null("string"), "string")
+  expect_error(assert_scalar_character_or_null(TRUE, "data"),
+               "'data' must be a character")
+})
