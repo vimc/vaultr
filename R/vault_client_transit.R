@@ -259,7 +259,6 @@ R6_vault_client_transit <- R6::R6Class(
       invisible(NULL)
     },
 
-    ## TODO: this requires vault server 1.0.0
     key_trim = function(name, min_version) {
       path <- sprintf("/%s/keys/%s/trim",
                       private$mount, assert_scalar_character(name))
