@@ -78,6 +78,14 @@ assert_scalar_logical <- function(x, name = deparse(substitute(x))) {
 }
 
 
+assert_scalar_logical_or_null <- function(x, name = deparse(substitute(x))) {
+  if (!is.null(x)) {
+    assert_scalar_logical(x, name)
+  }
+  invisible(x)
+}
+
+
 assert_scalar_character_or_null <- function(x, name = deparse(substitute(x))) {
   if (!is.null(x)) {
     assert_scalar_character(x, name)
