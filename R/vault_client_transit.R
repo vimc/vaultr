@@ -182,13 +182,9 @@ R6_vault_client_transit <- R6::R6Class(
     },
 
     hash = function(data, algorithm = NULL, format = "hex") {
-      if (!is.raw(data)) {
-        ## TODO: should this support base64 data?
-        stop("Expected raw data")
-      }
       path <- sprintf("/%s/hash", private$mount)
       body <- list(
-        input = encode64(data),
+        input = raw_data_input(data),
         algorithm = algorithm %&&% assert_scalar_character(algorithm),
         format = assert_scalar_character(format))
       private$api_client$POST(path, body = drop_null(body))$data$sum
