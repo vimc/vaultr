@@ -1,6 +1,18 @@
 context("secret: transit")
 
 
+test_that("custom mount", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("transit", path = "transit2")
+  tr <- cl$secrets$transit$custom_mount("transit2")
+  expect_is(tr, "vault_client_transit")
+
+  expect_is(tr$random(format = "raw"), "raw")
+})
+
+
 test_that("basic key create/list/update/delete", {
   srv <- vault_test_server()
   cl <- srv$client()

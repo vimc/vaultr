@@ -18,6 +18,10 @@ R6_vault_client_transit <- R6::R6Class(
                           "Cryptographic functions for data in-transit")
     },
 
+    custom_mount = function(mount) {
+      R6_vault_client_transit$new(private$api_client, mount)
+    },
+
     key_create = function(name, key_type = NULL, convergent_encryption = NULL,
                           derived = NULL, exportable = NULL,
                           allow_plaintext_backup = NULL) {
