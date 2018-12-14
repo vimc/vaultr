@@ -243,3 +243,86 @@ test_that("key trim", {
   expect_equal(length(transit$key_read("test")$keys), 1)
 
 })
+
+
+test_that("key derivation: encrypt/decrypt", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("transit")
+  transit <- cl$secrets$transit
+
+  transit$key_create("test", derived = TRUE)
+  context <- charToRaw("samplecontext")
+  plaintext <- charToRaw("plaintext")
+
+  cyphertext <- transit$data_encrypt("test", plaintext, context = context)
+  expect_identical(transit$data_decrypt("test", cyphertext, context = context),
+                   plaintext)
+  expect_error(transit$data_decrypt("test", cyphertext), "context")
+})
+
+
+test_that("key derivation: rewrap", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("transit")
+  transit <- cl$secrets$transit
+  transit$key_create("test")
+  plaintext <- charToRaw("hello world")
+  context <- charToRaw("samplecontext")
+  cyphertext1 <- transit$data_encrypt("test", plaintext, context = context)
+  transit$key_rotate("test")
+  cyphertext2 <- transit$data_rewrap("test", cyphertext1, context = context)
+
+  expect_identical(
+    transit$data_decrypt("test", cyphertext1, context = context),
+    plaintext)
+  expect_identical(
+    transit$data_decrypt("test", cyphertext2, context = context),
+    plaintext)
+
+  transit$key_update("test", min_decryption_version = 2L,
+                     min_encryption_version = 2L)
+  expect_error(transit$data_decrypt("test", cyphertext1, context = context),
+               class = "vault_invalid_request")
+})
+
+
+test_that("key derivation: datakey", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("transit")
+  transit <- cl$secrets$transit
+  transit$key_create("test")
+  context <- charToRaw("samplecontext")
+
+  k1 <- transit$datakey_create("test", plaintext = TRUE, context = context)
+  expect_true(all(c("ciphertext", "plaintext") %in% names(k1)))
+
+  expect_silent(transit$data_decrypt("test", k1$ciphertext, context = context))
+})
+
+
+test_that("key derivation: sign/verify", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  cl$secrets$enable("transit")
+  transit <- cl$secrets$transit
+  transit$key_create("test", key_type = "ed25519", derived = TRUE)
+  transit$key_read("test")
+
+  data <- charToRaw("hello world")
+  context <- charToRaw("samplecontext")
+
+  signature <- transit$sign("test", data, context = context)
+  expect_true(transit$verify_signature("test", data, signature,
+                                       context = context))
+  expect_false(transit$verify_signature("test", data[-1], signature,
+                                        context = context))
+  expect_error(transit$verify_signature("test", data, signature),
+               "context")
+})

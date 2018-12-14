@@ -110,13 +110,14 @@ R6_vault_client_transit <- R6::R6Class(
       if (is.null(version)) keys[[1]] else keys
     },
 
-    data_encrypt = function(key_name, data, key_version = NULL) {
-      ## context = ?
+    data_encrypt = function(key_name, data, key_version = NULL,
+                            context = NULL) {
       ## nonce = not accepted
       ## batch_input = different interface
       ## type, convergent_encryption = not clear at this point
       body <- list(
         plaintext = raw_data_input(data),
+        context = context %&&% raw_data_input(context),
         key_version = key_version %&&% assert_scalar_integer(key_version))
       path <- sprintf("/%s/encrypt/%s",
                       private$mount, assert_scalar_character(key_name))
@@ -124,12 +125,13 @@ R6_vault_client_transit <- R6::R6Class(
       data$ciphertext
     },
 
-    data_decrypt = function(key_name, data, key_version = NULL) {
-      ## context = ?
+    data_decrypt = function(key_name, data, key_version = NULL,
+                            context = NULL) {
       ## nonce = not accepted
       ## batch_input = different interface
       body <- list(
         ciphertext = assert_scalar_character(data),
+        context = context %&&% raw_data_input(context),
         key_version = key_version %&&% assert_scalar_integer(key_version))
       path <- sprintf("/%s/decrypt/%s",
                       private$mount, assert_scalar_character(key_name))
@@ -137,11 +139,12 @@ R6_vault_client_transit <- R6::R6Class(
       decode64(data$plaintext)
     },
 
-    data_rewrap = function(key_name, data, key_version = NULL) {
-      ## context = ?
+    data_rewrap = function(key_name, data, key_version = NULL,
+                           context = NULL) {
       ## nonce = not accepted
       ## batch_input = different interface
       body <- list(
+        context = context %&&% raw_data_input(context),
         ciphertext = assert_scalar_character(data))
       path <- sprintf("/%s/rewrap/%s",
                       private$mount, assert_scalar_character(key_name))
@@ -150,13 +153,14 @@ R6_vault_client_transit <- R6::R6Class(
     },
 
     ## https://groups.google.com/forum/#!topic/vault-tool/gEjLRWlc6C4
-    datakey_create = function(name, plaintext = FALSE, bits = NULL) {
-      ## TODO: context not used
+    datakey_create = function(name, plaintext = FALSE, bits = NULL,
+                              context = NULL) {
       assert_scalar_character(name)
       assert_scalar_logical(plaintext)
       datakey_type <- if (plaintext) "plaintext" else "wrapped"
       path <- sprintf("%s/datakey/%s/%s", private$mount, datakey_type, name)
-      body <- list(bits = bits %&&% assert_scalar_integer(bits))
+      body <- list(bits = bits %&&% assert_scalar_integer(bits),
+                   context = context %&&% raw_data_input(context))
       private$api_client$POST(path, body = drop_null(body))$data
     },
 
@@ -201,10 +205,10 @@ R6_vault_client_transit <- R6::R6Class(
     },
 
     sign = function(name, data, key_version = NULL, hash_algorithm = NULL,
-                    prehashed = FALSE, signature_algorithm = NULL) {
+                    prehashed = FALSE, signature_algorithm = NULL,
+                    context = NULL) {
       path <- sprintf("/%s/sign/%s",
                       private$mount, assert_scalar_character(name))
-      ## TODO: context
       body <- list(
         key_version = key_version %&&% assert_scalar_integer(key_version),
         hash_algorithm =
@@ -212,6 +216,7 @@ R6_vault_client_transit <- R6::R6Class(
         signature_algorithm =
           signature_algorithm %&&% assert_scalar_integer(signature_algorithm),
         input = raw_data_input(data),
+        context = context %&&% raw_data_input(context),
         prehashed = assert_scalar_logical(prehashed))
       private$api_client$POST(path, body = drop_null(body))$data$signature
     },
@@ -219,15 +224,15 @@ R6_vault_client_transit <- R6::R6Class(
     verify = function(name, data, payload, payload_type,
                       hash_algorithm = NULL,
                       signature_algorithm = NULL,
-                      prehashed = FALSE) {
+                      context = NULL, prehashed = FALSE) {
       path <- sprintf("/%s/verify/%s",
                       private$mount, assert_scalar_character(name))
-      ## TODO: context
       payload_type <- match_value(payload_type, c("signature", "hmac"))
       body <- list(
         hash_algorithm =
           hash_algorithm %&&% assert_scalar_integer(hash_algorithm),
         input = raw_data_input(data),
+        context = context %&&% raw_data_input(context),
         prehashed = assert_scalar_logical(prehashed),
         signature_algorithm =
           signature_algorithm %&&% assert_scalar_integer(signature_algorithm))
