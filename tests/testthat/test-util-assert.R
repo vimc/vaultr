@@ -82,3 +82,37 @@ test_that("assert_logical", {
   expect_silent(assert_logical(TRUE))
   expect_silent(assert_logical(FALSE))
 })
+
+
+test_that("assert_vault_version", {
+  cl <- list(server_version = function() numeric_version("0.9.4"))
+  expect_error(
+    assert_vault_version("1.0.0", cl, "/api/path", "action"),
+    "action (/api/path) requires vault version >= 1.0.0 but server is 0.9.4",
+    class = "vault_invalid_version",
+    fixed = TRUE)
+  expect_silent(
+    assert_vault_version("0.9.4", cl, "/api/path", "action"))
+})
+
+
+test_that("match_value", {
+  expect_error(match_value("foo", letters), "must be one of")
+  expect_silent(match_value("a", letters))
+})
+
+
+test_that("assert_scalar_logical_or_null", {
+  expect_null(assert_scalar_logical_or_null(NULL))
+  expect_true(assert_scalar_logical_or_null(TRUE))
+  expect_error(assert_scalar_logical_or_null("1", "data"),
+               "'data' must be a logical")
+})
+
+
+test_that("assert_scalar_character_or_null", {
+  expect_null(assert_scalar_character_or_null(NULL))
+  expect_equal(assert_scalar_character_or_null("string"), "string")
+  expect_error(assert_scalar_character_or_null(TRUE, "data"),
+               "'data' must be a character")
+})

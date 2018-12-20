@@ -42,7 +42,7 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "0.10.3") {
+vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
@@ -126,6 +126,7 @@ R6_vault_server_manager <- R6::R6Class(
     },
 
     new_port = function() {
+      gc() # try and free up any previous cases
       ret <- free_port(self$port)
       self$port <- self$port + 1L
       ret
@@ -174,6 +175,10 @@ vault_server_instance <- R6::R6Class(
       for (i in names(dat)) {
         self[[i]] <- dat[[i]]
       }
+    },
+
+    version = function() {
+      self$client(FALSE)$api()$server_version()
     },
 
     client = function(login = TRUE, quiet = TRUE) {
@@ -236,7 +241,7 @@ vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
       stop("vault has died:\n", err)
     }
     message("...waiting for Vault to start")
-    Sys.sleep(0.1)
+    Sys.sleep(poll)
   }
 }
 

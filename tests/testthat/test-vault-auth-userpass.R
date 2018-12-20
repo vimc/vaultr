@@ -15,11 +15,9 @@ test_that("basic auth", {
 
   cl$write("/auth/userpass/users/rich",
            list(password = "password", policies = "admins"))
-  t <- cl2$login(method = "userpass",
-                 username = "rich",
-                 password = "password")
-  expect_is(t, "character")
-  expect_match(t, "^[-[:xdigit:]]+$")
+  cl2$login(method = "userpass",
+            username = "rich",
+            password = "password")
 
   expect_equal(cl$list("auth/userpass/users"), "rich")
 })
@@ -43,7 +41,6 @@ test_that("userpass", {
   expect_silent(auth <- cl$auth$userpass$login("rich", "pass"))
   token <- auth$client_token
   expect_is(token, "character")
-  expect_match(token, "^[-[:xdigit:]]+$")
 
   cl2 <- srv$client(login = FALSE)
   expect_error(cl2$login(token = token), NA)

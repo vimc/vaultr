@@ -32,11 +32,7 @@ R6_vault_client_tools <- R6::R6Class(
     },
 
     hash = function(data, algorithm = NULL, format = "hex") {
-      if (!is.raw(data)) {
-        ## TODO: should this support base64 data?
-        stop("Expected raw data")
-      }
-      body <- list(input = encode64(data),
+      body <- list(input = raw_data_input(data),
                    algorithm = algorithm,
                    format = assert_scalar_character(format))
       private$api_client$POST("/sys/tools/hash", body = body)$data$sum

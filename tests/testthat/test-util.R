@@ -44,3 +44,12 @@ test_that("free_port: used", {
   srv <- vault_test_server()
   expect_false(check_port(srv$port))
 })
+
+
+test_that("raw_data_input", {
+  d <- "foo"
+  expect_error(raw_data_input(d), "Expected raw data for 'd'")
+  d <- as.raw(0:255)
+  expect_silent(raw_data_input(d))
+  expect_identical(raw_data_input(d), encode64(d))
+})

@@ -8,6 +8,7 @@ vault_api_client <- R6::R6Class(
     tls_config = NULL,
     token = NULL,
     auth = NULL,
+    version = NULL,
 
     initialize = function(addr = NULL, tls_config = NULL) {
       self$addr <- vault_addr(addr)
@@ -49,6 +50,14 @@ vault_api_client <- R6::R6Class(
       list(success = success,
            error = if (!success) res,
            token = if (success) token)
+    },
+
+    server_version = function(refresh = FALSE) {
+      if (is.null(self$version) || refresh) {
+        self$version <- numeric_version(
+          self$GET("/sys/seal-status", allow_missing_token = TRUE)$version)
+      }
+      self$version
     },
 
     GET = function(path, ...) {

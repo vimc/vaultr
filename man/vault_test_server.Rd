@@ -8,7 +8,7 @@
 vault_test_server(https = FALSE, init = TRUE,
   if_disabled = testthat::skip)
 
-vault_test_server_install(quiet = FALSE, version = "0.10.3")
+vault_test_server_install(quiet = FALSE, version = "1.0.0")
 }
 \arguments{
 \item{https}{Logical scalar, indicating if a https-using server

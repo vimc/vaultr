@@ -78,6 +78,14 @@ assert_scalar_logical <- function(x, name = deparse(substitute(x))) {
 }
 
 
+assert_scalar_logical_or_null <- function(x, name = deparse(substitute(x))) {
+  if (!is.null(x)) {
+    assert_scalar_logical(x, name)
+  }
+  invisible(x)
+}
+
+
 assert_scalar_character_or_null <- function(x, name = deparse(substitute(x))) {
   if (!is.null(x)) {
     assert_scalar_character(x, name)
@@ -110,4 +118,32 @@ assert_is_duration <- function(x, name = deparse(substitute(x))) {
          call. = FALSE)
   }
   invisible(x)
+}
+
+
+assert_vault_version <- function(required, api_client, api, description) {
+  have <- api_client$server_version()
+  if (required > have) {
+    stop(vault_invalid_version(required, have, api, description))
+  }
+}
+
+
+vault_invalid_version <- function(required, server_version, api, description) {
+  str <- sprintf("%s (%s) requires vault version >= %s but server is %s",
+                 description, api, required, server_version)
+  err <- list(message = str)
+  class(err) <- c("vault_invalid_version",
+                  "vault_error", "error", "condition")
+  err
+}
+
+
+match_value <- function(arg, choices, name = deparse(substitute(arg))) {
+  assert_scalar_character(arg)
+  if (!(arg %in% choices)) {
+    stop(sprintf("%s must be one of %s",
+                 name, paste(squote(choices), collapse = ", ")))
+  }
+  arg
 }

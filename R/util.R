@@ -106,7 +106,7 @@ is_directory <- function(path) {
 }
 
 
-free_port <- function(port, max_tries = 10) {
+free_port <- function(port, max_tries = 20) {
   for (i in seq_len(max_tries)) {
     if (check_port(port)) {
       return(port)
@@ -166,4 +166,14 @@ decode64 <- function(input) {
 
 isFALSE <- function(x) {
   is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}
+
+
+## vault raw data inputs must be base64
+raw_data_input <- function(data, name = deparse(substitute(data))) {
+  if (!is.raw(data)) {
+    ## TODO: should this support base64 data?
+    stop(sprintf("Expected raw data for '%s'", name, call. = FALSE))
+  }
+  encode64(data)
 }

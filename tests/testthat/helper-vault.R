@@ -35,6 +35,15 @@ skip_if_no_internet <- function() {
 }
 
 
+skip_if_vault_before <- function(required, server, api, description) {
+  have <- server$version()
+  if (have < required) {
+    testthat::skip(
+      vault_invalid_version(required, have, api, description)$message)
+  }
+}
+
+
 read_vault_env <- function() {
   txt <- readLines(".vault-env")
   tmp <- tempfile()
