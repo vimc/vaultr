@@ -33,7 +33,7 @@ R6_vault_client_auth_userpass <- R6::R6Class(
 
     write = function(username, password = NULL, policy = NULL, ttl = NULL,
                    max_ttl = NULL, bound_cidrs = NULL) {
-      username = assert_scalar_character(username)
+      username <- assert_scalar_character(username)
       body <- list(
         password = assert_scalar_character_or_null(password),
         policies = policy %&&% paste(assert_character(policy), collapse = ","),

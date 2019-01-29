@@ -3,6 +3,12 @@ response_to_json <- function(res) {
                      simplifyVector = FALSE)
 }
 
+
+to_json <- function(x) {
+  jsonlite::toJSON(x)
+}
+
+
 `%||%` <- function(a, b) {
   if (is.null(a)) b else a
 }

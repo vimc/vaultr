@@ -84,5 +84,9 @@ R6_vault_client_auth <- R6::R6Class(
 
     userpass = function() {
       R6_vault_client_auth_userpass$new(private$api_client, "userpass")
+    },
+
+    approle = function() {
+      R6_vault_client_auth_approle$new(private$api_client, "approle")
     }
   ))
