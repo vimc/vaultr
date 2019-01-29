@@ -98,7 +98,7 @@ R6_vault_client_auth_approle <- R6::R6Class(
       ## TODO: cidr_list interacts with bound_cidr_list but I don't
       ## see that as a parameter in the POST endpoints
       body <- list(
-        metadata %&&% as.character(to_json(metadata)),
+        metadata = metadata %&&% as.character(to_json(metadata)),
         cidr_list = cidr_list %&&% I(assert_character(cidr_list)),
         token_bound_cidrs =
           token_bound_cidrs %&&% I(assert_character(token_bound_cidrs)))
@@ -110,29 +110,41 @@ R6_vault_client_auth_approle <- R6::R6Class(
     secret_id_list = function(role_name) {
       assert_scalar_character(role_name)
       path <- sprintf("/auth/%s/role/%s/secret-id", private$mount, role_name)
-      private$api_client$GET(path)$data$keys
+      tryCatch(
+        list_to_character(private$api_client$LIST(path)$data$keys),
+        vault_invalid_path = function(e) character(0))
     },
 
-    secret_id_read = function(role_name, secret_id) {
+    secret_id_read = function(role_name, secret_id, accessor = FALSE) {
       assert_scalar_character(role_name)
-      path <- sprintf("/auth/%s/role/%s/secret-id/lookup",
-                      private$mount, role_name)
-      private$api_client$GET(path)
+      if (accessor) {
+        path <- sprintf("/auth/%s/role/%s/secret-id-accessor/lookup",
+                        private$mount, role_name)
+        body <- list(secret_id_accessor = assert_scalar_character(secret_id))
+      } else {
+        path <- sprintf("/auth/%s/role/%s/secret-id/lookup",
+                        private$mount, role_name)
+        body <- list(secret_id = assert_scalar_character(secret_id))
+      }
+      private$api_client$POST(path, body = body)$data
     },
 
-    secret_id_delete = function(role_name, secret_id) {
+    secret_id_delete = function(role_name, secret_id, accessor = FALSE) {
       assert_scalar_character(role_name)
-      path <- sprintf("/auth/%s/role/%s/secret-id/destroy",
-                      private$mount, role_name)
-      body <- list(secret_id = assert_scalar_character(secret_id))
+      if (accessor) {
+        path <- sprintf("/auth/%s/role/%s/secret-id-accessor/destroy",
+                        private$mount, role_name)
+        body <- list(secret_id_accessor = assert_scalar_character(secret_id))
+      } else {
+        path <- sprintf("/auth/%s/role/%s/secret-id/destroy",
+                        private$mount, role_name)
+        body <- list(secret_id = assert_scalar_character(secret_id))
+      }
       private$api_client$POST(path, body = body)
       invisible(NULL)
     },
 
-    ## Read AppRole Secret ID Accessor
-    ## Destroy AppRole Secret ID Accessor
     ## Create Custom AppRole Secret ID (push)
-
     ## Read, Update, or Delete AppRole Properties (separate here)
     ## Tidy Tokens
 
