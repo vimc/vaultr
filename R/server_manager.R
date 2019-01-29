@@ -53,7 +53,7 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   if (is.null(path)) {
     stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
-  dir.create(path, FALSE, TRUE)
+  dir_create(path)
   dest <- file.path(path, "vault")
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
@@ -283,7 +283,7 @@ vault_install <- function(dest, quiet, version) {
     url <- vault_url(version)
     zip <- download_file(url, quiet = quiet)
     tmp <- tempfile()
-    dir.create(tmp)
+    dir_create(tmp)
     utils::unzip(zip, exdir = tmp)
     ok <- file.copy(file.path(tmp, "vault"), dest_bin)
     unlink(tmp, recursive = TRUE)

@@ -53,3 +53,10 @@ test_that("raw_data_input", {
   expect_silent(raw_data_input(d))
   expect_identical(raw_data_input(d), encode64(d))
 })
+
+
+test_that("dir_create throws on failure", {
+  p <- tempfile()
+  file.create(p)
+  expect_error(dir_create(p), "Failed to create directory '.+'")
+})

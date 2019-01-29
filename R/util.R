@@ -177,3 +177,11 @@ raw_data_input <- function(data, name = deparse(substitute(data))) {
   }
   encode64(data)
 }
+
+
+dir_create <- function(path) {
+  p <- dir.create(path, FALSE, TRUE)
+  if (!isTRUE(is_directory(path))) {
+    stop(sprintf("Failed to create directory '%s'", path))
+  }
+}
