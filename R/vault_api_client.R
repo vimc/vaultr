@@ -18,7 +18,6 @@ R6_vault_api_client <- R6::R6Class(
     base_url = NULL,
     tls_config = NULL,
     token = NULL,
-    auth = NULL,
     version = NULL,
 
     initialize = function(addr = NULL, tls_config = NULL) {
@@ -27,8 +26,8 @@ R6_vault_api_client <- R6::R6Class(
       self$tls_config <- vault_tls_config(tls_config)
     },
 
-    request = function(verb, path, ...) {
-      vault_request(verb, self$base_url, self$tls_config, self$auth,
+    request = function(verb, path, ..., token = self$token) {
+      vault_request(verb, self$base_url, self$tls_config, token,
                     path, ...)
     },
 
@@ -44,16 +43,14 @@ R6_vault_api_client <- R6::R6Class(
         }
       }
       self$token <- token
-      self$auth <- httr::add_headers("X-Vault-Token" = token)
     },
 
     verify_token = function(token, quiet = TRUE) {
       if (!quiet) {
         message("Verifying token")
       }
-      auth <- httr::add_headers("X-Vault-Token" = token)
       res <- tryCatch(
-        vault_request(httr::POST, self$base_url, self$tls_config, auth,
+        vault_request(httr::POST, self$base_url, self$tls_config, token,
                       "/sys/capabilities-self",
                       body = list(path = "/sys")),
         error = identity)
