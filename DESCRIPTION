@@ -2,7 +2,7 @@ Package: vaultr
 Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
     email = "rich.fitzjohn@gmail.com"))
 Title: Vault Client
-Version: 0.2.3
+Version: 0.2.4
 Description: Provides an interface to a 'HashiCorp' vault server over
   its http API.  This allows for secure storage and retrieval of
   secrets over a network, such as tokens, passwords and certificates.
