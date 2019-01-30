@@ -76,7 +76,8 @@ R6_vault_client_token <- R6::R6Class(
     create = function(role_name = NULL, id = NULL, policies = NULL,
                       meta = NULL, orphan = FALSE, no_default_policy = FALSE,
                       max_ttl = NULL, display_name = NULL,
-                      num_uses = 0L, period = NULL, ttl = NULL) {
+                      num_uses = 0L, period = NULL, ttl = NULL,
+                      wrap_ttl = NULL) {
       body <- list(
         role_name = role_name %&&% assert_scalar_character(role_name),
         policies = policies %&&% I(assert_character(policies)),
@@ -91,11 +92,16 @@ R6_vault_client_token <- R6::R6Class(
         period = period %&&% assert_is_duration(period),
         no_parent = assert_scalar_logical(orphan))
       body <- drop_null(body)
-      res <- private$api_client$POST("/auth/token/create", body = body)
-
-      info <- res$auth
-      info$policies <- list_to_character(info$policies)
-      token <- info$client_token
+      res <- private$api_client$POST("/auth/token/create", body = body,
+                                     wrap_ttl = wrap_ttl)
+      if (is.null(wrap_ttl)) {
+        info <- res$auth
+        info$policies <- list_to_character(info$policies)
+        token <- info$client_token
+      } else {
+        info <- res$wrap_info
+        token <- info$token
+      }
       attr(token, "info") <- info
       token
     },

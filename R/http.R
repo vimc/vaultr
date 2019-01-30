@@ -1,13 +1,18 @@
 vault_request <- function(verb, url, verify, token, path, ...,
-                          body = NULL, to_json = TRUE,
+                          body = NULL, wrap_ttl = NULL,
+                          to_json = TRUE,
                           allow_missing_token = FALSE) {
   if (!is.null(token)) {
     token <- httr::add_headers("X-Vault-Token" = token)
   } else if (!allow_missing_token) {
     stop("Have not authenticated against vault", call. = FALSE)
   }
+  if (!is.null(wrap_ttl)) {
+    assert_is_duration(wrap_ttl)
+    wrap_ttl <- httr::add_headers("X-Vault-Wrap-TTL" = wrap_ttl)
+  }
   res <- verb(paste0(url, prepare_path(path)), verify, token,
-              httr::accept_json(),
+              httr::accept_json(), wrap_ttl,
               body = body, encode = "json", ...)
   vault_client_response(res, to_json)
 }

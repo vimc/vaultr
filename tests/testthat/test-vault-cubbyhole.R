@@ -31,3 +31,27 @@ test_that("custom mount disabled", {
   expect_error(cl$cubbyhole$custom_mount("elsewhere"),
                "The cubbyhole secret engine cannot be moved")
 })
+
+
+## https://learn.hashicorp.com/vault/secrets-management/sm-cubbyhole
+test_that("response wrapping example", {
+  srv <- vault_test_server()
+  cl <- srv$client()
+
+  ## create an apps policy - I have mucked this up
+  cl$policy$write("apps", 'path "secret/dev/*" {\n  policy = "read"}')
+  cl$write("secret/dev/mysecret", list(a = 1))
+
+  token <- cl$token$create(policies = "apps", wrap_ttl = "1h")
+
+  cl_app <- srv$client(login = FALSE)
+  info <- cl_app$wrap_lookup(token)
+
+  response <- cl_app$unwrap(token)
+  cl_app$login(method = "token", token = response$auth$client_token)
+  expect_equal(cl_app$read("/secret/dev/mysecret"),
+               list(a = 1))
+
+  ## Can't look up the token now
+  expect_error(cl_app$wrap_lookup(token))
+})

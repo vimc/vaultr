@@ -160,6 +160,17 @@ R6_vault_client <- R6::R6Class(
 
     status = function() {
       self$operator$seal_status()
+    },
+
+    unwrap = function(token) {
+      assert_scalar_character(token)
+      private$api_client$POST("/sys/wrapping/unwrap", token = token)
+    },
+
+    wrap_lookup = function(token) {
+      assert_scalar_character(token)
+      private$api_client$POST("/sys/wrapping/lookup", token = token,
+                              allow_missing_token = TRUE)$data
     }
   ))
 
