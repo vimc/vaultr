@@ -3,6 +3,10 @@ RSCRIPT = Rscript --no-init-file
 test:
 	VAULTR_TEST_SERVER_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e 'library(methods); devtools::test()'
 
+
+autodoc:
+	./scripts/autodoc.R
+
 roxygen:
 	@mkdir -p man
 	${RSCRIPT} -e "library(methods); devtools::document()"
