@@ -1,3 +1,10 @@
+##' Interact with vault's version 2 key-value store.  This is useful for storing simple key-value data that can be versioned and store metadata alongside the secrets (see \code{\link{vault_client_kv1}} for a simpler key-value store.
+##'
+##' @title Key-Value Store (Version 1)
+##' @name vault_client_kv1
+NULL
+
+
 R6_vault_client_kv2 <- R6::R6Class(
   "vault_client_kv2",
 

@@ -1,9 +1,5 @@
 ##' @section Methods:
 ##' \cr\describe{
-##' \item{\code{api}}{
-##'   Returns an api client object that can be used to directly interact with the vault server.
-##'   \cr\emph{Usage:}\code{api()}
-##' }
 ##' \item{\code{read}}{
 ##'   Read a value from the vault.  This can be used to read any value that you have permission to read, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault read}.
 ##'   \cr\emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
@@ -54,36 +50,13 @@
 ##'     }
 ##'   }
 ##' }
-##' \item{\code{login}}{
-##'   Login to the vault.  This method is more complicated than most.
-##'   \cr\emph{Usage:}\code{login(..., method = "token", mount = NULL, renew = FALSE,
-##'       quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
+##' \item{\code{custom_mount}}{
+##'   Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
+##'   \cr\emph{Usage:}\code{custom_mount(mount)}
 ##'   \cr\emph{Arguments:}
 ##'   \itemize{
-##'     \item{\code{...}:   Additional named parameters passed through to the underlying method
-##'     }
-##'
-##'     \item{\code{method}:   Authentication method to use, as a string.  Supported values include \code{token} (the default), \code{github}, \code{approle} and \code{userpass}.
-##'     }
-##'
-##'     \item{\code{mount}:   The mount path for the authentication backend, \emph{if it has been mounted in a nonstandard location}.  If not given, then it is assumed that the backend was mounted at a path corresponding to the method name.
-##'     }
-##'
-##'     \item{\code{renew}:   Login, even if we appear to hold a valid token.  If \code{FALSE} and we have a token then \code{login} does nothing.
-##'     }
-##'
-##'     \item{\code{quiet}:   Suppress some informational messages
-##'     }
-##'
-##'     \item{\code{token_only}:   Logical, indicating that we do not want to actually log in, but instead just generate a token and return that.  IF given then \code{renew} is ignored and we always generate a new token.
-##'     }
-##'
-##'     \item{\code{use_cache}:   Logical, indicating if we should look in the session cache for a token for this client.  If this is \code{TRUE} then when we log in we save a copy of the token for this session and any subsequent calls to \code{login} at this vault address that use \code{use_cache = TRUE} will be able to use this token.  Using cached tokens will make using some authentication backends that require authentication with external resources (e.g., \code{github}) much faster.
+##'     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
 ##'     }
 ##'   }
-##' }
-##' \item{\code{status}}{
-##'   Return the status of the vault server, including whether it is sealed or not, and the valut server version.
-##'   \cr\emph{Usage:}\code{status()}
 ##' }
 ##' }

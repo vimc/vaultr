@@ -131,6 +131,7 @@ process <- function(path, class) {
 
 process_all <- function() {
   process("man-roxygen/vault_client.yml", R6_vault_client)
+  process("man-roxygen/vault_client_kv1.yml", R6_vault_client_kv1)
 }
 
 
