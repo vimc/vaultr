@@ -29,6 +29,7 @@
 ##'   to the environment variable \code{VAULT_CAPATH}, which is the
 ##'   same as vault's command line client.
 ##'
+##' @template vault_client
 ##' @export
 ##' @author Rich FitzJohn
 vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {

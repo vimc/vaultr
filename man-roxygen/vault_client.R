@@ -31,4 +31,31 @@
 ##'     }
 ##'   }
 ##' }
+##' \item{\code{list}}{
+##'   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
+##'   \cr\emph{Usage:}\code{list(path, full_names = FALSE)}
+##'   \cr\emph{Arguments:}
+##'   \itemize{
+##'     \item{\code{path}:   The path to list
+##'     }
+##'
+##'     \item{\code{full_names}:   Logical, indicating if full paths (relative to the vault root) should be returned.
+##'     }
+##'   }
+##'   \cr\emph{Value}:
+##'   A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
+##' }
+##' \item{\code{login}}{
+##'   Login to the vault.  This method is more complicated than most.
+##'   \cr\emph{Usage:}\code{login(..., method = "token", mount = NULL, renew = FALSE,
+##'       quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
+##'   \cr\emph{Arguments:}
+##'   \itemize{
+##'
+##'   }
+##' }
+##' \item{\code{status}}{
+##'   Return the status of the vault server, including whether it is sealed or not, and the valut server version.
+##'   \cr\emph{Usage:}\code{status()}
+##' }
 ##' }
