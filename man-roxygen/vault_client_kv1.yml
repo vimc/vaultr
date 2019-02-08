@@ -1,10 +1,7 @@
 read:
   short: >-
     Read a value from the vault.  This can be used to read any value
-    that you have permission to read, and can also be used as an
-    interface to a version 1 key-value store (see
-    \code{\link{vault_client_kv1}}.  Similar to the vault CLI command
-    \code{vault read}.
+    that you have permission to read in this store.
   params:
     path: >-
       Path for the secret to read, such as \code{/secret/mysecret}
@@ -21,10 +18,7 @@ read:
 write:
   short: >-
     Write data into the vault.  This can be used to write any value
-    that you have permission to write, and can also be used as an
-    interface to a version 1 key-value store (see
-    \code{\link{vaule_client_kv1}}.  Similar to the vault CLI command
-    \code{vault write}.
+    that you have permission to write in this store.
   params:
     path: >-
       Path for the secret to write, such as \code{/secret/mysecret}

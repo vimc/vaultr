@@ -72,7 +72,7 @@ these defaults.
   }
 }
 \item{\code{list}}{
-  List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
+  List data in the vault at a given path.  This can be used to list keys, etc (e.g., at \code{/secret}).
   \cr\emph{Usage:}\code{list(path, full_names = FALSE)}
   \cr\emph{Arguments:}
   \itemize{
@@ -85,13 +85,41 @@ these defaults.
   \cr\emph{Value}:
   A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
 }
+\item{\code{delete}}{
+  Delete a value from the vault
+  \cr\emph{Usage:}\code{delete(path)}
+  \cr\emph{Arguments:}
+  \itemize{
+    \item{\code{path}:   The path to delete
+    }
+  }
+}
 \item{\code{login}}{
   Login to the vault.  This method is more complicated than most.
   \cr\emph{Usage:}\code{login(..., method = "token", mount = NULL, renew = FALSE,
       quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
   \cr\emph{Arguments:}
   \itemize{
+    \item{\code{...}:   Additional named parameters passed through to the underlying method
+    }
 
+    \item{\code{method}:   Authentication method to use, as a string.  Supported values include \code{token} (the default), \code{github}, \code{approle} and \code{userpass}.
+    }
+
+    \item{\code{mount}:   The mount path for the authentication backend, \emph{if it has been mounted in a nonstandard location}.  If not given, then it is assumed that the backend was mounted at a path corresponding to the method name.
+    }
+
+    \item{\code{renew}:   Login, even if we appear to hold a valid token.  If \code{FALSE} and we have a token then \code{login} does nothing.
+    }
+
+    \item{\code{quiet}:   Suppress some informational messages
+    }
+
+    \item{\code{token_only}:   Logical, indicating that we do not want to actually log in, but instead just generate a token and return that.  IF given then \code{renew} is ignored and we always generate a new token.
+    }
+
+    \item{\code{use_cache}:   Logical, indicating if we should look in the session cache for a token for this client.  If this is \code{TRUE} then when we log in we save a copy of the token for this session and any subsequent calls to \code{login} at this vault address that use \code{use_cache = TRUE} will be able to use this token.  Using cached tokens will make using some authentication backends that require authentication with external resources (e.g., \code{github}) much faster.
+    }
   }
 }
 \item{\code{status}}{

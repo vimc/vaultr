@@ -1,7 +1,36 @@
-##' Interact with vault's version 2 key-value store.  This is useful for storing simple key-value data that can be versioned and store metadata alongside the secrets (see \code{\link{vault_client_kv1}} for a simpler key-value store.
+##' Interact with vault's version 2 key-value store.  This is useful
+##' for storing simple key-value data that can be versioned and store
+##' metadata alongside the secrets (see \code{\link{vault_client_kv1}}
+##' for a simpler key-value store.
 ##'
-##' @title Key-Value Store (Version 1)
-##' @name vault_client_kv1
+##' A \code{kv2} store can be mounted anywhere, so all methods accept
+##' a \code{mount} argument.  This is different to the CLI which lets
+##' you try and read values from any vault path, but similar to other
+##' secret and auth backends which accept arguments like
+##' \code{-mount-point}.  So if the \code{kv2} store is mounted at
+##' \code{/project-secrets} for example, with a vault client
+##' \code{vault} one could write
+##'
+##' \preformatted{
+##' vault$kv2$get("/project-secrets/mysecret", mount = "project-secrets")
+##' }
+##'
+##' or
+##'
+##' \preformatted{
+##' kv2 <- vault$kv2$custom_mount("project-secrets")
+##' kv2$get("mysecret")
+##' }
+##'
+##' If the leading part of of a path to secret within a \code{kv2}
+##' store does not match the mount point, \code{vaultr} will throw an
+##' error.  This approach results in more predictable error messages,
+##' though it is a little more typing than for the CLI vault client.
+##'
+##' @template vault_client_kv2
+##'
+##' @title Key-Value Store (Version 2)
+##' @name vault_client_kv2
 NULL
 
 
@@ -142,7 +171,7 @@ R6_vault_client_kv2 <- R6::R6Class(
     },
 
     metadata_put = function(path, cas_required = NULL, max_versions = NULL,
-                            mount = NULL) {
+                              mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- drop_null(list(
         cas_required = cas_required, max_versions = max_versions))

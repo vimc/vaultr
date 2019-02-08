@@ -39,7 +39,7 @@ write:
 
 list:
   short: >-
-    List data in the vault at a give path.  This can be used to list
+    List data in the vault at a given path.  This can be used to list
     keys, etc (e.g., at \code{/secret}).
   params:
     path: The path to list

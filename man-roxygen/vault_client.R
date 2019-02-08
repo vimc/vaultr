@@ -32,7 +32,7 @@
 ##'   }
 ##' }
 ##' \item{\code{list}}{
-##'   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
+##'   List data in the vault at a given path.  This can be used to list keys, etc (e.g., at \code{/secret}).
 ##'   \cr\emph{Usage:}\code{list(path, full_names = FALSE)}
 ##'   \cr\emph{Arguments:}
 ##'   \itemize{
