@@ -18,7 +18,7 @@ local({
   cl$write("/secret/database/readonly", list(value = "passw0rd"))
   cl$policy$write("basic", 'path "secret/*" {\n  policy = "read"}')
   cl$auth$enable("userpass")
-  cl$auth$userpass$add("alice", "p4ssw0rd", "basic")
+  cl$auth$userpass$write("alice", "p4ssw0rd", "basic")
   cl$auth$enable("github")
   cl$auth$github$configure(organization = "vimc")
   cl$auth$github$write("robots", "basic")

@@ -1,0 +1,63 @@
+custom_mount:
+  short: >-
+    Set up a \code{vault_client_auth_userpass} object at a custom mount.
+    For example, suppose you mounted the \code{userpass} authentication
+    backend at \code{/userpass2} you might use \code{up <-
+    vault$auth$userpass2$custom_mount("/userpass2")} - this pattern
+    is repeated for other secret and authentication backends.
+  params:
+    mount: String, indicating the path that the engine is mounted at.
+
+write:
+  short: >-
+    Create or update a user.
+  params:
+    username: Username for the user
+    password: Password for the user (required when creating a user only)
+    policies: Character vector of policies for the user
+    ttl: The lease duration which decides login expiration
+    max_ttl: Maximum duration after which login should expire
+    bound_cidrs: >-
+      Character vector of CIDRs.  If set, restricts usage of the login
+      and token to client IPs falling within the range of the
+      specified CIDR(s).
+
+read:
+  short: >-
+    Reads the properties of an existing username.
+  params:
+    username: Username to read
+
+delete:
+  short: Delete a user
+  params:
+    username: Username to delete
+
+update_password:
+  short: Update password for a user
+  params:
+    username: Username for the user to update
+    password: New password for the user
+
+update_policies:
+  short: Update vault policies for a user
+  params:
+    username: Username for the user to update
+    policy: Character vector of policies for this user
+
+list:
+  short: List users known to vault
+
+login:
+  short: >-
+    Log into the vault using username/password authentication.
+    Normally you would not call this directly but instead use
+    \code{$login} with \code{method = "userpass"} and proving the
+    \code{username} argument and optionally the \code{password}
+    argument.  This function returns a vault token but does not set it
+    as the client token.
+  params:
+    username: Username to authenticate with
+    password: >-
+      Password to authenticate with. If omitted or \code{NULL} and the
+      session is interactive, the password will be prompted for.

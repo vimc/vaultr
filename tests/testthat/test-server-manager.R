@@ -165,7 +165,7 @@ test_that("clear tokens", {
 
   cl <- srv$client()
   cl$auth$enable("userpass")
-  cl$auth$userpass$add("alice", "password")
+  cl$auth$userpass$write("alice", "password")
   cl2 <- srv$client(login = FALSE)
   cl2$login(method = "userpass", username = "alice", password = "password")
 

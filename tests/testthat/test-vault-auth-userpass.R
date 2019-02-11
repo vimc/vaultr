@@ -31,7 +31,7 @@ test_that("userpass", {
   expect_true("userpass" %in% cl$auth$list()$type)
   expect_equal(cl$auth$userpass$list(), character(0))
 
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
   expect_equal(cl$auth$userpass$list(), "rich")
 
   d <- cl$auth$userpass$read("rich")
@@ -55,7 +55,7 @@ test_that("custom mount", {
   up <- cl$auth$userpass$custom_mount("userpass2")
   expect_is(up, "vault_client_auth_userpass")
 
-  up$add("rich", "pass")
+  up$write("rich", "pass")
   expect_equal(up$read("rich")$policies, character(0))
   expect_error(cl$auth$userpass$read("rich"))
 })
@@ -68,7 +68,7 @@ test_that("login", {
   token <- cl$token$client()
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass", "default")
+  cl$auth$userpass$write("rich", "pass", "default")
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(method = "userpass",
@@ -109,7 +109,7 @@ test_that("update password", {
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
   cl$auth$userpass$update_password("rich", "word")
 
   expect_error(cl$auth$userpass$login("rich", "pass"))
@@ -122,7 +122,7 @@ test_that("update policies", {
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
   expect_equal(cl$auth$userpass$read("rich")$policies, character(0))
 
   cl$auth$userpass$update_policies("rich", "root")
@@ -135,7 +135,7 @@ test_that("delete user", {
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
   cl$auth$userpass$delete("rich")
   expect_equal(cl$auth$userpass$list(), character(0))
   expect_error(cl$auth$userpass$login("rich", "pass"))
@@ -149,7 +149,7 @@ test_that("create with policy", {
   cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass", "standard")
+  cl$auth$userpass$write("rich", "pass", "standard")
 
   expect_equal(cl$auth$userpass$read("rich")$policies, "standard")
 
@@ -177,7 +177,7 @@ test_that("update policy", {
   cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
 
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
 
   cl$auth$userpass$update_policies("rich", "standard")
   token <- cl$auth$userpass$login("rich", "pass")$client_token
@@ -203,7 +203,7 @@ test_that("disable", {
 
   cl$auth$enable("userpass", "user / password based auth")
   cl$auth$disable("userpass")
-  err <- tryCatch(cl$auth$userpass$add("rich", "pass"), error = identity)
+  err <- tryCatch(cl$auth$userpass$write("rich", "pass"), error = identity)
   expect_is(err, "vault_invalid_path")
 })
 
@@ -214,7 +214,7 @@ test_that("login, custom mount", {
 
   path <- "userpass2"
   cl$auth$enable("userpass", path = path)
-  cl$auth$userpass$custom_mount(path)$add("rich", "pass")
+  cl$auth$userpass$custom_mount(path)$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(username = "rich", password = "pass",

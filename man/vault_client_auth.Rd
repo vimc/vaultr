@@ -56,7 +56,7 @@ Interact with vault's authentication backends.
   Interact with vault's GitHub authentication.  See \code{\link{vault_client_auth_github}} for more information.
 }
 \item{\code{userpass}}{
-  Interact with vault's username/password based authentication.
+  Interact with vault's username/password based authentication.  See \code{\link{vault_client_auth_userpass}} for more information.
 }
 }
 }

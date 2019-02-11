@@ -13,7 +13,7 @@ test_that("invalidation is handled gracefully", {
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(username = "rich", password = "pass", method = "userpass")
@@ -104,7 +104,7 @@ test_that("token_only skips cache", {
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(username = "rich", password = "pass", method = "userpass")
@@ -121,7 +121,7 @@ test_that("token_only works with no cache", {
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
-  cl$auth$userpass$add("rich", "pass")
+  cl$auth$userpass$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
 

@@ -1,3 +1,12 @@
+##' Interact with vault's username/password authentication backend.
+##'
+##' @template vault_client_auth_userpass
+##'
+##' @title Vault Username/Password Authentication Configuration
+##' @name vault_client_auth_userpass
+NULL
+
+
 R6_vault_client_auth_userpass <- R6::R6Class(
   "vault_client_auth_userpass",
 
@@ -22,11 +31,11 @@ R6_vault_client_auth_userpass <- R6::R6Class(
       R6_vault_client_auth_userpass$new(private$api_client, mount)
     },
 
-    add = function(username, password, policy = NULL, ttl = NULL,
+    write = function(username, password = NULL, policy = NULL, ttl = NULL,
                    max_ttl = NULL, bound_cidrs = NULL) {
       username = assert_scalar_character(username)
       body <- list(
-        password = assert_scalar_character(password),
+        password = assert_scalar_character_or_null(password),
         policies = policy %&&% paste(assert_character(policy), collapse = ","),
         ttl = ttl %&&% assert_is_duration(ttl),
         max_ttl = max_ttl %&&% assert_is_duration(max_ttl),
