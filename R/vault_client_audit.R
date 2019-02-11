@@ -1,3 +1,12 @@
+##' Interact with vault's audit devices.
+##'
+##' @template vault_client_audit
+##'
+##' @title Vault Audit Devices
+##' @name vault_client_audit
+NULL
+
+
 R6_vault_client_audit <- R6::R6Class(
   "vault_client_audit",
 
@@ -13,7 +22,7 @@ R6_vault_client_audit <- R6::R6Class(
                           "Interact with vault's audit devices")
     },
 
-    list = function(detailed = FALSE) {
+    list = function() {
       dat <- private$api_client$GET("/sys/audit")
       cols <- c("path", "type", "description")
       ret <- lapply(cols, function(v)
