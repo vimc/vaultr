@@ -1,0 +1,52 @@
+##' @section Methods:
+##' \cr\describe{
+##' \item{\code{backends}}{
+##'   Return a character vector of supported authentication backends. If a backend \code{x} is present, then you can access it with \code{$auth$x}.  Note that vault calls these authentication \emph{methods} but we use \emph{backends} here to differentiate with R6 methods.  Note that these are backends supported by \code{vaultr} and not necessarily supported by the server - the server may not have enabled some of these backends, and may support other authentication backends not directly supported by vaultr.  See the \code{$list()} method to query what the server supports.
+##'   \cr\emph{Usage:}\code{backends()}
+##' }
+##' \item{\code{list}}{
+##'   List authentication backends supported by the vault server, including information about where these backends are mounted.
+##'   \cr\emph{Usage:}\code{list(detailed = FALSE)}
+##'   \cr\emph{Arguments:}
+##'   \itemize{
+##'     \item{\code{detailed}:   Logical, indicating if detailed information should be returned
+##'     }
+##'   }
+##' }
+##' \item{\code{enable}}{
+##'   Enable an authentication backend in the vault server.
+##'   \cr\emph{Usage:}\code{enable(type, description = NULL, local = FALSE, path = NULL)}
+##'   \cr\emph{Arguments:}
+##'   \itemize{
+##'     \item{\code{type}:   The type of authentication backend (e.g., \code{userpass}, \code{github})
+##'     }
+##'
+##'     \item{\code{description}:   Human-friendly descripton of the backend; will be returned by \code{$list()}
+##'     }
+##'
+##'     \item{\code{local}:   Specifies if the auth method is local only. Local auth methods are not replicated nor (if a secondary) removed by replication.
+##'     }
+##'
+##'     \item{\code{path}:   Specifies the path in which to enable the auth method. Defaults to be the same as \code{type}.
+##'     }
+##'   }
+##' }
+##' \item{\code{disable}}{
+##'   Disable an active authentication backend.
+##'   \cr\emph{Usage:}\code{disable(path)}
+##'   \cr\emph{Arguments:}
+##'   \itemize{
+##'     \item{\code{path}:   The path of the authentication backend to disable.
+##'     }
+##'   }
+##' }
+##' \item{\code{token}}{
+##'   Interact with vault's token authentication.  See \code{\link{vault_client_token}} for more information.
+##' }
+##' \item{\code{github}}{
+##'   Interact with vault's GitHub authentication.
+##' }
+##' \item{\code{userpass}}{
+##'   Interact with vault's username/password based authentication.
+##' }
+##' }

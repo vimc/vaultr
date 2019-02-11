@@ -121,7 +121,7 @@ R6_vault_client <- R6::R6Class(
       if (!inherits(auth, "R6")) {
         stop(sprintf(
           "Unknown login method '%s' - must be one of %s",
-          method, paste(squote(self$auth$methods()), collapse = ", ")),
+          method, paste(squote(self$auth$backends()), collapse = ", ")),
           call. = FALSE)
       }
       if (!is.null(mount)) {

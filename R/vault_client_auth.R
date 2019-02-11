@@ -1,3 +1,12 @@
+##' Interact with vault's authentication backends.
+##'
+##' @template vault_client_auth
+##'
+##' @title Vault Authentication Configuration
+##' @name vault_client_auth
+NULL
+
+
 R6_vault_client_auth <- R6::R6Class(
   "vault_client_auth",
 
@@ -13,7 +22,7 @@ R6_vault_client_auth <- R6::R6Class(
                           "administer vault's authentication methods")
     },
 
-    methods = function() {
+    backends = function() {
       nms <- ls(self)
       i <- vlapply(nms, function(x) inherits(self[[x]], "R6"))
       sort(nms[i])
@@ -37,24 +46,21 @@ R6_vault_client_auth <- R6::R6Class(
                     stringsAsFactors = FALSE, check.names = FALSE)
     },
 
-    enable = function(type, description = NULL, local = FALSE,
-                      path = NULL, plugin_name = NULL) {
+    ## TODO: not passing in config here
+    enable = function(type, description = NULL, local = FALSE, path = NULL) {
       assert_scalar_character(type)
       if (is.null(description)) {
         description <- ""
       } else {
         assert_scalar_character(description)
       }
-      assert_scalar_logical(local)
       if (is.null(path)) {
         path <- type
       }
-      assert_scalar_character_or_null(plugin_name)
 
       data <- drop_null(list(type = type,
                              description = description,
-                             local = local,
-                             plugin_name = plugin_name))
+                             local = assert_scalar_logical(local)))
       private$api_client$POST(paste0("/sys/auth/", path), body = data)
       invisible(NULL)
     },

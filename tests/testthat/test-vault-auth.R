@@ -17,6 +17,6 @@ test_that("introspect methods", {
   srv <- vault_test_server()
   cl <- srv$client()
 
-  expect_setequal(cl$auth$methods(),
+  expect_setequal(cl$auth$backends(),
                   c("token", "github", "userpass"))
 })
