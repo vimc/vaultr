@@ -1,3 +1,32 @@
+##' Interact with vault's token methods.  This includes support for
+##' querying, creating and deleting tokens.  Tokens are fundamental to
+##' the way that vault works, so there are a lot of methods here.  The
+##' \href{https://www.vaultproject.io/docs/concepts/tokens.html}{vault
+##' documentation has a page devoted to token concepts}.
+##'
+##' @section Token Accessors:
+##'
+##' Many of the methods use "token accessors" - whenever a token is
+##' created, an "accessor" is created at the same time.  This is
+##' another token that can be used to perform limited actions with the
+##' token such as
+##'
+##' \itemize{
+##' \item Look up a token's properties (not including the actual token ID)
+##' \item Look up a token's capabilities on a path
+##' \item Revoke the token
+##' }
+##'
+##' However, accessors cannot be used to login, nor to retrieve the
+##' actual token itself.
+##'
+##' @template vault_client_token
+##'
+##' @title Vault Tokens
+##' @name vault_client_token
+NULL
+
+
 R6_vault_client_token <- R6::R6Class(
   "vault_client_token",
 
@@ -47,15 +76,15 @@ R6_vault_client_token <- R6::R6Class(
     create = function(role_name = NULL, id = NULL, policies = NULL,
                       meta = NULL, orphan = FALSE, no_default_policy = FALSE,
                       max_ttl = NULL, display_name = NULL,
-                      use_limit = 0L, period = NULL, ttl = NULL) {
+                      num_uses = 0L, period = NULL, ttl = NULL) {
       body <- list(
         role_name = role_name %&&% assert_scalar_character(role_name),
         policies = policies %&&% I(assert_character(policies)),
         meta = meta,
         no_default_policy = assert_scalar_logical(no_default_policy),
-        explicit_max_ttl = max_ttl %&&% assert_is_duration(max_ttl),
+        explicit_max_ttl = max_ttl %&&% assert_scalar_integer(max_ttl),
         display_name = display_name %&&% assert_scalar_character(display_name),
-        num_uses = use_limit %&&% assert_scalar_integer(use_limit),
+        num_uses = num_uses %&&% assert_scalar_integer(num_uses),
         ttl = ttl %&&% assert_is_duration(ttl),
         ## root only:
         id = role_name %&&% assert_scalar_character(id),
@@ -153,11 +182,11 @@ R6_vault_client_token <- R6::R6Class(
       list_to_character(dat$data$keys)
     },
 
-    role_update = function(role_name, allowed_policies = NULL,
-                           disallowed_policies = NULL, orphan = NULL,
-                           period = NULL, renewable = NULL,
-                           explicit_max_ttl = NULL, path_suffix = NULL,
-                           bound_cidrs = NULL, service_type = NULL) {
+    role_write = function(role_name, allowed_policies = NULL,
+                          disallowed_policies = NULL, orphan = NULL,
+                          period = NULL, renewable = NULL,
+                          explicit_max_ttl = NULL, path_suffix = NULL,
+                          bound_cidrs = NULL, token_type = NULL) {
       path <- sprintf("/auth/token/roles/%s",
                       assert_scalar_character(role_name))
       body <- list(
@@ -172,7 +201,7 @@ R6_vault_client_token <- R6::R6Class(
           explicit_max_ttl %&&% assert_scalar_integer(explicit_max_ttl),
         path_suffix = path_suffix %&&% assert_scalar_character(path_suffix),
         bound_cidrs = bound_cidrs %&&% assert_character(bound_cidrs),
-        service_type = service_type %&&% assert_scalar_character(service_type))
+        token_type = token_type %&&% assert_scalar_character(token_type))
       private$api_client$POST(path, body = drop_null(body))
       invisible(NULL)
     },

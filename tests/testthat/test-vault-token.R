@@ -192,13 +192,13 @@ test_that("token list", {
 })
 
 
-test_that("role update", {
+test_that("role write", {
   srv <- vault_test_server()
   cl <- srv$client()
 
   cl$policy$write("read-a", 'path "secret/a/*" {\n  policy = "read"}')
   cl$policy$write("read-b", 'path "secret/b/*" {\n  policy = "read"}')
-  cl$token$role_update("nomad", allowed_policies = c("read-a", "read-b"))
+  cl$token$role_write("nomad", allowed_policies = c("read-a", "read-b"))
 
   dat <- cl$token$role_read("nomad")
   expect_equal(dat$allowed_policies, c("read-a", "read-b"))
@@ -212,7 +212,7 @@ test_that("role delete", {
   srv <- vault_test_server()
   cl <- srv$client()
 
-  cl$token$role_update("nomad")
+  cl$token$role_write("nomad")
   expect_equal(cl$token$role_list(), "nomad")
   cl$token$role_delete("nomad")
   expect_equal(cl$token$role_list(), character(0))
