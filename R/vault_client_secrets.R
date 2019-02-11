@@ -1,3 +1,12 @@
+##' Interact with vault's secret backends.
+##'
+##' @template vault_client_secrets
+##'
+##' @title Vault Secret Configuration
+##' @name vault_client_secrets
+NULL
+
+
 R6_vault_client_secrets <- R6::R6Class(
   "vault_client_secrets",
 
