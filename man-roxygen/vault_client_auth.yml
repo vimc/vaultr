@@ -49,7 +49,8 @@ token:
 
 github:
   short: >-
-    Interact with vault's GitHub authentication.
+    Interact with vault's GitHub authentication.  See
+    \code{\link{vault_client_auth_github}} for more information.
 
 userpass:
   short: >-

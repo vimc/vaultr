@@ -1,3 +1,12 @@
+##' Interact with vault's GitHub authentication backend.
+##'
+##' @template vault_client_auth_github
+##'
+##' @title Vault GitHub Authentication Configuration
+##' @name vault_client_auth_github
+NULL
+
+
 R6_vault_client_auth_github <- R6::R6Class(
   "vault_client_auth_github",
 

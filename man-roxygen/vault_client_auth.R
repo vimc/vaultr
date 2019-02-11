@@ -44,7 +44,7 @@
 ##'   Interact with vault's token authentication.  See \code{\link{vault_client_token}} for more information.
 ##' }
 ##' \item{\code{github}}{
-##'   Interact with vault's GitHub authentication.
+##'   Interact with vault's GitHub authentication.  See \code{\link{vault_client_auth_github}} for more information.
 ##' }
 ##' \item{\code{userpass}}{
 ##'   Interact with vault's username/password based authentication.
