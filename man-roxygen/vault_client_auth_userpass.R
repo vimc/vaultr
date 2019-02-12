@@ -21,7 +21,7 @@
 ##'     \item{\code{password}:   Password for the user (required when creating a user only)
 ##'     }
 ##'
-##'     \item{\code{policies}:   Character vector of policies for the user
+##'     \item{\code{policy}:   Character vector of policies for the user
 ##'     }
 ##'
 ##'     \item{\code{ttl}:   The lease duration which decides login expiration
