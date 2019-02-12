@@ -1,3 +1,12 @@
+##' Administration commands for vault operators.
+##'
+##' @template vault_client_operator
+##'
+##' @title Vault Administration
+##' @name vault_client_operator
+NULL
+
+
 R6_vault_client_operator <- R6::R6Class(
   "vault_client_operator",
 
@@ -43,16 +52,13 @@ R6_vault_client_operator <- R6::R6Class(
       private$api_client$GET("/sys/rekey/init")
     },
 
-    rekey_start = function(secret_shares, secret_threshold,
-                           backup = FALSE, require_verification = FALSE) {
+    rekey_start = function(secret_shares, secret_threshold) {
       assert_scalar_integer(secret_shares)
       assert_scalar_integer(secret_threshold)
-      assert_scalar_logical(backup)
-      assert_scalar_logical(require_verification)
       body <- list(secret_shares = secret_shares,
                    secret_threshold = secret_threshold,
-                   backup = backup,
-                   require_verification = require_verification)
+                   backup = FALSE,
+                   require_verification = FALSE)
       ## TODO: this is incorrect in the vault api docs
       ans <- private$api_client$PUT("/sys/rekey/init", body = body)
       ans

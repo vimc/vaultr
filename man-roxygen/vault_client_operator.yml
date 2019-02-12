@@ -1,0 +1,86 @@
+key_status:
+  short: Return information about the current encryption key of Vault.
+
+is_initialized:
+  short: Returns the initialization status of Vault
+
+init:
+  short: >-
+    This endpoint initializes a new Vault. The Vault must not have
+    been previously initialized.
+  params:
+    secret_shares: >-
+      Integer, specifying the number of shares to split the master key into
+    secret_threshold: >-
+      Integer, specifyingthe number of shares required to reconstruct
+      the master key. This must be less than or equal secret_shares
+
+leader_status:
+  short: >-
+    Check the high availability status and current leader of Vault
+
+rekey_status:
+  short: >-
+    Reads the configuration and progress of the current rekey attempt
+
+rekey_start:
+  short: >-
+    This method begins a new rekey attempt. Only a single rekey
+    attempt can take place at a time, and changing the parameters of a
+    rekey requires canceling and starting a new rekey, which will also
+    provide a new nonce.
+  params:
+    secret_shares: >-
+      Integer, specifying the number of shares to split the master key into
+    secret_threshold: >-
+      Integer, specifyingthe number of shares required to reconstruct
+      the master key. This must be less than or equal secret_shares
+
+rekey_cancel:
+  short: >-
+    This method cancels any in-progress rekey. This clears the rekey
+    settings as well as any progress made. This must be called to
+    change the parameters of the rekey. Note: verification is still a
+    part of a rekey. If rekeying is canceled during the verification
+    flow, the current unseal keys remain valid.
+
+rekey_submit:
+  short: >-
+    This method is used to enter a single master key share to progress
+    the rekey of the Vault. If the threshold number of master key
+    shares is reached, Vault will complete the rekey. Otherwise, this
+    method must be called multiple times until that threshold is
+    met. The rekey nonce operation must be provided with each call.
+  params:
+    key: Specifies a single master share key (a string)
+    nonce: Specifies the nonce of the rekey operation (a string)
+
+rotate:
+  short: >-
+    This method triggers a rotation of the backend encryption
+    key. This is the key that is used to encrypt data written to the
+    storage backend, and is not provided to operators. This operation
+    is done online. Future values are encrypted with the new key,
+    while old values are decrypted with previous encryption keys.
+
+seal:
+  short: >-
+    Seal the vault, preventing any access to it.  After the vault is
+    sealed, it must be unsealed for further use.
+
+seal_status:
+  short: >-
+    Check the seal status of a Vault.  This method can be used even
+    when the client is not authenticated with the vault (which will
+    the case for a sealed vault).
+
+unseal:
+  short: >-
+    Submit a portion of a key to unseal the vault.  This method is
+    typically called by multiple different operators to assemble the
+    master key.
+  params:
+    key: The master key share
+    reset: >-
+      Logical, inicating if the unseal process should start be started
+      again.
