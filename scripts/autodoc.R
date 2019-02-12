@@ -130,6 +130,8 @@ process <- function(path, class) {
 
 
 process_all <- function() {
+  process("man-roxygen/vault_api_client.yml", R6_vault_api_client)
+
   process("man-roxygen/vault_client.yml", R6_vault_client)
   process("man-roxygen/vault_client_audit.yml", R6_vault_client_audit)
   process("man-roxygen/vault_client_auth.yml", R6_vault_client_auth)

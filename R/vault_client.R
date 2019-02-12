@@ -63,7 +63,7 @@ R6_vault_client <- R6::R6Class(
     tools = NULL,
 
     initialize = function(addr, tls_config) {
-      api_client <- vault_api_client$new(addr, tls_config)
+      api_client <- R6_vault_api_client$new(addr, tls_config)
 
       private$api_client <- api_client
 

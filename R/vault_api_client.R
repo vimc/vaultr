@@ -1,5 +1,16 @@
-## This is the low level api client - most of the transport bits go here
-vault_api_client <- R6::R6Class(
+##' Low-level API client.  This can be used to directly communicate
+##' with the vault server.  This object will primarily be useful for
+##' debugging, testing or developing new vault methods, but is
+##' nonetheless described here.
+##'
+##' @template vault_api_client
+##'
+##' @title Vault Low-Level Client
+##' @name vault_api_client
+NULL
+
+
+R6_vault_api_client <- R6::R6Class(
   "vault_api_client",
 
   public = list(
