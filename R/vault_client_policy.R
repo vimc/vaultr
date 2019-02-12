@@ -1,3 +1,12 @@
+##' Interact with vault's policies
+##'
+##' @template vault_client_policy
+##'
+##' @title Vault Policy Configuration
+##' @name vault_client_policy
+NULL
+
+
 R6_vault_client_policy <- R6::R6Class(
   "vault_client_policy",
 
