@@ -1,3 +1,20 @@
+##' Interact with vault's \code{transit} engine.  This is useful for
+##' encrypting arbitrary data without storing it in the vault - like
+##' "cryptography as a service" or "encryption as a service". The
+##' transit secrets engine can also sign and verify data; generate
+##' hashes and HMACs of data; and act as a source of random bytes.
+##' See
+##' \href{https://www.vaultproject.io/docs/secrets/transit/index.html}{https://www.vaultproject.io/docs/secrets/transit/index.html}
+##' for an introduction to the capabilities of the \code{transit}
+##' engine.
+##'
+##' @template vault_client_transit
+##'
+##' @title Transit Engine
+##' @name vault_client_transit
+NULL
+
+
 R6_vault_client_transit <- R6::R6Class(
   "vault_client_transit",
 
@@ -125,14 +142,12 @@ R6_vault_client_transit <- R6::R6Class(
       data$ciphertext
     },
 
-    data_decrypt = function(key_name, data, key_version = NULL,
-                            context = NULL) {
+    data_decrypt = function(key_name, data, context = NULL) {
       ## nonce = not accepted
       ## batch_input = different interface
       body <- list(
         ciphertext = assert_scalar_character(data),
-        context = context %&&% raw_data_input(context),
-        key_version = key_version %&&% assert_scalar_integer(key_version))
+        context = context %&&% raw_data_input(context))
       path <- sprintf("/%s/decrypt/%s",
                       private$mount, assert_scalar_character(key_name))
       data <- private$api_client$POST(path, body = drop_null(body))$data
@@ -236,12 +251,20 @@ R6_vault_client_transit <- R6::R6Class(
       private$api_client$POST(path, body = drop_null(body))$data$valid
     },
 
-    verify_signature = function(name, data, signature, ...) {
-      self$verify(name, data, signature, "signature", ...)
+    verify_signature = function(name, data, signature, hash_algorithm = NULL,
+                                signature_algorithm = NULL, context = NULL,
+                                prehashed = FALSE) {
+      self$verify(name, data, signature, "signature",
+                  hash_algorithm, signature_algorithm,
+                  context, prehashed)
     },
 
-    verify_hmac = function(name, data, signature, ...) {
-      self$verify(name, data, signature, "hmac", ...)
+    verify_hmac = function(name, data, signature, hash_algorithm = NULL,
+                           signature_algorithm = NULL, context = NULL,
+                           prehashed = FALSE) {
+      self$verify(name, data, signature, "hmac",
+                  hash_algorithm, signature_algorithm,
+                  context, prehashed)
     },
 
     key_backup = function(name) {
