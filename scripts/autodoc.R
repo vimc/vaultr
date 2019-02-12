@@ -143,6 +143,7 @@ process_all <- function() {
   process("man-roxygen/vault_client_policy.yml", R6_vault_client_policy)
   process("man-roxygen/vault_client_secrets.yml", R6_vault_client_secrets)
   process("man-roxygen/vault_client_token.yml", R6_vault_client_token)
+  process("man-roxygen/vault_client_tools.yml", R6_vault_client_tools)
 }
 
 

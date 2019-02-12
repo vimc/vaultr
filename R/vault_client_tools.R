@@ -1,3 +1,12 @@
+##' Interact with vault's cryptographic tools
+##'
+##' @template vault_client_tools
+##'
+##' @title Vault Tools
+##' @name vault_client_tools
+NULL
+
+
 R6_vault_client_tools <- R6::R6Class(
   "vault_client_tools",
 
