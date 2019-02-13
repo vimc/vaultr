@@ -1,0 +1,37 @@
+version:
+  short: >-
+    Return the server version, as a \code{\link{numeric_version}}
+    object.
+
+client:
+  short: >-
+    Create a new client that can use this server.  The client will be
+    a \code{\link{vault_client}} object.
+  params:
+    login: >-
+      Logical, indicating if the client should login to the server
+      (default is \code{TRUE}).
+    quiet: >-
+      Logical, indicating if informational messages should be
+      suppressed.  Defau;t is \code{TRUE}, in contrast with most other
+      methods.
+
+env:
+  short: >-
+    Return a named character vector of environment variables that can
+    be used to communicate with this vault server (\code{VAULT_ADDR},
+    \code{VAU:T_TOKEN}, etc).
+
+export:
+  short: >-
+    Export the variables returned by the \code{$env()} method to the
+    environment.  This makes them available to child processes.
+
+clear_cached_token:
+  short: >-
+    Clear any session-cached token for this server.  This is intended
+    for testing new authentication backends.
+
+kill:
+  short: >-
+    Kill the server.
