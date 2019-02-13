@@ -8,3 +8,5 @@
 ^README.Rmd$
 ^vignettes_src$
 ^scripts$
+^TODO\.md$
+^man-roxygen$
