@@ -17,15 +17,16 @@ NULL
 R6_vault_server_instance <- R6::R6Class(
   "vault_server_instance",
 
+  private = list(
+    process = NULL
+  ),
+
   public = list(
     port = NULL,
-
-    process = NULL,
     addr = NULL,
-    cacert = NULL,
-
     token = NULL,
     keys = NULL,
+    cacert = NULL,
 
     initialize = function(bin, port, https, init) {
       assert_scalar_integer(port)
@@ -39,8 +40,15 @@ R6_vault_server_instance <- R6::R6Class(
         dat <- vault_server_start_dev(bin, self$port)
       }
 
-      for (i in names(dat)) {
-        self[[i]] <- dat[[i]]
+      private$process <- dat$process
+
+      self$addr <- dat$addr
+      self$token <- dat$token
+      self$cacert <- dat$cacert
+      self$keys <- dat$keys
+
+      for (v in c("addr", "port", "token", "keys", "cacert")) {
+        lockBinding(v, self)
       }
     },
 
@@ -79,9 +87,9 @@ R6_vault_server_instance <- R6::R6Class(
     },
 
     kill = function() {
-      if (!is.null(self$process)) {
-        self$process$kill()
-        self$process <- NULL
+      if (!is.null(private$process)) {
+        private$process$kill()
+        private$process <- NULL
       }
     }
   ))

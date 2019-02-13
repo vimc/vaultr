@@ -1,5 +1,20 @@
 ##' @section Methods:
 ##' \cr\describe{
+##' \item{\code{addr}}{
+##'   The vault address; this is suitable for using with \code{\link{vault_client}} (read-only).
+##' }
+##' \item{\code{port}}{
+##'   The vault port (read-only).
+##' }
+##' \item{\code{token}}{
+##'   The vault root token, from when the testing vault server was created.  If the vault is rekeyed this will no longer be accurate (read-only).
+##' }
+##' \item{\code{keys}}{
+##'   Key shares from when the vault was initialised (read-only).
+##' }
+##' \item{\code{cacert}}{
+##'   Path to the https certificate, if running in https mode (read-only).
+##' }
 ##' \item{\code{version}}{
 ##'   Return the server version, as a \code{\link{numeric_version}} object.
 ##'   \cr\emph{Usage:}\code{version()}

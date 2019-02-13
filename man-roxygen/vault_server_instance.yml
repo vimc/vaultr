@@ -1,3 +1,26 @@
+addr:
+  short: >-
+    The vault address; this is suitable for using with
+    \code{\link{vault_client}} (read-only).
+
+port:
+  short: >-
+    The vault port (read-only).
+
+token:
+  short: >-
+    The vault root token, from when the testing vault server was
+    created.  If the vault is rekeyed this will no longer be accurate
+    (read-only).
+
+keys:
+  short: >-
+    Key shares from when the vault was initialised (read-only).
+
+cacert:
+  short: >-
+    Path to the https certificate, if running in https mode (read-only).
+
 version:
   short: >-
     Return the server version, as a \code{\link{numeric_version}}
