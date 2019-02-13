@@ -60,7 +60,7 @@ these defaults.
   }
 }
 \item{\code{write}}{
-  Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see \code{\link{vaule_client_kv1}}.  Similar to the vault CLI command \code{vault write}.
+  Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault write}.
   \cr\emph{Usage:}\code{write(path, data)}
   \cr\emph{Arguments:}
   \itemize{
@@ -123,7 +123,7 @@ these defaults.
   }
 }
 \item{\code{status}}{
-  Return the status of the vault server, including whether it is sealed or not, and the valut server version.
+  Return the status of the vault server, including whether it is sealed or not, and the vault server version.
   \cr\emph{Usage:}\code{status()}
 }
 }
