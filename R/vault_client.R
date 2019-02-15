@@ -55,7 +55,6 @@ R6_vault_client <- R6::R6Class(
     audit = NULL,
     kv1 = NULL,
     kv2 = NULL,
-    lease = NULL,
     operator = NULL,
     policy = NULL,
     secrets = NULL,
@@ -71,7 +70,6 @@ R6_vault_client <- R6::R6Class(
       self$audit <- R6_vault_client_audit$new(api_client)
       self$kv1 <- R6_vault_client_kv1$new(api_client, NULL)
       self$kv2 <- R6_vault_client_kv2$new(api_client, "secret")
-      self$lease <- R6_vault_client_lease$new(api_client)
       self$operator <- R6_vault_client_operator$new(api_client)
       self$policy <- R6_vault_client_policy$new(api_client)
       self$secrets <- R6_vault_client_secrets$new(api_client)
