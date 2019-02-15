@@ -1,9 +1,12 @@
 ##' @section Methods:
-##' \cr\describe{
+##'
+##' \describe{
 ##' \item{\code{custom_mount}}{
 ##'   Set up a \code{vault_client_transit} object at a custom mount. For example, suppose you mounted the \code{transit} secret backend at \code{/transit2} you might use \code{tr <- vault$secrets$transit$custom_mount("/transit2")} - this pattern is repeated for other secret and authentication backends.
-##'   \cr\emph{Usage:}\code{custom_mount(mount)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{custom_mount(mount)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
 ##'     }
@@ -11,9 +14,11 @@
 ##' }
 ##' \item{\code{key_create}}{
 ##'   Create a new named encryption key of the specified type. The values set here cannot be changed after key creation.
-##'   \cr\emph{Usage:}\code{key_create(name, key_type = NULL, convergent_encryption = NULL,
+##'
+##'   \emph{Usage:}\code{key_create(name, key_type = NULL, convergent_encryption = NULL,
 ##'       derived = NULL, exportable = NULL, allow_plaintext_backup = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name for the key.  This will be used in all future interactions with the key - the key itself is not returned.
 ##'     }
@@ -59,8 +64,10 @@
 ##' }
 ##' \item{\code{key_read}}{
 ##'   Read information about a previously generated key.  The returned object shows the creation time of each key version; the values are not the keys themselves. Depending on the type of key, different information may be returned, e.g. an asymmetric key will return its public key in a standard format for the type.
-##'   \cr\emph{Usage:}\code{key_read(name)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_read(name)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   The name of the key to read
 ##'     }
@@ -68,12 +75,15 @@
 ##' }
 ##' \item{\code{key_list}}{
 ##'   List names of all keys
-##'   \cr\emph{Usage:}\code{key_list()}
+##'
+##'   \emph{Usage:}\code{key_list()}
 ##' }
 ##' \item{\code{key_delete}}{
 ##'   Delete a key by name.  It will no longer be possible to decrypt any data encrypted with the named key. Because this is a potentially catastrophic operation, the \code{deletion_allowed} tunable must be set using \code{$key_update()}.
-##'   \cr\emph{Usage:}\code{key_delete(name)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_delete(name)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   The name of the key to delete.
 ##'     }
@@ -81,9 +91,11 @@
 ##' }
 ##' \item{\code{key_update}}{
 ##'   This method allows tuning configuration values for a given key. (These values are returned during a read operation on the named key.)
-##'   \cr\emph{Usage:}\code{key_update(name, min_decryption_version = NULL, min_encryption_version = NULL,
+##'
+##'   \emph{Usage:}\code{key_update(name, min_decryption_version = NULL, min_encryption_version = NULL,
 ##'       deletion_allowed = NULL, exportable = NULL, allow_plaintext_backup = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   The name of the key to update
 ##'     }
@@ -106,8 +118,10 @@
 ##' }
 ##' \item{\code{key_rotate}}{
 ##'   Rotates the version of the named key. After rotation, new plaintext requests will be encrypted with the new version of the key. To upgrade ciphertext to be encrypted with the latest version of the key, use the rewrap endpoint. This is only supported with keys that support encryption and decryption operations.
-##'   \cr\emph{Usage:}\code{key_rotate(name)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_rotate(name)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   The name of the key to rotate
 ##'     }
@@ -115,8 +129,10 @@
 ##' }
 ##' \item{\code{key_export}}{
 ##'   Export the named key. If version is specified, the specific version will be returned. If latest is provided as the version, the current key will be provided. Depending on the type of key, different information may be returned. The key must be exportable to support this operation and the version must still be valid.
-##'   \cr\emph{Usage:}\code{key_export(name, key_type, version = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_export(name, key_type, version = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name of the key to export
 ##'     }
@@ -127,13 +143,16 @@
 ##'     \item{\code{version}:   Specifies the version of the key to read. If omitted, all versions of the key will be returned. If the version is set to latest, the current key will be returned
 ##'     }
 ##'   }
-##'   \cr\emph{Details:}
+##'
+##'   \emph{Details:}
 ##'   For more details see \url{https://github.com/hashicorp/vault/issues/2667} where HashiCorp says "Part of the "contract" of transit is that the key is never exposed outside of Vault. We added the ability to export keys because some enterprises have key escrow requirements, but it leaves a permanent mark in the key metadata. I suppose we could at some point allow importing a key and also leave such a mark."
 ##' }
 ##' \item{\code{data_encrypt}}{
 ##'   This endpoint encrypts the provided plaintext using the named key.
-##'   \cr\emph{Usage:}\code{data_encrypt(key_name, data, key_version = NULL, context = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{data_encrypt(key_name, data, key_version = NULL, context = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{key_name}:   Specifies the name of the encryption key to encrypt against.
 ##'     }
@@ -150,8 +169,10 @@
 ##' }
 ##' \item{\code{data_decrypt}}{
 ##'   Decrypts the provided ciphertext using the named key.
-##'   \cr\emph{Usage:}\code{data_decrypt(key_name, data, context = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{data_decrypt(key_name, data, context = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{key_name}:   Specifies the name of the encryption key to decrypt with.
 ##'     }
@@ -165,8 +186,10 @@
 ##' }
 ##' \item{\code{data_rewrap}}{
 ##'   Rewraps the provided ciphertext using the latest version of the named key. Because this never returns plaintext, it is possible to delegate this functionality to untrusted users or scripts.
-##'   \cr\emph{Usage:}\code{data_rewrap(key_name, data, key_version = NULL, context = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{data_rewrap(key_name, data, key_version = NULL, context = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{key_name}:   Specifies the name of the encryption key to re-encrypt against
 ##'     }
@@ -183,8 +206,10 @@
 ##' }
 ##' \item{\code{datakey_create}}{
 ##'   This endpoint generates a new high-entropy key and the value encrypted with the named key. Optionally return the plaintext of the key as well.
-##'   \cr\emph{Usage:}\code{datakey_create(name, plaintext = FALSE, bits = NULL, context = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{datakey_create(name, plaintext = FALSE, bits = NULL, context = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Specifies the name of the encryption key to use to encrypt the datakey
 ##'     }
@@ -201,8 +226,10 @@
 ##' }
 ##' \item{\code{random}}{
 ##'   Generates high-quality random bytes of the specified length.  This is totally independent of R's random number stream and provides random numbers suitable for cryptographic purposes.
-##'   \cr\emph{Usage:}\code{random(bytes = 32, format = "hex")}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{random(bytes = 32, format = "hex")}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{bytes}:   Number of bytes to generate (as an integer)
 ##'     }
@@ -213,8 +240,10 @@
 ##' }
 ##' \item{\code{hash}}{
 ##'   Generates a cryptographic hash of given data using the specified algorithm.
-##'   \cr\emph{Usage:}\code{hash(data, algorithm = NULL, format = "hex")}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{hash(data, algorithm = NULL, format = "hex")}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{data}:   A raw vector of data to hash.  To generate a raw vector from an R object, one option is to use \code{unserialize(x, NULL)} but be aware that version information may be included. Alternatively, for a string, one might use \code{charToRaw}.
 ##'     }
@@ -228,8 +257,10 @@
 ##' }
 ##' \item{\code{hmac}}{
 ##'   This endpoint returns the digest of given data using the specified hash algorithm and the named key. The key can be of any type supported by the \code{transit} engine; the raw key will be marshaled into bytes to be used for the HMAC function. If the key is of a type that supports rotation, the latest (current) version will be used.
-##'   \cr\emph{Usage:}\code{hmac(name, data, key_version = NULL, algorithm = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{hmac(name, data, key_version = NULL, algorithm = NULL)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Specifies the name of the encryption key to generate hmac against
 ##'     }
@@ -246,9 +277,11 @@
 ##' }
 ##' \item{\code{sign}}{
 ##'   Returns the cryptographic signature of the given data using the named key and the specified hash algorithm. The key must be of a type that supports signing.
-##'   \cr\emph{Usage:}\code{sign(name, data, key_version = NULL, hash_algorithm = NULL,
+##'
+##'   \emph{Usage:}\code{sign(name, data, key_version = NULL, hash_algorithm = NULL,
 ##'       prehashed = FALSE, signature_algorithm = NULL, context = NULL)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Specifies the name of the encryption key to use for signing
 ##'     }
@@ -274,9 +307,11 @@
 ##' }
 ##' \item{\code{verify_signature}}{
 ##'   Determine whether the provided signature is valid for the given data.
-##'   \cr\emph{Usage:}\code{verify_signature(name, data, signature, hash_algorithm = NULL, signature_algorithm = NULL,
+##'
+##'   \emph{Usage:}\code{verify_signature(name, data, signature, hash_algorithm = NULL, signature_algorithm = NULL,
 ##'       context = NULL, prehashed = FALSE)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name of the key
 ##'     }
@@ -302,9 +337,11 @@
 ##' }
 ##' \item{\code{verify_hmac}}{
 ##'   Determine whether the provided signature is valid for the given data.
-##'   \cr\emph{Usage:}\code{verify_hmac(name, data, signature, hash_algorithm = NULL, signature_algorithm = NULL,
+##'
+##'   \emph{Usage:}\code{verify_hmac(name, data, signature, hash_algorithm = NULL, signature_algorithm = NULL,
 ##'       context = NULL, prehashed = FALSE)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name of the key
 ##'     }
@@ -330,8 +367,10 @@
 ##' }
 ##' \item{\code{key_backup}}{
 ##'   Returns a plaintext backup of a named key. The backup contains all the configuration data and keys of all the versions along with the HMAC key. The response from this endpoint can be used with \code{$key_restore} to restore the key.
-##'   \cr\emph{Usage:}\code{key_backup(name)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_backup(name)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name of the key to backup
 ##'     }
@@ -339,8 +378,10 @@
 ##' }
 ##' \item{\code{key_restore}}{
 ##'   Restores the backup as a named key. This will restore the key configurations and all the versions of the named key along with HMAC keys. The input to this method should be the output of \code{$key_restore} method.
-##'   \cr\emph{Usage:}\code{key_restore(name, backup, force = FALSE)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_restore(name, backup, force = FALSE)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Name of the restored key.
 ##'     }
@@ -354,8 +395,10 @@
 ##' }
 ##' \item{\code{key_trim}}{
 ##'   This endpoint trims older key versions setting a minimum version for the keyring. Once trimmed, previous versions of the key cannot be recovered.
-##'   \cr\emph{Usage:}\code{key_trim(name, min_version)}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{key_trim(name, min_version)}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{name}:   Key to trim
 ##'     }

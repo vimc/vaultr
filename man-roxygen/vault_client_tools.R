@@ -1,9 +1,12 @@
 ##' @section Methods:
-##' \cr\describe{
+##'
+##' \describe{
 ##' \item{\code{random}}{
 ##'   Generates high-quality random bytes of the specified length.  This is totally independent of R's random number stream and provides random numbers suitable for cryptographic purposes.
-##'   \cr\emph{Usage:}\code{random(bytes = 32, format = "hex")}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{random(bytes = 32, format = "hex")}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{bytes}:   Number of bytes to generate (as an integer)
 ##'     }
@@ -14,8 +17,10 @@
 ##' }
 ##' \item{\code{hash}}{
 ##'   Generates a cryptographic hash of given data using the specified algorithm.
-##'   \cr\emph{Usage:}\code{hash(data, algorithm = NULL, format = "hex")}
-##'   \cr\emph{Arguments:}
+##'
+##'   \emph{Usage:}\code{hash(data, algorithm = NULL, format = "hex")}
+##'
+##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{data}:   A raw vector of data to hash.  To generate a raw vector from an R object, one option is to use \code{unserialize(x, NULL)} but be aware that version information may be included. Alternatively, for a string, one might use \code{charToRaw}.
 ##'     }

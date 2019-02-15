@@ -61,5 +61,11 @@ pkgdown:
 website: pkgdown
 	./scripts/update_web.sh
 
+manual:
+	R CMD Rd2pdf --no-clean .
+
+clean:
+	rm -rf .Rd2pdf*
+
 
 .PHONY: test roxygen install build check check_all vignettes

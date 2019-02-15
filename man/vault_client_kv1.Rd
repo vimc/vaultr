@@ -17,11 +17,14 @@ methods on the main \code{\link{vault_client}} object or by the
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{read}}{
   Read a value from the vault.  This can be used to read any value that you have permission to read in this store.
-  \cr\emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path for the secret to read, such as \code{/secret/mysecret}
     }
@@ -35,8 +38,10 @@ methods on the main \code{\link{vault_client}} object or by the
 }
 \item{\code{write}}{
   Write data into the vault.  This can be used to write any value that you have permission to write in this store.
-  \cr\emph{Usage:}\code{write(path, data)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{write(path, data)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path for the secret to write, such as \code{/secret/mysecret}
     }
@@ -47,8 +52,10 @@ methods on the main \code{\link{vault_client}} object or by the
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-  \cr\emph{Usage:}\code{list(path, full_names = FALSE)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{list(path, full_names = FALSE)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   The path to list
     }
@@ -56,13 +63,16 @@ methods on the main \code{\link{vault_client}} object or by the
     \item{\code{full_names}:   Logical, indicating if full paths (relative to the vault root) should be returned.
     }
   }
-  \cr\emph{Value}:
+
+  \emph{Value}:
   A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
 }
 \item{\code{delete}}{
   Delete a value from the vault
-  \cr\emph{Usage:}\code{delete(path)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{delete(path)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   The path to delete
     }
@@ -70,8 +80,10 @@ methods on the main \code{\link{vault_client}} object or by the
 }
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\code{custom_mount(mount)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{custom_mount(mount)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
     }

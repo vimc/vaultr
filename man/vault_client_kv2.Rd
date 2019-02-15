@@ -36,11 +36,14 @@ though it is a little more typing than for the CLI vault client.
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{config}}{
   Fetch the configuration for this \code{kv2} store.  Returns a named list of values, the contents of which will depend on the vault version.
-  \cr\emph{Usage:}\code{config(mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{config(mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
     }
@@ -48,8 +51,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_kv2} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv2} secret backend at \code{/secret2} you might use \code{kv <- vault$kv2$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\code{custom_mount(mount)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{custom_mount(mount)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
     }
@@ -57,8 +62,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{delete}}{
   Delete a secret from the vault.  This marks the version as deleted and will stop it from being returned from reads, but the underlying data will not be removed. A delete can be undone using the undelete method.
-  \cr\emph{Usage:}\code{delete(path, version = NULL, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{delete(path, version = NULL, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path to delete
     }
@@ -72,8 +79,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{destroy}}{
   Delete a secret entirely.  Unlike \code{delete} this operation is irreversible and is more like the \code{delete} operation on \code{\link{vault_client_kv1}} stores.
-  \cr\emph{Usage:}\code{destroy(path, version, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{destroy(path, version, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path to delete
     }
@@ -87,9 +96,11 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{get}}{
   Read a secret from the vault
-  \cr\emph{Usage:}\code{get(path, version = NULL, field = NULL, metadata = FALSE,
+
+  \emph{Usage:}\code{get(path, version = NULL, field = NULL, metadata = FALSE,
       mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path of the secret to read
     }
@@ -109,8 +120,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-  \cr\emph{Usage:}\code{list(path, full_names = FALSE, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{list(path, full_names = FALSE, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   The path to list
     }
@@ -121,13 +134,16 @@ though it is a little more typing than for the CLI vault client.
     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
     }
   }
-  \cr\emph{Value}:
+
+  \emph{Value}:
   A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
 }
 \item{\code{metadata_get}}{
   Read secret metadata and versions at the specified path
-  \cr\emph{Usage:}\code{metadata_get(path, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{metadata_get(path, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path of secret to read metadata for
     }
@@ -138,8 +154,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{metadata_put}}{
   Update metadata for a secret.  This is allowed even if a secret does not yet exist, though this requires the \code{create} vault permission at this path.
-  \cr\emph{Usage:}\code{metadata_put(path, cas_required = NULL, max_versions = NULL, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{metadata_put(path, cas_required = NULL, max_versions = NULL, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path of secret to update metadata for
     }
@@ -156,8 +174,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{metadata_delete}}{
   This method permanently deletes the key metadata and all version data for the specified key. All version history will be removed.
-  \cr\emph{Usage:}\code{metadata_delete(path, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{metadata_delete(path, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path to delete
     }
@@ -168,8 +188,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{put}}{
   Create or update a secret in this store.
-  \cr\emph{Usage:}\code{put(path, data, cas = NULL, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{put(path, data, cas = NULL, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path for the secret to write, such as \code{/secret/mysecret}
     }
@@ -186,8 +208,10 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{undelete}}{
   Undeletes the data for the provided version and path in the key-value store. This restores the data, allowing it to be returned on get requests.  This works with data deleted with \code{$delete} but not with \code{$destroy}.
-  \cr\emph{Usage:}\code{undelete(path, version, mount = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{undelete(path, version, mount = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   The path to undelete
     }

@@ -8,11 +8,14 @@ Interact with vault's GitHub authentication backend.
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_auth_github} object at a custom mount. For example, suppose you mounted the \code{github} authentication backend at \code{/github-myorg} you might use \code{gh <- vault$auth$github2$custom_mount("/github-myorg")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\code{custom_mount(mount)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{custom_mount(mount)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
     }
@@ -20,8 +23,10 @@ Interact with vault's GitHub authentication backend.
 }
 \item{\code{configure}}{
   Configures the connection parameters for GitHub-based authentication.
-  \cr\emph{Usage:}\code{configure(organization, base_url = NULL, ttl = NULL, max_ttl = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{configure(organization, base_url = NULL, ttl = NULL, max_ttl = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{organization}:   The organization users must be part of (note American spelling).
     }
@@ -38,12 +43,15 @@ Interact with vault's GitHub authentication backend.
 }
 \item{\code{configuration}}{
   Reads the connection parameters for GitHub-based authentication.
-  \cr\emph{Usage:}\code{configuration()}
+
+  \emph{Usage:}\code{configuration()}
 }
 \item{\code{write}}{
   Write a mapping between a GitHub team or user and a set of vault policies.
-  \cr\emph{Usage:}\code{write(team_name, policy, user = FALSE)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{write(team_name, policy, user = FALSE)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{team_name}:   String, with the GitHub team name
     }
@@ -57,8 +65,10 @@ Interact with vault's GitHub authentication backend.
 }
 \item{\code{read}}{
   Write a mapping between a GitHub team or user and a set of vault policies.
-  \cr\emph{Usage:}\code{read(team_name, user = FALSE)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{read(team_name, user = FALSE)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{team_name}:   String, with the GitHub team name
     }
@@ -69,8 +79,10 @@ Interact with vault's GitHub authentication backend.
 }
 \item{\code{login}}{
   Log into the vault using GitHub authentication.  Normally you would not call this directly but instead use \code{$login} with \code{method = "github"} and proving the \code{token} argument. This function returns a vault token but does not set it as the client token.
-  \cr\emph{Usage:}\code{login(token = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{login(token = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{token}:   A GitHub token to authenticate with.
     }

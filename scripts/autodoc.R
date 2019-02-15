@@ -76,16 +76,16 @@ format_method <- function(x) {
 
   body <- x$short
   if (!is.null(x$usage)) {
-    body <- paste0(body, sprintf("\n\\cr\\emph{Usage:}\\code{%s}", x$usage))
+    body <- paste0(body, sprintf("\n\n\\emph{Usage:}\\code{%s}", x$usage))
   }
   if (!is.null(x$params)) {
-    body <- paste0(body, "\n\\cr\\emph{Arguments:}\n", format_params(x$params))
+    body <- paste0(body, "\n\n\\emph{Arguments:}\n", format_params(x$params))
   }
   if (!is.null(x$details)) {
-    body <- paste0(body, "\n\\cr\\emph{Details:}\n", x$details)
+    body <- paste0(body, "\n\n\\emph{Details:}\n", x$details)
   }
   if (!is.null(x$value)) {
-    body <- paste0(body, "\n\\cr\\emph{Value}:\n", x$value)
+    body <- paste0(body, "\n\n\\emph{Value}:\n", x$value)
   }
   paste(title, indent(body, 2), end, sep = "\n")
 }
@@ -98,7 +98,7 @@ strip_trailing_whitespace <- function(x) {
 
 format_class <- function(x) {
   ret <- vapply(x, format_method, character(1))
-  ret <- sprintf("@section Methods:\n\\cr\\describe{\n%s\n}",
+  ret <- sprintf("@section Methods:\n\n\\describe{\n%s\n}",
                  paste(ret, collapse = "\n"))
   ret <- indent(ret, pad = "##' ")
   strip_trailing_whitespace(ret)

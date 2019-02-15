@@ -8,11 +8,14 @@ Interact with vault's policies
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{delete}}{
   This endpoint deletes the policy with the given name. This will immediately affect all users associated with this policy.
-  \cr\emph{Usage:}\code{delete(name)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{delete(name)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{name}:   Specifies the name of the policy to delete.
     }
@@ -20,12 +23,15 @@ Interact with vault's policies
 }
 \item{\code{list}}{
   Lists all configured policies.
-  \cr\emph{Usage:}\code{list()}
+
+  \emph{Usage:}\code{list()}
 }
 \item{\code{read}}{
   Retrieve the policy body for the named policy
-  \cr\emph{Usage:}\code{read(name)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{read(name)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{name}:   Specifies the name of the policy to retrieve
     }
@@ -33,8 +39,10 @@ Interact with vault's policies
 }
 \item{\code{write}}{
   Create or update a policy.  Once a policy is updated, it takes effect immediately to all associated users.
-  \cr\emph{Usage:}\code{write(name, rules)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{write(name, rules)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{name}:   Name of the policy to update
     }

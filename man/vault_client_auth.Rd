@@ -8,15 +8,19 @@ Interact with vault's authentication backends.
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{backends}}{
   Return a character vector of supported authentication backends. If a backend \code{x} is present, then you can access it with \code{$auth$x}.  Note that vault calls these authentication \emph{methods} but we use \emph{backends} here to differentiate with R6 methods.  Note that these are backends supported by \code{vaultr} and not necessarily supported by the server - the server may not have enabled some of these backends, and may support other authentication backends not directly supported by vaultr.  See the \code{$list()} method to query what the server supports.
-  \cr\emph{Usage:}\code{backends()}
+
+  \emph{Usage:}\code{backends()}
 }
 \item{\code{list}}{
   List authentication backends supported by the vault server, including information about where these backends are mounted.
-  \cr\emph{Usage:}\code{list(detailed = FALSE)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{list(detailed = FALSE)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{detailed}:   Logical, indicating if detailed information should be returned
     }
@@ -24,8 +28,10 @@ Interact with vault's authentication backends.
 }
 \item{\code{enable}}{
   Enable an authentication backend in the vault server.
-  \cr\emph{Usage:}\code{enable(type, description = NULL, local = FALSE, path = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{enable(type, description = NULL, local = FALSE, path = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{type}:   The type of authentication backend (e.g., \code{userpass}, \code{github})
     }
@@ -42,8 +48,10 @@ Interact with vault's authentication backends.
 }
 \item{\code{disable}}{
   Disable an active authentication backend.
-  \cr\emph{Usage:}\code{disable(path)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{disable(path)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{path}:   The path of the authentication backend to disable.
     }

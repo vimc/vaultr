@@ -8,11 +8,14 @@ Interact with vault's username/password authentication backend.
 }
 \section{Methods}{
 
-\cr\describe{
+
+\describe{
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_auth_userpass} object at a custom mount. For example, suppose you mounted the \code{userpass} authentication backend at \code{/userpass2} you might use \code{up <- vault$auth$userpass2$custom_mount("/userpass2")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\code{custom_mount(mount)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{custom_mount(mount)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{mount}:   String, indicating the path that the engine is mounted at.
     }
@@ -20,9 +23,11 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{write}}{
   Create or update a user.
-  \cr\emph{Usage:}\code{write(username, password = NULL, policy = NULL, ttl = NULL,
+
+  \emph{Usage:}\code{write(username, password = NULL, policy = NULL, ttl = NULL,
       max_ttl = NULL, bound_cidrs = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username for the user
     }
@@ -45,8 +50,10 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{read}}{
   Reads the properties of an existing username.
-  \cr\emph{Usage:}\code{read(username)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{read(username)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username to read
     }
@@ -54,8 +61,10 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{delete}}{
   Delete a user
-  \cr\emph{Usage:}\code{delete(username)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{delete(username)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username to delete
     }
@@ -63,8 +72,10 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{update_password}}{
   Update password for a user
-  \cr\emph{Usage:}\code{update_password(username, password)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{update_password(username, password)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username for the user to update
     }
@@ -75,8 +86,10 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{update_policies}}{
   Update vault policies for a user
-  \cr\emph{Usage:}\code{update_policies(username, policy)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{update_policies(username, policy)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username for the user to update
     }
@@ -87,12 +100,15 @@ Interact with vault's username/password authentication backend.
 }
 \item{\code{list}}{
   List users known to vault
-  \cr\emph{Usage:}\code{list()}
+
+  \emph{Usage:}\code{list()}
 }
 \item{\code{login}}{
   Log into the vault using username/password authentication. Normally you would not call this directly but instead use \code{$login} with \code{method = "userpass"} and proving the \code{username} argument and optionally the \code{password} argument.  This function returns a vault token but does not set it as the client token.
-  \cr\emph{Usage:}\code{login(username, password = NULL)}
-  \cr\emph{Arguments:}
+
+  \emph{Usage:}\code{login(username, password = NULL)}
+
+  \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username to authenticate with
     }
