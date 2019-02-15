@@ -98,3 +98,21 @@ status:
   short: >-
     Return the status of the vault server, including whether it is
     sealed or not, and the vault server version.
+
+unwrap:
+  short: >-
+    Returns the original response inside the given wrapping token. The
+    vault endpoints used by this method perform validation checks on
+    the token, returns the original value on the wire rather than a
+    JSON string representation of it, and ensures that the response is
+    properly audit-logged.
+  params:
+    token: >-
+      Specifies the wrapping token ID
+
+wrap_lookup:
+  short: >-
+    Look up properties of a wrapping token.
+  params:
+    token: >-
+      Specifies the wrapping token ID to lookup
