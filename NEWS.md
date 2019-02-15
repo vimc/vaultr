@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Documentation for core classes
+
 ## 0.2.0
 
 * Complete rewrite based on use over the last year:
