@@ -22,21 +22,21 @@ R6_vault_client_auth_approle <- R6::R6Class(
       R6_vault_client_auth_approle$new(private$api_client, mount)
     },
 
-    list = function() {
+    role_list = function() {
       path <- sprintf("/auth/%s/role", private$mount)
       tryCatch(
         list_to_character(private$api_client$LIST(path)$data$keys),
         vault_invalid_path = function(e) character(0))
     },
 
-    role_add = function(role_name, bind_secret_id = NULL,
-                           secret_id_bound_cidrs = NULL,
-                           token_bound_cidrs = NULL,
-                           policy = NULL,
-                           secret_id_num_uses = NULL, secret_id_ttl = NULL,
-                           token_num_uses = NULL, token_ttl = NULL,
-                           token_max_ttl = NULL, period = NULL,
-                           enable_local_secret_ids = NULL, token_type = NULL) {
+    role_write = function(role_name, bind_secret_id = NULL,
+                          secret_id_bound_cidrs = NULL,
+                          token_bound_cidrs = NULL,
+                          policies = NULL,
+                          secret_id_num_uses = NULL, secret_id_ttl = NULL,
+                          token_num_uses = NULL, token_ttl = NULL,
+                          token_max_ttl = NULL, period = NULL,
+                          enable_local_secret_ids = NULL, token_type = NULL) {
       role_name <- assert_scalar_character(role_name)
       body <- list(
         bind_secret_id =
@@ -45,7 +45,8 @@ R6_vault_client_auth_approle <- R6::R6Class(
           secret_id_bound_cidrs %&&% I(assert_character(secret_id_bound_cidrs)),
         token_bound_cidrs =
           token_bound_cidrs %&&% I(assert_character(token_bound_cidrs)),
-        policies = policy %&&% paste(assert_character(policy), collapse = ","),
+        policies = policies %&&% paste(assert_character(policies),
+                                       collapse = ","),
         secret_id_num_uses =
           secret_id_num_uses %&&% assert_scalar_integer(secret_id_num_uses),
         secret_id_ttl = secret_id_ttl %&&% assert_is_duration(secret_id_ttl),
@@ -78,13 +79,13 @@ R6_vault_client_auth_approle <- R6::R6Class(
       invisible(NULL)
     },
 
-    read_role_id = function(role_name) {
+    role_id_read = function(role_name) {
       assert_scalar_character(role_name)
       path <- sprintf("/auth/%s/role/%s/role-id", private$mount, role_name)
       private$api_client$GET(path)$data$role_id
     },
 
-    role_set_id = function(role_name, role_id) {
+    role_id_write = function(role_name, role_id) {
       assert_scalar_character(role_name)
       body <- list(role_id = assert_scalar_character(role_id))
       path <- sprintf("/auth/%s/role/%s/role-id", private$mount, role_name)
