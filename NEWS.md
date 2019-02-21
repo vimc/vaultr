@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Add vault_resolve_secrets method
+
 ## 0.2.1
 
 * Documentation for core classes
