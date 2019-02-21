@@ -1,6 +1,7 @@
 ## 0.2.2
 
 * Fix windows filename issue with test server
+* Add vault_resolve_secrets method
 
 ## 0.2.1
 
