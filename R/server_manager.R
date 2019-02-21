@@ -44,8 +44,11 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @rdname vault_test_server
 ##'
 ##' @param quiet Suppress progress bars on install
-##'
+##' @param path Path in which to install vault test server. Leave as NULL to use the 
+##' \emph{VAULTR_TEST_SERVER_BIN_PATH} environment variable.
 ##' @param version Version of vault to install
+##' @param platform For testing, overwrite the platform vault is being installed
+##' on, with either "windows", "darwin" or "linux".
 ##'
 ##' @export
 vault_test_server_install <- function(path = NULL, quiet = FALSE, 

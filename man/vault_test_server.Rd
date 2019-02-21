@@ -8,7 +8,8 @@
 vault_test_server(https = FALSE, init = TRUE,
   if_disabled = testthat::skip)
 
-vault_test_server_install(quiet = FALSE, version = "1.0.0")
+vault_test_server_install(path = NULL, quiet = FALSE,
+  version = "1.0.0", platform = vault_platform())
 }
 \arguments{
 \item{https}{Logical scalar, indicating if a https-using server
@@ -24,9 +25,15 @@ not enabled.  The default, designed to be used within tests, is
 \code{testthat::skip}.  Alternatively, inspect the
 \code{$enabled} property of the returned object.}
 
+\item{path}{Path in which to install vault test server. Leave as NULL to use the 
+\emph{VAULTR_TEST_SERVER_BIN_PATH} environment variable.}
+
 \item{quiet}{Suppress progress bars on install}
 
 \item{version}{Version of vault to install}
+
+\item{platform}{For testing, overwrite the platform vault is being installed
+on, with either "windows", "darwin" or "linux".}
 }
 \description{
 Control a server for use with testing.  This is designed to be
