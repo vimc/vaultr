@@ -291,7 +291,21 @@ vault_install <- function(dest, quiet, version) {
     tmp <- tempfile()
     dir_create(tmp)
     utils::unzip(zip, exdir = tmp)
-    ok <- file.copy(file.path(tmp, "vault"), dest_bin)
+
+    # Detect a windows download, in which case 'vault' will
+    # not exist, but 'vault.exe' will, in the temp folder.
+
+    vault_filename <- "vault"
+    if (file.exists(file.path(tmp, "vault.exe"))) {
+      vault_filename <- "vault.exe"
+      dest_bin <- file.path(dest, "vault.exe")
+    }
+
+    ok <- file.copy(file.path(tmp, vault_filename), dest_bin)
+    if (!ok) {
+      warning(sprintf("Failed to copy vault to %s", dest_bin))
+    }
+
     unlink(tmp, recursive = TRUE)
     file.remove(zip)
     Sys.chmod(dest_bin, "755")
