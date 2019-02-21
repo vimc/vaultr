@@ -48,7 +48,8 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "1.0.0",
+vault_test_server_install <- function(path = NULL, quiet = FALSE, 
+                                      version = "1.0.0",
                                       platform = vault_platform()) {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
@@ -56,10 +57,13 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0",
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
   if (is.null(path)) {
-    stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
+    path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
+    if (is.null(path)) {
+      stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
+    }
   }
+  
   dir_create(path)
   dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {

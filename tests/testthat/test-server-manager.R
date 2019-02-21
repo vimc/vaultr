@@ -25,14 +25,17 @@ test_that("install", {
   testthat::skip_on_cran()
   skip_if_no_internet()
 
-  path <- tempfile()
+ 
   vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
             VAULTR_TEST_SERVER_INSTALL = "true")
 
   for (platform in c("windows", "darwin", "linux")) {
-  
+    
+    path <- tempfile()
     res <- withr::with_envvar(vars, {
-      vault_test_server_install(TRUE, platform = platform)
+      vault_test_server_install(path = path,
+                                quiet = TRUE, 
+                                platform = platform)
     })
   
     expect_equal(res, file.path(path, vault_exe_filename(platform)))
@@ -61,7 +64,8 @@ test_that("reinstall", {
   dest <- file.path(path, vault_exe_filename())
   writeLines("vault executable", dest)
   res <- withr::with_envvar(vars, {
-    expect_message(vault_test_server_install(quiet = TRUE),
+    expect_message(vault_test_server_install(path = path,
+                                             quiet = TRUE),
                  "vault already installed at")
   })
   
