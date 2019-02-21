@@ -20,17 +20,17 @@
 #' x <- list(name = "alice",
 #'   password = "VAULT:/secret/users/alice:password")
 #' withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = srv$token),
-#'   x <- resolve_secrets(x, addr = srv$addr)
+#'   x <- vault_resolve_secrets(x, addr = srv$addr)
 #' )
 #' }
 #' 
 #' 
-resolve_secrets <- function(x, ..., login = TRUE) {
+vault_resolve_secrets <- function(x, ..., login = TRUE) {
   re <- "^VAULT:(.+):(.+)"
   if (is.list(x)) {
     i <- vlapply(x, function(el) is.character(el) && grepl(re, el))
     if (any(i)) {
-      x[i] <- resolve_secrets(vcapply(x[i], identity), ...)
+      x[i] <- vault_resolve_secrets(vcapply(x[i], identity), ...)
     }
   } else {
     i <- grepl(re, x)
