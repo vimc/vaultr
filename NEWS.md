@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Fix windows filename issue with test server
+
 ## 0.2.1
 
 * Documentation for core classes
