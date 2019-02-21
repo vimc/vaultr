@@ -40,13 +40,6 @@ vault_test_server <- function(https = FALSE, init = TRUE,
   vault_server_manager()$new_server(https, init, if_disabled)
 }
 
-vault_exe_filename <- function() {
-  if (.Platform$OS.type == 'windows') {
-    "vault.exe"
-  } else {
-    "vault"
-  }
-}
 
 ##' @rdname vault_test_server
 ##'
@@ -55,7 +48,8 @@ vault_exe_filename <- function() {
 ##' @param version Version of vault to install
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
+vault_test_server_install <- function(quiet = FALSE, version = "1.0.0",
+                                      platform = vault_platform()) {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
@@ -67,7 +61,7 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
     stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
   dir_create(path)
-  dest <- file.path(path, vault_exe_filename())
+  dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
   } else {
@@ -288,22 +282,25 @@ vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
           version, version, platform, arch)
 }
 
+vault_exe_filename <- function(platform = vault_platform()) {
+  if (platform == 'windows') {
+    "vault.exe"
+  } else {
+    "vault"
+  }
+}
 
-vault_install <- function(dest, quiet, version) {
-  dest_bin <- file.path(dest, "vault")
+
+vault_install <- function(dest, quiet, version, platform = vault_platform()) {
+  dest_bin <- file.path(dest, vault_exe_filename(platform))
   if (!file.exists(dest_bin)) {
     message(sprintf("installing vault to '%s'", dest))
-    url <- vault_url(version)
+    url <- vault_url(version, platform)
     zip <- download_file(url, quiet = quiet)
     tmp <- tempfile()
     dir_create(tmp)
     utils::unzip(zip, exdir = tmp)
-
-    ok <- file.copy(file.path(tmp, vault_exe_filename()), dest_bin)
-    if (!ok) {
-      warning(sprintf("Failed to copy vault to %s", dest_bin))
-    }
-
+    file_copy(file.path(tmp, vault_exe_filename(platform)), dest_bin)
     unlink(tmp, recursive = TRUE)
     file.remove(zip)
     Sys.chmod(dest_bin, "755")
