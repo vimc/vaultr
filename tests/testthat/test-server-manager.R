@@ -25,13 +25,10 @@ test_that("install", {
   testthat::skip_on_cran()
   skip_if_no_internet()
 
- 
-  vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
-            VAULTR_TEST_SERVER_INSTALL = "true")
-
   for (platform in c("windows", "darwin", "linux")) {
-    
     path <- tempfile()
+    vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
+              VAULTR_TEST_SERVER_INSTALL = "true")
     res <- withr::with_envvar(vars, {
       vault_test_server_install(path = path,
                                 quiet = TRUE, 
