@@ -185,3 +185,11 @@ dir_create <- function(path) {
     stop(sprintf("Failed to create directory '%s'", path))
   }
 }
+
+file_copy <- function(..., overwrite = TRUE) {
+  ok <- file.copy(..., overwrite = overwrite)
+  if (any(!ok)) {
+    stop("Error copying files")
+  }
+  ok
+}

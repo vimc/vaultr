@@ -88,7 +88,7 @@ R6_vault_client_kv1 <- R6::R6Class(
         vault_invalid_path = function(e) NULL)
       ret <- list_to_character(dat$data$keys)
       if (full_names) {
-        ret <- file.path(sub("/+$", "", path), ret)
+        ret <- paste(sub("/+$", "", path), ret, sep = "/")
       }
       ret
     },

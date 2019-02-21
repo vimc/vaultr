@@ -44,27 +44,35 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @rdname vault_test_server
 ##'
 ##' @param quiet Suppress progress bars on install
-##'
+##' @param path Path in which to install vault test server. Leave as NULL to use the 
+##' \emph{VAULTR_TEST_SERVER_BIN_PATH} environment variable.
 ##' @param version Version of vault to install
+##' @param platform For testing, overwrite the platform vault is being installed
+##' on, with either "windows", "darwin" or "linux".
 ##'
 ##' @export
-vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
+vault_test_server_install <- function(path = NULL, quiet = FALSE, 
+                                      version = "1.0.0",
+                                      platform = vault_platform()) {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
     stop("Do not run this on CRAN")
   }
   if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
     stop("Please read the documentation for vault_test_server_install")
   }
-  path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
   if (is.null(path)) {
-    stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
+    path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
+    if (is.null(path)) {
+      stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
+    }
   }
+  
   dir_create(path)
-  dest <- file.path(path, "vault")
+  dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
   } else {
-    vault_install(path, quiet, version)
+    vault_install(path, quiet, version, platform)
   }
   invisible(dest)
 }
@@ -91,7 +99,7 @@ vault_server_manager_bin <- function() {
   if (!file.exists(path) || !is_directory(path)) {
     return(NULL)
   }
-  bin <- file.path(path, "vault")
+  bin <- file.path(path, vault_exe_filename())
   if (!file.exists(bin)) {
     return(NULL)
   }
@@ -281,17 +289,25 @@ vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
           version, version, platform, arch)
 }
 
+vault_exe_filename <- function(platform = vault_platform()) {
+  if (platform == 'windows') {
+    "vault.exe"
+  } else {
+    "vault"
+  }
+}
 
-vault_install <- function(dest, quiet, version) {
-  dest_bin <- file.path(dest, "vault")
+
+vault_install <- function(dest, quiet, version, platform = vault_platform()) {
+  dest_bin <- file.path(dest, vault_exe_filename(platform))
   if (!file.exists(dest_bin)) {
     message(sprintf("installing vault to '%s'", dest))
-    url <- vault_url(version)
+    url <- vault_url(version, platform)
     zip <- download_file(url, quiet = quiet)
     tmp <- tempfile()
     dir_create(tmp)
     utils::unzip(zip, exdir = tmp)
-    ok <- file.copy(file.path(tmp, "vault"), dest_bin)
+    file_copy(file.path(tmp, vault_exe_filename(platform)), dest_bin)
     unlink(tmp, recursive = TRUE)
     file.remove(zip)
     Sys.chmod(dest_bin, "755")

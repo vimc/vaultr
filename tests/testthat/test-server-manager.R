@@ -25,18 +25,26 @@ test_that("install", {
   testthat::skip_on_cran()
   skip_if_no_internet()
 
-  path <- tempfile()
-  vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
-            VAULTR_TEST_SERVER_INSTALL = "true")
+  for (platform in c("windows", "darwin", "linux")) {
+    path <- tempfile()
+    vars <- c(VAULTR_TEST_SERVER_BIN_PATH = path,
+              VAULTR_TEST_SERVER_INSTALL = "true")
+    res <- withr::with_envvar(vars, {
+      vault_test_server_install(path = path,
+                                quiet = TRUE, 
+                                platform = platform)
+    })
+  
+    expect_equal(res, file.path(path, vault_exe_filename(platform)))
+    expect_true(file.exists(res))
+    expect_equal(dir(path), vault_exe_filename(platform))
+    
+    if (platform == vault_platform()) {
+      expect_equal(substr(system2(res, "--version", stdout = TRUE), 1, 7), 
+                   "Vault v")
+    }
+  }
 
-  res <- withr::with_envvar(vars, {
-    vault_test_server_install(TRUE)
-  })
-
-  expect_equal(res, file.path(path, "vault"))
-  expect_true(file.exists(res))
-  expect_equal(dir(path), "vault")
-  expect_equal(system2(res, "-help", stdout = FALSE, stderr = FALSE), 0)
 })
 
 
@@ -49,13 +57,16 @@ test_that("reinstall", {
             VAULTR_TEST_SERVER_INSTALL = "true")
 
   dir.create(path)
-  dest <- file.path(path, "vault")
-  writeLines("vault", dest)
+  
+  dest <- file.path(path, vault_exe_filename())
+  writeLines("vault executable", dest)
   res <- withr::with_envvar(vars, {
-    expect_message(vault_test_server_install(path, TRUE),
-                   "vault already installed at")
+    expect_message(vault_test_server_install(path = path,
+                                             quiet = TRUE),
+                 "vault already installed at")
   })
-  expect_identical(readLines(dest), "vault")
+  
+  expect_identical(readLines(dest), "vault executable")
 })
 
 
@@ -86,7 +97,7 @@ test_that("safeguards for run", {
     expect_null(vault_server_manager_bin())
   })
 
-  vault <- file.path(path, "vault")
+  vault <- file.path(path, vault_exe_filename())
   file.create(vault)
   withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
     expect_equal(normalizePath(vault_server_manager_bin()),
