@@ -66,7 +66,6 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   if (is.null(path)) {
     stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
-
   dir_create(path)
   dest <- file.path(path, vault_exe_filename())
   if (file.exists(dest)) {
@@ -76,7 +75,6 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   }
   invisible(dest)
 }
-
 
 
 vault_server_manager <- function() {
