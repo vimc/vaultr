@@ -23,6 +23,7 @@ Sets up a vault client via call to \code{\link{vault_client}} and resolves
 secrets specified by the form VAULT:<path to secret>:<key to get>.
 }
 \examples{
+\dontrun{
 srv <- vaultr::vault_test_server()
 cl <- srv$client()
 cl$write("/secret/users/alice", list(password = "ALICE"))
@@ -31,6 +32,7 @@ x <- list(name = "alice",
 withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = srv$token),
   x <- resolve_secrets(x, addr = srv$addr)
 )
+}
 
 
 }

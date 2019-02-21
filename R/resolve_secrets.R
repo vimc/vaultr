@@ -13,6 +13,7 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' srv <- vaultr::vault_test_server()
 #' cl <- srv$client()
 #' cl$write("/secret/users/alice", list(password = "ALICE"))
@@ -21,6 +22,7 @@
 #' withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = srv$token),
 #'   x <- resolve_secrets(x, addr = srv$addr)
 #' )
+#' }
 #' 
 #' 
 resolve_secrets <- function(x, ..., login = TRUE) {
