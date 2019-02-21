@@ -23,9 +23,19 @@ In order to use this, you must set some environment variables:
   creating vault servers (by default this is 18200 but any high
   port number can be selected - we'll create servers *starting* at
   this port number and incrementing - see below for details)
+* `NOT_CRAN` must be set to `"true"` as this cannot be run on CRAN 
+as it requires installation of a binary from a website.
 
-In addition, because this requires installation of a binary from a
-website, this is not run on CRAN.
+For first time setup you need to install a test server. To do this set
+an additional environmental variable:
+
+* `VAULTR_TEST_SERVER_INSTALL` to `"true"`.
+
+To install the test server, run:
+
+```r
+vaultr::vault_test_server_install()
+```
 
 To create a vault server, run:
 
