@@ -40,6 +40,13 @@ vault_test_server <- function(https = FALSE, init = TRUE,
   vault_server_manager()$new_server(https, init, if_disabled)
 }
 
+vault_exe_filename <- function() {
+  if (.Platform$OS.type == 'windows') {
+    "vault.exe"
+  } else {
+    "vault"
+  }
+}
 
 ##' @rdname vault_test_server
 ##'
@@ -59,8 +66,9 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   if (is.null(path)) {
     stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
   }
+
   dir_create(path)
-  dest <- file.path(path, "vault")
+  dest <- file.path(path, vault_exe_filename())
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
   } else {
@@ -68,6 +76,7 @@ vault_test_server_install <- function(quiet = FALSE, version = "1.0.0") {
   }
   invisible(dest)
 }
+
 
 
 vault_server_manager <- function() {
@@ -91,7 +100,8 @@ vault_server_manager_bin <- function() {
   if (!file.exists(path) || !is_directory(path)) {
     return(NULL)
   }
-  bin <- file.path(path, "vault")
+  
+  bin <- file.path(path, vault_exe_filename())
   if (!file.exists(bin)) {
     return(NULL)
   }
@@ -292,16 +302,7 @@ vault_install <- function(dest, quiet, version) {
     dir_create(tmp)
     utils::unzip(zip, exdir = tmp)
 
-    # Detect a windows download, in which case 'vault' will
-    # not exist, but 'vault.exe' will, in the temp folder.
-
-    vault_filename <- "vault"
-    if (file.exists(file.path(tmp, "vault.exe"))) {
-      vault_filename <- "vault.exe"
-      dest_bin <- file.path(dest, "vault.exe")
-    }
-
-    ok <- file.copy(file.path(tmp, vault_filename), dest_bin)
+    ok <- file.copy(file.path(tmp, vault_exe_filename()), dest_bin)
     if (!ok) {
       warning(sprintf("Failed to copy vault to %s", dest_bin))
     }
