@@ -60,3 +60,15 @@ test_that("dir_create throws on failure", {
   file.create(p)
   expect_error(dir_create(p), "Failed to create directory '.+'")
 })
+
+test_that("copy failure", {
+  path1 <- tempfile()
+  path2 <- tempfile()
+  writeLines("a", path1)
+  writeLines("b", path2)
+  on.exit(file.remove(path1, path2))
+  expect_error(file_copy(path1, path2, overwrite = FALSE),
+               "Error copying files")
+  expect_equal(readLines(path2), "b")
+})
+
