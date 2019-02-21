@@ -58,7 +58,7 @@ test_that("reinstall", {
 
   dir.create(path)
   
-  dest <- file.path(path, vault_exe_filename(platform))
+  dest <- file.path(path, vault_exe_filename())
   writeLines("vault executable", dest)
   res <- withr::with_envvar(vars, {
     expect_message(vault_test_server_install(quiet = TRUE),
