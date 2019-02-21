@@ -69,7 +69,7 @@ vault_test_server_install <- function(path = NULL, quiet = FALSE,
   if (file.exists(dest)) {
     message("vault already installed at ", dest)
   } else {
-    vault_install(path, quiet, version)
+    vault_install(path, quiet, version, platform)
   }
   invisible(dest)
 }
