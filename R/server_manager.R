@@ -98,7 +98,6 @@ vault_server_manager_bin <- function() {
   if (!file.exists(path) || !is_directory(path)) {
     return(NULL)
   }
-  
   bin <- file.path(path, vault_exe_filename())
   if (!file.exists(bin)) {
     return(NULL)
