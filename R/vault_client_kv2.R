@@ -155,7 +155,6 @@ R6_vault_client_kv2 <- R6::R6Class(
       ret <- list_to_character(res$data$keys)
       if (full_names) {
         ret <- paste(sub("/+$", "", path$mount), ret, sep = "/")
-        #ret <- file.path(sub("/+$", "", path$mount), ret)
       }
       ret
     },
