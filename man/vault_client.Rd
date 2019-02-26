@@ -140,6 +140,28 @@ these defaults.
 
   \emph{Usage:}\code{status()}
 }
+\item{\code{unwrap}}{
+  Returns the original response inside the given wrapping token. The vault endpoints used by this method perform validation checks on the token, returns the original value on the wire rather than a JSON string representation of it, and ensures that the response is properly audit-logged.
+
+  \emph{Usage:}\code{unwrap(token)}
+
+  \emph{Arguments:}
+  \itemize{
+    \item{\code{token}:   Specifies the wrapping token ID
+    }
+  }
+}
+\item{\code{wrap_lookup}}{
+  Look up properties of a wrapping token.
+
+  \emph{Usage:}\code{wrap_lookup(token)}
+
+  \emph{Arguments:}
+  \itemize{
+    \item{\code{token}:   Specifies the wrapping token ID to lookup
+    }
+  }
+}
 }
 }
 

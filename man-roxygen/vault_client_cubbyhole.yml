@@ -1,0 +1,53 @@
+read:
+  short: >-
+    Read a value from your cubbyhole
+  params:
+    path: >-
+      Path for the secret to read, such as \code{/cubbyhole/mysecret}
+    field: >-
+      Optional field to read from the secret.  Each secret is stored
+      as a key/value set (represented in R as a named list) and this
+      is equivalent to using \code{[[field]]} on the return value.
+      The default, \code{NULL}, returns the full set of values.
+    metadata: >-
+      Logical, indicating if we should return metadata for this secret
+      (lease information etc) as an attribute along with hte values
+      itself.  Ignored if \code{field} is specified.
+
+write:
+  short: >-
+    Write data into your cubbyhole.
+  params:
+    path: >-
+      Path for the secret to write, such as \code{/cubbyhole/mysecret}
+    data: >-
+        A named list of values to write into the vault at this path.
+        This \emph{replaces} any existing values.
+
+list:
+  short: >-
+    List data in the vault at a give path.  This can be used to list
+    keys, etc (e.g., at \code{/cubbyhole}).
+  params:
+    path: The path to list
+    full_names: >-
+      Logical, indicating if full paths (relative to the vault root)
+      should be returned.
+  value: >-
+    A character vector (of zero length if no keys are found).  Paths
+    that are "directories" (i.e., that contain keys and could
+    themselves be listed) will be returned with a trailing forward
+    slash, e.g. \code{path/}
+
+delete:
+  short: >-
+    Delete a value from the vault
+  params:
+    path: The path to delete
+
+custom_mount:
+  short: >-
+    The cubbyhole secret backend cannot be moved, so this method just
+    throws an error if used.
+  params:
+    mount: String, indicating the path that the engine is mounted at (ignored).

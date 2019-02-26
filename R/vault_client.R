@@ -53,6 +53,7 @@ R6_vault_client <- R6::R6Class(
   public = list(
     auth = NULL,
     audit = NULL,
+    cubbyhole = NULL,
     kv1 = NULL,
     kv2 = NULL,
     operator = NULL,
@@ -68,6 +69,7 @@ R6_vault_client <- R6::R6Class(
 
       self$auth <- R6_vault_client_auth$new(api_client)
       self$audit <- R6_vault_client_audit$new(api_client)
+      self$cubbyhole <- R6_vault_client_cubbyhole$new(api_client)
       self$kv1 <- R6_vault_client_kv1$new(api_client, NULL)
       self$kv2 <- R6_vault_client_kv2$new(api_client, "secret")
       self$operator <- R6_vault_client_operator$new(api_client)
@@ -158,6 +160,17 @@ R6_vault_client <- R6::R6Class(
 
     status = function() {
       self$operator$seal_status()
+    },
+
+    unwrap = function(token) {
+      assert_scalar_character(token)
+      private$api_client$POST("/sys/wrapping/unwrap", token = token)
+    },
+
+    wrap_lookup = function(token) {
+      assert_scalar_character(token)
+      private$api_client$POST("/sys/wrapping/lookup", token = token,
+                              allow_missing_token = TRUE)$data
     }
   ))
 

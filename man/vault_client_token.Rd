@@ -86,7 +86,8 @@ actual token itself.
 
   \emph{Usage:}\code{create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
       orphan = FALSE, no_default_policy = FALSE, max_ttl = NULL,
-      display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL)}
+      display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL,
+      wrap_ttl = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -122,6 +123,9 @@ actual token itself.
     }
 
     \item{\code{ttl}:   The TTL period of the token, provided as "1h", where hour is the largest suffix. If not provided, the token is valid for the default lease TTL, or indefinitely if the root policy is used.
+    }
+
+    \item{\code{wrap_ttl}:   Indicates that the secret should be wrapped.  This is discussed in \href{https://www.vaultproject.io/docs/concepts/response-wrapping.html}{the vault documentation}.  When this option is used, \code{vault} will take the response it would have sent to an HTTP client and instead insert it into the cubbyhole of a single-use token, returning that single-use token instead. Logically speaking, the response is wrapped by the token, and retrieving it requires an unwrap operation against this token (see the \code{$unwrap} method \code{\link{vault_client}}).  Must be specified as a valid duration (e.g., \code{1h}).
     }
   }
 }

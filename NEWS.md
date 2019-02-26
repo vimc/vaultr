@@ -1,3 +1,8 @@
+## 0.2.4
+
+* Support for the [`cubbyhole`](https://www.vaultproject.io/docs/secrets/cubbyhole/index.html) secret engine and response wrapping
+* Faster testing on windows due to improved timeouts while looking for free ports
+
 ## 0.2.3
 
 * Fix windows filename issue with test server
