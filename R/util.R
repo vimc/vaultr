@@ -120,8 +120,9 @@ free_port <- function(port, max_tries = 20) {
 
 
 check_port <- function(port) {
+  timeout <- if (vault_platform() == "windows") 1 else 0.1
   con <- tryCatch(suppressWarnings(socketConnection(
-    "localhost", port = port, timeout = 0.1, open = "r")),
+    "localhost", port = port, timeout = timeout, open = "r")),
     error = function(e) NULL)
   if (is.null(con)) {
     return(TRUE)
