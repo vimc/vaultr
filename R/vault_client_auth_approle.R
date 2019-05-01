@@ -1,3 +1,12 @@
+##' Interact with vault's AppRole authentication backend.
+##'
+##' @template vault_client_auth_approle
+##'
+##' @title Vault AppRole Authentication Configuration
+##' @name vault_client_auth_approle
+NULL
+
+
 R6_vault_client_auth_approle <- R6::R6Class(
   "vault_client_auth_approle",
 
