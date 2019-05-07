@@ -13,11 +13,16 @@ R6_vault_client_secrets <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
-    ## it would be really nice to directly support mounting this elsewhere
+    cubbyhole = NULL,
+    kv1 = NULL,
+    kv2 = NULL,
     transit = NULL,
 
     initialize = function(api_client) {
       private$api_client <- api_client
+      self$cubbyhole <- R6_vault_client_cubbyhole$new(api_client)
+      self$kv1 <- R6_vault_client_kv1$new(api_client, NULL)
+      self$kv2 <- R6_vault_client_kv2$new(api_client, "secret")
       self$transit <- R6_vault_client_transit$new(api_client, "transit")
     },
 
