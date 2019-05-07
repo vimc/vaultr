@@ -6,7 +6,9 @@
 ##' \code{/secret}.  It can be accessed from vault with either the
 ##' \code{$read}, \code{$write}, \code{$list} and \code{$delete}
 ##' methods on the main \code{\link{vault_client}} object or by the
-##' \code{$kv1} member.
+##' \code{$kv1} member of the
+##' \code{\link[=vault_client_secrets]{secrets}} member of the main
+##' vault client.
 ##'
 ##' @template vault_client_kv1
 ##'

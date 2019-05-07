@@ -12,13 +12,14 @@
 ##' \code{vault} one could write
 ##'
 ##' \preformatted{
-##' vault$kv2$get("/project-secrets/mysecret", mount = "project-secrets")
+##' vault$secrets$kv2$get("/project-secrets/mysecret",
+##'                       mount = "project-secrets")
 ##' }
 ##'
 ##' or
 ##'
 ##' \preformatted{
-##' kv2 <- vault$kv2$custom_mount("project-secrets")
+##' kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
 ##' kv2$get("mysecret")
 ##' }
 ##'

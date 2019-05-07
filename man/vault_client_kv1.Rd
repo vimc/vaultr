@@ -13,7 +13,9 @@ Up to vault version 0.12.0 this was mounted by default at
 \code{/secret}.  It can be accessed from vault with either the
 \code{$read}, \code{$write}, \code{$list} and \code{$delete}
 methods on the main \code{\link{vault_client}} object or by the
-\code{$kv1} member.
+\code{$kv1} member of the
+\code{\link[=vault_client_secrets]{secrets}} member of the main
+vault client.
 }
 \section{Methods}{
 
@@ -79,7 +81,7 @@ methods on the main \code{\link{vault_client}} object or by the
   }
 }
 \item{\code{custom_mount}}{
-  Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
+  Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
 
   \emph{Usage:}\code{custom_mount(mount)}
 

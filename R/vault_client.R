@@ -87,20 +87,20 @@ R6_vault_client <- R6::R6Class(
 
     ## Root object kv1 methods
     read = function(path, field = NULL, metadata = FALSE) {
-      self$kv1$read(path, field, metadata)
+      self$secrets$kv1$read(path, field, metadata)
     },
 
     write = function(path, data) {
-      self$kv1$write(path, data)
+      self$secrets$kv1$write(path, data)
     },
 
     delete = function(path) {
-      self$kv1$delete(path)
+      self$secrets$kv1$delete(path)
     },
 
     ## NOTE: no recursive list here
     list = function(path, full_names = FALSE) {
-      self$kv1$list(path, full_names)
+      self$secrets$kv1$list(path, full_names)
     },
 
     login = function(..., method = "token", mount = NULL,
