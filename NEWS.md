@@ -1,3 +1,7 @@
+## 0.2.5
+
+* Support for AppRole authentication
+
 ## 0.2.4
 
 * Support for the [`cubbyhole`](https://www.vaultproject.io/docs/secrets/cubbyhole/index.html) secret engine and response wrapping
