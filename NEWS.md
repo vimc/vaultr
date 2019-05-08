@@ -1,6 +1,7 @@
 ## 0.2.5
 
 * Support for AppRole authentication
+* Move secrets support under secrets top level element (so `vault$secrets$kv1` rather than `vault$kv1`); VIMC-2891
 
 ## 0.2.4
 
