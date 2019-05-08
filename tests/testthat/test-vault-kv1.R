@@ -62,7 +62,7 @@ test_that("custom mount", {
   mount <- "/secret1"
 
   cl$secrets$enable("kv", mount, "", 1L)
-  kv <- cl$kv1$custom_mount(mount)
+  kv <- cl$secrets$kv1$custom_mount(mount)
 
   kv$write("/secret1/a", list(key = 1))
   kv$read("/secret1/a")

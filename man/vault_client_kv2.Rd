@@ -19,13 +19,14 @@ secret and auth backends which accept arguments like
 \code{vault} one could write
 
 \preformatted{
-vault$kv2$get("/project-secrets/mysecret", mount = "project-secrets")
+vault$secrets$kv2$get("/project-secrets/mysecret",
+                      mount = "project-secrets")
 }
 
 or
 
 \preformatted{
-kv2 <- vault$kv2$custom_mount("project-secrets")
+kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
 kv2$get("mysecret")
 }
 
@@ -50,7 +51,7 @@ though it is a little more typing than for the CLI vault client.
   }
 }
 \item{\code{custom_mount}}{
-  Set up a \code{vault_client_kv2} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv2} secret backend at \code{/secret2} you might use \code{kv <- vault$kv2$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
+  Set up a \code{vault_client_kv2} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv2} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv2$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
 
   \emph{Usage:}\code{custom_mount(mount)}
 

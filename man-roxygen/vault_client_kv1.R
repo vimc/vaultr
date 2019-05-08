@@ -61,7 +61,7 @@
 ##'   }
 ##' }
 ##' \item{\code{custom_mount}}{
-##'   Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
+##'   Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
 ##'
 ##'   \emph{Usage:}\code{custom_mount(mount)}
 ##'
