@@ -3,6 +3,31 @@
 ##' variables (see Details) and values provided as arguments override
 ##' these defaults.
 ##'
+##' @section Environment variables:
+##'
+##' The creation of a client is affected by a number of environment
+##'   variables, following the main vault command line client.
+##'
+##' \describe{
+##'
+##' \item{\code{VAULT_ADDR}}{The url of the vault server.  Must
+##'   include a protocol (most likely \code{https://} but in testing
+##'   \code{http://} might be used)}
+##'
+##' \item{\code{VAULT_CAPATH}}{The path to CA certificates}
+##'
+##' \item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
+##'   Only used for token-based authentication}
+##'
+##' \item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+##'   client, a github token for authentication using the github
+##'   authentication backend}
+##'
+##' \item{\code{VAULTR_AUTH_METHOD}}{The method to use for
+##'   authentication}
+##'
+##' }
+##'
 ##' @title Make a vault client
 ##'
 ##' @param login Login method.  Specify a string to be passed along as
@@ -32,6 +57,15 @@
 ##' @template vault_client
 ##' @export
 ##' @author Rich FitzJohn
+##' @examples
+##'
+##' server <- vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   vault <- server$client()
+##'   # A vault client has a series of "Command groups" (which contain
+##'   # additional methods) and a few methods to use directly.
+##'   vault
+##' }
 vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
   client <- R6_vault_client$new(addr, tls_config)
   method <- vault_client_login_method(login)
