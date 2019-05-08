@@ -1,7 +1,14 @@
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
-##' point at the directory containing the vault binary.
+##' server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH}
+##' to point at the directory containing the vault binary.
+##'
+##' Once created with \code{vault_test_server}, a server will stay
+##' alive for as long as the R process is alive \emph{or} until the
+##' \code{vault_server_instance} object goes out of scope and is
+##' garbage collected.  Calling \code{$kill()} will explicitly stop
+##' the server, but this is not strictly needed.  See below for
+##' methods to control the server instance.
 ##'
 ##' The function \code{vault_test_server_install} will install a test
 ##' server, but \emph{only} if the user sets the following environmental
@@ -17,6 +24,28 @@
 ##' This will download a ~100MB binary from \url{https://vaultproject.io}
 ##' so use with care.  It is intended \emph{only} for use in automated
 ##' testing environments.
+##'
+##' @template vault_server_instance
+##'
+##' @section Warning:
+##'
+##' Starting a server in test mode must \emph{not} be used for
+##'   production under any circumstances.  As the name suggests,
+##'   \code{vault_test_server} is a server suitable for \emph{tests}
+##'   only and lacks any of the features required to make vault
+##'   secure.  Please see
+##'   \url{https://www.vaultproject.io/docs/concepts/dev-server.html}
+##'   for more information
+##'
+##' @section Warning:
+##'
+##' The \code{vault_test_server_install} function will download a
+##'   binary from HashiCorp in order to use a vault server.  Use this
+##'   function with care.  The download will happen from
+##'   \url{https://releases.hashicorp.com/vault} (over https).  This
+##'   function is primarily designed to be used from continuous
+##'   integration services only and for local use you are strongly
+##'   recommended to curate your own installations.
 ##'
 ##' @title Control a test vault server
 ##'

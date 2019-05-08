@@ -39,10 +39,17 @@ on, with either "windows", "darwin" or "linux".}
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
-point at the directory containing the vault binary.
+server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH}
+to point at the directory containing the vault binary.
 }
 \details{
+Once created with \code{vault_test_server}, a server will stay
+alive for as long as the R process is alive \emph{or} until the
+\code{vault_server_instance} object goes out of scope and is
+garbage collected.  Calling \code{$kill()} will explicitly stop
+the server, but this is not strictly needed.  See below for
+methods to control the server instance.
+
 The function \code{vault_test_server_install} will install a test
 server, but \emph{only} if the user sets the following environmental
 variables:
@@ -58,6 +65,89 @@ This will download a ~100MB binary from \url{https://vaultproject.io}
 so use with care.  It is intended \emph{only} for use in automated
 testing environments.
 }
+\section{Methods}{
+
+
+\describe{
+\item{\code{addr}}{
+  The vault address; this is suitable for using with \code{\link{vault_client}} (read-only).
+}
+\item{\code{port}}{
+  The vault port (read-only).
+}
+\item{\code{token}}{
+  The vault root token, from when the testing vault server was created.  If the vault is rekeyed this will no longer be accurate (read-only).
+}
+\item{\code{keys}}{
+  Key shares from when the vault was initialised (read-only).
+}
+\item{\code{cacert}}{
+  Path to the https certificate, if running in https mode (read-only).
+}
+\item{\code{version}}{
+  Return the server version, as a \code{\link{numeric_version}} object.
+
+  \emph{Usage:}\code{version()}
+}
+\item{\code{client}}{
+  Create a new client that can use this server.  The client will be a \code{\link{vault_client}} object.
+
+  \emph{Usage:}\code{client(login = TRUE, quiet = TRUE)}
+
+  \emph{Arguments:}
+  \itemize{
+    \item{\code{login}:   Logical, indicating if the client should login to the server (default is \code{TRUE}).
+    }
+
+    \item{\code{quiet}:   Logical, indicating if informational messages should be suppressed.  Defau;t is \code{TRUE}, in contrast with most other methods.
+    }
+  }
+}
+\item{\code{env}}{
+  Return a named character vector of environment variables that can be used to communicate with this vault server (\code{VAULT_ADDR}, \code{VAU:T_TOKEN}, etc).
+
+  \emph{Usage:}\code{env()}
+}
+\item{\code{export}}{
+  Export the variables returned by the \code{$env()} method to the environment.  This makes them available to child processes.
+
+  \emph{Usage:}\code{export()}
+}
+\item{\code{clear_cached_token}}{
+  Clear any session-cached token for this server.  This is intended for testing new authentication backends.
+
+  \emph{Usage:}\code{clear_cached_token()}
+}
+\item{\code{kill}}{
+  Kill the server.
+
+  \emph{Usage:}\code{kill()}
+}
+}
+}
+
+\section{Warning}{
+
+
+Starting a server in test mode must \emph{not} be used for
+  production under any circumstances.  As the name suggests,
+  \code{vault_test_server} is a server suitable for \emph{tests}
+  only and lacks any of the features required to make vault
+  secure.  Please see
+  \url{https://www.vaultproject.io/docs/concepts/dev-server.html}
+  for more information
+
+
+
+The \code{vault_test_server_install} function will download a
+  binary from HashiCorp in order to use a vault server.  Use this
+  function with care.  The download will happen from
+  \url{https://releases.hashicorp.com/vault} (over https).  This
+  function is primarily designed to be used from continuous
+  integration services only and for local use you are strongly
+  recommended to curate your own installations.
+}
+
 \examples{
 
 # Try and start a server; if one is not enabled (see details
