@@ -194,12 +194,52 @@ The creation of a client is affected by a number of environment
 
 \examples{
 
-server <- vault_test_server(if_disabled = message)
+
+# We work with a test vault server here (see ?vault_test_server) for
+# details.  To use it, you must have a vault binary installed on your
+# system.  These examples will not affect any real running vault
+# instance that you can connect to.
+server <- vaultr::vault_test_server(if_disabled = message)
+
 if (!is.null(server)) {
-  vault <- server$client()
-  # A vault client has a series of "Command groups" (which contain
-  # additional methods) and a few methods to use directly.
-  vault
+  # Create a vault_client object by providing the address of the vault
+  # server.
+  client <- vaultr::vault_client(addr = server$addr)
+
+  # The client has many methods, grouped into a structure:
+  client
+
+  # For example, token related commands:
+  client$token
+
+  # The client is not authenticated by default:
+  try(client$list("/secret"))
+
+  # A few methods are unauthenticated and can still be run
+  client$status()
+
+  # Login to the vault, using the token that we know from the server -
+  # ordinarily you would use a login approach suitable for your needs
+  # (see the vault documentation).
+  token <- server$token
+  client$login(method = "token", token = token)
+
+  # The vault contains no secrets at present
+  client$list("/secret")
+
+  # Secrets can contain any (reasonable) number of key-value pairs,
+  # passed in as a list
+  client$write("/secret/users/alice", list(password = "s3cret!"))
+
+  # The whole list can be read out
+  client$read("/secret/users/alice")
+  # ...or just a field
+  client$read("/secret/users/alice", "password")
+
+  # Reading non-existant values returns NULL, not an error
+  client$read("/secret/users/bob")
+
+  client$delete("/secret/users/alice")
 }
 }
 \author{
