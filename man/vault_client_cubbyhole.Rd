@@ -17,8 +17,7 @@ details please see the vault documentation
 \describe{
 \item{\code{read}}{
   Read a value from your cubbyhole
-
-  \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -34,8 +33,7 @@ details please see the vault documentation
 }
 \item{\code{write}}{
   Write data into your cubbyhole.
-
-  \emph{Usage:}\code{write(path, data)}
+  \cr\emph{Usage:}\preformatted{write(path, data)}
 
   \emph{Arguments:}
   \itemize{
@@ -48,8 +46,7 @@ details please see the vault documentation
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/cubbyhole}).
-
-  \emph{Usage:}\code{list(path, full_names = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -65,8 +62,7 @@ details please see the vault documentation
 }
 \item{\code{delete}}{
   Delete a value from the vault
-
-  \emph{Usage:}\code{delete(path)}
+  \cr\emph{Usage:}\preformatted{delete(path)}
 
   \emph{Arguments:}
   \itemize{

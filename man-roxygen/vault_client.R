@@ -3,13 +3,11 @@
 ##' \describe{
 ##' \item{\code{api}}{
 ##'   Returns an api client object that can be used to directly interact with the vault server.
-##'
-##'   \emph{Usage:}\code{api()}
+##'   \cr\emph{Usage:}\preformatted{api()}
 ##' }
 ##' \item{\code{read}}{
 ##'   Read a value from the vault.  This can be used to read any value that you have permission to read, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault read}.
-##'
-##'   \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -25,8 +23,7 @@
 ##' }
 ##' \item{\code{write}}{
 ##'   Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault write}.
-##'
-##'   \emph{Usage:}\code{write(path, data)}
+##'   \cr\emph{Usage:}\preformatted{write(path, data)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -39,8 +36,7 @@
 ##' }
 ##' \item{\code{list}}{
 ##'   List data in the vault at a given path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-##'
-##'   \emph{Usage:}\code{list(path, full_names = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -56,8 +52,7 @@
 ##' }
 ##' \item{\code{delete}}{
 ##'   Delete a value from the vault
-##'
-##'   \emph{Usage:}\code{delete(path)}
+##'   \cr\emph{Usage:}\preformatted{delete(path)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -67,8 +62,7 @@
 ##' }
 ##' \item{\code{login}}{
 ##'   Login to the vault.  This method is more complicated than most.
-##'
-##'   \emph{Usage:}\code{login(..., method = "token", mount = NULL, renew = FALSE,
+##'   \cr\emph{Usage:}\preformatted{login(..., method = "token", mount = NULL, renew = FALSE,
 ##'       quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
 ##'
 ##'   \emph{Arguments:}
@@ -97,13 +91,11 @@
 ##' }
 ##' \item{\code{status}}{
 ##'   Return the status of the vault server, including whether it is sealed or not, and the vault server version.
-##'
-##'   \emph{Usage:}\code{status()}
+##'   \cr\emph{Usage:}\preformatted{status()}
 ##' }
 ##' \item{\code{unwrap}}{
 ##'   Returns the original response inside the given wrapping token. The vault endpoints used by this method perform validation checks on the token, returns the original value on the wire rather than a JSON string representation of it, and ensures that the response is properly audit-logged.
-##'
-##'   \emph{Usage:}\code{unwrap(token)}
+##'   \cr\emph{Usage:}\preformatted{unwrap(token)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -113,8 +105,7 @@
 ##' }
 ##' \item{\code{wrap_lookup}}{
 ##'   Look up properties of a wrapping token.
-##'
-##'   \emph{Usage:}\code{wrap_lookup(token)}
+##'   \cr\emph{Usage:}\preformatted{wrap_lookup(token)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

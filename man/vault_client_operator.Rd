@@ -12,18 +12,15 @@ Administration commands for vault operators.
 \describe{
 \item{\code{key_status}}{
   Return information about the current encryption key of Vault.
-
-  \emph{Usage:}\code{key_status()}
+  \cr\emph{Usage:}\preformatted{key_status()}
 }
 \item{\code{is_initialized}}{
   Returns the initialization status of Vault
-
-  \emph{Usage:}\code{is_initialized()}
+  \cr\emph{Usage:}\preformatted{is_initialized()}
 }
 \item{\code{init}}{
   This endpoint initializes a new Vault. The Vault must not have been previously initialized.
-
-  \emph{Usage:}\code{init(secret_shares, secret_threshold)}
+  \cr\emph{Usage:}\preformatted{init(secret_shares, secret_threshold)}
 
   \emph{Arguments:}
   \itemize{
@@ -36,18 +33,15 @@ Administration commands for vault operators.
 }
 \item{\code{leader_status}}{
   Check the high availability status and current leader of Vault
-
-  \emph{Usage:}\code{leader_status()}
+  \cr\emph{Usage:}\preformatted{leader_status()}
 }
 \item{\code{rekey_status}}{
   Reads the configuration and progress of the current rekey attempt
-
-  \emph{Usage:}\code{rekey_status()}
+  \cr\emph{Usage:}\preformatted{rekey_status()}
 }
 \item{\code{rekey_start}}{
   This method begins a new rekey attempt. Only a single rekey attempt can take place at a time, and changing the parameters of a rekey requires canceling and starting a new rekey, which will also provide a new nonce.
-
-  \emph{Usage:}\code{rekey_start(secret_shares, secret_threshold)}
+  \cr\emph{Usage:}\preformatted{rekey_start(secret_shares, secret_threshold)}
 
   \emph{Arguments:}
   \itemize{
@@ -60,13 +54,11 @@ Administration commands for vault operators.
 }
 \item{\code{rekey_cancel}}{
   This method cancels any in-progress rekey. This clears the rekey settings as well as any progress made. This must be called to change the parameters of the rekey. Note: verification is still a part of a rekey. If rekeying is canceled during the verification flow, the current unseal keys remain valid.
-
-  \emph{Usage:}\code{rekey_cancel()}
+  \cr\emph{Usage:}\preformatted{rekey_cancel()}
 }
 \item{\code{rekey_submit}}{
   This method is used to enter a single master key share to progress the rekey of the Vault. If the threshold number of master key shares is reached, Vault will complete the rekey. Otherwise, this method must be called multiple times until that threshold is met. The rekey nonce operation must be provided with each call.
-
-  \emph{Usage:}\code{rekey_submit(key, nonce)}
+  \cr\emph{Usage:}\preformatted{rekey_submit(key, nonce)}
 
   \emph{Arguments:}
   \itemize{
@@ -79,23 +71,19 @@ Administration commands for vault operators.
 }
 \item{\code{rotate}}{
   This method triggers a rotation of the backend encryption key. This is the key that is used to encrypt data written to the storage backend, and is not provided to operators. This operation is done online. Future values are encrypted with the new key, while old values are decrypted with previous encryption keys.
-
-  \emph{Usage:}\code{rotate()}
+  \cr\emph{Usage:}\preformatted{rotate()}
 }
 \item{\code{seal}}{
   Seal the vault, preventing any access to it.  After the vault is sealed, it must be unsealed for further use.
-
-  \emph{Usage:}\code{seal()}
+  \cr\emph{Usage:}\preformatted{seal()}
 }
 \item{\code{seal_status}}{
   Check the seal status of a Vault.  This method can be used even when the client is not authenticated with the vault (which will the case for a sealed vault).
-
-  \emph{Usage:}\code{seal_status()}
+  \cr\emph{Usage:}\preformatted{seal_status()}
 }
 \item{\code{unseal}}{
   Submit a portion of a key to unseal the vault.  This method is typically called by multiple different operators to assemble the master key.
-
-  \emph{Usage:}\code{unseal(key, reset = FALSE)}
+  \cr\emph{Usage:}\preformatted{unseal(key, reset = FALSE)}
 
   \emph{Arguments:}
   \itemize{

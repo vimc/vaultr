@@ -14,8 +14,7 @@ details, please see the vault documentation at
 \describe{
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_auth_github} object at a custom mount. For example, suppose you mounted the \code{github} authentication backend at \code{/github-myorg} you might use \code{gh <- vault$auth$github2$custom_mount("/github-myorg")} - this pattern is repeated for other secret and authentication backends.
-
-  \emph{Usage:}\code{custom_mount(mount)}
+  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
 
   \emph{Arguments:}
   \itemize{
@@ -25,8 +24,7 @@ details, please see the vault documentation at
 }
 \item{\code{configure}}{
   Configures the connection parameters for GitHub-based authentication.
-
-  \emph{Usage:}\code{configure(organization, base_url = NULL, ttl = NULL, max_ttl = NULL)}
+  \cr\emph{Usage:}\preformatted{configure(organization, base_url = NULL, ttl = NULL, max_ttl = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -45,13 +43,11 @@ details, please see the vault documentation at
 }
 \item{\code{configuration}}{
   Reads the connection parameters for GitHub-based authentication.
-
-  \emph{Usage:}\code{configuration()}
+  \cr\emph{Usage:}\preformatted{configuration()}
 }
 \item{\code{write}}{
   Write a mapping between a GitHub team or user and a set of vault policies.
-
-  \emph{Usage:}\code{write(team_name, policy, user = FALSE)}
+  \cr\emph{Usage:}\preformatted{write(team_name, policy, user = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -67,8 +63,7 @@ details, please see the vault documentation at
 }
 \item{\code{read}}{
   Write a mapping between a GitHub team or user and a set of vault policies.
-
-  \emph{Usage:}\code{read(team_name, user = FALSE)}
+  \cr\emph{Usage:}\preformatted{read(team_name, user = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -81,8 +76,7 @@ details, please see the vault documentation at
 }
 \item{\code{login}}{
   Log into the vault using GitHub authentication.  Normally you would not call this directly but instead use \code{$login} with \code{method = "github"} and proving the \code{token} argument. This function returns a vault token but does not set it as the client token.
-
-  \emph{Usage:}\code{login(token = NULL)}
+  \cr\emph{Usage:}\preformatted{login(token = NULL)}
 
   \emph{Arguments:}
   \itemize{

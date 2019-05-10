@@ -86,7 +86,8 @@ format_method <- function(x) {
 
   body <- x$short
   if (!is.null(x$usage)) {
-    body <- paste0(body, sprintf("\n\n\\emph{Usage:}\\code{%s}", x$usage))
+    body <- paste0(body,
+                   sprintf("\n\\cr\\emph{Usage:}\\preformatted{%s}", x$usage))
   }
   if (!is.null(x$params)) {
     body <- paste0(body, "\n\n\\emph{Arguments:}\n", format_params(x$params))

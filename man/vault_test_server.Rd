@@ -86,13 +86,11 @@ testing environments.
 }
 \item{\code{version}}{
   Return the server version, as a \code{\link{numeric_version}} object.
-
-  \emph{Usage:}\code{version()}
+  \cr\emph{Usage:}\preformatted{version()}
 }
 \item{\code{client}}{
   Create a new client that can use this server.  The client will be a \code{\link{vault_client}} object.
-
-  \emph{Usage:}\code{client(login = TRUE, quiet = TRUE)}
+  \cr\emph{Usage:}\preformatted{client(login = TRUE, quiet = TRUE)}
 
   \emph{Arguments:}
   \itemize{
@@ -105,23 +103,19 @@ testing environments.
 }
 \item{\code{env}}{
   Return a named character vector of environment variables that can be used to communicate with this vault server (\code{VAULT_ADDR}, \code{VAU:T_TOKEN}, etc).
-
-  \emph{Usage:}\code{env()}
+  \cr\emph{Usage:}\preformatted{env()}
 }
 \item{\code{export}}{
   Export the variables returned by the \code{$env()} method to the environment.  This makes them available to child processes.
-
-  \emph{Usage:}\code{export()}
+  \cr\emph{Usage:}\preformatted{export()}
 }
 \item{\code{clear_cached_token}}{
   Clear any session-cached token for this server.  This is intended for testing new authentication backends.
-
-  \emph{Usage:}\code{clear_cached_token()}
+  \cr\emph{Usage:}\preformatted{clear_cached_token()}
 }
 \item{\code{kill}}{
   Kill the server.
-
-  \emph{Usage:}\code{kill()}
+  \cr\emph{Usage:}\preformatted{kill()}
 }
 }
 }

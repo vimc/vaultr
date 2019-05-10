@@ -3,13 +3,11 @@
 ##' \describe{
 ##' \item{\code{is_authenticated}}{
 ##'   Test if the vault client currently holds a vault token.  This method does not verify the token - only test that is present.
-##'
-##'   \emph{Usage:}\code{is_authenticated()}
+##'   \cr\emph{Usage:}\preformatted{is_authenticated()}
 ##' }
 ##' \item{\code{set_token}}{
 ##'   Set a token within the client
-##'
-##'   \emph{Usage:}\code{set_token(token, verify = FALSE, quiet = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{set_token(token, verify = FALSE, quiet = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -25,8 +23,7 @@
 ##' }
 ##' \item{\code{verify_token}}{
 ##'   Test that a token is valid with the vault.  This will call vault's \code{/sys/capabilities-self} endpoint with the token provided and check the \code{/sys} path.
-##'
-##'   \emph{Usage:}\code{verify_token(token, quiet = TRUE)}
+##'   \cr\emph{Usage:}\preformatted{verify_token(token, quiet = TRUE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -39,8 +36,7 @@
 ##' }
 ##' \item{\code{server_version}}{
 ##'   Retrieve the vault server version.  This is by default cached within the client for a session.  Will return an R \code{numeric_version} object.
-##'
-##'   \emph{Usage:}\code{server_version(refresh = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{server_version(refresh = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -50,8 +46,7 @@
 ##' }
 ##' \item{\code{GET}}{
 ##'   Send a \code{GET} request to the vault server
-##'
-##'   \emph{Usage:}\code{GET(path, ...)}
+##'   \cr\emph{Usage:}\preformatted{GET(path, ...)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -64,8 +59,7 @@
 ##' }
 ##' \item{\code{LIST}}{
 ##'   Send a \code{LIST} request to the vault server
-##'
-##'   \emph{Usage:}\code{LIST(path, ...)}
+##'   \cr\emph{Usage:}\preformatted{LIST(path, ...)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -78,8 +72,7 @@
 ##' }
 ##' \item{\code{POST}}{
 ##'   Send a \code{POST} request to the vault server
-##'
-##'   \emph{Usage:}\code{POST(path, ...)}
+##'   \cr\emph{Usage:}\preformatted{POST(path, ...)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -92,8 +85,7 @@
 ##' }
 ##' \item{\code{PUT}}{
 ##'   Send a \code{PUT} request to the vault server
-##'
-##'   \emph{Usage:}\code{PUT(path, ...)}
+##'   \cr\emph{Usage:}\preformatted{PUT(path, ...)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -106,8 +98,7 @@
 ##' }
 ##' \item{\code{DELETE}}{
 ##'   Send a \code{DELETE} request to the vault server
-##'
-##'   \emph{Usage:}\code{DELETE(path, ...)}
+##'   \cr\emph{Usage:}\preformatted{DELETE(path, ...)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

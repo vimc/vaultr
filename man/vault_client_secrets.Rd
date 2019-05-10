@@ -12,8 +12,7 @@ Interact with vault's secret backends.
 \describe{
 \item{\code{enable}}{
   Enable a secret backend in the vault server
-
-  \emph{Usage:}\code{enable(type, path = type, description = NULL, version = NULL)}
+  \cr\emph{Usage:}\preformatted{enable(type, path = type, description = NULL, version = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -32,8 +31,7 @@ Interact with vault's secret backends.
 }
 \item{\code{disable}}{
   Disable a previously-enabled secret engine
-
-  \emph{Usage:}\code{disable(path)}
+  \cr\emph{Usage:}\preformatted{disable(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -43,8 +41,7 @@ Interact with vault's secret backends.
 }
 \item{\code{list}}{
   List enabled secret engines
-
-  \emph{Usage:}\code{list(detailed = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(detailed = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -54,8 +51,7 @@ Interact with vault's secret backends.
 }
 \item{\code{move}}{
   Move the path that a secret engine is mounted at
-
-  \emph{Usage:}\code{move(from, to)}
+  \cr\emph{Usage:}\preformatted{move(from, to)}
 
   \emph{Arguments:}
   \itemize{

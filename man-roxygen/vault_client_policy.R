@@ -3,8 +3,7 @@
 ##' \describe{
 ##' \item{\code{delete}}{
 ##'   This endpoint deletes the policy with the given name. This will immediately affect all users associated with this policy.
-##'
-##'   \emph{Usage:}\code{delete(name)}
+##'   \cr\emph{Usage:}\preformatted{delete(name)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -14,13 +13,11 @@
 ##' }
 ##' \item{\code{list}}{
 ##'   Lists all configured policies.
-##'
-##'   \emph{Usage:}\code{list()}
+##'   \cr\emph{Usage:}\preformatted{list()}
 ##' }
 ##' \item{\code{read}}{
 ##'   Retrieve the policy body for the named policy
-##'
-##'   \emph{Usage:}\code{read(name)}
+##'   \cr\emph{Usage:}\preformatted{read(name)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -30,8 +27,7 @@
 ##' }
 ##' \item{\code{write}}{
 ##'   Create or update a policy.  Once a policy is updated, it takes effect immediately to all associated users.
-##'
-##'   \emph{Usage:}\code{write(name, rules)}
+##'   \cr\emph{Usage:}\preformatted{write(name, rules)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

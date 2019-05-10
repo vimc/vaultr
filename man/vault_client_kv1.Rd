@@ -23,8 +23,7 @@ vault client.
 \describe{
 \item{\code{read}}{
   Read a value from the vault.  This can be used to read any value that you have permission to read in this store.
-
-  \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -40,8 +39,7 @@ vault client.
 }
 \item{\code{write}}{
   Write data into the vault.  This can be used to write any value that you have permission to write in this store.
-
-  \emph{Usage:}\code{write(path, data)}
+  \cr\emph{Usage:}\preformatted{write(path, data)}
 
   \emph{Arguments:}
   \itemize{
@@ -54,8 +52,7 @@ vault client.
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-
-  \emph{Usage:}\code{list(path, full_names = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -71,8 +68,7 @@ vault client.
 }
 \item{\code{delete}}{
   Delete a value from the vault
-
-  \emph{Usage:}\code{delete(path)}
+  \cr\emph{Usage:}\preformatted{delete(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -82,8 +78,7 @@ vault client.
 }
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
-
-  \emph{Usage:}\code{custom_mount(mount)}
+  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
 
   \emph{Arguments:}
   \itemize{

@@ -14,8 +14,7 @@ details about this, see the vault documentation at
 \describe{
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_auth_approle} object at a custom mount. For example, suppose you mounted the \code{approle} authentication backend at \code{/approle-dev} you might use \code{ar <- vault$auth$approle2$custom_mount("/approle-dev")} - this pattern is repeated for other secret and authentication backends.
-
-  \emph{Usage:}\code{custom_mount(mount)}
+  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
 
   \emph{Arguments:}
   \itemize{
@@ -25,13 +24,11 @@ details about this, see the vault documentation at
 }
 \item{\code{role_list}}{
   This endpoint returns a list the existing AppRoles in the method.
-
-  \emph{Usage:}\code{role_list()}
+  \cr\emph{Usage:}\preformatted{role_list()}
 }
 \item{\code{role_write}}{
   Creates a new AppRole or updates an existing AppRole. This endpoint supports both create and update capabilities. There can be one or more constraints enabled on the role. It is required to have at least one of them enabled while creating or updating a role.
-
-  \emph{Usage:}\code{role_write(role_name, bind_secret_id = NULL, secret_id_bound_cidrs = NULL,
+  \cr\emph{Usage:}\preformatted{role_write(role_name, bind_secret_id = NULL, secret_id_bound_cidrs = NULL,
       token_bound_cidrs = NULL, policies = NULL, secret_id_num_uses = NULL,
       secret_id_ttl = NULL, token_num_uses = NULL, token_ttl = NULL,
       token_max_ttl = NULL, period = NULL, enable_local_secret_ids = NULL,
@@ -81,8 +78,7 @@ details about this, see the vault documentation at
 }
 \item{\code{role_read}}{
   Reads the properties of an existing AppRole.
-
-  \emph{Usage:}\code{role_read(role_name)}
+  \cr\emph{Usage:}\preformatted{role_read(role_name)}
 
   \emph{Arguments:}
   \itemize{
@@ -92,8 +88,7 @@ details about this, see the vault documentation at
 }
 \item{\code{role_delete}}{
   Deletes an existing AppRole from the method.
-
-  \emph{Usage:}\code{role_delete(role_name)}
+  \cr\emph{Usage:}\preformatted{role_delete(role_name)}
 
   \emph{Arguments:}
   \itemize{
@@ -103,8 +98,7 @@ details about this, see the vault documentation at
 }
 \item{\code{role_id_read}}{
   Reads the RoleID of an existing AppRole.
-
-  \emph{Usage:}\code{role_id_read(role_name)}
+  \cr\emph{Usage:}\preformatted{role_id_read(role_name)}
 
   \emph{Arguments:}
   \itemize{
@@ -114,8 +108,7 @@ details about this, see the vault documentation at
 }
 \item{\code{role_id_write}}{
   Updates the RoleID of an existing AppRole to a custom value.
-
-  \emph{Usage:}\code{role_id_write(role_name, role_id)}
+  \cr\emph{Usage:}\preformatted{role_id_write(role_name, role_id)}
 
   \emph{Arguments:}
   \itemize{
@@ -128,8 +121,7 @@ details about this, see the vault documentation at
 }
 \item{\code{secret_id_generate}}{
   Generates and issues a new SecretID on an existing AppRole. Similar to tokens, the response will also contain a \code{secret_id_accessor} value which can be used to read the properties of the SecretID without divulging the SecretID itself, and also to delete the SecretID from the AppRole.
-
-  \emph{Usage:}\code{secret_id_generate(role_name, metadata = NULL, cidr_list = NULL, token_bound_cidrs = NULL)}
+  \cr\emph{Usage:}\preformatted{secret_id_generate(role_name, metadata = NULL, cidr_list = NULL, token_bound_cidrs = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -148,8 +140,7 @@ details about this, see the vault documentation at
 }
 \item{\code{secret_id_list}}{
   Lists the accessors of all the SecretIDs issued against the AppRole. This includes the accessors for "custom" SecretIDs as well.
-
-  \emph{Usage:}\code{secret_id_list(role_name)}
+  \cr\emph{Usage:}\preformatted{secret_id_list(role_name)}
 
   \emph{Arguments:}
   \itemize{
@@ -159,8 +150,7 @@ details about this, see the vault documentation at
 }
 \item{\code{secret_id_read}}{
   Reads out the properties of a SecretID.
-
-  \emph{Usage:}\code{secret_id_read(role_name, secret_id, accessor = FALSE)}
+  \cr\emph{Usage:}\preformatted{secret_id_read(role_name, secret_id, accessor = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -176,8 +166,7 @@ details about this, see the vault documentation at
 }
 \item{\code{secret_id_delete}}{
   Delete an AppRole secret ID
-
-  \emph{Usage:}\code{secret_id_delete(role_name, secret_id, accessor = FALSE)}
+  \cr\emph{Usage:}\preformatted{secret_id_delete(role_name, secret_id, accessor = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -193,8 +182,7 @@ details about this, see the vault documentation at
 }
 \item{\code{login}}{
   Log into the vault using AppRole authentication.  Normally you would not call this directly but instead use \code{$login} with \code{method = "approle"} and proving the \code{role_id} and \code{secret_id} arguments.  This function returns a vault token but does not set it as the client token.
-
-  \emph{Usage:}\code{login(role_id, secret_id)}
+  \cr\emph{Usage:}\preformatted{login(role_id, secret_id)}
 
   \emph{Arguments:}
   \itemize{
