@@ -125,7 +125,7 @@ please see the vault documentation
 }
 
 \examples{
-server <- vaultr::vault_test_server()
+server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
   root <- server$client()
 
