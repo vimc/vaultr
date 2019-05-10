@@ -9,17 +9,15 @@ NULL
 
 R6_vault_client_auth <- R6::R6Class(
   "vault_client_auth",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(api_client = NULL),
 
   public = list(
     initialize = function(api_client) {
+      super$initialize("administer vault's authentication methods")
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "auth",
-                          "administer vault's authentication methods")
     },
 
     backends = function() {

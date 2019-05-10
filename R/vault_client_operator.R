@@ -9,17 +9,15 @@ NULL
 
 R6_vault_client_operator <- R6::R6Class(
   "vault_client_operator",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(api_client = NULL),
 
   public = list(
     initialize = function(api_client) {
+      super$initialize("Administration commands for vault operators")
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "operator",
-                          "Administration commands for vault operators")
     },
 
     key_status = function() {

@@ -16,6 +16,8 @@ NULL
 
 R6_vault_server_instance <- R6::R6Class(
   "vault_server_instance",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     process = NULL
@@ -29,6 +31,7 @@ R6_vault_server_instance <- R6::R6Class(
     cacert = NULL,
 
     initialize = function(bin, port, https, init) {
+      super$initialize("Vault server instance")
       assert_scalar_integer(port)
       self$port <- port
 

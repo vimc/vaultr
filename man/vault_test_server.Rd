@@ -2,6 +2,7 @@
 % Please edit documentation in R/server_manager.R
 \name{vault_test_server}
 \alias{vault_test_server}
+\alias{vault_server_instance}
 \alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{

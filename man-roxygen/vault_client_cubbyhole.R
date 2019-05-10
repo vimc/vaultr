@@ -60,15 +60,4 @@
 ##'     }
 ##'   }
 ##' }
-##' \item{\code{custom_mount}}{
-##'   The cubbyhole secret backend cannot be moved, so this method just throws an error if used.
-##'
-##'   \emph{Usage:}\code{custom_mount(mount)}
-##'
-##'   \emph{Arguments:}
-##'   \itemize{
-##'     \item{\code{mount}:   String, indicating the path that the engine is mounted at (ignored).
-##'     }
-##'   }
-##' }
 ##' }

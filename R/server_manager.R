@@ -35,6 +35,30 @@
 ##'
 ##' @export
 ##' @rdname vault_test_server
+##' @aliases vault_server_instance
+##' @examples
+##'
+##' # Try and start a server; if one is not enabled (see details
+##' # above) then this will return \code{NULL}
+##' server <- vault_test_server(if_disabled = message)
+##'
+##' if (!is.null(server)) {
+##'   # We now have a server running on an arbitrary high port - note
+##'   # that we are running over http and in dev mode: this is not at
+##'   # all suitable for production use, just for tests
+##'   server$addr
+##'
+##'   # Create clients using the client method - by default these are
+##'   # automatically authenticated against the server
+##'   client <- server$client()
+##'   client$write("/secret/password", list(value = "s3cret!"))
+##'   client$read("/secret/password")
+##'
+##'   # The server stop automatically when the server object is
+##'   # garbage collected, or turn it off with the \code{kill} method:
+##'   server$kill()
+##'   tryCatch(client$status(), error = function(e) message(e$message))
+##' }
 vault_test_server <- function(https = FALSE, init = TRUE,
                               if_disabled = testthat::skip) {
   vault_server_manager()$new_server(https, init, if_disabled)

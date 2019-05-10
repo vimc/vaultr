@@ -25,14 +25,6 @@ test_that("basic set/get/list/del", {
 })
 
 
-test_that("custom mount disabled", {
-  srv <- vault_test_server()
-  cl <- srv$client()
-  expect_error(cl$secrets$cubbyhole$custom_mount("elsewhere"),
-               "The cubbyhole secret engine cannot be moved")
-})
-
-
 ## https://learn.hashicorp.com/vault/secrets-management/sm-cubbyhole
 test_that("response wrapping example", {
   srv <- vault_test_server()

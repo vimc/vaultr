@@ -19,36 +19,21 @@ NULL
 
 R6_vault_client_kv1 <- R6::R6Class(
   "vault_client_kv1",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL,
-    mount = NULL,
-
-    validate_path = function(path) {
-      path <- sub("^/", "", path)
-      if (is.null(private$mount)) {
-        return(path)
-      }
-      if (!string_starts_with(path, private$mount)) {
-        stop(sprintf(
-          "Invalid mount given for this path - expected '%s'", private$mount),
-          call. = FALSE)
-      }
-      path
-    }
+    mount = NULL
   ),
 
   public = list(
     initialize = function(api_client, mount) {
+      super$initialize("Interact with vault's key/value store (version 1)")
       private$api_client <- api_client
       if (!is.null(mount)) {
         private$mount <- sub("^/", "", mount)
       }
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "kv1",
-                          "Interact with vault's key/value store (version 1)")
     },
 
     custom_mount = function(mount) {
@@ -56,48 +41,82 @@ R6_vault_client_kv1 <- R6::R6Class(
     },
 
     read = function(path, field = NULL, metadata = FALSE) {
-      path <- private$validate_path(path)
-      res <- tryCatch(
-        private$api_client$GET(path),
-        vault_invalid_path = function(e) NULL)
-
-      if (is.null(res)) {
-        ret <- NULL
-      } else {
-        ret <- res$data
-        if (!is.null(field)) {
-          assert_scalar_character(field)
-          ret <- res$data[[field]]
-        } else if (metadata) {
-          attr <- res[setdiff(names(res), "data")]
-          attr(ret, "metadata") <- attr[lengths(attr) > 0]
-        }
-      }
-      ret
+      vault_kv_read(private$api_client, private$mount, path, field, metadata)
     },
 
     write = function(path, data) {
-      path <- private$validate_path(path)
-      assert_named(data)
-      private$api_client$POST(path, body = data)
-      invisible(NULL)
+      vault_kv_write(private$api_client, private$mount, path, data)
     },
 
     list = function(path, full_names = FALSE) {
-      path <- private$validate_path(path)
-      dat <- tryCatch(
-        private$api_client$LIST(path),
-        vault_invalid_path = function(e) NULL)
-      ret <- list_to_character(dat$data$keys)
-      if (full_names) {
-        ret <- paste(sub("/+$", "", path), ret, sep = "/")
-      }
-      ret
+      vault_kv_list(private$api_client, private$mount, path, full_names)
     },
 
     delete = function(path) {
-      path <- private$validate_path(path)
-      private$api_client$DELETE(path)
-      invisible(NULL)
+      vault_kv_delete(private$api_client, private$mount, path)
     }
   ))
+
+
+vault_kv_read <- function(api_client, mount, path, field = NULL,
+                          metadata = FALSE) {
+  path <- vault_validate_path(path, mount)
+  res <- tryCatch(
+    api_client$GET(path),
+    vault_invalid_path = function(e) NULL)
+
+  if (is.null(res)) {
+    ret <- NULL
+  } else {
+    ret <- res$data
+    if (!is.null(field)) {
+      assert_scalar_character(field)
+      ret <- res$data[[field]]
+    } else if (metadata) {
+      attr <- res[setdiff(names(res), "data")]
+      attr(ret, "metadata") <- attr[lengths(attr) > 0]
+    }
+  }
+  ret
+}
+
+
+vault_kv_write <- function(api_client, mount, path, data) {
+  path <- vault_validate_path(path, mount)
+  assert_named(data)
+  api_client$POST(path, body = data)
+  invisible(NULL)
+}
+
+
+vault_kv_list <- function(api_client, mount, path, full_names = FALSE) {
+  path <- vault_validate_path(path, mount)
+  dat <- tryCatch(
+    api_client$LIST(path),
+    vault_invalid_path = function(e) NULL)
+  ret <- list_to_character(dat$data$keys)
+  if (full_names) {
+    ret <- paste(sub("/+$", "", path), ret, sep = "/")
+  }
+  ret
+}
+
+
+vault_kv_delete <- function(api_client, mount, path) {
+  api_client$DELETE(path)
+  invisible(NULL)
+}
+
+
+vault_validate_path <- function(path, mount) {
+  path <- sub("^/", "", path)
+  if (is.null(mount)) {
+    return(path)
+  }
+  if (!string_starts_with(path, mount)) {
+    stop(sprintf(
+      "Invalid mount given for this path - expected '%s'", mount),
+      call. = FALSE)
+  }
+  path
+}

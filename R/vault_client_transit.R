@@ -17,6 +17,8 @@ NULL
 
 R6_vault_client_transit <- R6::R6Class(
   "vault_client_transit",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL,
@@ -25,14 +27,10 @@ R6_vault_client_transit <- R6::R6Class(
 
   public = list(
     initialize = function(api_client, mount) {
+      super$initialize("Cryptographic functions for data in-transit")
       assert_scalar_character(mount)
       private$mount <- sub("^/", "", mount)
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "transit",
-                          "Cryptographic functions for data in-transit")
     },
 
     custom_mount = function(mount) {

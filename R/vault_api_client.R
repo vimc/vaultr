@@ -12,6 +12,8 @@ NULL
 
 R6_vault_api_client <- R6::R6Class(
   "vault_api_client",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   public = list(
     addr = NULL,
@@ -21,6 +23,7 @@ R6_vault_api_client <- R6::R6Class(
     version = NULL,
 
     initialize = function(addr = NULL, tls_config = NULL) {
+      super$initialize("Low-level API client")
       self$addr <- vault_addr(addr)
       self$base_url <- vault_base_url(self$addr, "/v1")
       self$tls_config <- vault_tls_config(tls_config)
