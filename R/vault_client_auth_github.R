@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_auth_github <- R6::R6Class(
+vault_client_auth_github <- R6::R6Class(
   "vault_client_auth_github",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -26,7 +26,7 @@ R6_vault_client_auth_github <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_auth_github$new(private$api_client, mount)
+      vault_client_auth_github$new(private$api_client, mount)
     },
 
     configure = function(organization, base_url = NULL, ttl = NULL,

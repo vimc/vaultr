@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_secrets <- R6::R6Class(
+vault_client_secrets <- R6::R6Class(
   "vault_client_secrets",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -23,10 +23,14 @@ R6_vault_client_secrets <- R6::R6Class(
     initialize = function(api_client) {
       super$initialize("Interact with secret engines")
       private$api_client <- api_client
-      self$cubbyhole <- R6_vault_client_cubbyhole$new(api_client)
-      self$kv1 <- R6_vault_client_kv1$new(api_client, NULL)
-      self$kv2 <- R6_vault_client_kv2$new(api_client, "secret")
-      self$transit <- R6_vault_client_transit$new(api_client, "transit")
+      add_const_member(self, "cubbyhole",
+                       vault_client_cubbyhole$new(api_client))
+      add_const_member(self, "kv1",
+                       vault_client_kv1$new(api_client, NULL))
+      add_const_member(self, "kv2",
+                       vault_client_kv2$new(api_client, "secret"))
+      add_const_member(self, "transit",
+                       vault_client_transit$new(api_client, "transit"))
     },
 
     disable = function(path) {

@@ -62,7 +62,7 @@
 ##' }
 vault_test_server <- function(https = FALSE, init = TRUE,
                               if_disabled = testthat::skip) {
-  vault_server_manager()$new_server(https, init, if_disabled)
+  global_vault_server_manager()$new_server(https, init, if_disabled)
 }
 
 
@@ -103,11 +103,11 @@ vault_test_server_install <- function(path = NULL, quiet = FALSE,
 }
 
 
-vault_server_manager <- function() {
+global_vault_server_manager <- function() {
   if (is.null(vault_env$server_manager)) {
     bin <- vault_server_manager_bin()
     port <- vault_server_manager_port()
-    vault_env$server_manager <- R6_vault_server_manager$new(bin, port)
+    vault_env$server_manager <- vault_server_manager$new(bin, port)
   }
   vault_env$server_manager
 }
@@ -144,7 +144,7 @@ vault_server_manager_port <- function() {
 }
 
 
-R6_vault_server_manager <- R6::R6Class(
+vault_server_manager <- R6::R6Class(
   "vault_server_manager",
 
   public = list(
@@ -177,7 +177,7 @@ R6_vault_server_manager <- R6::R6Class(
         if_disabled("vault is not enabled")
       } else {
         tryCatch(
-          R6_vault_server_instance$new(self$bin, self$new_port(), https, init),
+          vault_server_instance$new(self$bin, self$new_port(), https, init),
           error = function(e)
             testthat::skip(paste("vault server failed to start:",
                                  e$message)))

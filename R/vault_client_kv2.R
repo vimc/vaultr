@@ -35,7 +35,7 @@
 NULL
 
 
-R6_vault_client_kv2 <- R6::R6Class(
+vault_client_kv2 <- R6::R6Class(
   "vault_client_kv2",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -100,7 +100,7 @@ R6_vault_client_kv2 <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_kv2$new(private$api_client, mount)
+      vault_client_kv2$new(private$api_client, mount)
     },
 
     delete = function(path, version = NULL, mount = NULL) {

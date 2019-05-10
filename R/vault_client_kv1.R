@@ -17,7 +17,7 @@
 NULL
 
 
-R6_vault_client_kv1 <- R6::R6Class(
+vault_client_kv1 <- R6::R6Class(
   "vault_client_kv1",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -37,7 +37,7 @@ R6_vault_client_kv1 <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_kv1$new(private$api_client, mount)
+      vault_client_kv1$new(private$api_client, mount)
     },
 
     read = function(path, field = NULL, metadata = FALSE) {

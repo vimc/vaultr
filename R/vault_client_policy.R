@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_policy <- R6::R6Class(
+vault_client_policy <- R6::R6Class(
   "vault_client_policy",
   inherit = vault_client_object,
   cloneable = FALSE,

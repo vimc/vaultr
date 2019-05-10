@@ -27,7 +27,7 @@
 NULL
 
 
-R6_vault_client_token <- R6::R6Class(
+vault_client_token <- R6::R6Class(
   "vault_client_token",
   inherit = vault_client_object,
   cloneable = FALSE,

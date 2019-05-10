@@ -140,28 +140,28 @@ process <- function(path, class) {
 
 
 process_all <- function() {
-  process("man-roxygen/vault_api_client.yml", R6_vault_api_client)
+  process("man-roxygen/vault_api_client.yml", vault_api_client)
 
   process("man-roxygen/vault_client.yml", R6_vault_client)
-  process("man-roxygen/vault_client_audit.yml", R6_vault_client_audit)
-  process("man-roxygen/vault_client_auth.yml", R6_vault_client_auth)
+  process("man-roxygen/vault_client_audit.yml", vault_client_audit)
+  process("man-roxygen/vault_client_auth.yml", vault_client_auth)
   process("man-roxygen/vault_client_auth_approle.yml",
-          R6_vault_client_auth_approle)
+          vault_client_auth_approle)
   process("man-roxygen/vault_client_auth_github.yml",
-          R6_vault_client_auth_github)
+          vault_client_auth_github)
   process("man-roxygen/vault_client_auth_userpass.yml",
-          R6_vault_client_auth_userpass)
-  process("man-roxygen/vault_client_cubbyhole.yml", R6_vault_client_cubbyhole)
-  process("man-roxygen/vault_client_kv1.yml", R6_vault_client_kv1)
-  process("man-roxygen/vault_client_kv2.yml", R6_vault_client_kv2)
-  process("man-roxygen/vault_client_operator.yml", R6_vault_client_operator)
-  process("man-roxygen/vault_client_policy.yml", R6_vault_client_policy)
-  process("man-roxygen/vault_client_secrets.yml", R6_vault_client_secrets)
-  process("man-roxygen/vault_client_token.yml", R6_vault_client_token)
-  process("man-roxygen/vault_client_tools.yml", R6_vault_client_tools)
-  process("man-roxygen/vault_client_transit.yml", R6_vault_client_transit)
+          vault_client_auth_userpass)
+  process("man-roxygen/vault_client_cubbyhole.yml", vault_client_cubbyhole)
+  process("man-roxygen/vault_client_kv1.yml", vault_client_kv1)
+  process("man-roxygen/vault_client_kv2.yml", vault_client_kv2)
+  process("man-roxygen/vault_client_operator.yml", vault_client_operator)
+  process("man-roxygen/vault_client_policy.yml", vault_client_policy)
+  process("man-roxygen/vault_client_secrets.yml", vault_client_secrets)
+  process("man-roxygen/vault_client_token.yml", vault_client_token)
+  process("man-roxygen/vault_client_tools.yml", vault_client_tools)
+  process("man-roxygen/vault_client_transit.yml", vault_client_transit)
 
-  process("man-roxygen/vault_server_instance.yml", R6_vault_server_instance)
+  process("man-roxygen/vault_server_instance.yml", vault_server_instance)
 }
 
 

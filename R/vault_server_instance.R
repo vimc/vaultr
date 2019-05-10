@@ -1,4 +1,4 @@
-R6_vault_server_instance <- R6::R6Class(
+vault_server_instance <- R6::R6Class(
   "vault_server_instance",
   inherit = vault_client_object,
   cloneable = FALSE,

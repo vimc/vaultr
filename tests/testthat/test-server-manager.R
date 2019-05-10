@@ -117,7 +117,7 @@ test_that("safeguards for run", {
 
 
 test_that("disabled server manager", {
-  res <- R6_vault_server_manager$new(NULL)
+  res <- vault_server_manager$new(NULL)
   expect_false(res$enabled)
   expect_equal(res$new_server(if_disabled = identity),
                "vault is not enabled")

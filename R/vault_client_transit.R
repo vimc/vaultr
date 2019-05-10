@@ -15,7 +15,7 @@
 NULL
 
 
-R6_vault_client_transit <- R6::R6Class(
+vault_client_transit <- R6::R6Class(
   "vault_client_transit",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -34,7 +34,7 @@ R6_vault_client_transit <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_transit$new(private$api_client, mount)
+      vault_client_transit$new(private$api_client, mount)
     },
 
     key_create = function(name, key_type = NULL, convergent_encryption = NULL,

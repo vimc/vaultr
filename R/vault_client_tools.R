@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_tools <- R6::R6Class(
+vault_client_tools <- R6::R6Class(
   "vault_client_tools",
   inherit = vault_client_object,
   cloneable = FALSE,

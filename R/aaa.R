@@ -23,3 +23,9 @@ vault_client_object <- R6::R6Class(
       utils::help(private$help_name, package = "vaultr")
     }
   ))
+
+
+add_const_member <- function(target, name, object) {
+  target[[name]] <- object
+  lockBinding(name, target)
+}

@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_auth <- R6::R6Class(
+vault_client_auth <- R6::R6Class(
   "vault_client_auth",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -15,9 +15,27 @@ R6_vault_client_auth <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    approle = NULL,
+    github = NULL,
+    token = NULL,
+    userpass = NULL,
+
     initialize = function(api_client) {
       super$initialize("administer vault's authentication methods")
       private$api_client <- api_client
+
+      add_const_member(
+        self, "token",
+        vault_client_token$new(private$api_client))
+      add_const_member(
+        self, "github",
+        vault_client_auth_github$new(private$api_client, "github"))
+      add_const_member(
+        self, "userpass",
+        vault_client_auth_userpass$new(private$api_client, "userpass"))
+      add_const_member(
+        self, "approle",
+        vault_client_auth_approle$new(private$api_client, "approle"))
     },
 
     backends = function() {
@@ -66,25 +84,5 @@ R6_vault_client_auth <- R6::R6Class(
     disable = function(path) {
       private$api_client$DELETE(paste0("/sys/auth/", path))
       invisible(NULL)
-    }),
-
-  ## Build these just in time
-  active = list(
-    ## Tokens are somewhat special
-    token = function() {
-      R6_vault_client_token$new(private$api_client)
-    },
-
-    ## This set will grow out eventually
-    github = function() {
-      R6_vault_client_auth_github$new(private$api_client, "github")
-    },
-
-    userpass = function() {
-      R6_vault_client_auth_userpass$new(private$api_client, "userpass")
-    },
-
-    approle = function() {
-      R6_vault_client_auth_approle$new(private$api_client, "approle")
     }
   ))

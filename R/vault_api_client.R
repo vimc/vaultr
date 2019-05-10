@@ -10,7 +10,7 @@
 NULL
 
 
-R6_vault_api_client <- R6::R6Class(
+vault_api_client <- R6::R6Class(
   "vault_api_client",
   inherit = vault_client_object,
   cloneable = FALSE,

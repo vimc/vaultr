@@ -9,7 +9,7 @@
 ##' @name vault_client_cubbyhole
 NULL
 
-R6_vault_client_cubbyhole <- R6::R6Class(
+vault_client_cubbyhole <- R6::R6Class(
   "vault_client_cubbyhole",
   inherit = vault_client_object,
   cloneable = FALSE,

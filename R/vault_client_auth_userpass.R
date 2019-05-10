@@ -7,7 +7,7 @@
 NULL
 
 
-R6_vault_client_auth_userpass <- R6::R6Class(
+vault_client_auth_userpass <- R6::R6Class(
   "vault_client_auth_userpass",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -26,7 +26,7 @@ R6_vault_client_auth_userpass <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_auth_userpass$new(private$api_client, mount)
+      vault_client_auth_userpass$new(private$api_client, mount)
     },
 
     write = function(username, password = NULL, policy = NULL, ttl = NULL,
