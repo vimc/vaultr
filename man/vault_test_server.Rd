@@ -76,8 +76,9 @@ if (!is.null(server)) {
   client$write("/secret/password", list(value = "s3cret!"))
   client$read("/secret/password")
 
-  # The server stop automatically when the server object is
-  # garbage collected, or turn it off with the \\code{kill} method:
+  # The server stops automatically when the server object is
+  # garbage collected, or it can be turned off with the
+  # \\code{kill} method:
   server$kill()
   tryCatch(client$status(), error = function(e) message(e$message))
 }
