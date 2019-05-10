@@ -28,6 +28,7 @@ has_internet <- function() {
 }
 
 skip_if_no_internet <- function() {
+  skip_on_cran() # not worth it
   skip_on_os("windows")
   if (has_internet()) {
     return()
