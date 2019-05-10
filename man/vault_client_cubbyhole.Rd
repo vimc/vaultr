@@ -7,7 +7,9 @@
 Interact with vault's cubbyhole key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
 (c.f. \code{\link{vault_client_kv2}}) that is scoped to your
-current token only and not accessible to anyone else.
+current token only and not accessible to anyone else.  For more
+details please see the vault documentation
+\url{https://www.vaultproject.io/docs/secrets/cubbyhole/index.html}
 }
 \section{Methods}{
 
@@ -75,3 +77,26 @@ current token only and not accessible to anyone else.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # Shorter path for easier reading:
+  cubbyhole <- client$secrets$cubbyhole
+  cubbyhole
+
+  # Write a value
+  cubbyhole$write("cubbyhole/secret", list(key = "value"))
+  # List it
+  cubbyhole$list("cubbyhole")
+  # Read it
+  cubbyhole$read("cubbyhole/secret")
+  # Delete it
+  cubbyhole$delete("cubbyhole/secret")
+
+  # cleanup
+  server$kill()
+}
+}
