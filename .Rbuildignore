@@ -10,3 +10,4 @@
 ^scripts$
 ^TODO\.md$
 ^man-roxygen$
+^appveyor\.yml$
