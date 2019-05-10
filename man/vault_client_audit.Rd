@@ -4,7 +4,8 @@
 \alias{vault_client_audit}
 \title{Vault Audit Devices}
 \description{
-Interact with vault's audit devices.
+Interact with vault's audit devices.  For more details, see
+\url{https://www.vaultproject.io/docs/audit/}
 }
 \section{Methods}{
 
@@ -63,3 +64,27 @@ Interact with vault's audit devices.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+  # By default no audit engines are enabled with the testing server
+  client$audit$list()
+
+  # Create a file-based audit device on a temporary file:
+  path <- tempfile()
+  client$audit$enable("file", options = list(file_path = path))
+  client$audit$list()
+
+  # Generate some activity on the server:
+  client$write("/secret/mysecret", list(key = "value"))
+
+  # The audit logs contain details about the activity - see the
+  # vault documentation for details in interpreting this
+  readLines(path)
+
+  # cleanup
+  server$kill()
+  unlink(path)
+}
+}

@@ -5,6 +5,10 @@
 \title{Vault Username/Password Authentication Configuration}
 \description{
 Interact with vault's username/password authentication backend.
+This backend can be used to configure basic username+password
+authentication, suitable for human users.  For more information,
+please see the vault documentation
+\url{https://www.vaultproject.io/docs/auth/userpass.html}
 }
 \section{Methods}{
 
@@ -120,3 +124,30 @@ Interact with vault's username/password authentication backend.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server()
+if (!is.null(server)) {
+  root <- server$client()
+
+  # The userpass authentication backend is not enabled by default,
+  # so we need to enable it first (this requires high levels of
+  # privilege on the vault server)
+  root$auth$enable("userpass")
+
+  # Then we can add users:
+  root$auth$userpass$write("alice", "p4ssw0rd")
+
+  # Create a new client and login with this user:
+  alice <- vaultr::vault_client(addr = server$addr)
+  # it is not recommended to login with the password like this as
+  # it will end up in the command history, but in interactive use
+  # you will be prompted securely for password
+  alice$login(method = "userpass",
+              username = "alice", password = "p4ssw0rd")
+  # Alice has now logged in and has only "default" policies
+  alice$auth$token$lookup_self()$policies
+
+  # (wheras our original root user has the "root" policy)
+  root$auth$token$lookup_self()$policies
+}
+}

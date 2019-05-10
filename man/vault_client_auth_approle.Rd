@@ -4,7 +4,9 @@
 \alias{vault_client_auth_approle}
 \title{Vault AppRole Authentication Configuration}
 \description{
-Interact with vault's AppRole authentication backend.
+Interact with vault's AppRole authentication backend.  For more
+details about this, see the vault documentation at
+\url{https://www.vaultproject.io/docs/auth/approle.html}
 }
 \section{Methods}{
 
@@ -206,3 +208,7 @@ Interact with vault's AppRole authentication backend.
 }
 }
 
+\examples{
+
+vaultr::vault_client(addr = "https://localhost:8200")$auth$approle
+}

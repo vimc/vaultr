@@ -69,3 +69,15 @@ Interact with vault's authentication backends.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # List configured authentication backends
+  client$auth$list()
+
+  # cleanup
+  server$kill()
+}
+}
