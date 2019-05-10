@@ -1,19 +1,3 @@
-##' Control a vault server instance in a testing environnment.
-##' Objects of this type are returned by
-##' \code{\link{vault_test_server}}.
-##'
-##' The server will stay alive for as long as the R process is alive
-##' \emph{or} until the \code{vault_server_instance} object goes out
-##' of scope and is garbage collected.  Calling \code{$kill()} will
-##' explicitly stop the server, but this is not strictly needed.
-##'
-##' @template vault_server_instance
-##'
-##' @title Vault Server Instance
-##' @name vault_server_instance
-NULL
-
-
 R6_vault_server_instance <- R6::R6Class(
   "vault_server_instance",
   inherit = vault_client_object,
