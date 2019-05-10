@@ -35,8 +35,10 @@
 NULL
 
 
-R6_vault_client_kv2 <- R6::R6Class(
+vault_client_kv2 <- R6::R6Class(
   "vault_client_kv2",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL,
@@ -86,14 +88,10 @@ R6_vault_client_kv2 <- R6::R6Class(
 
   public = list(
     initialize = function(api_client, mount) {
+      super$initialize("Interact with vault's key/value store (version 2)")
       assert_scalar_character(mount)
       private$mount <- sub("^/", "", mount)
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "kv2",
-                          "Interact with vault's key/value store (version 2)")
     },
 
     config = function(mount = NULL) {
@@ -102,7 +100,7 @@ R6_vault_client_kv2 <- R6::R6Class(
     },
 
     custom_mount = function(mount) {
-      R6_vault_client_kv2$new(private$api_client, mount)
+      vault_client_kv2$new(private$api_client, mount)
     },
 
     delete = function(path, version = NULL, mount = NULL) {

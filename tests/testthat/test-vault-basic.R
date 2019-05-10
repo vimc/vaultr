@@ -42,7 +42,7 @@ test_that("format", {
   cl <- srv$client(login = FALSE)
 
   str <- withr::with_options(list(width = 80), cl$format())
-  expect_equal(str[[1]], "<vault: base>")
+  expect_equal(str[[1]], "<vault: client>")
   expect_match(str, "login\\(.+\n", all = FALSE)
 
   ## recurse:

@@ -2,6 +2,7 @@
 % Please edit documentation in R/server_manager.R
 \name{vault_test_server}
 \alias{vault_test_server}
+\alias{vault_server_instance}
 \alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{
@@ -56,4 +57,29 @@ on CRAN as it requires installation of a binary from a website.
 This will download a ~100MB binary from \url{https://vaultproject.io}
 so use with care.  It is intended \emph{only} for use in automated
 testing environments.
+}
+\examples{
+
+# Try and start a server; if one is not enabled (see details
+# above) then this will return \\code{NULL}
+server <- vault_test_server(if_disabled = message)
+
+if (!is.null(server)) {
+  # We now have a server running on an arbitrary high port - note
+  # that we are running over http and in dev mode: this is not at
+  # all suitable for production use, just for tests
+  server$addr
+
+  # Create clients using the client method - by default these are
+  # automatically authenticated against the server
+  client <- server$client()
+  client$write("/secret/password", list(value = "s3cret!"))
+  client$read("/secret/password")
+
+  # The server stops automatically when the server object is
+  # garbage collected, or it can be turned off with the
+  # \\code{kill} method:
+  server$kill()
+  tryCatch(client$status(), error = function(e) message(e$message))
+}
 }

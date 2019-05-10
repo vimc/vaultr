@@ -7,8 +7,10 @@
 NULL
 
 
-R6_vault_client_tools <- R6::R6Class(
+vault_client_tools <- R6::R6Class(
   "vault_client_tools",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL,
@@ -18,11 +20,7 @@ R6_vault_client_tools <- R6::R6Class(
   public = list(
     initialize = function(api_client) {
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "tools",
-                          "General tools provided by vault")
+      super$initialize("General tools provided by vault")
     },
 
     random = function(bytes = 32, format = "hex") {

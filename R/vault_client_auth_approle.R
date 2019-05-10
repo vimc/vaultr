@@ -7,8 +7,10 @@
 NULL
 
 
-R6_vault_client_auth_approle <- R6::R6Class(
+vault_client_auth_approle <- R6::R6Class(
   "vault_client_auth_approle",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL,
@@ -17,18 +19,14 @@ R6_vault_client_auth_approle <- R6::R6Class(
 
   public = list(
     initialize = function(api_client, mount) {
+      super$initialize("Interact and configure vault's AppRole support")
       assert_scalar_character(mount)
       private$mount <- sub("^/", "", mount)
       private$api_client <- api_client
     },
 
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "approle",
-                          "Interact and configure vault's AppRole support")
-    },
-
     custom_mount = function(mount) {
-      R6_vault_client_auth_approle$new(private$api_client, mount)
+      vault_client_auth_approle$new(private$api_client, mount)
     },
 
     role_list = function() {

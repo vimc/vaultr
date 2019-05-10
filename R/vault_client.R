@@ -44,7 +44,7 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 
 R6_vault_client <- R6::R6Class(
   "vault_client",
-
+  inherit = vault_client_object,
   cloneable = FALSE,
 
   private = list(
@@ -63,22 +63,18 @@ R6_vault_client <- R6::R6Class(
     tools = NULL,
 
     initialize = function(addr, tls_config) {
-      api_client <- R6_vault_api_client$new(addr, tls_config)
+      super$initialize("core methods for interacting with vault")
+      api_client <- vault_api_client$new(addr, tls_config)
 
       private$api_client <- api_client
 
-      self$auth <- R6_vault_client_auth$new(api_client)
-      self$audit <- R6_vault_client_audit$new(api_client)
-      self$operator <- R6_vault_client_operator$new(api_client)
-      self$policy <- R6_vault_client_policy$new(api_client)
-      self$secrets <- R6_vault_client_secrets$new(api_client)
-      self$token <- R6_vault_client_token$new(api_client)
-      self$tools <- R6_vault_client_tools$new(api_client)
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "base",
-                          "core methods for interacting with vault")
+      add_const_member(self, "auth", vault_client_auth$new(api_client))
+      add_const_member(self, "audit", vault_client_audit$new(api_client))
+      add_const_member(self, "operator", vault_client_operator$new(api_client))
+      add_const_member(self, "policy", vault_client_policy$new(api_client))
+      add_const_member(self, "secrets", vault_client_secrets$new(api_client))
+      add_const_member(self, "token", vault_client_token$new(api_client))
+      add_const_member(self, "tools", vault_client_tools$new(api_client))
     },
 
     api = function() {

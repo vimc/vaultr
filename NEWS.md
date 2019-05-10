@@ -1,3 +1,7 @@
+## 0.2.6
+
+* All objects gain a `help()` method, with the aim of making the main help easier to find.
+
 ## 0.2.5
 
 * Support for AppRole authentication

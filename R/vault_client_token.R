@@ -27,8 +27,10 @@
 NULL
 
 
-R6_vault_client_token <- R6::R6Class(
+vault_client_token <- R6::R6Class(
   "vault_client_token",
+  inherit = vault_client_object,
+  cloneable = FALSE,
 
   private = list(
     api_client = NULL
@@ -36,12 +38,8 @@ R6_vault_client_token <- R6::R6Class(
 
   public = list(
     initialize = function(api_client) {
+      super$initialize("Interact and configure vault's token support")
       private$api_client <- api_client
-    },
-
-    format = function(brief = FALSE) {
-      vault_client_format(self, brief, "token",
-                          "Interact and configure vault's token support")
     },
 
     list = function() {

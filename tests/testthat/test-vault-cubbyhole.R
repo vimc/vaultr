@@ -19,17 +19,9 @@ test_that("basic set/get/list/del", {
   expect_equal(cl$list("/cubbyhole"), "mysecret")
   expect_equal(cl$list("/cubbyhole", full_names = TRUE), p)
 
-  cl$delete(p)
+  cl$secrets$cubbyhole$delete(p)
   expect_equal(cl$list("/cubbyhole"), character(0))
   expect_silent(cl$delete(p))
-})
-
-
-test_that("custom mount disabled", {
-  srv <- vault_test_server()
-  cl <- srv$client()
-  expect_error(cl$secrets$cubbyhole$custom_mount("elsewhere"),
-               "The cubbyhole secret engine cannot be moved")
 })
 
 
