@@ -30,7 +30,7 @@ Create a vault client with the `vault_client` function:
 vault <- vaultr::vault_client(login = TRUE)
 ```
 
-Interact with vault using this object:like
+Interact with vault using this object:
 
 ```{r}
 vault$list("secret/database")

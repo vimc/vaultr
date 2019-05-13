@@ -26,7 +26,7 @@ vault <- vaultr::vault_client(login = TRUE)
 ## Verifying token
 ```
 
-Interact with vault using this object:like
+Interact with vault using this object:
 
 
 ```r
