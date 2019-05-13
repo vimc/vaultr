@@ -2,11 +2,7 @@
 % Please edit documentation in R/vault_resolve_secrets.R
 \name{vault_resolve_secrets}
 \alias{vault_resolve_secrets}
-\title{Use vault to resolve secrets.  This is a convenience function that
-wraps a pattern that we have used in a few applications of vault.
-The idea is to allow replacement of data in configuration with
-special strings that indicate that the string refers to a vault
-secret.  This function resolves those secrets.}
+\title{Resolve secrets from R objects}
 \usage{
 vault_resolve_secrets(x, ..., login = TRUE)
 }
@@ -24,9 +20,15 @@ do not match the pattern of a secret are left as-is.}
 List of properties with any vault secrets resolved.
 }
 \description{
-For each element of the data, if a string matches the form:
+Use vault to resolve secrets.  This is a convenience function that
+wraps a pattern that we have used in a few applications of vault.
+The idea is to allow replacement of data in configuration with
+special strings that indicate that the string refers to a vault
+secret.  This function resolves those secrets.
 }
 \details{
+For each element of the data, if a string matches the form:
+
 \preformatted{
   VAULT:<path to secret>:<field>
 }

@@ -24,6 +24,8 @@
 ##'
 ##' would refer to the value \code{s3cret!}
 ##'
+##' @title Resolve secrets from R objects
+##'
 ##' @param x List of values, some of which may refer to vault secrets
 ##'   (see Details for pattern).  Any values that are not strings or
 ##'   do not match the pattern of a secret are left as-is.
