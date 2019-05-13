@@ -406,3 +406,45 @@ engine.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  client$secrets$enable("transit")
+  transit <- client$secrets$transit
+
+  # Before encrypting anything, create a key.  Note that it will
+  # not be returned to you, and is accessed purely by name
+  transit$key_create("test")
+
+  # Some text to encrypt
+  plaintext <- "hello world"
+
+  # Encrypted:
+  cyphertext <- transit$data_encrypt("test", charToRaw(plaintext))
+
+  # Decrypt the data
+  res <- transit$data_decrypt("test", cyphertext)
+  rawToChar(res)
+
+  # This approach works with R objects too, if used with serialise.
+  # First, serialise an R object to a raw vector:
+  data <- serialize(mtcars, NULL)
+
+  # Then encrypt this data:
+  enc <- transit$data_encrypt("test", data)
+
+  # The resulting string can be safely passed around (e.g., over
+  # email) or written to disk, and can later be decrypted by
+  # anyone who has access to the "test" key in the vault:
+  data2 <- transit$data_decrypt("test", enc)
+
+  # Once decrypted, the data can be "unserialised" back into an R
+  # object:
+  unserialize(data2)
+
+  # cleanup
+  server$kill()
+}
+}

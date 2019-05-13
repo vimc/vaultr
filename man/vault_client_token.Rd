@@ -8,7 +8,10 @@ Interact with vault's token methods.  This includes support for
 querying, creating and deleting tokens.  Tokens are fundamental to
 the way that vault works, so there are a lot of methods here.  The
 \href{https://www.vaultproject.io/docs/concepts/tokens.html}{vault
-documentation has a page devoted to token concepts}.
+documentation has a page devoted to token concepts} and
+\href{https://www.vaultproject.io/docs/commands/token/index.html}{another
+with commands} that have names very similar to the names used
+here.
 }
 \section{Token Accessors}{
 
@@ -287,3 +290,46 @@ actual token itself.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # There are lots of token methods here:
+  client$token
+
+  # To demonstrate, it will be useful to create a restricted
+  # policy that can only read from the /secret path
+  rules <- 'path "secret/*" {policy = "read"}'
+  client$policy$write("read-secret", rules)
+  client$write("/secret/path", list(key = "value"))
+
+  # Create a token that has this policy
+  token <- client$auth$token$create(policies = "read-secret")
+  alice <- vaultr::vault_client(addr = server$addr)
+  alice$login(method = "token", token = token)
+  alice$read("/secret/path")
+
+  client$token$lookup(token)
+
+  # We can query the capabilities of this token
+  client$token$capabilities("secret/path", token)
+
+  # Tokens are not safe to pass around freely because *are* the
+  # ability to login, but the `token$create` command also provides
+  # an accessor:
+  accessor <- attr(token, "info")$accessor
+
+  # It is not possible to derive the token from the accessor but
+  # we can ask vault what it could do (and do things like revoke
+  # it)
+  client$token$capabilities_accessor("secret/path", accessor)
+
+  client$token$revoke_accessor(accessor)
+  try(client$token$capabilities_accessor("secret/path", accessor))
+
+  # cleanup
+  server$kill()
+}
+}

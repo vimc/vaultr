@@ -65,3 +65,18 @@ Interact with vault's secret backends.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # To remove the default version 1 kv store and replace with a
+  # version 2 store:
+  client$secrets$disable("/secret")
+  client$secrets$enable("kv", "/secret", version = 2)
+
+  # cleanup
+  server$kill()
+}
+}

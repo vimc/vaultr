@@ -1,9 +1,29 @@
-##' Administration commands for vault operators.
+##' Administration commands for vault operators.  Very few of these
+##' commands should be used without consulting the vault documentation
+##' as they affect the administration of a vault server, but they are
+##' included here for completeness.
 ##'
 ##' @template vault_client_operator
 ##'
 ##' @title Vault Administration
 ##' @name vault_client_operator
+##' @examples
+##'
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   client <- server$client()
+##'
+##'   # Our test server is by default unsealed:
+##'   client$status()$sealed
+##'
+##'   # We can seal the vault to prevent all access:
+##'   client$operator$seal()
+##'   client$status()$sealed
+##'
+##'   # And then again unseal it
+##'   client$operator$unseal(server$keys)
+##'   client$status()$sealed
+##' }
 NULL
 
 

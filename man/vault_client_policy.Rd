@@ -4,7 +4,9 @@
 \alias{vault_client_policy}
 \title{Vault Policy Configuration}
 \description{
-Interact with vault's policies
+Interact with vault's policies.  To get started, you may want to
+read up on policies as described in the vault manual, here:
+\url{https://www.vaultproject.io/docs/concepts/policies.html}
 }
 \section{Methods}{
 
@@ -50,3 +52,46 @@ Interact with vault's policies
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # The test server starts with only the policies "root" (do
+  # everything) and "default" (do nothing).
+  client$policy$list()
+
+  # Here let's make a policy that allows reading secrets from the
+  # path /secret/develop/* but nothing else
+  rules <- 'path "secret/develop/*" {policy = "read"}'
+  client$policy$write("read-secret-develop", rules)
+
+  # Our new rule is listed and can be read
+  client$policy$list()
+  client$policy$read("read-secret-develop")
+
+  # For testing, let's create a secret under this path, and under
+  # a different path:
+  client$write("/secret/develop/password", list(value = "password"))
+  client$write("/secret/production/password", list(value = "k2e89be@rdC#"))
+
+  # Create a token that can use this policy:
+  token <- client$auth$token$create(policies = "read-secret-develop")
+
+  # Login to the vault using this token:
+  alice <- vaultr::vault_client(addr = server$addr,
+                                login = "token", token = token)
+
+  # We can read the paths that we have been granted access to:
+  alice$read("/secret/develop/password")
+
+  # We can't read secrets that are outside our path:
+  try(alice$read("/secret/production/password"))
+
+  # And we can't write:
+  try(alice$write("/secret/develop/password", list(value = "secret")))
+
+  # cleanup
+  server$kill()
+}
+}
