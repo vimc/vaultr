@@ -5,6 +5,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/vimc/vaultr.svg?branch=master)](https://travis-ci.org/vimc/vaultr)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/vimc/vaultr?branch=master&svg=true)](https://ci.appveyor.com/project/vimc/vaultr)
 [![codecov.io](https://codecov.io/github/vimc/vaultr/coverage.svg?branch=master)](https://codecov.io/github/vimc/vaultr?branch=master)
+[![](http://www.r-pkg.org/badges/version/vaultr)](https://cran.r-project.org/package=vaultr)
 <!-- badges: end -->
 
 API client for [vault](https://www.vaultproject.io/).
@@ -73,7 +74,14 @@ vault$delete("/secret/database/readonly")
 
 ## Installation
 
-Install our current version via
+Install `vaultr` from CRAN with
+
+```r
+install.packages("vaultr")
+```
+
+To install our internally released version (which might be ahead of CRAN) via drat, use
+
 
 ```r
 # install.packages("drat") # (if needed)
