@@ -15,8 +15,7 @@
 ##'   root <- server$client()
 ##'
 ##'   # The userpass authentication backend is not enabled by default,
-##'   # so we need to enable it first (this requires high levels of
-##'   # privilege on the vault server)
+##'   # so we need to enable it first
 ##'   root$auth$enable("userpass")
 ##'
 ##'   # Then we can add users:

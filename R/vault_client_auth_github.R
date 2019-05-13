@@ -78,8 +78,6 @@ vault_client_auth_github <- R6::R6Class(
       path <- sprintf("/auth/%s/map/%s/%s", private$mount, type, team_name)
 
       assert_character(policies)
-      ## NOTE: previously I had used 'policies' here and that didn't
-      ## work!  Where else is that used?
       body <- list(value = paste(policies, collapse = ","))
 
       private$api_client$POST(path, body = body)

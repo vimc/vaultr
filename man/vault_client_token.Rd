@@ -316,14 +316,14 @@ if (!is.null(server)) {
   # We can query the capabilities of this token
   client$token$capabilities("secret/path", token)
 
-  # Tokens are not safe to pass around freely because *are* the
-  # ability to login, but the `token$create` command also provides
-  # an accessor:
+  # Tokens are not safe to pass around freely because they *are*
+  # the ability to login, but the `token$create` command also
+  # provides an accessor:
   accessor <- attr(token, "info")$accessor
 
-  # It is not possible to derive the token from the accessor but
-  # we can ask vault what it could do (and do things like revoke
-  # it)
+  # It is not possible to derive the token from the accessor, but
+  # we can use the accessor to ask vault what it could do if it
+  # did have the token (and do things like revoke the token)
   client$token$capabilities_accessor("secret/path", accessor)
 
   client$token$revoke_accessor(accessor)

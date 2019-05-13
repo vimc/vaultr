@@ -1,9 +1,9 @@
 ##' Interact with vault's version 2 key-value store.  This is useful
-##' for storing simple key-value data that can be versioned and store
-##' metadata alongside the secrets (see \code{\link{vault_client_kv1}}
-##' for a simpler key-value store, and see
-##' \url{https://www.vaultproject.io/docs/secrets/kv/kv-v2.html} for
-##' detailed information about this secret store.
+##' for storing simple key-value data that can be versioned and for
+##' storing metadata alongside the secrets (see
+##' \code{\link{vault_client_kv1}} for a simpler key-value store, and
+##' see \url{https://www.vaultproject.io/docs/secrets/kv/kv-v2.html}
+##' for detailed information about this secret store.
 ##'
 ##' A \code{kv2} store can be mounted anywhere, so all methods accept
 ##' a \code{mount} argument.  This is different to the CLI which lets
@@ -40,8 +40,9 @@
 ##' if (!is.null(server)) {
 ##'   client <- server$client()
 ##'   # With the test server as created by vaultr, the kv2 storage
-##'   # engine is not enabled.  To enable it we need to enable it; the
-##'   # command below will add it at the path /kv on our vault server
+##'   # engine is not enabled.  To use the kv2 store we must first
+##'   # enable it; the command below will add it at the path /kv on
+##'   # our vault server
 ##'   client$secrets$enable("kv", version = 2)
 ##'
 ##'   # For ease of reading, create a 'kv' object for interacting with
@@ -49,7 +50,7 @@
 ##'   kv <- client$secrets$kv2$custom_mount("kv")
 ##'   kv$config()
 ##'
-##'   # The version-2 kv store can be tweated largely the same as the
+##'   # The version-2 kv store can be treated largely the same as the
 ##'   # version-1 store, though with slightly different command names
 ##'   # (put instead of write, get instead of read)
 ##'   kv$put("/kv/path/secret", list(key = "value"))

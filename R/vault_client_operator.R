@@ -20,7 +20,7 @@
 ##'   client$operator$seal()
 ##'   client$status()$sealed
 ##'
-##'   # And then again unseal it
+##'   # And then unseal it again
 ##'   client$operator$unseal(server$keys)
 ##'   client$status()$sealed
 ##' }

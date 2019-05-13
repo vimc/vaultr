@@ -37,7 +37,7 @@ then it will be treated as a vault secret and resolved.  The
 \code{<path to get>} will be something like
 \code{/secret/path/password} and the \code{<field>} the name of a
 field in the key/value data stored at that path.  For example,
-suppose you ave the data \code{list(username = "alice", password =
+suppose you have the data \code{list(username = "alice", password =
 "s3cret!")} stored at \code{/secret/database/user}, then the
 string
 
