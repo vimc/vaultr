@@ -12,7 +12,7 @@ init:
     secret_shares: >-
       Integer, specifying the number of shares to split the master key into
     secret_threshold: >-
-      Integer, specifyingthe number of shares required to reconstruct
+      Integer, specifying the number of shares required to reconstruct
       the master key. This must be less than or equal secret_shares
 
 leader_status:
@@ -27,13 +27,13 @@ rekey_start:
   short: >-
     This method begins a new rekey attempt. Only a single rekey
     attempt can take place at a time, and changing the parameters of a
-    rekey requires canceling and starting a new rekey, which will also
+    rekey requires cancelling and starting a new rekey, which will also
     provide a new nonce.
   params:
     secret_shares: >-
       Integer, specifying the number of shares to split the master key into
     secret_threshold: >-
-      Integer, specifyingthe number of shares required to reconstruct
+      Integer, specifying the number of shares required to reconstruct
       the master key. This must be less than or equal secret_shares
 
 rekey_cancel:
@@ -41,7 +41,7 @@ rekey_cancel:
     This method cancels any in-progress rekey. This clears the rekey
     settings as well as any progress made. This must be called to
     change the parameters of the rekey. Note: verification is still a
-    part of a rekey. If rekeying is canceled during the verification
+    part of a rekey. If rekeying is cancelled during the verification
     flow, the current unseal keys remain valid.
 
 rekey_submit:
@@ -82,5 +82,5 @@ unseal:
   params:
     key: The master key share
     reset: >-
-      Logical, inicating if the unseal process should start be started
+      Logical, indicating if the unseal process should start be started
       again.

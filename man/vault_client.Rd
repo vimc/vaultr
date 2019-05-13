@@ -33,23 +33,48 @@ same as vault's command line client.}
 }
 \description{
 Make a vault client.  This must be done before accessing the
-vault.  The deafults for arguments are controlled by environment
-variables (see Details) and values provided as arguments override
-these defaults.
+vault.  The default values for arguments are controlled by
+environment variables (see Details) and values provided as
+arguments override these defaults.
 }
+\section{Environment variables}{
+
+
+The creation of a client is affected by a number of environment
+  variables, following the main vault command line client.
+
+\describe{
+
+\item{\code{VAULT_ADDR}}{The url of the vault server.  Must
+  include a protocol (most likely \code{https://} but in testing
+  \code{http://} might be used)}
+
+\item{\code{VAULT_CAPATH}}{The path to CA certificates}
+
+\item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
+  Only used for token-based authentication}
+
+\item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+  client, a github token for authentication using the github
+  authentication backend}
+
+\item{\code{VAULTR_AUTH_METHOD}}{The method to use for
+  authentication}
+
+}
+}
+
 \section{Methods}{
 
 
 \describe{
 \item{\code{api}}{
   Returns an api client object that can be used to directly interact with the vault server.
-
-  \emph{Usage:}\code{api()}
+  \cr\emph{Usage:}\preformatted{api()}
 }
 \item{\code{read}}{
   Read a value from the vault.  This can be used to read any value that you have permission to read, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault read}.
-
-  \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -59,14 +84,13 @@ these defaults.
     \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
     }
 
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with hte values itself.  Ignored if \code{field} is specified.
+    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
     }
   }
 }
 \item{\code{write}}{
   Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault write}.
-
-  \emph{Usage:}\code{write(path, data)}
+  \cr\emph{Usage:}\preformatted{write(path, data)}
 
   \emph{Arguments:}
   \itemize{
@@ -79,8 +103,7 @@ these defaults.
 }
 \item{\code{list}}{
   List data in the vault at a given path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-
-  \emph{Usage:}\code{list(path, full_names = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -96,8 +119,7 @@ these defaults.
 }
 \item{\code{delete}}{
   Delete a value from the vault
-
-  \emph{Usage:}\code{delete(path)}
+  \cr\emph{Usage:}\preformatted{delete(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -107,8 +129,7 @@ these defaults.
 }
 \item{\code{login}}{
   Login to the vault.  This method is more complicated than most.
-
-  \emph{Usage:}\code{login(..., method = "token", mount = NULL, renew = FALSE,
+  \cr\emph{Usage:}\preformatted{login(..., method = "token", mount = NULL, renew = FALSE,
       quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
 
   \emph{Arguments:}
@@ -137,13 +158,11 @@ these defaults.
 }
 \item{\code{status}}{
   Return the status of the vault server, including whether it is sealed or not, and the vault server version.
-
-  \emph{Usage:}\code{status()}
+  \cr\emph{Usage:}\preformatted{status()}
 }
 \item{\code{unwrap}}{
   Returns the original response inside the given wrapping token. The vault endpoints used by this method perform validation checks on the token, returns the original value on the wire rather than a JSON string representation of it, and ensures that the response is properly audit-logged.
-
-  \emph{Usage:}\code{unwrap(token)}
+  \cr\emph{Usage:}\preformatted{unwrap(token)}
 
   \emph{Arguments:}
   \itemize{
@@ -153,8 +172,7 @@ these defaults.
 }
 \item{\code{wrap_lookup}}{
   Look up properties of a wrapping token.
-
-  \emph{Usage:}\code{wrap_lookup(token)}
+  \cr\emph{Usage:}\preformatted{wrap_lookup(token)}
 
   \emph{Arguments:}
   \itemize{
@@ -165,6 +183,56 @@ these defaults.
 }
 }
 
+\examples{
+
+
+# We work with a test vault server here (see ?vault_test_server) for
+# details.  To use it, you must have a vault binary installed on your
+# system.  These examples will not affect any real running vault
+# instance that you can connect to.
+server <- vaultr::vault_test_server(if_disabled = message)
+
+if (!is.null(server)) {
+  # Create a vault_client object by providing the address of the vault
+  # server.
+  client <- vaultr::vault_client(addr = server$addr)
+
+  # The client has many methods, grouped into a structure:
+  client
+
+  # For example, token related commands:
+  client$token
+
+  # The client is not authenticated by default:
+  try(client$list("/secret"))
+
+  # A few methods are unauthenticated and can still be run
+  client$status()
+
+  # Login to the vault, using the token that we know from the server -
+  # ordinarily you would use a login approach suitable for your needs
+  # (see the vault documentation).
+  token <- server$token
+  client$login(method = "token", token = token)
+
+  # The vault contains no secrets at present
+  client$list("/secret")
+
+  # Secrets can contain any (reasonable) number of key-value pairs,
+  # passed in as a list
+  client$write("/secret/users/alice", list(password = "s3cret!"))
+
+  # The whole list can be read out
+  client$read("/secret/users/alice")
+  # ...or just a field
+  client$read("/secret/users/alice", "password")
+
+  # Reading non-existant values returns NULL, not an error
+  client$read("/secret/users/bob")
+
+  client$delete("/secret/users/alice")
+}
+}
 \author{
 Rich FitzJohn
 }

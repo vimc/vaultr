@@ -3,8 +3,7 @@
 ##' \describe{
 ##' \item{\code{read}}{
 ##'   Read a value from your cubbyhole
-##'
-##'   \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -14,14 +13,13 @@
 ##'     \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
 ##'     }
 ##'
-##'     \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with hte values itself.  Ignored if \code{field} is specified.
+##'     \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
 ##'     }
 ##'   }
 ##' }
 ##' \item{\code{write}}{
 ##'   Write data into your cubbyhole.
-##'
-##'   \emph{Usage:}\code{write(path, data)}
+##'   \cr\emph{Usage:}\preformatted{write(path, data)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -34,8 +32,7 @@
 ##' }
 ##' \item{\code{list}}{
 ##'   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/cubbyhole}).
-##'
-##'   \emph{Usage:}\code{list(path, full_names = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -51,8 +48,7 @@
 ##' }
 ##' \item{\code{delete}}{
 ##'   Delete a value from the vault
-##'
-##'   \emph{Usage:}\code{delete(path)}
+##'   \cr\emph{Usage:}\preformatted{delete(path)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

@@ -4,6 +4,18 @@
 ##'
 ##' @title Vault Authentication Configuration
 ##' @name vault_client_auth
+##'
+##' @examples
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   client <- server$client()
+##'
+##'   # List configured authentication backends
+##'   client$auth$list()
+##'
+##'   # cleanup
+##'   server$kill()
+##' }
 NULL
 
 

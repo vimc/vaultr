@@ -1,14 +1,21 @@
 Package: vaultr
 Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
-    email = "rich.fitzjohn@gmail.com"))
-Title: Vault Client
-Version: 0.2.6
+                    email = "rich.fitzjohn@gmail.com"),
+             person("Robert", "Ashton", role = "aut"),
+             person("Wes", "Hinsley", role = "aut"),
+             person("Imperial College of Science, Technology and Medicine",
+                    role = "cph"))
+Title: Vault Client for Secrets and Sensitive Data
+Version: 0.2.7
 Description: Provides an interface to a 'HashiCorp' vault server over
   its http API.  This allows for secure storage and retrieval of
   secrets over a network, such as tokens, passwords and certificates.
+  Authentication with vault is supported through several backends
+  including user name/password and authentication via 'GitHub'.
 License: MIT + file LICENSE
 URL: https://github.com/vimc/vaultr
 BugReports: https://github.com/vimc/vaultr/issues
+SystemRequirements: vault
 Imports:
     R6,
     getPass,
@@ -24,3 +31,4 @@ Suggests:
 RoxygenNote: 6.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr
+Language: en-GB

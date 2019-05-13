@@ -1,9 +1,34 @@
-##' Interact with vault's cryptographic tools
+##' Interact with vault's cryptographic tools.  This provides support
+##' for high-quality random numbers and cryptographic hashes.  This
+##' functionality is also available through the transit secret engine.
 ##'
 ##' @template vault_client_tools
 ##'
 ##' @title Vault Tools
 ##' @name vault_client_tools
+##' @examples
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   client <- server$client()
+##'
+##'   # Random bytes in hex
+##'   client$tools$random()
+##'   # base64
+##'   client$tools$random(format = "base64")
+##'   # raw
+##'   client$tools$random(10, format = "raw")
+##'
+##'   # Hash data:
+##'   data <- charToRaw("hello vault")
+##'   # will produce 55e702...92efd40c2a4
+##'   client$tools$hash(data)
+##'
+##'   # sha2-512 hash:
+##'   client$tools$hash(data, "sha2-512")
+##'
+##'   # cleanup
+##'   server$kill()
+##' }
 NULL
 
 

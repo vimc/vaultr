@@ -1,9 +1,39 @@
 ##' Interact with vault's username/password authentication backend.
+##' This backend can be used to configure basic username+password
+##' authentication, suitable for human users.  For more information,
+##' please see the vault documentation
+##' \url{https://www.vaultproject.io/docs/auth/userpass.html}
 ##'
 ##' @template vault_client_auth_userpass
 ##'
 ##' @title Vault Username/Password Authentication Configuration
 ##' @name vault_client_auth_userpass
+##'
+##' @examples
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   root <- server$client()
+##'
+##'   # The userpass authentication backend is not enabled by default,
+##'   # so we need to enable it first
+##'   root$auth$enable("userpass")
+##'
+##'   # Then we can add users:
+##'   root$auth$userpass$write("alice", "p4ssw0rd")
+##'
+##'   # Create a new client and login with this user:
+##'   alice <- vaultr::vault_client(addr = server$addr)
+##'   # it is not recommended to login with the password like this as
+##'   # it will end up in the command history, but in interactive use
+##'   # you will be prompted securely for password
+##'   alice$login(method = "userpass",
+##'               username = "alice", password = "p4ssw0rd")
+##'   # Alice has now logged in and has only "default" policies
+##'   alice$auth$token$lookup_self()$policies
+##'
+##'   # (wheras our original root user has the "root" policy)
+##'   root$auth$token$lookup_self()$policies
+##' }
 NULL
 
 
@@ -29,12 +59,13 @@ vault_client_auth_userpass <- R6::R6Class(
       vault_client_auth_userpass$new(private$api_client, mount)
     },
 
-    write = function(username, password = NULL, policy = NULL, ttl = NULL,
+    write = function(username, password = NULL, policies = NULL, ttl = NULL,
                    max_ttl = NULL, bound_cidrs = NULL) {
       username <- assert_scalar_character(username)
       body <- list(
         password = assert_scalar_character_or_null(password),
-        policies = policy %&&% paste(assert_character(policy), collapse = ","),
+        policies = policies %&&%
+          paste(assert_character(policies), collapse = ","),
         ttl = ttl %&&% assert_is_duration(ttl),
         max_ttl = max_ttl %&&% assert_is_duration(max_ttl),
         bound_cidrs = bound_cidrs %&&% I(assert_character(bound_cidrs)))
@@ -68,9 +99,10 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
-    update_policies = function(username, policy) {
+    update_policies = function(username, policies) {
       assert_scalar_character(username)
-      body <- list(policies = paste(assert_character(policy), collapse = ","))
+      body <- list(policies = paste(assert_character(policies),
+                                    collapse = ","))
       path <- sprintf("/auth/%s/users/%s/policies", private$mount, username)
 
       private$api_client$POST(path, body = drop_null(body))

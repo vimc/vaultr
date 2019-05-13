@@ -15,13 +15,11 @@ nonetheless described here.
 \describe{
 \item{\code{is_authenticated}}{
   Test if the vault client currently holds a vault token.  This method does not verify the token - only test that is present.
-
-  \emph{Usage:}\code{is_authenticated()}
+  \cr\emph{Usage:}\preformatted{is_authenticated()}
 }
 \item{\code{set_token}}{
   Set a token within the client
-
-  \emph{Usage:}\code{set_token(token, verify = FALSE, quiet = FALSE)}
+  \cr\emph{Usage:}\preformatted{set_token(token, verify = FALSE, quiet = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -37,8 +35,7 @@ nonetheless described here.
 }
 \item{\code{verify_token}}{
   Test that a token is valid with the vault.  This will call vault's \code{/sys/capabilities-self} endpoint with the token provided and check the \code{/sys} path.
-
-  \emph{Usage:}\code{verify_token(token, quiet = TRUE)}
+  \cr\emph{Usage:}\preformatted{verify_token(token, quiet = TRUE)}
 
   \emph{Arguments:}
   \itemize{
@@ -51,8 +48,7 @@ nonetheless described here.
 }
 \item{\code{server_version}}{
   Retrieve the vault server version.  This is by default cached within the client for a session.  Will return an R \code{numeric_version} object.
-
-  \emph{Usage:}\code{server_version(refresh = FALSE)}
+  \cr\emph{Usage:}\preformatted{server_version(refresh = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -62,8 +58,7 @@ nonetheless described here.
 }
 \item{\code{GET}}{
   Send a \code{GET} request to the vault server
-
-  \emph{Usage:}\code{GET(path, ...)}
+  \cr\emph{Usage:}\preformatted{GET(path, ...)}
 
   \emph{Arguments:}
   \itemize{
@@ -76,8 +71,7 @@ nonetheless described here.
 }
 \item{\code{LIST}}{
   Send a \code{LIST} request to the vault server
-
-  \emph{Usage:}\code{LIST(path, ...)}
+  \cr\emph{Usage:}\preformatted{LIST(path, ...)}
 
   \emph{Arguments:}
   \itemize{
@@ -90,8 +84,7 @@ nonetheless described here.
 }
 \item{\code{POST}}{
   Send a \code{POST} request to the vault server
-
-  \emph{Usage:}\code{POST(path, ...)}
+  \cr\emph{Usage:}\preformatted{POST(path, ...)}
 
   \emph{Arguments:}
   \itemize{
@@ -104,8 +97,7 @@ nonetheless described here.
 }
 \item{\code{PUT}}{
   Send a \code{PUT} request to the vault server
-
-  \emph{Usage:}\code{PUT(path, ...)}
+  \cr\emph{Usage:}\preformatted{PUT(path, ...)}
 
   \emph{Arguments:}
   \itemize{
@@ -118,8 +110,7 @@ nonetheless described here.
 }
 \item{\code{DELETE}}{
   Send a \code{DELETE} request to the vault server
-
-  \emph{Usage:}\code{DELETE(path, ...)}
+  \cr\emph{Usage:}\preformatted{DELETE(path, ...)}
 
   \emph{Arguments:}
   \itemize{
@@ -133,3 +124,30 @@ nonetheless described here.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  # Ordinarily, we would use the "vault_client" object for
+  # high-level access to the vault server
+  client <- server$client()
+  client$status()
+
+  # The api() method returns the "api client" object:
+  api <- client$api()
+  api
+
+  # This allows running arbitrary HTTP requests against the server:
+  api$GET("/sys/seal-status")
+
+  # this is how vaultr is internally implemented so anything can
+  # be done here, for example following vault's API documentation
+  # https://www.vaultproject.io/api/secret/kv/kv-v1.html#sample-request-2
+  api$POST("/secret/mysecret", body = list(key = "value"))
+  api$GET("/secret/mysecret")
+  api$DELETE("/secret/mysecret")
+
+  # cleanup
+  server$kill()
+}
+}

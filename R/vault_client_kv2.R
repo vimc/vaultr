@@ -1,7 +1,9 @@
 ##' Interact with vault's version 2 key-value store.  This is useful
-##' for storing simple key-value data that can be versioned and store
-##' metadata alongside the secrets (see \code{\link{vault_client_kv1}}
-##' for a simpler key-value store.
+##' for storing simple key-value data that can be versioned and for
+##' storing metadata alongside the secrets (see
+##' \code{\link{vault_client_kv1}} for a simpler key-value store, and
+##' see \url{https://www.vaultproject.io/docs/secrets/kv/kv-v2.html}
+##' for detailed information about this secret store.
 ##'
 ##' A \code{kv2} store can be mounted anywhere, so all methods accept
 ##' a \code{mount} argument.  This is different to the CLI which lets
@@ -32,6 +34,41 @@
 ##'
 ##' @title Key-Value Store (Version 2)
 ##' @name vault_client_kv2
+##' @examples
+##'
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   client <- server$client()
+##'   # With the test server as created by vaultr, the kv2 storage
+##'   # engine is not enabled.  To use the kv2 store we must first
+##'   # enable it; the command below will add it at the path /kv on
+##'   # our vault server
+##'   client$secrets$enable("kv", version = 2)
+##'
+##'   # For ease of reading, create a 'kv' object for interacting with
+##'   # the store (see below for the calls without this object)
+##'   kv <- client$secrets$kv2$custom_mount("kv")
+##'   kv$config()
+##'
+##'   # The version-2 kv store can be treated largely the same as the
+##'   # version-1 store, though with slightly different command names
+##'   # (put instead of write, get instead of read)
+##'   kv$put("/kv/path/secret", list(key = "value"))
+##'   kv$get("/kv/path/secret")
+##'
+##'   # But it also allows different versions to be stored at the same path:
+##'   kv$put("/kv/path/secret", list(key = "s3cret!"))
+##'   kv$get("/kv/path/secret")
+##'
+##'   # Old versions can be retrieved still:
+##'   kv$get("/kv/path/secret", version = 1)
+##'
+##'   # And metadata about versions can be retrieved
+##'   kv$metadata_get("/kv/path/secret")
+##'
+##'   # cleanup
+##'   server$kill()
+##' }
 NULL
 
 
@@ -96,7 +133,7 @@ vault_client_kv2 <- R6::R6Class(
 
     config = function(mount = NULL) {
       path <- sprintf("%s/config", mount %||% private$mount)
-      private$api_client$GET(path)
+      private$api_client$GET(path)$data
     },
 
     custom_mount = function(mount) {

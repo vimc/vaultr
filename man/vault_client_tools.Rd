@@ -4,7 +4,9 @@
 \alias{vault_client_tools}
 \title{Vault Tools}
 \description{
-Interact with vault's cryptographic tools
+Interact with vault's cryptographic tools.  This provides support
+for high-quality random numbers and cryptographic hashes.  This
+functionality is also available through the transit secret engine.
 }
 \section{Methods}{
 
@@ -12,8 +14,7 @@ Interact with vault's cryptographic tools
 \describe{
 \item{\code{random}}{
   Generates high-quality random bytes of the specified length.  This is totally independent of R's random number stream and provides random numbers suitable for cryptographic purposes.
-
-  \emph{Usage:}\code{random(bytes = 32, format = "hex")}
+  \cr\emph{Usage:}\preformatted{random(bytes = 32, format = "hex")}
 
   \emph{Arguments:}
   \itemize{
@@ -26,8 +27,7 @@ Interact with vault's cryptographic tools
 }
 \item{\code{hash}}{
   Generates a cryptographic hash of given data using the specified algorithm.
-
-  \emph{Usage:}\code{hash(data, algorithm = NULL, format = "hex")}
+  \cr\emph{Usage:}\preformatted{hash(data, algorithm = NULL, format = "hex")}
 
   \emph{Arguments:}
   \itemize{
@@ -44,3 +44,27 @@ Interact with vault's cryptographic tools
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # Random bytes in hex
+  client$tools$random()
+  # base64
+  client$tools$random(format = "base64")
+  # raw
+  client$tools$random(10, format = "raw")
+
+  # Hash data:
+  data <- charToRaw("hello vault")
+  # will produce 55e702...92efd40c2a4
+  client$tools$hash(data)
+
+  # sha2-512 hash:
+  client$tools$hash(data, "sha2-512")
+
+  # cleanup
+  server$kill()
+}
+}

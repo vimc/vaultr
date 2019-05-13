@@ -155,7 +155,7 @@ revoke_and_orphan:
   short: >-
     Revokes a token but not its child tokens. When the token is
     revoked, all secrets generated with it are also revoked. All child
-    tokens are orphaned, but can be revoked sub-sequently using
+    tokens are orphaned, but can be revoked subsequently using
     /auth/token/revoke/. This is a root-protected method.
   params:
     token: The token to revoke
@@ -173,7 +173,7 @@ role_write:
   # documentation should be updated.
   short: >-
     Creates (or replaces) the named role. Roles enforce specific
-    behavior when creating tokens that allow token functionality that
+    behaviour when creating tokens that allow token functionality that
     is otherwise not available or would require sudo/root privileges
     to access. Role parameters, when set, override any provided
     options to the create endpoints. The role name is also included in

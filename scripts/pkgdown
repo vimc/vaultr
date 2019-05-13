@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+if [[ ! -z $(git status --porcelain -- R) ]]; then
+  echo "The R directory is not clean - exiting"
+  exit 1
+fi
+
+HERE=${BASH_SOURCE%/*}
+ROOT=$(realpath $HERE/..)
+
+function cleanup {
+    git -C "$ROOT" checkout -- R
+    Rscript -e 'devtools::document()'
+}
+trap cleanup EXIT
+
+set -e
+
+# sed, wtf.
+BEGIN='^##'"'"' if (!is.null(server)) {$'
+END='^##'"'"' }$'
+FILES=$(grep -l "$BEGIN" $ROOT/R/*.R)
+for f in $FILES; do
+    sed "/$BEGIN/,/$END/{/$BEGIN/d;/$END/d;s/^##'  /##'/}" $f > $f.new
+    mv $f.new $f
+done
+
+Rscript -e "library(methods); devtools::document()"
+Rscript -e "library(methods); pkgdown::build_site()"

@@ -3,13 +3,11 @@
 ##' \describe{
 ##' \item{\code{list}}{
 ##'   List active audit devices.  Returns a \code{data.frame} of names, paths and descriptions of active audit devices.
-##'
-##'   \emph{Usage:}\code{list()}
+##'   \cr\emph{Usage:}\preformatted{list()}
 ##' }
 ##' \item{\code{enable}}{
 ##'   This endpoint enables a new audit device at the supplied path.
-##'
-##'   \emph{Usage:}\code{enable(type, description = NULL, options = NULL, path = NULL)}
+##'   \cr\emph{Usage:}\preformatted{enable(type, description = NULL, options = NULL, path = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -28,8 +26,7 @@
 ##' }
 ##' \item{\code{disable}}{
 ##'   Disable an audit device
-##'
-##'   \emph{Usage:}\code{disable(path)}
+##'   \cr\emph{Usage:}\preformatted{disable(path)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -39,8 +36,7 @@
 ##' }
 ##' \item{\code{hash}}{
 ##'   The \code{hash} method is used to calculate the hash of the data used by an audit device's hash function and salt. This can be used to search audit logs for a hashed value when the original value is known.
-##'
-##'   \emph{Usage:}\code{hash(input, device)}
+##'   \cr\emph{Usage:}\preformatted{hash(input, device)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

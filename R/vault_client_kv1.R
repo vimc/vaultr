@@ -14,6 +14,30 @@
 ##'
 ##' @title Key-Value Store (Version 1)
 ##' @name vault_client_kv1
+##' @examples
+##'
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   client <- server$client()
+##'
+##'   # Write secrets
+##'   client$secrets$kv1$write("/secret/path/mysecret", list(key = "value"))
+##'
+##'   # List secrets - note the trailing "/" indicates a folder
+##'   client$secrets$kv1$list("/secret")
+##'   client$secrets$kv1$list("/secret/path")
+##'
+##'   # Read secrets
+##'   client$secrets$kv1$read("/secret/path/mysecret")
+##'   client$secrets$kv1$read("/secret/path/mysecret", field = "key")
+##'
+##'   # Delete secrets
+##'   client$secrets$kv1$delete("/secret/path/mysecret")
+##'   client$secrets$kv1$read("/secret/path/mysecret")
+##'
+##'   # cleanup
+##'   server$kill()
+##' }
 NULL
 
 

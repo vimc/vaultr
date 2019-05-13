@@ -12,13 +12,11 @@ Interact with vault's authentication backends.
 \describe{
 \item{\code{backends}}{
   Return a character vector of supported authentication backends. If a backend \code{x} is present, then you can access it with \code{$auth$x}.  Note that vault calls these authentication \emph{methods} but we use \emph{backends} here to differentiate with R6 methods.  Note that these are backends supported by \code{vaultr} and not necessarily supported by the server - the server may not have enabled some of these backends, and may support other authentication backends not directly supported by vaultr.  See the \code{$list()} method to query what the server supports.
-
-  \emph{Usage:}\code{backends()}
+  \cr\emph{Usage:}\preformatted{backends()}
 }
 \item{\code{list}}{
   List authentication backends supported by the vault server, including information about where these backends are mounted.
-
-  \emph{Usage:}\code{list(detailed = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(detailed = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -28,15 +26,14 @@ Interact with vault's authentication backends.
 }
 \item{\code{enable}}{
   Enable an authentication backend in the vault server.
-
-  \emph{Usage:}\code{enable(type, description = NULL, local = FALSE, path = NULL)}
+  \cr\emph{Usage:}\preformatted{enable(type, description = NULL, local = FALSE, path = NULL)}
 
   \emph{Arguments:}
   \itemize{
     \item{\code{type}:   The type of authentication backend (e.g., \code{userpass}, \code{github})
     }
 
-    \item{\code{description}:   Human-friendly descripton of the backend; will be returned by \code{$list()}
+    \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
     }
 
     \item{\code{local}:   Specifies if the auth method is local only. Local auth methods are not replicated nor (if a secondary) removed by replication.
@@ -48,8 +45,7 @@ Interact with vault's authentication backends.
 }
 \item{\code{disable}}{
   Disable an active authentication backend.
-
-  \emph{Usage:}\code{disable(path)}
+  \cr\emph{Usage:}\preformatted{disable(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -69,3 +65,15 @@ Interact with vault's authentication backends.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # List configured authentication backends
+  client$auth$list()
+
+  # cleanup
+  server$kill()
+}
+}

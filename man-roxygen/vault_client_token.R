@@ -3,13 +3,11 @@
 ##' \describe{
 ##' \item{\code{list}}{
 ##'   List token accessors, returning a character vector
-##'
-##'   \emph{Usage:}\code{list()}
+##'   \cr\emph{Usage:}\preformatted{list()}
 ##' }
 ##' \item{\code{capabilities}}{
 ##'   Fetch the capabilities of a token on the given paths. The capabilities returned will be derived from the policies that are on the token, and from the policies to which the token is entitled to through the entity and entity's group memberships.
-##'
-##'   \emph{Usage:}\code{capabilities(path, token)}
+##'   \cr\emph{Usage:}\preformatted{capabilities(path, token)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -22,8 +20,7 @@
 ##' }
 ##' \item{\code{capabilities_self}}{
 ##'   As for the \code{capabilities} method, but for the client token used to make the request.
-##'
-##'   \emph{Usage:}\code{capabilities_self(path)}
+##'   \cr\emph{Usage:}\preformatted{capabilities_self(path)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -33,8 +30,7 @@
 ##' }
 ##' \item{\code{capabilities_accessor}}{
 ##'   As for the \code{capabilities} method, but using a token \emph{accessor} rather than a token itself.
-##'
-##'   \emph{Usage:}\code{capabilities_accessor(path, accessor)}
+##'   \cr\emph{Usage:}\preformatted{capabilities_accessor(path, accessor)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -47,13 +43,11 @@
 ##' }
 ##' \item{\code{client}}{
 ##'   Return the current client token
-##'
-##'   \emph{Usage:}\code{client()}
+##'   \cr\emph{Usage:}\preformatted{client()}
 ##' }
 ##' \item{\code{create}}{
 ##'   Create a new token
-##'
-##'   \emph{Usage:}\code{create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
+##'   \cr\emph{Usage:}\preformatted{create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
 ##'       orphan = FALSE, no_default_policy = FALSE, max_ttl = NULL,
 ##'       display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL,
 ##'       wrap_ttl = NULL)}
@@ -100,8 +94,7 @@
 ##' }
 ##' \item{\code{lookup}}{
 ##'   Returns information about the client token
-##'
-##'   \emph{Usage:}\code{lookup(token = NULL)}
+##'   \cr\emph{Usage:}\preformatted{lookup(token = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -111,13 +104,11 @@
 ##' }
 ##' \item{\code{lookup_self}}{
 ##'   Returns information about the current client token (as if calling \code{$lookup} with the token the client is using.
-##'
-##'   \emph{Usage:}\code{lookup_self()}
+##'   \cr\emph{Usage:}\preformatted{lookup_self()}
 ##' }
 ##' \item{\code{lookup_accessor}}{
 ##'   Returns information about the client token from the accessor.
-##'
-##'   \emph{Usage:}\code{lookup_accessor(accessor)}
+##'   \cr\emph{Usage:}\preformatted{lookup_accessor(accessor)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -127,8 +118,7 @@
 ##' }
 ##' \item{\code{renew}}{
 ##'   Renews a lease associated with a token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.
-##'
-##'   \emph{Usage:}\code{renew(token, increment = NULL)}
+##'   \cr\emph{Usage:}\preformatted{renew(token, increment = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -141,8 +131,7 @@
 ##' }
 ##' \item{\code{renew_self}}{
 ##'   Renews a lease associated with the calling token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.  This is equivalent to calling \code{$renew()} with the client token.
-##'
-##'   \emph{Usage:}\code{renew_self(increment = NULL)}
+##'   \cr\emph{Usage:}\preformatted{renew_self(increment = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -152,8 +141,7 @@
 ##' }
 ##' \item{\code{revoke}}{
 ##'   Revokes a token and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.
-##'
-##'   \emph{Usage:}\code{revoke(token)}
+##'   \cr\emph{Usage:}\preformatted{revoke(token)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -163,13 +151,11 @@
 ##' }
 ##' \item{\code{revoke_self}}{
 ##'   Revokes the token used to call it and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.  This is equivalent to calling \code{$revoke()} with the client token.
-##'
-##'   \emph{Usage:}\code{revoke_self()}
+##'   \cr\emph{Usage:}\preformatted{revoke_self()}
 ##' }
 ##' \item{\code{revoke_accessor}}{
 ##'   Revoke the token associated with the accessor and all the child tokens. This is meant for purposes where there is no access to token ID but there is need to revoke a token and its children.
-##'
-##'   \emph{Usage:}\code{revoke_accessor(accessor)}
+##'   \cr\emph{Usage:}\preformatted{revoke_accessor(accessor)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -178,9 +164,8 @@
 ##'   }
 ##' }
 ##' \item{\code{revoke_and_orphan}}{
-##'   Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked sub-sequently using /auth/token/revoke/. This is a root-protected method.
-##'
-##'   \emph{Usage:}\code{revoke_and_orphan(token)}
+##'   Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked subsequently using /auth/token/revoke/. This is a root-protected method.
+##'   \cr\emph{Usage:}\preformatted{revoke_and_orphan(token)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -190,8 +175,7 @@
 ##' }
 ##' \item{\code{role_read}}{
 ##'   Fetches the named role configuration.
-##'
-##'   \emph{Usage:}\code{role_read(role_name)}
+##'   \cr\emph{Usage:}\preformatted{role_read(role_name)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -201,13 +185,11 @@
 ##' }
 ##' \item{\code{role_list}}{
 ##'   List available token roles.
-##'
-##'   \emph{Usage:}\code{role_list()}
+##'   \cr\emph{Usage:}\preformatted{role_list()}
 ##' }
 ##' \item{\code{role_write}}{
-##'   Creates (or replaces) the named role. Roles enforce specific behavior when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the \code{/sys/leases/revoke-prefix} endpoint.
-##'
-##'   \emph{Usage:}\code{role_write(role_name, allowed_policies = NULL, disallowed_policies = NULL,
+##'   Creates (or replaces) the named role. Roles enforce specific behaviour when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the \code{/sys/leases/revoke-prefix} endpoint.
+##'   \cr\emph{Usage:}\preformatted{role_write(role_name, allowed_policies = NULL, disallowed_policies = NULL,
 ##'       orphan = NULL, period = NULL, renewable = NULL, explicit_max_ttl = NULL,
 ##'       path_suffix = NULL, bound_cidrs = NULL, token_type = NULL)}
 ##'
@@ -246,8 +228,7 @@
 ##' }
 ##' \item{\code{role_delete}}{
 ##'   Delete a named token role
-##'
-##'   \emph{Usage:}\code{role_delete(role_name)}
+##'   \cr\emph{Usage:}\preformatted{role_delete(role_name)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -257,13 +238,11 @@
 ##' }
 ##' \item{\code{tidy}}{
 ##'   Performs some maintenance tasks to clean up invalid entries that may remain in the token store. Generally, running this is not needed unless upgrade notes or support personnel suggest it. This may perform a lot of I/O to the storage method so should be used sparingly.
-##'
-##'   \emph{Usage:}\code{tidy()}
+##'   \cr\emph{Usage:}\preformatted{tidy()}
 ##' }
 ##' \item{\code{login}}{
 ##'   Unlike other auth backend \code{login} methods, this does not actually log in to the vault.  Instead it verifies that a token can be used to communicate with the vault.
-##'
-##'   \emph{Usage:}\code{login(token = NULL, quiet = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{login(token = NULL, quiet = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

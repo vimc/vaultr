@@ -4,7 +4,8 @@
 \alias{vault_client_audit}
 \title{Vault Audit Devices}
 \description{
-Interact with vault's audit devices.
+Interact with vault's audit devices.  For more details, see
+\url{https://www.vaultproject.io/docs/audit/}
 }
 \section{Methods}{
 
@@ -12,13 +13,11 @@ Interact with vault's audit devices.
 \describe{
 \item{\code{list}}{
   List active audit devices.  Returns a \code{data.frame} of names, paths and descriptions of active audit devices.
-
-  \emph{Usage:}\code{list()}
+  \cr\emph{Usage:}\preformatted{list()}
 }
 \item{\code{enable}}{
   This endpoint enables a new audit device at the supplied path.
-
-  \emph{Usage:}\code{enable(type, description = NULL, options = NULL, path = NULL)}
+  \cr\emph{Usage:}\preformatted{enable(type, description = NULL, options = NULL, path = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -37,8 +36,7 @@ Interact with vault's audit devices.
 }
 \item{\code{disable}}{
   Disable an audit device
-
-  \emph{Usage:}\code{disable(path)}
+  \cr\emph{Usage:}\preformatted{disable(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -48,8 +46,7 @@ Interact with vault's audit devices.
 }
 \item{\code{hash}}{
   The \code{hash} method is used to calculate the hash of the data used by an audit device's hash function and salt. This can be used to search audit logs for a hashed value when the original value is known.
-
-  \emph{Usage:}\code{hash(input, device)}
+  \cr\emph{Usage:}\preformatted{hash(input, device)}
 
   \emph{Arguments:}
   \itemize{
@@ -63,3 +60,27 @@ Interact with vault's audit devices.
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+  # By default no audit engines are enabled with the testing server
+  client$audit$list()
+
+  # Create a file-based audit device on a temporary file:
+  path <- tempfile()
+  client$audit$enable("file", options = list(file_path = path))
+  client$audit$list()
+
+  # Generate some activity on the server:
+  client$write("/secret/mysecret", list(key = "value"))
+
+  # The audit logs contain details about the activity - see the
+  # vault documentation for details in interpreting this
+  readLines(path)
+
+  # cleanup
+  server$kill()
+  unlink(path)
+}
+}

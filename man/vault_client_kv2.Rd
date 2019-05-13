@@ -5,9 +5,11 @@
 \title{Key-Value Store (Version 2)}
 \description{
 Interact with vault's version 2 key-value store.  This is useful
-for storing simple key-value data that can be versioned and store
-metadata alongside the secrets (see \code{\link{vault_client_kv1}}
-for a simpler key-value store.
+for storing simple key-value data that can be versioned and for
+storing metadata alongside the secrets (see
+\code{\link{vault_client_kv1}} for a simpler key-value store, and
+see \url{https://www.vaultproject.io/docs/secrets/kv/kv-v2.html}
+for detailed information about this secret store.
 }
 \details{
 A \code{kv2} store can be mounted anywhere, so all methods accept
@@ -41,8 +43,7 @@ though it is a little more typing than for the CLI vault client.
 \describe{
 \item{\code{config}}{
   Fetch the configuration for this \code{kv2} store.  Returns a named list of values, the contents of which will depend on the vault version.
-
-  \emph{Usage:}\code{config(mount = NULL)}
+  \cr\emph{Usage:}\preformatted{config(mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -52,8 +53,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{custom_mount}}{
   Set up a \code{vault_client_kv2} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv2} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv2$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
-
-  \emph{Usage:}\code{custom_mount(mount)}
+  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
 
   \emph{Arguments:}
   \itemize{
@@ -63,8 +63,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{delete}}{
   Delete a secret from the vault.  This marks the version as deleted and will stop it from being returned from reads, but the underlying data will not be removed. A delete can be undone using the undelete method.
-
-  \emph{Usage:}\code{delete(path, version = NULL, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{delete(path, version = NULL, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -80,8 +79,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{destroy}}{
   Delete a secret entirely.  Unlike \code{delete} this operation is irreversible and is more like the \code{delete} operation on \code{\link{vault_client_kv1}} stores.
-
-  \emph{Usage:}\code{destroy(path, version, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{destroy(path, version, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -97,8 +95,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{get}}{
   Read a secret from the vault
-
-  \emph{Usage:}\code{get(path, version = NULL, field = NULL, metadata = FALSE,
+  \cr\emph{Usage:}\preformatted{get(path, version = NULL, field = NULL, metadata = FALSE,
       mount = NULL)}
 
   \emph{Arguments:}
@@ -112,7 +109,7 @@ though it is a little more typing than for the CLI vault client.
     \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
     }
 
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with hte values itself.  Ignored if \code{field} is specified.
+    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
     }
 
     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
@@ -121,8 +118,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-
-  \emph{Usage:}\code{list(path, full_names = FALSE, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -141,8 +137,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{metadata_get}}{
   Read secret metadata and versions at the specified path
-
-  \emph{Usage:}\code{metadata_get(path, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{metadata_get(path, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -155,18 +150,17 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{metadata_put}}{
   Update metadata for a secret.  This is allowed even if a secret does not yet exist, though this requires the \code{create} vault permission at this path.
-
-  \emph{Usage:}\code{metadata_put(path, cas_required = NULL, max_versions = NULL, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{metadata_put(path, cas_required = NULL, max_versions = NULL, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
     \item{\code{path}:   Path of secret to update metadata for
     }
 
-    \item{\code{cas_required}:   Logical, indicating that if If true the key will require the cas parameter to be set on all write requests (see \code{put}). If \code{FALSE}, the backend’s configuration will be used.
+    \item{\code{cas_required}:   Logical, indicating that if If true the key will require the cas parameter to be set on all write requests (see \code{put}). If \code{FALSE}, the backends configuration will be used.
     }
 
-    \item{\code{max_versions}:   Integer, indicating the maximum number of versions to keep per key.  If not set, the backend’s configured max version is used. Once a key has more than the configured allowed versions the oldest version will be permanently deleted.
+    \item{\code{max_versions}:   Integer, indicating the maximum number of versions to keep per key.  If not set, the backend's configured max version is used. Once a key has more than the configured allowed versions the oldest version will be permanently deleted.
     }
 
     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
@@ -175,8 +169,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{metadata_delete}}{
   This method permanently deletes the key metadata and all version data for the specified key. All version history will be removed.
-
-  \emph{Usage:}\code{metadata_delete(path, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{metadata_delete(path, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -189,8 +182,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{put}}{
   Create or update a secret in this store.
-
-  \emph{Usage:}\code{put(path, data, cas = NULL, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{put(path, data, cas = NULL, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -200,7 +192,7 @@ though it is a little more typing than for the CLI vault client.
     \item{\code{data}:   A named list of values to write into the vault at this path.
     }
 
-    \item{\code{cas}:   Integer, indicating the "cas" value to use a "Check-And-Set" operation. If not set the write will be allowed. If set to 0 a write will only be allowed if the key doesn’t exist. If the index is non-zero the write will only be allowed if the key’s current version matches the version specified in the cas parameter.
+    \item{\code{cas}:   Integer, indicating the "cas" value to use a "Check-And-Set" operation. If not set the write will be allowed. If set to 0 a write will only be allowed if the key doesn't exist. If the index is non-zero the write will only be allowed if the key's current version matches the version specified in the cas parameter.
     }
 
     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
@@ -209,8 +201,7 @@ though it is a little more typing than for the CLI vault client.
 }
 \item{\code{undelete}}{
   Undeletes the data for the provided version and path in the key-value store. This restores the data, allowing it to be returned on get requests.  This works with data deleted with \code{$delete} but not with \code{$destroy}.
-
-  \emph{Usage:}\code{undelete(path, version, mount = NULL)}
+  \cr\emph{Usage:}\preformatted{undelete(path, version, mount = NULL)}
 
   \emph{Arguments:}
   \itemize{
@@ -227,3 +218,39 @@ though it is a little more typing than for the CLI vault client.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+  # With the test server as created by vaultr, the kv2 storage
+  # engine is not enabled.  To use the kv2 store we must first
+  # enable it; the command below will add it at the path /kv on
+  # our vault server
+  client$secrets$enable("kv", version = 2)
+
+  # For ease of reading, create a 'kv' object for interacting with
+  # the store (see below for the calls without this object)
+  kv <- client$secrets$kv2$custom_mount("kv")
+  kv$config()
+
+  # The version-2 kv store can be treated largely the same as the
+  # version-1 store, though with slightly different command names
+  # (put instead of write, get instead of read)
+  kv$put("/kv/path/secret", list(key = "value"))
+  kv$get("/kv/path/secret")
+
+  # But it also allows different versions to be stored at the same path:
+  kv$put("/kv/path/secret", list(key = "s3cret!"))
+  kv$get("/kv/path/secret")
+
+  # Old versions can be retrieved still:
+  kv$get("/kv/path/secret", version = 1)
+
+  # And metadata about versions can be retrieved
+  kv$metadata_get("/kv/path/secret")
+
+  # cleanup
+  server$kill()
+}
+}

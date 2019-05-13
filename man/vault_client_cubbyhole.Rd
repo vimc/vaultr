@@ -7,7 +7,9 @@
 Interact with vault's cubbyhole key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
 (c.f. \code{\link{vault_client_kv2}}) that is scoped to your
-current token only and not accessible to anyone else.
+current token only and not accessible to anyone else.  For more
+details please see the vault documentation
+\url{https://www.vaultproject.io/docs/secrets/cubbyhole/index.html}
 }
 \section{Methods}{
 
@@ -15,8 +17,7 @@ current token only and not accessible to anyone else.
 \describe{
 \item{\code{read}}{
   Read a value from your cubbyhole
-
-  \emph{Usage:}\code{read(path, field = NULL, metadata = FALSE)}
+  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -26,14 +27,13 @@ current token only and not accessible to anyone else.
     \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
     }
 
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with hte values itself.  Ignored if \code{field} is specified.
+    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
     }
   }
 }
 \item{\code{write}}{
   Write data into your cubbyhole.
-
-  \emph{Usage:}\code{write(path, data)}
+  \cr\emph{Usage:}\preformatted{write(path, data)}
 
   \emph{Arguments:}
   \itemize{
@@ -46,8 +46,7 @@ current token only and not accessible to anyone else.
 }
 \item{\code{list}}{
   List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/cubbyhole}).
-
-  \emph{Usage:}\code{list(path, full_names = FALSE)}
+  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
 
   \emph{Arguments:}
   \itemize{
@@ -63,8 +62,7 @@ current token only and not accessible to anyone else.
 }
 \item{\code{delete}}{
   Delete a value from the vault
-
-  \emph{Usage:}\code{delete(path)}
+  \cr\emph{Usage:}\preformatted{delete(path)}
 
   \emph{Arguments:}
   \itemize{
@@ -75,3 +73,26 @@ current token only and not accessible to anyone else.
 }
 }
 
+\examples{
+
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # Shorter path for easier reading:
+  cubbyhole <- client$secrets$cubbyhole
+  cubbyhole
+
+  # Write a value
+  cubbyhole$write("cubbyhole/secret", list(key = "value"))
+  # List it
+  cubbyhole$list("cubbyhole")
+  # Read it
+  cubbyhole$read("cubbyhole/secret")
+  # Delete it
+  cubbyhole$delete("cubbyhole/secret")
+
+  # cleanup
+  server$kill()
+}
+}

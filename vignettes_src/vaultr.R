@@ -57,7 +57,7 @@ vault
 ## backends (and itself contains further command groups):
 vault$auth
 
-## ## Reading, writing, listing and deleteing secrets
+## ## Reading, writing, listing and deleting secrets
 
 ## It is anticipated that the vast majority of `vaultr` usage will be
 ## interacting with vault's key-value stores - this is is done with

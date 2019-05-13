@@ -7,6 +7,33 @@
 ##'
 ##' @title Vault Low-Level Client
 ##' @name vault_api_client
+##'
+##' @examples
+##'
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##' if (!is.null(server)) {
+##'   # Ordinarily, we would use the "vault_client" object for
+##'   # high-level access to the vault server
+##'   client <- server$client()
+##'   client$status()
+##'
+##'   # The api() method returns the "api client" object:
+##'   api <- client$api()
+##'   api
+##'
+##'   # This allows running arbitrary HTTP requests against the server:
+##'   api$GET("/sys/seal-status")
+##'
+##'   # this is how vaultr is internally implemented so anything can
+##'   # be done here, for example following vault's API documentation
+##'   # https://www.vaultproject.io/api/secret/kv/kv-v1.html#sample-request-2
+##'   api$POST("/secret/mysecret", body = list(key = "value"))
+##'   api$GET("/secret/mysecret")
+##'   api$DELETE("/secret/mysecret")
+##'
+##'   # cleanup
+##'   server$kill()
+##' }
 NULL
 
 

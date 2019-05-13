@@ -25,5 +25,5 @@ write:
       \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp
       configuration language}.  At present this must be read in as a
       single string (not a character vector of strings); future
-      versions of vaultr may allow more flexible speficdication such
+      versions of vaultr may allow more flexible specification such
       as \code{@filename}.

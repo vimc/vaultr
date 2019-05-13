@@ -36,7 +36,7 @@ client:
       (default is \code{TRUE}).
     quiet: >-
       Logical, indicating if informational messages should be
-      suppressed.  Defau;t is \code{TRUE}, in contrast with most other
+      suppressed.  Default is \code{TRUE}, in contrast with most other
       methods.
 
 env:

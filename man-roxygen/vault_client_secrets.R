@@ -3,8 +3,7 @@
 ##' \describe{
 ##' \item{\code{enable}}{
 ##'   Enable a secret backend in the vault server
-##'
-##'   \emph{Usage:}\code{enable(type, path = type, description = NULL, version = NULL)}
+##'   \cr\emph{Usage:}\preformatted{enable(type, path = type, description = NULL, version = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -14,7 +13,7 @@
 ##'     \item{\code{path}:   Specifies the path in which to enable the auth method. Defaults to be the same as \code{type}.
 ##'     }
 ##'
-##'     \item{\code{description}:   Human-friendly descripton of the backend; will be returned by \code{$list()}
+##'     \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
 ##'     }
 ##'
 ##'     \item{\code{version}:   Used only for the \code{kv} backend, where an integer is used to select between \code{\link{vault_client_kv1}} and \code{\link{vault_client_kv2}} engines.
@@ -23,8 +22,7 @@
 ##' }
 ##' \item{\code{disable}}{
 ##'   Disable a previously-enabled secret engine
-##'
-##'   \emph{Usage:}\code{disable(path)}
+##'   \cr\emph{Usage:}\preformatted{disable(path)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -34,8 +32,7 @@
 ##' }
 ##' \item{\code{list}}{
 ##'   List enabled secret engines
-##'
-##'   \emph{Usage:}\code{list(detailed = FALSE)}
+##'   \cr\emph{Usage:}\preformatted{list(detailed = FALSE)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -45,8 +42,7 @@
 ##' }
 ##' \item{\code{move}}{
 ##'   Move the path that a secret engine is mounted at
-##'
-##'   \emph{Usage:}\code{move(from, to)}
+##'   \cr\emph{Usage:}\preformatted{move(from, to)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

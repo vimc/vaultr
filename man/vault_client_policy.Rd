@@ -4,7 +4,9 @@
 \alias{vault_client_policy}
 \title{Vault Policy Configuration}
 \description{
-Interact with vault's policies
+Interact with vault's policies.  To get started, you may want to
+read up on policies as described in the vault manual, here:
+\url{https://www.vaultproject.io/docs/concepts/policies.html}
 }
 \section{Methods}{
 
@@ -12,8 +14,7 @@ Interact with vault's policies
 \describe{
 \item{\code{delete}}{
   This endpoint deletes the policy with the given name. This will immediately affect all users associated with this policy.
-
-  \emph{Usage:}\code{delete(name)}
+  \cr\emph{Usage:}\preformatted{delete(name)}
 
   \emph{Arguments:}
   \itemize{
@@ -23,13 +24,11 @@ Interact with vault's policies
 }
 \item{\code{list}}{
   Lists all configured policies.
-
-  \emph{Usage:}\code{list()}
+  \cr\emph{Usage:}\preformatted{list()}
 }
 \item{\code{read}}{
   Retrieve the policy body for the named policy
-
-  \emph{Usage:}\code{read(name)}
+  \cr\emph{Usage:}\preformatted{read(name)}
 
   \emph{Arguments:}
   \itemize{
@@ -39,18 +38,60 @@ Interact with vault's policies
 }
 \item{\code{write}}{
   Create or update a policy.  Once a policy is updated, it takes effect immediately to all associated users.
-
-  \emph{Usage:}\code{write(name, rules)}
+  \cr\emph{Usage:}\preformatted{write(name, rules)}
 
   \emph{Arguments:}
   \itemize{
     \item{\code{name}:   Name of the policy to update
     }
 
-    \item{\code{rules}:   Specifies the policy document.  This is a string in \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp configuration language}.  At present this must be read in as a single string (not a character vector of strings); future versions of vaultr may allow more flexible speficdication such as \code{@filename}.
+    \item{\code{rules}:   Specifies the policy document.  This is a string in \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp configuration language}.  At present this must be read in as a single string (not a character vector of strings); future versions of vaultr may allow more flexible specification such as \code{@filename}.
     }
   }
 }
 }
 }
 
+\examples{
+server <- vaultr::vault_test_server(if_disabled = message)
+if (!is.null(server)) {
+  client <- server$client()
+
+  # The test server starts with only the policies "root" (do
+  # everything) and "default" (do nothing).
+  client$policy$list()
+
+  # Here let's make a policy that allows reading secrets from the
+  # path /secret/develop/* but nothing else
+  rules <- 'path "secret/develop/*" {policy = "read"}'
+  client$policy$write("read-secret-develop", rules)
+
+  # Our new rule is listed and can be read
+  client$policy$list()
+  client$policy$read("read-secret-develop")
+
+  # For testing, let's create a secret under this path, and under
+  # a different path:
+  client$write("/secret/develop/password", list(value = "password"))
+  client$write("/secret/production/password", list(value = "k2e89be@rdC#"))
+
+  # Create a token that can use this policy:
+  token <- client$auth$token$create(policies = "read-secret-develop")
+
+  # Login to the vault using this token:
+  alice <- vaultr::vault_client(addr = server$addr,
+                                login = "token", token = token)
+
+  # We can read the paths that we have been granted access to:
+  alice$read("/secret/develop/password")
+
+  # We can't read secrets that are outside our path:
+  try(alice$read("/secret/production/password"))
+
+  # And we can't write:
+  try(alice$write("/secret/develop/password", list(value = "secret")))
+
+  # cleanup
+  server$kill()
+}
+}

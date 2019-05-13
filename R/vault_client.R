@@ -1,7 +1,32 @@
 ##' Make a vault client.  This must be done before accessing the
-##' vault.  The deafults for arguments are controlled by environment
-##' variables (see Details) and values provided as arguments override
-##' these defaults.
+##' vault.  The default values for arguments are controlled by
+##' environment variables (see Details) and values provided as
+##' arguments override these defaults.
+##'
+##' @section Environment variables:
+##'
+##' The creation of a client is affected by a number of environment
+##'   variables, following the main vault command line client.
+##'
+##' \describe{
+##'
+##' \item{\code{VAULT_ADDR}}{The url of the vault server.  Must
+##'   include a protocol (most likely \code{https://} but in testing
+##'   \code{http://} might be used)}
+##'
+##' \item{\code{VAULT_CAPATH}}{The path to CA certificates}
+##'
+##' \item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
+##'   Only used for token-based authentication}
+##'
+##' \item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+##'   client, a github token for authentication using the github
+##'   authentication backend}
+##'
+##' \item{\code{VAULTR_AUTH_METHOD}}{The method to use for
+##'   authentication}
+##'
+##' }
 ##'
 ##' @title Make a vault client
 ##'
@@ -32,6 +57,55 @@
 ##' @template vault_client
 ##' @export
 ##' @author Rich FitzJohn
+##' @examples
+##'
+##'
+##' # We work with a test vault server here (see ?vault_test_server) for
+##' # details.  To use it, you must have a vault binary installed on your
+##' # system.  These examples will not affect any real running vault
+##' # instance that you can connect to.
+##' server <- vaultr::vault_test_server(if_disabled = message)
+##'
+##' if (!is.null(server)) {
+##'   # Create a vault_client object by providing the address of the vault
+##'   # server.
+##'   client <- vaultr::vault_client(addr = server$addr)
+##'
+##'   # The client has many methods, grouped into a structure:
+##'   client
+##'
+##'   # For example, token related commands:
+##'   client$token
+##'
+##'   # The client is not authenticated by default:
+##'   try(client$list("/secret"))
+##'
+##'   # A few methods are unauthenticated and can still be run
+##'   client$status()
+##'
+##'   # Login to the vault, using the token that we know from the server -
+##'   # ordinarily you would use a login approach suitable for your needs
+##'   # (see the vault documentation).
+##'   token <- server$token
+##'   client$login(method = "token", token = token)
+##'
+##'   # The vault contains no secrets at present
+##'   client$list("/secret")
+##'
+##'   # Secrets can contain any (reasonable) number of key-value pairs,
+##'   # passed in as a list
+##'   client$write("/secret/users/alice", list(password = "s3cret!"))
+##'
+##'   # The whole list can be read out
+##'   client$read("/secret/users/alice")
+##'   # ...or just a field
+##'   client$read("/secret/users/alice", "password")
+##'
+##'   # Reading non-existant values returns NULL, not an error
+##'   client$read("/secret/users/bob")
+##'
+##'   client$delete("/secret/users/alice")
+##' }
 vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
   client <- R6_vault_client$new(addr, tls_config)
   method <- vault_client_login_method(login)

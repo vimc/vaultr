@@ -3,8 +3,7 @@
 ##' \describe{
 ##' \item{\code{custom_mount}}{
 ##'   Set up a \code{vault_client_auth_userpass} object at a custom mount. For example, suppose you mounted the \code{userpass} authentication backend at \code{/userpass2} you might use \code{up <- vault$auth$userpass2$custom_mount("/userpass2")} - this pattern is repeated for other secret and authentication backends.
-##'
-##'   \emph{Usage:}\code{custom_mount(mount)}
+##'   \cr\emph{Usage:}\preformatted{custom_mount(mount)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -14,8 +13,7 @@
 ##' }
 ##' \item{\code{write}}{
 ##'   Create or update a user.
-##'
-##'   \emph{Usage:}\code{write(username, password = NULL, policy = NULL, ttl = NULL,
+##'   \cr\emph{Usage:}\preformatted{write(username, password = NULL, policies = NULL, ttl = NULL,
 ##'       max_ttl = NULL, bound_cidrs = NULL)}
 ##'
 ##'   \emph{Arguments:}
@@ -26,7 +24,7 @@
 ##'     \item{\code{password}:   Password for the user (required when creating a user only)
 ##'     }
 ##'
-##'     \item{\code{policy}:   Character vector of policies for the user
+##'     \item{\code{policies}:   Character vector of policies for the user
 ##'     }
 ##'
 ##'     \item{\code{ttl}:   The lease duration which decides login expiration
@@ -41,8 +39,7 @@
 ##' }
 ##' \item{\code{read}}{
 ##'   Reads the properties of an existing username.
-##'
-##'   \emph{Usage:}\code{read(username)}
+##'   \cr\emph{Usage:}\preformatted{read(username)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -52,8 +49,7 @@
 ##' }
 ##' \item{\code{delete}}{
 ##'   Delete a user
-##'
-##'   \emph{Usage:}\code{delete(username)}
+##'   \cr\emph{Usage:}\preformatted{delete(username)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -63,8 +59,7 @@
 ##' }
 ##' \item{\code{update_password}}{
 ##'   Update password for a user
-##'
-##'   \emph{Usage:}\code{update_password(username, password)}
+##'   \cr\emph{Usage:}\preformatted{update_password(username, password)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
@@ -77,27 +72,24 @@
 ##' }
 ##' \item{\code{update_policies}}{
 ##'   Update vault policies for a user
-##'
-##'   \emph{Usage:}\code{update_policies(username, policy)}
+##'   \cr\emph{Usage:}\preformatted{update_policies(username, policies)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{
 ##'     \item{\code{username}:   Username for the user to update
 ##'     }
 ##'
-##'     \item{\code{policy}:   Character vector of policies for this user
+##'     \item{\code{policies}:   Character vector of policies for this user
 ##'     }
 ##'   }
 ##' }
 ##' \item{\code{list}}{
 ##'   List users known to vault
-##'
-##'   \emph{Usage:}\code{list()}
+##'   \cr\emph{Usage:}\preformatted{list()}
 ##' }
 ##' \item{\code{login}}{
 ##'   Log into the vault using username/password authentication. Normally you would not call this directly but instead use \code{$login} with \code{method = "userpass"} and proving the \code{username} argument and optionally the \code{password} argument.  This function returns a vault token but does not set it as the client token.
-##'
-##'   \emph{Usage:}\code{login(username, password = NULL)}
+##'   \cr\emph{Usage:}\preformatted{login(username, password = NULL)}
 ##'
 ##'   \emph{Arguments:}
 ##'   \itemize{

@@ -33,7 +33,7 @@ write:
   params:
     team_name: >-
       String, with the GitHub team name
-    policy: >-
+    policies: >-
       A character vector of vault policies that this user or team will
       have for vault access if they match this team or user.
     user: &user >-
