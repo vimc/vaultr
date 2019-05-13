@@ -33,7 +33,7 @@ Interact with vault's authentication backends.
     \item{\code{type}:   The type of authentication backend (e.g., \code{userpass}, \code{github})
     }
 
-    \item{\code{description}:   Human-friendly descripton of the backend; will be returned by \code{$list()}
+    \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
     }
 
     \item{\code{local}:   Specifies if the auth method is local only. Local auth methods are not replicated nor (if a secondary) removed by replication.

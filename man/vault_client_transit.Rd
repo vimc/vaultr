@@ -259,7 +259,7 @@ engine.
   }
 }
 \item{\code{hmac}}{
-  This endpoint returns the digest of given data using the specified hash algorithm and the named key. The key can be of any type supported by the \code{transit} engine; the raw key will be marshaled into bytes to be used for the HMAC function. If the key is of a type that supports rotation, the latest (current) version will be used.
+  This endpoint returns the digest of given data using the specified hash algorithm and the named key. The key can be of any type supported by the \code{transit} engine; the raw key will be marshalled into bytes to be used for the HMAC function. If the key is of a type that supports rotation, the latest (current) version will be used.
   \cr\emph{Usage:}\preformatted{hmac(name, data, key_version = NULL, algorithm = NULL)}
 
   \emph{Arguments:}

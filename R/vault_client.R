@@ -1,7 +1,7 @@
 ##' Make a vault client.  This must be done before accessing the
-##' vault.  The deafults for arguments are controlled by environment
-##' variables (see Details) and values provided as arguments override
-##' these defaults.
+##' vault.  The default values for arguments are controlled by
+##' environment variables (see Details) and values provided as
+##' arguments override these defaults.
 ##'
 ##' @section Environment variables:
 ##'

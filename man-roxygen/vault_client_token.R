@@ -164,7 +164,7 @@
 ##'   }
 ##' }
 ##' \item{\code{revoke_and_orphan}}{
-##'   Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked sub-sequently using /auth/token/revoke/. This is a root-protected method.
+##'   Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked subsequently using /auth/token/revoke/. This is a root-protected method.
 ##'   \cr\emph{Usage:}\preformatted{revoke_and_orphan(token)}
 ##'
 ##'   \emph{Arguments:}
@@ -188,7 +188,7 @@
 ##'   \cr\emph{Usage:}\preformatted{role_list()}
 ##' }
 ##' \item{\code{role_write}}{
-##'   Creates (or replaces) the named role. Roles enforce specific behavior when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the \code{/sys/leases/revoke-prefix} endpoint.
+##'   Creates (or replaces) the named role. Roles enforce specific behaviour when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the \code{/sys/leases/revoke-prefix} endpoint.
 ##'   \cr\emph{Usage:}\preformatted{role_write(role_name, allowed_policies = NULL, disallowed_policies = NULL,
 ##'       orphan = NULL, period = NULL, renewable = NULL, explicit_max_ttl = NULL,
 ##'       path_suffix = NULL, bound_cidrs = NULL, token_type = NULL)}

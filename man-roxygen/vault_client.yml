@@ -20,7 +20,7 @@ read:
       The default, \code{NULL}, returns the full set of values.
     metadata: >-
       Logical, indicating if we should return metadata for this secret
-      (lease information etc) as an attribute along with hte values
+      (lease information etc) as an attribute along with the values
       itself.  Ignored if \code{field} is specified.
 
 write:

@@ -69,7 +69,7 @@
 ##'     \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
 ##'     }
 ##'
-##'     \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with hte values itself.  Ignored if \code{field} is specified.
+##'     \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
 ##'     }
 ##'
 ##'     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
@@ -117,10 +117,10 @@
 ##'     \item{\code{path}:   Path of secret to update metadata for
 ##'     }
 ##'
-##'     \item{\code{cas_required}:   Logical, indicating that if If true the key will require the cas parameter to be set on all write requests (see \code{put}). If \code{FALSE}, the backend’s configuration will be used.
+##'     \item{\code{cas_required}:   Logical, indicating that if If true the key will require the cas parameter to be set on all write requests (see \code{put}). If \code{FALSE}, the backends configuration will be used.
 ##'     }
 ##'
-##'     \item{\code{max_versions}:   Integer, indicating the maximum number of versions to keep per key.  If not set, the backend’s configured max version is used. Once a key has more than the configured allowed versions the oldest version will be permanently deleted.
+##'     \item{\code{max_versions}:   Integer, indicating the maximum number of versions to keep per key.  If not set, the backend's configured max version is used. Once a key has more than the configured allowed versions the oldest version will be permanently deleted.
 ##'     }
 ##'
 ##'     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.
@@ -152,7 +152,7 @@
 ##'     \item{\code{data}:   A named list of values to write into the vault at this path.
 ##'     }
 ##'
-##'     \item{\code{cas}:   Integer, indicating the "cas" value to use a "Check-And-Set" operation. If not set the write will be allowed. If set to 0 a write will only be allowed if the key doesn’t exist. If the index is non-zero the write will only be allowed if the key’s current version matches the version specified in the cas parameter.
+##'     \item{\code{cas}:   Integer, indicating the "cas" value to use a "Check-And-Set" operation. If not set the write will be allowed. If set to 0 a write will only be allowed if the key doesn't exist. If the index is non-zero the write will only be allowed if the key's current version matches the version specified in the cas parameter.
 ##'     }
 ##'
 ##'     \item{\code{mount}:   Custom mount path to use for this store (see \code{Details}.

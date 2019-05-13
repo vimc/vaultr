@@ -27,7 +27,7 @@ enable:
       The type of authentication backend (e.g., \code{userpass},
       \code{github})
     description: >-
-      Human-friendly descripton of the backend; will be returned by
+      Human-friendly description of the backend; will be returned by
       \code{$list()}
     local: >-
       Specifies if the auth method is local only. Local auth methods

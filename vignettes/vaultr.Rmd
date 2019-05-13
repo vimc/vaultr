@@ -1,7 +1,7 @@
 ---
 title: "vaultr"
 author: "Rich FitzJohn"
-date: "2018-12-10"
+date: "2019-05-13"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaultr}
@@ -35,9 +35,9 @@ Sys.getenv(c("VAULT_ADDR", "VAULT_TOKEN", "VAULTR_AUTH_METHOD"))
 
 ```
 ##                             VAULT_ADDR
-##               "http://127.0.0.1:18202"
+##               "http://127.0.0.1:18200"
 ##                            VAULT_TOKEN
-## "dd880b21-e46e-966c-7441-61169426a0cc"
+## "e52f3694-4eca-aa7d-148e-8940713dd907"
 ##                     VAULTR_AUTH_METHOD
 ##                                "token"
 ```
@@ -56,13 +56,10 @@ vault
 ```
 
 ```
-## <vault: base>
+## <vault: client>
 ##   Command groups:
 ##     audit: Interact with vault's audit devices
 ##     auth: administer vault's authentication methods
-##     kv1: Interact with vault's key/value store (version 1)
-##     kv2: Interact with vault's key/value store (version 2)
-##     lease: Interact with leases
 ##     operator: Administration commands for vault operators
 ##     policy: Interact with policies
 ##     secrets: Interact with secret engines
@@ -71,11 +68,14 @@ vault
 ##   Commands:
 ##     api()
 ##     delete(path)
+##     help()
 ##     list(path, full_names = FALSE)
 ##     login(..., method = "token", mount = NULL, renew = FALSE,
 ##         quiet = FALSE, token_only = FALSE, use_cache = TRUE)
 ##     read(path, field = NULL, metadata = FALSE)
 ##     status()
+##     unwrap(token)
+##     wrap_lookup(token)
 ##     write(path, data)
 ```
 
@@ -91,18 +91,19 @@ vault$auth
 ```
 ## <vault: auth>
 ##   Command groups:
+##     approle: Interact and configure vault's AppRole support
 ##     github: Interact and configure vault's github support
 ##     token: Interact and configure vault's token support
 ##     userpass: Interact and configure vault's userpass support
 ##   Commands:
+##     backends()
 ##     disable(path)
-##     enable(type, description = NULL, local = FALSE, path = NULL,
-##         plugin_name = NULL)
+##     enable(type, description = NULL, local = FALSE, path = NULL)
+##     help()
 ##     list(detailed = FALSE)
-##     methods()
 ```
 
-## Reading, writing, listing and deleteing secrets
+## Reading, writing, listing and deleting secrets
 
 It is anticipated that the vast majority of `vaultr` usage will be
 interacting with vault's key-value stores - this is is done with

@@ -7,7 +7,7 @@
 \title{Vault Client for Secrets and Sensitive Data}
 \description{
 Vault client for secrets and sensitive data; this package provides
-wrappers for hashicorp's \href{https://vaultproject.io}{vault
+wrappers for HashiCorp's \href{https://vaultproject.io}{vault
 server}.  The package wraps most of the high-level API, and
 includes support for authentication via a number of backends
 (tokens, username and password, github, and "AppRole"), as well as

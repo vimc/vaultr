@@ -45,7 +45,7 @@ read up on policies as described in the vault manual, here:
     \item{\code{name}:   Name of the policy to update
     }
 
-    \item{\code{rules}:   Specifies the policy document.  This is a string in \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp configuration language}.  At present this must be read in as a single string (not a character vector of strings); future versions of vaultr may allow more flexible speficdication such as \code{@filename}.
+    \item{\code{rules}:   Specifies the policy document.  This is a string in \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp configuration language}.  At present this must be read in as a single string (not a character vector of strings); future versions of vaultr may allow more flexible specification such as \code{@filename}.
     }
   }
 }

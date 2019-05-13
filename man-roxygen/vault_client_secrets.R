@@ -13,7 +13,7 @@
 ##'     \item{\code{path}:   Specifies the path in which to enable the auth method. Defaults to be the same as \code{type}.
 ##'     }
 ##'
-##'     \item{\code{description}:   Human-friendly descripton of the backend; will be returned by \code{$list()}
+##'     \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
 ##'     }
 ##'
 ##'     \item{\code{version}:   Used only for the \code{kv} backend, where an integer is used to select between \code{\link{vault_client_kv1}} and \code{\link{vault_client_kv2}} engines.

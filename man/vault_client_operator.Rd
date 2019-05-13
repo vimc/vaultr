@@ -30,7 +30,7 @@ included here for completeness.
     \item{\code{secret_shares}:   Integer, specifying the number of shares to split the master key into
     }
 
-    \item{\code{secret_threshold}:   Integer, specifyingthe number of shares required to reconstruct the master key. This must be less than or equal secret_shares
+    \item{\code{secret_threshold}:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares
     }
   }
 }
@@ -43,7 +43,7 @@ included here for completeness.
   \cr\emph{Usage:}\preformatted{rekey_status()}
 }
 \item{\code{rekey_start}}{
-  This method begins a new rekey attempt. Only a single rekey attempt can take place at a time, and changing the parameters of a rekey requires canceling and starting a new rekey, which will also provide a new nonce.
+  This method begins a new rekey attempt. Only a single rekey attempt can take place at a time, and changing the parameters of a rekey requires cancelling and starting a new rekey, which will also provide a new nonce.
   \cr\emph{Usage:}\preformatted{rekey_start(secret_shares, secret_threshold)}
 
   \emph{Arguments:}
@@ -51,12 +51,12 @@ included here for completeness.
     \item{\code{secret_shares}:   Integer, specifying the number of shares to split the master key into
     }
 
-    \item{\code{secret_threshold}:   Integer, specifyingthe number of shares required to reconstruct the master key. This must be less than or equal secret_shares
+    \item{\code{secret_threshold}:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares
     }
   }
 }
 \item{\code{rekey_cancel}}{
-  This method cancels any in-progress rekey. This clears the rekey settings as well as any progress made. This must be called to change the parameters of the rekey. Note: verification is still a part of a rekey. If rekeying is canceled during the verification flow, the current unseal keys remain valid.
+  This method cancels any in-progress rekey. This clears the rekey settings as well as any progress made. This must be called to change the parameters of the rekey. Note: verification is still a part of a rekey. If rekeying is cancelled during the verification flow, the current unseal keys remain valid.
   \cr\emph{Usage:}\preformatted{rekey_cancel()}
 }
 \item{\code{rekey_submit}}{
@@ -93,7 +93,7 @@ included here for completeness.
     \item{\code{key}:   The master key share
     }
 
-    \item{\code{reset}:   Logical, inicating if the unseal process should start be started again.
+    \item{\code{reset}:   Logical, indicating if the unseal process should start be started again.
     }
   }
 }

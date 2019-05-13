@@ -29,7 +29,7 @@
 ##'     \item{\code{login}:   Logical, indicating if the client should login to the server (default is \code{TRUE}).
 ##'     }
 ##'
-##'     \item{\code{quiet}:   Logical, indicating if informational messages should be suppressed.  Defau;t is \code{TRUE}, in contrast with most other methods.
+##'     \item{\code{quiet}:   Logical, indicating if informational messages should be suppressed.  Default is \code{TRUE}, in contrast with most other methods.
 ##'     }
 ##'   }
 ##' }
