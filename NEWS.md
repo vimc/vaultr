@@ -1,3 +1,7 @@
+## 1.0.0
+
+* First public release
+
 ## 0.2.6
 
 * All objects gain a `help()` method, with the aim of making the main help easier to find.
