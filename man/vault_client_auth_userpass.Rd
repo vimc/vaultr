@@ -26,7 +26,7 @@ please see the vault documentation
 }
 \item{\code{write}}{
   Create or update a user.
-  \cr\emph{Usage:}\preformatted{write(username, password = NULL, policy = NULL, ttl = NULL,
+  \cr\emph{Usage:}\preformatted{write(username, password = NULL, policies = NULL, ttl = NULL,
       max_ttl = NULL, bound_cidrs = NULL)}
 
   \emph{Arguments:}
@@ -37,7 +37,7 @@ please see the vault documentation
     \item{\code{password}:   Password for the user (required when creating a user only)
     }
 
-    \item{\code{policy}:   Character vector of policies for the user
+    \item{\code{policies}:   Character vector of policies for the user
     }
 
     \item{\code{ttl}:   The lease duration which decides login expiration
@@ -85,14 +85,14 @@ please see the vault documentation
 }
 \item{\code{update_policies}}{
   Update vault policies for a user
-  \cr\emph{Usage:}\preformatted{update_policies(username, policy)}
+  \cr\emph{Usage:}\preformatted{update_policies(username, policies)}
 
   \emph{Arguments:}
   \itemize{
     \item{\code{username}:   Username for the user to update
     }
 
-    \item{\code{policy}:   Character vector of policies for this user
+    \item{\code{policies}:   Character vector of policies for this user
     }
   }
 }

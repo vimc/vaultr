@@ -14,7 +14,7 @@ write:
   params:
     username: Username for the user
     password: Password for the user (required when creating a user only)
-    policy: Character vector of policies for the user
+    policies: Character vector of policies for the user
     ttl: The lease duration which decides login expiration
     max_ttl: Maximum duration after which login should expire
     bound_cidrs: >-
@@ -43,7 +43,7 @@ update_policies:
   short: Update vault policies for a user
   params:
     username: Username for the user to update
-    policy: Character vector of policies for this user
+    policies: Character vector of policies for this user
 
 list:
   short: List users known to vault

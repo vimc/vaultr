@@ -60,12 +60,13 @@ vault_client_auth_userpass <- R6::R6Class(
       vault_client_auth_userpass$new(private$api_client, mount)
     },
 
-    write = function(username, password = NULL, policy = NULL, ttl = NULL,
+    write = function(username, password = NULL, policies = NULL, ttl = NULL,
                    max_ttl = NULL, bound_cidrs = NULL) {
       username <- assert_scalar_character(username)
       body <- list(
         password = assert_scalar_character_or_null(password),
-        policies = policy %&&% paste(assert_character(policy), collapse = ","),
+        policies = policies %&&%
+          paste(assert_character(policies), collapse = ","),
         ttl = ttl %&&% assert_is_duration(ttl),
         max_ttl = max_ttl %&&% assert_is_duration(max_ttl),
         bound_cidrs = bound_cidrs %&&% I(assert_character(bound_cidrs)))
@@ -99,9 +100,10 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
-    update_policies = function(username, policy) {
+    update_policies = function(username, policies) {
       assert_scalar_character(username)
-      body <- list(policies = paste(assert_character(policy), collapse = ","))
+      body <- list(policies = paste(assert_character(policies),
+                                    collapse = ","))
       path <- sprintf("/auth/%s/users/%s/policies", private$mount, username)
 
       private$api_client$POST(path, body = drop_null(body))

@@ -72,15 +72,15 @@ vault_client_auth_github <- R6::R6Class(
       private$api_client$GET(sprintf("/auth/%s/config", private$mount))$data
     },
 
-    write = function(team_name, policy, user = FALSE) {
+    write = function(team_name, policies, user = FALSE) {
       type <- if (assert_scalar_logical(user)) "users" else "teams"
       assert_scalar_character(team_name)
       path <- sprintf("/auth/%s/map/%s/%s", private$mount, type, team_name)
 
-      assert_character(policy)
+      assert_character(policies)
       ## NOTE: previously I had used 'policies' here and that didn't
       ## work!  Where else is that used?
-      body <- list(value = paste(policy, collapse = ","))
+      body <- list(value = paste(policies, collapse = ","))
 
       private$api_client$POST(path, body = body)
       invisible(NULL)

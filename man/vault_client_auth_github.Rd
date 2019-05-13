@@ -47,14 +47,14 @@ details, please see the vault documentation at
 }
 \item{\code{write}}{
   Write a mapping between a GitHub team or user and a set of vault policies.
-  \cr\emph{Usage:}\preformatted{write(team_name, policy, user = FALSE)}
+  \cr\emph{Usage:}\preformatted{write(team_name, policies, user = FALSE)}
 
   \emph{Arguments:}
   \itemize{
     \item{\code{team_name}:   String, with the GitHub team name
     }
 
-    \item{\code{policy}:   A character vector of vault policies that this user or team will have for vault access if they match this team or user.
+    \item{\code{policies}:   A character vector of vault policies that this user or team will have for vault access if they match this team or user.
     }
 
     \item{\code{user}:   Scalar logical - if \code{TRUE}, then \code{team_name} is interpreted as a \emph{user} instead.
