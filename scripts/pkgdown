@@ -18,7 +18,7 @@ set -e
 # sed, wtf.
 BEGIN='^##'"'"' if (!is.null(server)) {$'
 END='^##'"'"' }$'
-FILES=$(grep -l "$BEGIN" R/*.R)
+FILES=$(grep -l "$BEGIN" $ROOT/R/*.R)
 for f in $FILES; do
     sed "/$BEGIN/,/$END/{/$BEGIN/d;/$END/d;s/^##'  /##'/}" $f > $f.new
     mv $f.new $f
