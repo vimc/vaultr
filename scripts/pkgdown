@@ -24,4 +24,5 @@ for f in $FILES; do
     mv $f.new $f
 done
 
+Rscript -e "library(methods); devtools::document()"
 Rscript -e "library(methods); pkgdown::build_site()"
