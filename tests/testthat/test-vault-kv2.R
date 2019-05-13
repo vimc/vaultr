@@ -30,7 +30,8 @@ test_that("config", {
   cl$secrets$enable("kv", p, version = 2)
   config <- cl$secrets$kv2$config(p)
   expect_is(config, "list")
-  expect_equal(config$lease_duration, 0)
+  expect_equal(config$cas_required, FALSE)
+  expect_equal(config$max_versions, 0)
 })
 
 

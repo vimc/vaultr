@@ -96,7 +96,7 @@ vault_client_kv2 <- R6::R6Class(
 
     config = function(mount = NULL) {
       path <- sprintf("%s/config", mount %||% private$mount)
-      private$api_client$GET(path)
+      private$api_client$GET(path)$data
     },
 
     custom_mount = function(mount) {
