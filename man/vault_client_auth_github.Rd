@@ -97,7 +97,7 @@ if (!is.null(server)) {
   client$auth$github$configure(organization = "vimc")
   # To map members of the "robots" team *within* that organisation
   # to the "defaut" policy:
-  cl$auth$github$write("development", "default")
+  client$auth$github$write("development", "default")
 
   # Once configured like this, if we have a PAT for a member of
   # the "development" team saved as an environment variable

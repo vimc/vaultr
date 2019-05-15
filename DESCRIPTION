@@ -6,12 +6,14 @@ Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
              person("Imperial College of Science, Technology and Medicine",
                     role = "cph"))
 Title: Vault Client for Secrets and Sensitive Data
-Version: 1.0.1
+Version: 1.0.2
 Description: Provides an interface to a 'HashiCorp' vault server over
-  its http API.  This allows for secure storage and retrieval of
-  secrets over a network, such as tokens, passwords and certificates.
-  Authentication with vault is supported through several backends
-  including user name/password and authentication via 'GitHub'.
+  its http API (typically these are self-hosted; see
+  <https://www.vaultproject.io>).  This allows for secure storage and
+  retrieval of secrets over a network, such as tokens, passwords and
+  certificates.  Authentication with vault is supported through
+  several backends including user name/password and authentication via
+  'GitHub'.
 License: MIT + file LICENSE
 URL: https://github.com/vimc/vaultr
 BugReports: https://github.com/vimc/vaultr/issues
