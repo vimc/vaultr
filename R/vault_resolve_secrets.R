@@ -44,10 +44,10 @@
 ##' server <- vaultr::vault_test_server(if_disabled = message)
 ##'
 ##' if (!is.null(server)) {
-##'   cl <- server$client()
+##'   client <- server$client()
 ##'   # The example from above:
-##'   cl$write("/secret/database/user",
-##'            list(username = "alice", password = "s3cret!"))
+##'   client$write("/secret/database/user",
+##'                list(username = "alice", password = "s3cret!"))
 ##'
 ##'   # A list of data that contains a mix of secrets to be resolved
 ##'   # and other data:
