@@ -9,7 +9,7 @@ Title: Vault Client for Secrets and Sensitive Data
 Version: 1.0.2
 Description: Provides an interface to a 'HashiCorp' vault server over
   its http API (typically these are self-hosted; see
-  <https://vaultproject.io>).  This allows for secure storage and
+  <https://www.vaultproject.io>).  This allows for secure storage and
   retrieval of secrets over a network, such as tokens, passwords and
   certificates.  Authentication with vault is supported through
   several backends including user name/password and authentication via
