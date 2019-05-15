@@ -1,3 +1,4 @@
+##' @importFrom R6 R6Class
 vault_client_object <- R6::R6Class(
   "vault_client_object",
   cloneable = FALSE,
