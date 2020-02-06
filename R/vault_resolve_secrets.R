@@ -68,18 +68,27 @@
 ##'     withr::with_envvar(env, vault_resolve_secrets(x))
 ##'   }
 ##' }
-vault_resolve_secrets <- function(x, ..., login = TRUE) {
+vault_resolve_secrets <- function(x, ..., login = TRUE, vault_args = NULL) {
   re <- "^VAULT:(.+):(.+)"
   if (is.list(x)) {
     i <- vlapply(x, function(el) is.character(el) && grepl(re, el))
     if (any(i)) {
       x[i] <- vault_resolve_secrets(vcapply(x[i], identity),
-                                    ..., login = login)
+                                    ..., login = login,
+                                    vault_args = vault_args)
     }
   } else {
     i <- grepl(re, x)
     if (any(i)) {
-      vault <- vault_client(login = login, ...)
+      if (is.null(vault_args)) {
+        vault_args <- list(login = login, ...)
+      } else {
+        vault_args$login <- vault_args$login %||% TRUE
+        if (length(list(...)) > 0L) {
+          stop("Do not provide both '...' and 'vault_args'")
+        }
+      }
+      vault <- do.call(vault_client, vault_args)
       key <- unname(sub(re, "\\1", x[i]))
       field <- unname(sub(re, "\\2", x[i]))
       x[i] <- unname(Map(vault$read, key, field))
