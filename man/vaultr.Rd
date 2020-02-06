@@ -3,7 +3,6 @@
 \docType{package}
 \name{vaultr}
 \alias{vaultr}
-\alias{vaultr-package}
 \title{Vault Client for Secrets and Sensitive Data}
 \description{
 Vault client for secrets and sensitive data; this package provides

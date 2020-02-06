@@ -35,6 +35,13 @@
 ##' @param login Login method to be passed to call to
 ##'   \code{\link{vault_client}}.
 ##'
+##' @param vault_args As an alternative to using \code{login} and
+##'   \code{...}, a list of (named) arguments can be provided here,
+##'   equivalent to the full set of arguments that you might pass to
+##'   \code{\link{vault_client}}.  If provided, then \code{login} is
+##'   ignored and if additional arguments are provided through
+##'   \code{...} an error will be thrown.
+##'
 ##' @return List of properties with any vault secrets resolved.
 ##'
 ##' @export

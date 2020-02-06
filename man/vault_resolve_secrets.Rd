@@ -4,7 +4,7 @@
 \alias{vault_resolve_secrets}
 \title{Resolve secrets from R objects}
 \usage{
-vault_resolve_secrets(x, ..., login = TRUE)
+vault_resolve_secrets(x, ..., login = TRUE, vault_args = NULL)
 }
 \arguments{
 \item{x}{List of values, some of which may refer to vault secrets
@@ -15,6 +15,13 @@ do not match the pattern of a secret are left as-is.}
 
 \item{login}{Login method to be passed to call to
 \code{\link{vault_client}}.}
+
+\item{vault_args}{As an alternative to using \code{login} and
+\code{...}, a list of (named) arguments can be provided here,
+equivalent to the full set of arguments that you might pass to
+\code{\link{vault_client}}.  If provided, then \code{login} is
+ignored and if additional arguments are provided through
+\code{...} an error will be thrown.}
 }
 \value{
 List of properties with any vault secrets resolved.

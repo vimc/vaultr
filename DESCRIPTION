@@ -30,7 +30,7 @@ Suggests:
     rmarkdown,
     testthat,
     withr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB

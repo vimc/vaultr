@@ -6,11 +6,14 @@
 \alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{
-vault_test_server(https = FALSE, init = TRUE,
-  if_disabled = testthat::skip)
+vault_test_server(https = FALSE, init = TRUE, if_disabled = testthat::skip)
 
-vault_test_server_install(path = NULL, quiet = FALSE,
-  version = "1.0.0", platform = vault_platform())
+vault_test_server_install(
+  path = NULL,
+  quiet = FALSE,
+  version = "1.0.0",
+  platform = vault_platform()
+)
 }
 \arguments{
 \item{https}{Logical scalar, indicating if a https-using server
