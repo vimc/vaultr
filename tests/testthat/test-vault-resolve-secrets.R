@@ -30,4 +30,13 @@ test_that("vault secrets can be resolved", {
     expect_equal(vault_resolve_secrets(unlist(x), addr = config$vault_server),
                  list(name = "alice", password = "ALICE"))
   })
+
+  withr::with_envvar(c(VAULTR_AUTH_METHOD = NA_character_), {
+    args <- list(login = "token", token = srv$token, addr = config$vault_server)
+    expect_equal(vault_resolve_secrets(x, vault_args = args),
+                 list(name = "alice", password = "ALICE"))
+    expect_error(
+      vault_resolve_secrets(x, vault_args = args, addr = "somewhere"),
+      "Do not provide both '...' and 'vault_args'", fixed = TRUE)
+  })
 })
