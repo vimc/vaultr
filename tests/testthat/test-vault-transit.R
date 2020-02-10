@@ -259,7 +259,8 @@ test_that("key derivation: encrypt/decrypt", {
   cyphertext <- transit$data_encrypt("test", plaintext, context = context)
   expect_identical(transit$data_decrypt("test", cyphertext, context = context),
                    plaintext)
-  expect_error(transit$data_decrypt("test", cyphertext), "context")
+  expect_error(transit$data_decrypt("test", cyphertext), "context",
+               class = "vault_invalid_request")
 })
 
 
@@ -324,5 +325,6 @@ test_that("key derivation: sign/verify", {
   expect_false(transit$verify_signature("test", data[-1], signature,
                                         context = context))
   expect_error(transit$verify_signature("test", data, signature),
-               "context")
+               "context",
+               class = "vault_internal_server_error")
 })
