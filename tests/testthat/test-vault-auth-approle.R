@@ -27,7 +27,6 @@ test_that("approle auth", {
 
   d <- ar$role_read(role_name)
   expect_is(d, "list")
-  expect_equal(d$policies, "default")
 
   role_id <- ar$role_id_read(role_name)
   expect_is(role_id, "character")
@@ -54,7 +53,7 @@ test_that("custom mount", {
   expect_is(ar, "vault_client_auth_approle")
 
   ar$role_write("server")
-  expect_equal(ar$role_read("server")$policies, "default")
+  expect_is(ar$role_read("server"), "list")
   expect_error(cl$auth$approle$role_read("server"))
 })
 

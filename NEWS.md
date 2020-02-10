@@ -1,3 +1,7 @@
+## 1.0.3
+
+* New convenience argument to `vaultr::vault_resolve_secrets` to pass in all connection arguments at once, designed to make this easier to use from scripts (VIMC-3397).
+
 ## 1.0.2
 
 * First public release
