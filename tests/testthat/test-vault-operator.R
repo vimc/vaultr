@@ -51,6 +51,7 @@ test_that("cancel rekey", {
 
 
 test_that("init", {
+  skip_on_os("windows")
   srv <- vault_test_server(https = TRUE, init = FALSE)
   cl <- srv$client(login = FALSE)
 

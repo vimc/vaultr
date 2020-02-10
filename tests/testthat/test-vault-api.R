@@ -45,6 +45,7 @@ test_that("token validation", {
 
 
 test_that("skip ssl validation", {
+  skip_on_os("windows")
   srv <- vault_test_server(https = TRUE)
 
   cl1 <- vault_client(addr = srv$addr, tls_config = FALSE)
