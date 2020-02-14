@@ -88,8 +88,10 @@ vault_kv_read <- function(api_client, mount, path, field = NULL,
   res <- tryCatch(
     api_client$GET(path),
     vault_invalid_path = function(e) NULL,
-    error = function(e)
-      stop(sprintf("While reading %s:\n %s", path, e$message), call. = FALSE))
+    error = function(e) {
+      e$message <- sprintf("While reading %s:\n %s", path, e$message)
+      stop(e)
+    })
 
   if (is.null(res)) {
     ret <- NULL

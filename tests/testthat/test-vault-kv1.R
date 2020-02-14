@@ -71,3 +71,25 @@ test_that("custom mount", {
     kv$read("/secret/a"),
     "Invalid mount given for this path - expected 'secret1'")
 })
+
+
+test_that("error messages when failing to read", {
+  srv <- vaultr::vault_test_server()
+  cl <- srv$client()
+  cl$write("/secret/users/alice", list(password = "ALICE"))
+  cl$write("/secret/users/bob", list(password = "BOB"))
+
+  rules <- paste('path "secret/users/alice" {',
+                 '  policy = "read"',
+                 '}',
+                 sep = "\n")
+  cl$policy$write("read-secret-alice", rules)
+  token <- cl$token$create(policies = "read-secret-alice")
+
+  cl2 <- srv$client(FALSE)
+  cl2$login(token = token)
+  expect_equal(cl2$read("/secret/users/alice", "password"), "ALICE")
+  expect_error(cl2$read("/secret/users/bob", "password"),
+               "While reading secret/users/bob:",
+               class = "vault_forbidden")
+})

@@ -61,5 +61,6 @@ test_that("Provide better error messages when failing to read", {
   args <- list(login = "token", token = token, addr = srv$addr)
   expect_error(
     vault_resolve_secrets(x, vault_args = args),
-    "While reading secret/users/bob:")
+    "While reading secret/users/bob:",
+    class = "vault_forbidden")
 })
