@@ -93,7 +93,7 @@ or install the bleeding edge with
 
 ```r
 # install.packages("devtools") # (if needed)
-devtools::install_gitub("vimc/vaultr", upgrade = FALSE)
+devtools::install_github("vimc/vaultr", upgrade = FALSE)
 ```
 
 ## License
