@@ -1,9 +1,3 @@
-skip_if_no_vault_test_server <- function() {
-  if (is.null(vault_test_server())) {
-    testthat::skip("Test server not running")
-  }
-}
-
 skip_if_no_vaultr_test_github_pat <- function() {
   if (has_vaultr_test_github_pat()) {
     return(invisible(TRUE))
