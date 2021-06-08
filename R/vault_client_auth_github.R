@@ -52,10 +52,31 @@ vault_client_auth_github <- R6::R6Class(
       private$api_client <- api_client
     },
 
+    ##' @description Set up a `vault_client_auth_github` object at a
+    ##'   custom mount.  For example, suppose you mounted the `github`
+    ##'   authentication backend at `/github-myorg` you might use `gh
+    ##'   <- vault$auth$github2$custom_mount("/github-myorg")` - this
+    ##'   pattern is repeated for other secret and authentication
+    ##'   backends.
+    ##'
+    ##' @param mount String, indicating the path that the engine is
+    ##'   mounted at.
     custom_mount = function(mount) {
       vault_client_auth_github$new(private$api_client, mount)
     },
 
+    ##' @description Configures the connection parameters for
+    ##'   GitHub-based authentication.
+    ##'
+    ##' @param organization The organization users must be part of
+    ##'   (note American spelling).  base_url The API endpoint to
+    ##'   use. Useful if you are running GitHub Enterprise or an
+    ##'   API-compatible authentication server.
+    ##'
+    ##' @param ttl Duration after which authentication will be expired
+    ##'
+    ##' @param max_ttl Maximum duration after which authentication will
+    ##'   be expired
     configure = function(organization, base_url = NULL, ttl = NULL,
                          max_ttl = NULL) {
       path <- sprintf("/auth/%s/config", private$mount)
@@ -68,10 +89,23 @@ vault_client_auth_github <- R6::R6Class(
       invisible(TRUE)
     },
 
+    ##' @description Reads the connection parameters for GitHub-based
+    ##'   authentication.
     configuration = function() {
       private$api_client$GET(sprintf("/auth/%s/config", private$mount))$data
     },
 
+    ##' @description Write a mapping between a GitHub team or user and
+    ##'   a set of vault policies.
+    ##'
+    ##' @param team_name String, with the GitHub team name
+    ##'
+    ##' @param policies A character vector of vault policies that this
+    ##'   user or team will have for vault access if they match this
+    ##'   team or user.
+    ##'
+    ##' @param user Scalar logical - if `TRUE`, then `team_name` is
+    ##'   interpreted as a *user* instead.
     write = function(team_name, policies, user = FALSE) {
       type <- if (assert_scalar_logical(user)) "users" else "teams"
       assert_scalar_character(team_name)
@@ -84,6 +118,13 @@ vault_client_auth_github <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Write a mapping between a GitHub team or user and
+    ##'   a set of vault policies.
+    ##'
+    ##' @param team_name String, with the GitHub team name
+    ##'
+    ##' @param user Scalar logical - if `TRUE`, then `team_name` is
+    ##'   interpreted as a *user* instead.
     read = function(team_name, user = FALSE) {
       type <- if (assert_scalar_logical(user)) "users" else "teams"
       assert_scalar_character(team_name)
@@ -91,6 +132,13 @@ vault_client_auth_github <- R6::R6Class(
       private$api_client$GET(path)$data
     },
 
+    ##' @description Log into the vault using GitHub authentication.
+    ##'   Normally you would not call this directly but instead use
+    ##'   `$login` with `method = "github"` and proving the `token`
+    ##'   argument.  This function returns a vault token but does not
+    ##'   set it as the client token.
+    ##'
+    ##' @param token A GitHub token to authenticate with.
     login = function(token = NULL) {
       path <- sprintf("/auth/%s/login", private$mount)
       body <- list(token = vault_auth_github_token(token))
