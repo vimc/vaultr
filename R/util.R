@@ -180,7 +180,7 @@ isFALSE <- function(x) {
 raw_data_input <- function(data, name = deparse(substitute(data))) {
   if (!is.raw(data)) {
     ## TODO: should this support base64 data?
-    stop(sprintf("Expected raw data for '%s'", name, call. = FALSE))
+    stop(sprintf("Expected raw data for '%s'", name), call. = FALSE)
   }
   encode64(data)
 }
