@@ -71,16 +71,9 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Debug
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-          VAULTR_TEST_SERVER_BIN_PATH: ${{ env.GITHUB_WORKSPACE }}/.vault
-        uses: mxschmitt/action-tmate@v3
-
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-          VAULTR_TEST_SERVER_BIN_PATH: ${{ env.GITHUB_WORKSPACE }}/.vault
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
