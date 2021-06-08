@@ -54,7 +54,6 @@
 ##'   to the environment variable \code{VAULT_CAPATH}, which is the
 ##'   same as vault's command line client.
 ##'
-##' @template vault_client
 ##' @export
 ##' @author Rich FitzJohn
 ##' @examples
@@ -116,6 +115,7 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 }
 
 
+
 R6_vault_client <- R6::R6Class(
   "vault_client",
   inherit = vault_client_object,
@@ -151,28 +151,108 @@ R6_vault_client <- R6::R6Class(
       add_const_member(self, "tools", vault_client_tools$new(api_client))
     },
 
+    ##' @description Returns an api client object that can be used to
+    ##'   directly interact with the vault server.
     api = function() {
       private$api_client
     },
 
     ## Root object kv1 methods
+    ##' @description Read a value from the vault.  This can be used to
+    ##'   read any value that you have permission to read, and can also
+    ##'   be used as an interface to a version 1 key-value store (see
+    ##'   [vaultr::vault_client_kv1].  Similar to the vault CLI command
+    ##'   `vault read`.
+    ##'
+    ##' @param path Path for the secret to read, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param field Optional field to read from the secret.  Each
+    ##'   secret is stored as a key/value set (represented in R as a
+    ##'   named list) and this is equivalent to using `[[field]]` on
+    ##'   the return value.  The default, `NULL`, returns the full set
+    ##'   of values.
+    ##'
+    ##' @param metadata Logical, indicating if we should return
+    ##'   metadata for this secret (lease information etc) as an
+    ##'   attribute along with the values itself.  Ignored if `field`
+    ##'   is specified.
     read = function(path, field = NULL, metadata = FALSE) {
       self$secrets$kv1$read(path, field, metadata)
     },
 
+    ##' @description Write data into the vault.  This can be used to
+    ##'   write any value that you have permission to write, and can
+    ##'   also be used as an interface to a version 1 key-value store
+    ##'   (see [vaultr::vault_client_kv1].  Similar to the vault CLI
+    ##'   command `vault write`.
+    ##'
+    ##' @param path Path for the secret to write, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param data A named list of values to write into the vault at
+    ##'    this path.  This *replaces* any existing values.
     write = function(path, data) {
       self$secrets$kv1$write(path, data)
     },
 
+    ##' @description Delete a value from the vault
+    ##'
+    ##' @param path The path to delete
     delete = function(path) {
       self$secrets$kv1$delete(path)
     },
 
     ## NOTE: no recursive list here
+    ##' @description List data in the vault at a given path.  This can
+    ##'   be used to list keys, etc (e.g., at `/secret`).
+    ##'
+    ##' @param path The path to list
+    ##
+    ##' @param full_names Logical, indicating if full paths (relative
+    ##'   to the vault root) should be returned.
+    ##'
+    ##' @return A character vector (of zero length if no keys are
+    ##'   found).  Paths that are "directories" (i.e., that contain
+    ##'   keys and could themselves be listed) will be returned with a
+    ##'   trailing forward slash, e.g. `path/`
     list = function(path, full_names = FALSE) {
       self$secrets$kv1$list(path, full_names)
     },
 
+    ##' @description Login to the vault.  This method is more
+    ##'   complicated than most.
+    ##'
+    ##' @param ...  Additional named parameters passed through to the
+    ##'   underlying method
+    ##'
+    ##' @param method Authentication method to use, as a string.
+    ##'   Supported values include `token` (the default), `github`,
+    ##'   `approle` and `userpass`.
+    ##'
+    ##' @param mount The mount path for the authentication backend, *if
+    ##'   it has been mounted in a nonstandard location*.  If not
+    ##'   given, then it is assumed that the backend was mounted at a
+    ##'   path corresponding to the method name.
+    ##'
+    ##' @param renew Login, even if we appear to hold a valid token.
+    ##'   If `FALSE` and we have a token then `login` does nothing.
+    ##'
+    ##' @param quiet Suppress some informational messages
+    ##'
+    ##' @param token_only Logical, indicating that we do not want to
+    ##'   actually log in, but instead just generate a token and return
+    ##'   that.  IF given then `renew` is ignored and we always
+    ##'   generate a new token.
+    ##'
+    ##' @param use_cache Logical, indicating if we should look in the
+    ##'   session cache for a token for this client.  If this is `TRUE`
+    ##'   then when we log in we save a copy of the token for this
+    ##'   session and any subsequent calls to `login` at this vault
+    ##'   address that use `use_cache = TRUE` will be able to use this
+    ##'   token.  Using cached tokens will make using some
+    ##'   authentication backends that require authentication with
+    ##'   external resources (e.g., `github`) much faster.
     login = function(..., method = "token", mount = NULL,
                      renew = FALSE, quiet = FALSE,
                      token_only = FALSE, use_cache = TRUE) {
@@ -225,15 +305,27 @@ R6_vault_client <- R6::R6Class(
       invisible(token)
     },
 
+    ##' @description Return the status of the vault server, including
+    ##'   whether it is sealed or not, and the vault server version.
     status = function() {
       self$operator$seal_status()
     },
 
+    ##' @description Returns the original response inside the given
+    ##'   wrapping token. The vault endpoints used by this method
+    ##'   perform validation checks on the token, returns the original
+    ##'   value on the wire rather than a JSON string representation of
+    ##'   it, and ensures that the response is properly audit-logged.
+    ##'
+    ##' @param token Specifies the wrapping token ID
     unwrap = function(token) {
       assert_scalar_character(token)
       private$api_client$POST("/sys/wrapping/unwrap", token = token)
     },
 
+    ##' @description Look up properties of a wrapping token.
+    ##'
+    ##' @param token Specifies the wrapping token ID to lookup
     wrap_lookup = function(token) {
       assert_scalar_character(token)
       private$api_client$POST("/sys/wrapping/lookup", token = token,
