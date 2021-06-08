@@ -67,3 +67,17 @@ fake_api_client <- function(addr, success) {
   list(addr = addr,
        verify_token = function(token, quiet) list(success = success))
 }
+
+
+wait_kv_upgrade <- function(kv, p, n = 10, poll = 0.2) {
+  for (i in seq_len(n)) {
+    ok <- tryCatch({
+      kv$list(p)
+      TRUE
+    }, error = function(e) FALSE)
+    if (ok) {
+      break
+    }
+    Sys.sleep(poll)
+  }
+}
