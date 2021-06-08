@@ -34,9 +34,6 @@
 ##'   # (wheras our original root user has the "root" policy)
 ##'   root$auth$token$lookup_self()$policies
 ##' }
-NULL
-
-
 vault_client_auth_userpass <- R6::R6Class(
   "vault_client_auth_userpass",
   inherit = vault_client_object,
