@@ -11,3 +11,4 @@
 ^TODO\.md$
 ^man-roxygen$
 ^appveyor\.yml$
+^\.github$
