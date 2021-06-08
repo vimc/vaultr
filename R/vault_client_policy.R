@@ -48,9 +48,6 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_client_policy <- R6::R6Class(
   "vault_client_policy",
   inherit = vault_client_object,
@@ -64,23 +61,42 @@ vault_client_policy <- R6::R6Class(
       private$api_client <- api_client
     },
 
+    ##' @description This endpoint deletes the policy with the given
+    ##'   name. This will immediately affect all users associated with
+    ##'   this policy.
+    ##'
+    ##' @param name Specifies the name of the policy to delete.
     delete = function(name) {
       assert_scalar_character(name)
       private$api_client$DELETE(paste0("/sys/policy/", name))
       invisible(NULL)
     },
 
+    ##' @description Lists all configured policies.
     list = function() {
       dat <- private$api_client$GET("/sys/policy")
       list_to_character(dat$data$keys)
     },
 
+    ##' @description Retrieve the policy body for the named policy
+    ##'
+    ##' @param name Specifies the name of the policy to retrieve
     read = function(name) {
       assert_scalar_character(name)
       dat <- private$api_client$GET(paste0("/sys/policy/", name))
       dat$data$rules
     },
 
+    ##' @description Create or update a policy.  Once a policy is
+    ##'   updated, it takes effect immediately to all associated users.
+    ##'
+    ##' @param name Name of the policy to update
+    ##'
+    ##' @param rules Specifies the policy document.  This is a string
+    ##'    in "HashiCorp configuration language".  At present this must
+    ##'    be read in as a single string (not a character vector of
+    ##'    strings); future versions of vaultr may allow more flexible
+    ##'    specification such as `@filename`
     write = function(name, rules) {
       assert_scalar_character(name)
       assert_scalar_character(rules)

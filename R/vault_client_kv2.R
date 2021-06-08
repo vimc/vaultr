@@ -69,9 +69,6 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_client_kv2 <- R6::R6Class(
   "vault_client_kv2",
   inherit = vault_client_object,
@@ -131,15 +128,39 @@ vault_client_kv2 <- R6::R6Class(
       private$api_client <- api_client
     },
 
+    ##' @description Fetch the configuration for this `kv2` store.
+    ##'     Returns a named list of values, the contents of which will
+    ##'     depend on the vault version.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     config = function(mount = NULL) {
       path <- sprintf("%s/config", mount %||% private$mount)
       private$api_client$GET(path)$data
     },
 
+    ##' @description Set up a `vault_client_kv2` object at a custom
+    ##'   mount.  For example, suppose you mounted another copy of the
+    ##'   `kv2` secret backend at `/secret2` you might use `kv <-
+    ##'   vault$secrets$kv2$custom_mount("/secret2")` - this pattern is
+    ##'   repeated for other secret and authentication backends.
+    ##'
+    ##' @param mount String, indicating the path that the engine is
+    ##' mounted at.
     custom_mount = function(mount) {
       vault_client_kv2$new(private$api_client, mount)
     },
 
+    ##' @description Delete a secret from the vault.  This marks the
+    ##'   version as deleted and will stop it from being returned from
+    ##'   reads, but the underlying data will not be removed. A delete
+    ##'   can be undone using the undelete method.
+    ##'
+    ##' @param path Path to delete
+    ##'
+    ##' @param version Optional version to delete.  If `NULL` (the
+    ##'   default) then the latest version of the secret is deleted.
+    ##'   Otherwise, `version` can be a vector of integer versions to
+    ##'   delete.
     delete = function(path, version = NULL, mount = NULL) {
       path <- private$validate_path(path, mount)
       if (is.null(version)) {
@@ -151,6 +172,16 @@ vault_client_kv2 <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Delete a secret entirely.  Unlike `delete` this
+    ##'   operation is irreversible and is more like the `delete`
+    ##'   operation on [`vaultrvault_client_kv1`] stores.
+    ##'
+    ##' @param path Path to delete
+    ##'
+    ##' @param version Version numbers to delete, as a vector of
+    ##'   integers (this is required)
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     destroy = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)
@@ -158,6 +189,26 @@ vault_client_kv2 <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Read a secret from the vault
+    ##'
+    ##' @param path Path of the secret to read
+    ##'
+    ##' @param version Optional version of the secret to read.  If
+    ##'   `NULL` (the default) then the most recent version is read.
+    ##'   Otherwise this must be a scalar integer.
+    ##'
+    ##' @param field Optional field to read from the secret.  Each
+    ##'   secret is stored as a key/value set (represented in R as a
+    ##'   named list) and this is equivalent to using `[[field]]` on
+    ##'   the return value.  The default, `NULL`, returns the full set
+    ##'   of values.
+    ##'
+    ##' @param metadata Logical, indicating if we should return
+    ##'   metadata for this secret (lease information etc) as an
+    ##'   attribute along with the values itself.  Ignored if `field`
+    ##'   is specified.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     get = function(path, version = NULL, field = NULL,
                    metadata = FALSE, mount = NULL) {
       path <- private$validate_path(path, mount)
@@ -182,6 +233,20 @@ vault_client_kv2 <- R6::R6Class(
       ret
     },
 
+    ##' @description List data in the vault at a give path.  This can
+    ##'   be used to list keys, etc (e.g., at `/secret`).
+    ##'
+    ##' @param path The path to list
+    ##'
+    ##' @param full_names Logical, indicating if full paths (relative
+    ##'   to the vault root) should be returned.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
+    ##'
+    ##' @param value A character vector (of zero length if no keys are
+    ##'   found).  Paths that are "directories" (i.e., that contain
+    ##'   keys and could themselves be listed) will be returned with a
+    ##'   trailing forward slash, e.g. `path/`
     list = function(path, full_names = FALSE, mount = NULL) {
       ## TODO: support full_names here?
       path <- private$validate_path(path, mount, TRUE)
@@ -195,6 +260,12 @@ vault_client_kv2 <- R6::R6Class(
       ret
     },
 
+    ##' @description Read secret metadata and versions at the specified
+    ##'   path
+    ##'
+    ##' @param path Path of secret to read metadata for
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     metadata_get = function(path, mount = NULL) {
       path <- private$validate_path(path, mount)
       res <- tryCatch(
@@ -206,6 +277,20 @@ vault_client_kv2 <- R6::R6Class(
       res$data
     },
 
+    ##' @description Update metadata for a secret.  This is allowed
+    ##'   even if a secret does not yet exist, though this requires the
+    ##'   `create` vault permission at this path.
+    ##'
+    ##' @param path Path of secret to update metadata for
+    ##'
+    ##' @param cas_required Logical, indicating that if If true the key
+    ##'   will require the cas parameter to be set on all write
+    ##'   requests (see `put`). If `FALSE`, the backend's configuration
+    ##'   will be used.  @param max_versions Integer, indicating the
+    ##'   maximum number of versions to keep per key.  If not set, the
+    ##'   backend's configured max version is used. Once a key has more
+    ##'   than the configured allowed versions the oldest version will
+    ##'   be permanently deleted.  @param mount *mount
     metadata_put = function(path, cas_required = NULL, max_versions = NULL,
                               mount = NULL) {
       path <- private$validate_path(path, mount)
@@ -215,12 +300,35 @@ vault_client_kv2 <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description This method permanently deletes the key metadata
+    ##'   and all version data for the specified key. All version
+    ##'   history will be removed.
+    ##'
+    ##' @param path Path to delete
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     metadata_delete = function(path, mount = NULL) {
       path <- private$validate_path(path, mount)
       private$api_client$DELETE(path$metadata)
       invisible(NULL)
     },
 
+    ##' @description Create or update a secret in this store.
+    ##'
+    ##' @param path Path for the secret to write, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param data A named list of values to write into the vault at
+    ##'    this path.
+    ##'
+    ##' @param cas Integer, indicating the "cas" value to use a
+    ##'   "Check-And-Set" operation. If not set the write will be
+    ##'   allowed. If set to 0 a write will only be allowed if the key
+    ##'   doesn't exist. If the index is non-zero the write will only
+    ##'   be allowed if the key's current version matches the version
+    ##'   specified in the cas parameter.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     put = function(path, data, cas = NULL, mount = NULL) {
       assert_named(data)
       body <- list(data = data)
@@ -238,6 +346,16 @@ vault_client_kv2 <- R6::R6Class(
     ##   stop("not implemented")
     ## },
 
+    ##' @description Undeletes the data for the provided version and
+    ##'   path in the key-value store. This restores the data, allowing
+    ##'   it to be returned on get requests.  This works with data
+    ##'   deleted with `$delete` but not with `$destroy`.
+    ##'
+    ##' @param path The path to undelete
+    ##'
+    ##' @param version Integer vector of versions to undelete
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     undelete = function(path, version, mount = NULL) {
       path <- private$validate_path(path, mount)
       body <- private$validate_version(version, TRUE)

@@ -47,6 +47,9 @@ vault_client_secrets <- R6::R6Class(
                        vault_client_transit$new(api_client, "transit"))
     },
 
+    ##' @description Disable a previously-enabled secret engine
+    ##'
+    ##' @param path Path of the secret engine
     disable = function(path) {
       if (!is_absolute_path(path)) {
         path <- paste0("/", path)
@@ -55,6 +58,19 @@ vault_client_secrets <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Enable a secret backend in the vault server
+    ##'
+    ##' @param type The type of secret backend (e.g., `transit`, `kv`).
+    ##'
+    ##' @param description Human-friendly description of the backend;
+    ##'   will be returned by `$list()`
+    ##'
+    ##' @param path Specifies the path in which to enable the auth
+    ##'   method. Defaults to be the same as `type`.
+    ##'
+    ##' @param version Used only for the `kv` backend, where an integer
+    ##'   is used to select between [vaultr::vault_client_kv1] and
+    ##'   [vaultr::vault_client_kv2] engines.
     enable = function(type, path = type, description = NULL, version = NULL) {
       ## TODO: there are many additional options here that are not
       ## currently supported and which would come through the "config"
@@ -75,6 +91,10 @@ vault_client_secrets <- R6::R6Class(
       invisible(path)
     },
 
+    ##' @description List enabled secret engines
+    ##'
+    ##' @param detailed Logical, indicating if detailed output is
+    ##'   wanted.
     list = function(detailed = FALSE) {
       if (detailed) {
         stop("Detailed secret information not supported")
@@ -88,6 +108,11 @@ vault_client_secrets <- R6::R6Class(
                     stringsAsFactors = FALSE, check.names = FALSE)
     },
 
+    ##' @description Move the path that a secret engine is mounted at
+    ##'
+    ##' @param from Original path
+    ##'
+    ##' @param to New path
     move = function(from, to) {
       assert_scalar_character(from)
       assert_scalar_character(to)
