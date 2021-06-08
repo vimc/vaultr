@@ -15,7 +15,6 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      VAULTR_TEST_SERVER_BIN_PATH: ${{ env.GITHUB_WORKSPACE }}/.vault
       VAULTR_TEST_SERVER_INSTALL: true
       VAULTR_TEST_SERVER_PORT: 18200
 
@@ -48,5 +47,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
+        env:
+          VAULTR_TEST_SERVER_BIN_PATH: ${{ env.GITHUB_WORKSPACE }}/.vault
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
