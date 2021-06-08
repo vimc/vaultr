@@ -30,7 +30,10 @@ test_that("config", {
 
   p <- rand_str(10)
   cl$secrets$enable("kv", p, version = 2)
-  config <- cl$secrets$kv2$config(p)
+  kv <- cl$secrets$kv2$custom_mount(p)
+  wait_kv_upgrade(kv, p)
+
+  config <- kv$config(p)
   expect_is(config, "list")
   expect_equal(config$cas_required, FALSE)
   expect_equal(config$max_versions, 0)
