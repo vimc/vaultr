@@ -48,4 +48,6 @@ jobs:
 
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)
+        env:
+          VAULTR_TEST_GITHUB_PAT: ${{ secrets.VAULTR_TEST_GITHUB_PAT }}
         shell: Rscript {0}
