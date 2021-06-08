@@ -69,7 +69,7 @@ fake_api_client <- function(addr, success) {
 }
 
 
-wait_kv_upgrade <- function(kv, p, n = 10, poll = 0.2) {
+wait_kv_upgrade <- function(kv, p, n = 50, poll = 0.2) { # max 10s by default
   for (i in seq_len(n)) {
     ok <- tryCatch({
       kv$list(p)
