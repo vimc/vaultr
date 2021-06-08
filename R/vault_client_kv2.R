@@ -30,8 +30,6 @@
 ##' error.  This approach results in more predictable error messages,
 ##' though it is a little more typing than for the CLI vault client.
 ##'
-##' @template vault_client_kv2
-##'
 ##' @title Key-Value Store (Version 2)
 ##' @name vault_client_kv2
 ##' @examples

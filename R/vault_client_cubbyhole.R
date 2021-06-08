@@ -5,8 +5,6 @@
 ##' details please see the vault documentation
 ##' \url{https://www.vaultproject.io/docs/secrets/cubbyhole/index.html}
 ##'
-##' @template vault_client_cubbyhole
-##'
 ##' @title Cubbyhole secret store
 ##' @name vault_client_cubbyhole
 ##'

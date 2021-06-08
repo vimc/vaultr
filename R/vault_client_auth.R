@@ -1,7 +1,5 @@
 ##' Interact with vault's authentication backends.
 ##'
-##' @template vault_client_auth
-##'
 ##' @title Vault Authentication Configuration
 ##' @name vault_client_auth
 ##'
@@ -16,9 +14,6 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_client_auth <- R6::R6Class(
   "vault_client_auth",
   inherit = vault_client_object,

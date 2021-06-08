@@ -10,8 +10,6 @@
 ##' \code{\link[=vault_client_secrets]{secrets}} member of the main
 ##' vault client.
 ##'
-##' @template vault_client_kv1
-##'
 ##' @title Key-Value Store (Version 1)
 ##' @name vault_client_kv1
 ##' @examples

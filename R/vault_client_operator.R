@@ -3,8 +3,6 @@
 ##' as they affect the administration of a vault server, but they are
 ##' included here for completeness.
 ##'
-##' @template vault_client_operator
-##'
 ##' @title Vault Administration
 ##' @name vault_client_operator
 ##' @examples

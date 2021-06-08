@@ -2,8 +2,6 @@
 ##' read up on policies as described in the vault manual, here:
 ##' \url{https://www.vaultproject.io/docs/concepts/policies.html}
 ##'
-##' @template vault_client_policy
-##'
 ##' @title Vault Policy Configuration
 ##' @name vault_client_policy
 ##' @examples

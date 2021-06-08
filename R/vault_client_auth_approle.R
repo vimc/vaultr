@@ -2,8 +2,6 @@
 ##' details about this, see the vault documentation at
 ##' \url{https://www.vaultproject.io/docs/auth/approle.html}
 ##'
-##' @template vault_client_auth_approle
-##'
 ##' @title Vault AppRole Authentication Configuration
 ##' @name vault_client_auth_approle
 ##'

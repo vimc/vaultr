@@ -2,8 +2,6 @@
 ##' details, please see the vault documentation at
 ##' \url{https://www.vaultproject.io/docs/auth/github.html}
 ##'
-##' @template vault_client_auth_github
-##'
 ##' @title Vault GitHub Authentication Configuration
 ##' @name vault_client_auth_github
 ##'

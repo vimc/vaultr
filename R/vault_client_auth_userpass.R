@@ -4,8 +4,6 @@
 ##' please see the vault documentation
 ##' \url{https://www.vaultproject.io/docs/auth/userpass.html}
 ##'
-##' @template vault_client_auth_userpass
-##'
 ##' @title Vault Username/Password Authentication Configuration
 ##' @name vault_client_auth_userpass
 ##'
