@@ -4,7 +4,8 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![codecov.io](https://codecov.io/github/vimc/vaultr/coverage.svg?branch=master)](https://codecov.io/github/vimc/vaultr?branch=master)
 [![](http://www.r-pkg.org/badges/version/vaultr)](https://cran.r-project.org/package=vaultr)
-[![R-CMD-check](https://github.com/vimc/vaultr/workflows/R-CMD-check/badge.svg)](https://github.com/vimc/vaultr/actions)
+[![R-CMD-check](https://github.com/vimc/vaultr/workflows/R-CMD-check/badge.svg)](https://github.com/vimc/vaultr/actions
+)[![CodeFactor](https://www.codefactor.io/repository/github/vimc/vaultr/badge)](https://www.codefactor.io/repository/github/vimc/vaultr)
 <!-- badges: end -->
 
 API client for [vault](https://www.vaultproject.io/).
