@@ -6,7 +6,7 @@ Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
              person("Imperial College of Science, Technology and Medicine",
                     role = "cph"))
 Title: Vault Client for Secrets and Sensitive Data
-Version: 1.0.6
+Version: 1.1.0
 Description: Provides an interface to a 'HashiCorp' vault server over
   its http API (typically these are self-hosted; see
   <https://www.vaultproject.io>).  This allows for secure storage and
