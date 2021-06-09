@@ -1,3 +1,4 @@
+##' @rdname server_manager
 vault_server_instance <- R6::R6Class(
   "vault_server_instance",
   inherit = vault_client_object,
@@ -8,10 +9,24 @@ vault_server_instance <- R6::R6Class(
   ),
 
   public = list(
+    ##' @field port The vault port (read-only).
     port = NULL,
+
+    ##' @field addr The vault address; this is suitable for using with
+    ##'   [vaultr::vault_client] (read-only).
     addr = NULL,
+
+    ##' @field token The vault root token, from when the testing vault
+    ##'   server was created.  If the vault is rekeyed this will no
+    ##'   longer be accurate (read-only).
     token = NULL,
+
+    ##' @field keys Key shares from when the vault was initialised
+    ##'   (read-only).
     keys = NULL,
+
+    ## @field cacert Path to the https certificate, if running in
+    ##   https mode (read-only).
     cacert = NULL,
 
     initialize = function(bin, port, https, init) {
@@ -39,10 +54,21 @@ vault_server_instance <- R6::R6Class(
       }
     },
 
+    ## @description Return the server version, as a [numeric_version]
+    ##   object.
     version = function() {
       self$client(FALSE)$api()$server_version()
     },
 
+    ## @description Create a new client that can use this server.  The
+    ##   client will be a [vaultr::vault_client] object.
+    ##
+    ## @param login Logical, indicating if the client should login to
+    ##   the server (default is `TRUE`).
+    ##
+    ## @param quiet Logical, indicating if informational messages
+    ##   should be suppressed.  Default is `TRUE`, in contrast with
+    ##   most other methods.
     client = function(login = TRUE, quiet = TRUE) {
       vault_client(if (login) "token" else FALSE, token = self$token,
                    quiet = quiet, addr = self$addr, tls_config = self$cacert,
@@ -53,6 +79,9 @@ vault_server_instance <- R6::R6Class(
       self$kill()
     },
 
+    ## @description Return a named character vector of environment
+    ##   variables that can be used to communicate with this vault
+    ##   server (`VAULT_ADDR`, `VAULT_TOKEN`, etc).
     env = function() {
       c(VAULT_ADDR = self$addr,
         VAULT_TOKEN = self$token %||% NA_character_,
@@ -60,6 +89,9 @@ vault_server_instance <- R6::R6Class(
         VAULTR_AUTH_METHOD = "token")
     },
 
+    ## @description Export the variables returned by the `$env()`
+    ##   method to the environment.  This makes them available to
+    ##   child processes.
     export = function() {
       env <- self$env()
       i <- is.na(env)
@@ -69,10 +101,13 @@ vault_server_instance <- R6::R6Class(
       }
     },
 
+    ## @description Clear any session-cached token for this server.
+    ##   This is intended for testing new authentication backends.
     clear_cached_token = function() {
       vault_env$cache$delete(self)
     },
 
+    ## @description Kill the server.
     kill = function() {
       if (!is.null(private$process)) {
         private$process$kill()

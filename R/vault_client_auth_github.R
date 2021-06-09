@@ -29,9 +29,6 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_client_auth_github <- R6::R6Class(
   "vault_client_auth_github",
   inherit = vault_client_object,
