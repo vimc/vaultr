@@ -102,7 +102,7 @@
 ##'   client$delete("/secret/users/alice")
 ##' }
 vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
-  client <- R6_vault_client$new(addr, tls_config)
+  client <- vault_client_$new(addr, tls_config)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
     client$login(..., method = method)
@@ -112,7 +112,7 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 
 
 ##' @rdname vault_client
-R6_vault_client <- R6::R6Class(
+vault_client_ <- R6::R6Class(
   "vault_client",
   inherit = vault_client_object,
   cloneable = FALSE,

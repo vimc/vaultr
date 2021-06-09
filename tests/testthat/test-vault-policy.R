@@ -18,7 +18,7 @@ test_that("write_policy", {
 
   rules <- paste('path "secret/*" {',
                  '  policy = "read"',
-                 '}',
+                 "}",
                  sep = "\n")
   cl$policy$write("read-secret", rules)
   expect_true("read-secret" %in% cl$policy$list())

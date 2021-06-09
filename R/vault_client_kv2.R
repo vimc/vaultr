@@ -352,9 +352,6 @@ vault_client_kv2 <- R6::R6Class(
     },
 
     ## TODO: implement patch
-    ## patch = function(...) {
-    ##   stop("not implemented")
-    ## },
 
     ##' @description Undeletes the data for the provided version and
     ##'   path in the key-value store. This restores the data, allowing

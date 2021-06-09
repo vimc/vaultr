@@ -81,7 +81,7 @@ test_that("error messages when failing to read", {
 
   rules <- paste('path "secret/users/alice" {',
                  '  policy = "read"',
-                 '}',
+                 "}",
                  sep = "\n")
   cl$policy$write("read-secret-alice", rules)
   token <- cl$token$create(policies = "read-secret-alice")

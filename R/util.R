@@ -9,11 +9,11 @@ to_json <- function(x) {
 }
 
 
-`%||%` <- function(a, b) {
+`%||%` <- function(a, b) { # nolint
   if (is.null(a)) b else a
 }
 
-`%&&%` <- function(a, b) {
+`%&&%` <- function(a, b) { # nolint
   if (is.null(a)) NULL else b
 }
 
@@ -31,10 +31,11 @@ is_absolute_path <- function(path) {
   substr(path, 1, 1) == "/"
 }
 
-vlapply <- function(X, FUN, ...) {
+vlapply <- function(X, FUN, ...) { # nolint
   vapply(X, FUN, logical(1), ...)
 }
-vcapply <- function(X, FUN, ...) {
+
+vcapply <- function(X, FUN, ...) { # nolint
   vapply(X, FUN, character(1), ...)
 }
 
@@ -53,7 +54,7 @@ strsub <- function(str, tr) {
   str
 }
 
-Sys_getenv <- function(name, unset = NULL, mode = "character") {
+Sys_getenv <- function(name, unset = NULL, mode = "character") { # nolint
   value <- Sys.getenv(name, NA_character_)
   if (is.na(value)) {
     value <- unset
@@ -171,7 +172,7 @@ decode64 <- function(input) {
 }
 
 
-isFALSE <- function(x) {
+isFALSE <- function(x) { # nolint
   is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }
 

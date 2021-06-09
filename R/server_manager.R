@@ -108,7 +108,7 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##'   installed on, with either "windows", "darwin" or "linux".
 ##'
 ##' @export
-vault_test_server_install <- function(path = NULL, quiet = FALSE, 
+vault_test_server_install <- function(path = NULL, quiet = FALSE,
                                       version = "1.0.0",
                                       platform = vault_platform()) {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
@@ -123,7 +123,7 @@ vault_test_server_install <- function(path = NULL, quiet = FALSE,
       stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
     }
   }
-  
+
   dir_create(path)
   dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {
@@ -272,8 +272,6 @@ vault_server_start_dev <- function(bin, port) {
     Sys.sleep(0.5) # nocov
   }
 
-  txt2 <- readLines(process$get_error_file())
-
   ## See https://www.vaultproject.io/docs/secrets/kv/kv-v2.html#setup
   ##
   ## > when running a dev-mode server, the v2 kv secrets engine is
@@ -353,7 +351,7 @@ vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
 }
 
 vault_exe_filename <- function(platform = vault_platform()) {
-  if (platform == 'windows') {
+  if (platform == "windows") {
     "vault.exe"
   } else {
     "vault"

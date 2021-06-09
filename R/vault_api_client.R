@@ -240,6 +240,6 @@ vault_base_url <- function(addr, api_prefix) {
 }
 
 
-httr_LIST <- function(...) {
+httr_LIST <- function(...) { # nolint
   httr::VERB("LIST", ...)
 }
