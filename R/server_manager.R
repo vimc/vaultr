@@ -1,48 +1,47 @@
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH}
+##' server.  You will need to set `VAULTR_TEST_SERVER_BIN_PATH`
 ##' to point at the directory containing the vault binary.
 ##'
-##' Once created with \code{vault_test_server}, a server will stay
-##' alive for as long as the R process is alive \emph{or} until the
-##' \code{vault_server_instance} object goes out of scope and is
-##' garbage collected.  Calling \code{$kill()} will explicitly stop
+##' Once created with `vault_test_server`, a server will stay
+##' alive for as long as the R process is alive *or* until the
+##' `vault_server_instance` object goes out of scope and is
+##' garbage collected.  Calling `$kill()` will explicitly stop
 ##' the server, but this is not strictly needed.  See below for
 ##' methods to control the server instance.
 ##'
-##' The function \code{vault_test_server_install} will install a test
-##' server, but \emph{only} if the user sets the following environmental
+##' The function `vault_test_server_install` will install a test
+##' server, but *only* if the user sets the following environmental
 ##' variables:
-##' \itemize{
-##'   \item \code{VAULTR_TEST_SERVER_INSTALL} to \code{"true"} to opt in
-##' to the download.
-##'   \item \code{VAULTR_TEST_SERVER_BIN_PATH} to the directory where 
-##' the binary should be downloaded to.
-##'   \item \code{NOT_CRAN} to \code{"true"} to indicate this is not running
-##' on CRAN as it requires installation of a binary from a website.
-##' }
-##' This will download a ~100MB binary from \url{https://vaultproject.io}
-##' so use with care.  It is intended \emph{only} for use in automated
-##' testing environments.
 ##'
-##' @template vault_server_instance
+##' * `VAULTR_TEST_SERVER_INSTALL` to `"true"` to opt in to the
+##'   download.
+##'
+##' * `VAULTR_TEST_SERVER_BIN_PATH` to the directory where the binary
+##'   should be downloaded to.
+##'
+##' * `NOT_CRAN` to `"true"` to indicate this is not running on CRAN
+##'   as it requires installation of a binary from a website.
+##'
+##' This will download a ~100MB binary from https://vaultproject.io
+##' so use with care.  It is intended *only* for use in automated
+##' testing environments.
 ##'
 ##' @section Warning:
 ##'
-##' Starting a server in test mode must \emph{not} be used for
-##'   production under any circumstances.  As the name suggests,
-##'   \code{vault_test_server} is a server suitable for \emph{tests}
-##'   only and lacks any of the features required to make vault
-##'   secure.  Please see
-##'   \url{https://www.vaultproject.io/docs/concepts/dev-server.html}
+##' Starting a server in test mode must *not* be used for production
+##'   under any circumstances.  As the name suggests,
+##'   `vault_test_server` is a server suitable for *tests* only and
+##'   lacks any of the features required to make vault secure.  Please
+##'   see https://www.vaultproject.io/docs/concepts/dev-server.html
 ##'   for more information
 ##'
 ##' @section Warning:
 ##'
-##' The \code{vault_test_server_install} function will download a
+##' The `vault_test_server_install` function will download a
 ##'   binary from HashiCorp in order to use a vault server.  Use this
 ##'   function with care.  The download will happen from
-##'   \url{https://releases.hashicorp.com/vault} (over https).  This
+##'   https://releases.hashicorp.com/vault (over https).  This
 ##'   function is primarily designed to be used from continuous
 ##'   integration services only and for local use you are strongly
 ##'   recommended to curate your own installations.
@@ -51,7 +50,7 @@
 ##'
 ##' @param https Logical scalar, indicating if a https-using server
 ##'   should be created, rather than the default vault dev-mode
-##'   server.  This is still \emph{entirely} insecure, and uses self
+##'   server.  This is still *entirely* insecure, and uses self
 ##'   signed certificates that are bundled with the package.
 ##'
 ##' @param init Logical scalar, indicating if the https-using server
@@ -59,8 +58,8 @@
 ##'
 ##' @param if_disabled Callback function to run if the vault server is
 ##'   not enabled.  The default, designed to be used within tests, is
-##'   \code{testthat::skip}.  Alternatively, inspect the
-##'   \code{$enabled} property of the returned object.
+##'   `testthat::skip`.  Alternatively, inspect the
+##'   `$enabled` property of the returned object.
 ##'
 ##' @export
 ##' @rdname vault_test_server
@@ -68,7 +67,7 @@
 ##' @examples
 ##'
 ##' # Try and start a server; if one is not enabled (see details
-##' # above) then this will return \code{NULL}
+##' # above) then this will return NULL
 ##' server <- vault_test_server(if_disabled = message)
 ##'
 ##' if (!is.null(server)) {
@@ -85,7 +84,7 @@
 ##'
 ##'   # The server stops automatically when the server object is
 ##'   # garbage collected, or it can be turned off with the
-##'   # \code{kill} method:
+##'   # 'kill' method:
 ##'   server$kill()
 ##'   tryCatch(client$status(), error = function(e) message(e$message))
 ##' }
@@ -98,14 +97,18 @@ vault_test_server <- function(https = FALSE, init = TRUE,
 ##' @rdname vault_test_server
 ##'
 ##' @param quiet Suppress progress bars on install
-##' @param path Path in which to install vault test server. Leave as NULL to use the 
-##' \emph{VAULTR_TEST_SERVER_BIN_PATH} environment variable.
+##'
+##' @param path Path in which to install vault test server. Leave as
+##'   `NULL` to use the `VAULTR_TEST_SERVER_BIN_PATH` environment
+##'   variable.
+##'
 ##' @param version Version of vault to install
-##' @param platform For testing, overwrite the platform vault is being installed
-##' on, with either "windows", "darwin" or "linux".
+##'
+##' @param platform For testing, overwrite the platform vault is being
+##'   installed on, with either "windows", "darwin" or "linux".
 ##'
 ##' @export
-vault_test_server_install <- function(path = NULL, quiet = FALSE, 
+vault_test_server_install <- function(path = NULL, quiet = FALSE,
                                       version = "1.0.0",
                                       platform = vault_platform()) {
   if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
@@ -120,7 +123,7 @@ vault_test_server_install <- function(path = NULL, quiet = FALSE,
       stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
     }
   }
-  
+
   dir_create(path)
   dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {
@@ -269,8 +272,6 @@ vault_server_start_dev <- function(bin, port) {
     Sys.sleep(0.5) # nocov
   }
 
-  txt2 <- readLines(process$get_error_file())
-
   ## See https://www.vaultproject.io/docs/secrets/kv/kv-v2.html#setup
   ##
   ## > when running a dev-mode server, the v2 kv secrets engine is
@@ -350,7 +351,7 @@ vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
 }
 
 vault_exe_filename <- function(platform = vault_platform()) {
-  if (platform == 'windows') {
+  if (platform == "windows") {
     "vault.exe"
   } else {
     "vault"

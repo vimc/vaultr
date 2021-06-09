@@ -3,8 +3,6 @@
 ##' debugging, testing or developing new vault methods, but is
 ##' nonetheless described here.
 ##'
-##' @template vault_api_client
-##'
 ##' @title Vault Low-Level Client
 ##' @name vault_api_client
 ##'
@@ -34,21 +32,33 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_api_client <- R6::R6Class(
   "vault_api_client",
   inherit = vault_client_object,
   cloneable = FALSE,
 
   public = list(
+    ##' @field addr The vault address (with protocol, hostname and port)
     addr = NULL,
+
+    ##' @field base_url The base url (with protocol, hostname, port and
+    ##'   api version path)
     base_url = NULL,
+
+    ##' @field tls_config Information used in TLS config, if used
     tls_config = NULL,
+
+    ##' @field token The vault token, if authenticated
     token = NULL,
+
+    ##' @field version The vault server version, once queried
     version = NULL,
 
+    ##' @description Create a new api client
+    ##'
+    ##' @param addr Address of the vault server
+    ##'
+    ##' @param tls_config Optional TLS config
     initialize = function(addr = NULL, tls_config = NULL) {
       super$initialize("Low-level API client")
       self$addr <- vault_addr(addr)
@@ -56,15 +66,39 @@ vault_api_client <- R6::R6Class(
       self$tls_config <- vault_tls_config(tls_config)
     },
 
+    ##' @description Make a request to the api. Typically you should use
+    ##' one of the higher-level wrappers, such as `$GET` or `$POST`.
+    ##'
+    ##' @param verb The HTTP verb to use, as a `httr` function (e.g.,
+    ##'   pass `httr::GET` for a `GET` request).
+    ##'
+    ##' @param path The request path
+    ##'
+    ##' @param ... Additional arguments passed to the `httr` function
+    ##'
+    ##' @param token Optional token, overriding the client token
     request = function(verb, path, ..., token = self$token) {
       vault_request(verb, self$base_url, self$tls_config, token,
                     path, ...)
     },
 
+    ##' @description Test if the vault client currently holds a vault token.
+    ##'   This method does not verify the token - only test that is present.
     is_authenticated = function() {
       !is.null(self$token)
     },
 
+    ##' @description Set a token within the client
+    ##'
+    ##' @param token String, with the new vault client token
+    ##'
+    ##' @param verify Logical, indicating if we should test that the token
+    ##'   is valid. If `TRUE`, then we use `$verify_token()` to test the
+    ##'   token before setting it and if it is not valid an error will be
+    ##'   thrown and the token not set.
+    ##'
+    ##' @param quiet Logical, if `TRUE`, then informational messages will be
+    ##'   suppressed.
     set_token = function(token, verify = FALSE, quiet = FALSE) {
       if (verify) {
         dat <- self$verify_token(token, quiet)
@@ -75,6 +109,14 @@ vault_api_client <- R6::R6Class(
       self$token <- token
     },
 
+    ##' @description Test that a token is valid with the vault.
+    ##'   This will call vault's `/sys/capabilities-self` endpoint with the
+    ##'   token provided and check the `/sys` path.
+    ##'
+    ##' @param token String, with the vault client token to test
+    ##'
+    ##' @param quiet Logical, if `TRUE`, then informational messages will be
+    ##'   suppressed
     verify_token = function(token, quiet = TRUE) {
       if (!quiet) {
         message("Verifying token")
@@ -90,6 +132,12 @@ vault_api_client <- R6::R6Class(
            token = if (success) token)
     },
 
+    ##' @description Retrieve the vault server version.  This is by default
+    ##'   cached within the client for a session.  Will return an R
+    ##'   [numeric_version] object.
+    ##'
+    ##' @param refresh Logical, indicating if the server version information
+    ##'   should be refreshed even if known.
     server_version = function(refresh = FALSE) {
       if (is.null(self$version) || refresh) {
         self$version <- numeric_version(
@@ -98,22 +146,62 @@ vault_api_client <- R6::R6Class(
       self$version
     },
 
+    ##' @description Send a `GET` request to the vault server
+    ##'
+    ##' @param path The server path to use.  This is the "interesting"
+    ##'   part of the path only, with the server base url and api version
+    ##'   information added.
+    ##'
+    ##' @param ... Additional `httr`-compatible options.  These will be named
+    ##'   parameters or `httr` "request" objects.
     GET = function(path, ...) {
       self$request(httr::GET, path, ...)
     },
 
+    ##' @description Send a `LIST` request to the vault server
+    ##'
+    ##' @param path The server path to use.  This is the "interesting"
+    ##'   part of the path only, with the server base url and api version
+    ##'   information added.
+    ##'
+    ##' @param ... Additional `httr`-compatible options.  These will be named
+    ##'   parameters or `httr` "request" objects.
     LIST = function(path, ...) {
       self$request(httr_LIST, path, ...)
     },
 
+    ##' @description Send a `POST` request to the vault server
+    ##'
+    ##' @param path The server path to use.  This is the "interesting"
+    ##'   part of the path only, with the server base url and api version
+    ##'   information added.
+    ##'
+    ##' @param ... Additional `httr`-compatible options.  These will be named
+    ##'   parameters or `httr` "request" objects.
     POST = function(path, ...) {
       self$request(httr::POST, path, ...)
     },
 
+    ##' @description Send a `PUT` request to the vault server
+    ##'
+    ##' @param path The server path to use.  This is the "interesting"
+    ##'   part of the path only, with the server base url and api version
+    ##'   information added.
+    ##'
+    ##' @param ... Additional `httr`-compatible options.  These will be named
+    ##'   parameters or `httr` "request" objects.
     PUT = function(path, ...) {
       self$request(httr::PUT, path, ...)
     },
 
+    ##' @description Send a `DELETE` request to the vault server
+    ##'
+    ##' @param path The server path to use.  This is the "interesting"
+    ##'   part of the path only, with the server base url and api version
+    ##'   information added.
+    ##'
+    ##' @param ... Additional `httr`-compatible options.  These will be named
+    ##'   parameters or `httr` "request" objects.
     DELETE = function(path, ...) {
       self$request(httr::DELETE, path, ...)
     }
@@ -153,6 +241,6 @@ vault_base_url <- function(addr, api_prefix) {
 }
 
 
-httr_LIST <- function(...) {
+httr_LIST <- function(...) { # nolint
   httr::VERB("LIST", ...)
 }

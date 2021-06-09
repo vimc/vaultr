@@ -1,7 +1,5 @@
 ##' Interact with vault's audit devices.  For more details, see
-##' \url{https://www.vaultproject.io/docs/audit/}
-##'
-##' @template vault_client_audit
+##' https://www.vaultproject.io/docs/audit/
 ##'
 ##' @title Vault Audit Devices
 ##' @name vault_client_audit
@@ -29,9 +27,6 @@
 ##'   server$kill()
 ##'   unlink(path)
 ##' }
-NULL
-
-
 vault_client_audit <- R6::R6Class(
   "vault_client_audit",
   inherit = vault_client_object,
@@ -40,11 +35,16 @@ vault_client_audit <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    ##' @description Create an audit object
+    ##'
+    ##' @param api_client a [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Interact with vault's audit devices")
       private$api_client <- api_client
     },
 
+    ##' @description List active audit devices.  Returns a [data.frame]
+    ##'   of names, paths and descriptions of active audit devices.
     list = function() {
       dat <- private$api_client$GET("/sys/audit")
       cols <- c("path", "type", "description")
@@ -54,6 +54,18 @@ vault_client_audit <- R6::R6Class(
       as.data.frame(ret, stringsAsFactors = FALSE, check.names = FALSE)
     },
 
+    ##' @description This endpoint enables a new audit device at the
+    ##'   supplied path.
+    ##'
+    ##' @param type Name of the audit device to enable
+    ##'
+    ##' @param description Human readable description for this audit device
+    ##'
+    ##' @param options Options to configure the device with.  These vary
+    ##'   by device. This must be a named list of strings.
+    ##'
+    ##' @param path Path to mount the audit device.  By default, `type` is used
+    ##'   as the path.
     enable = function(type, description = NULL, options = NULL, path = NULL) {
       assert_scalar_character(type)
       if (is.null(description)) {
@@ -76,11 +88,22 @@ vault_client_audit <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Disable an audit device
+    ##'
+    ##' @param path Path of the audit device to remove
     disable = function(path) {
       private$api_client$DELETE(paste0("/sys/audit", prepare_path(path)))
       invisible(NULL)
     },
 
+    ##' @description The `hash` method is used to calculate the hash of the
+    ##'   data used by an audit device's hash function and salt. This can be
+    ##'   used to search audit logs for a hashed value when the original
+    ##'   value is known.
+    ##'
+    ##' @param input The input string to hash
+    ##'
+    ##' @param device The path of the audit device
     hash = function(input, device) {
       assert_scalar_character(input)
       body <- list(input = input)

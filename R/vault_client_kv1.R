@@ -1,16 +1,13 @@
 ##' Interact with vault's version 1 key-value store.  This is useful
 ##' for storing simple key-value data without versioning or metadata
-##' (see \code{\link{vault_client_kv2}} for a richer key-value store).
+##' (see [vaultr::vault_client_kv2] for a richer key-value store).
 ##'
 ##' Up to vault version 0.12.0 this was mounted by default at
-##' \code{/secret}.  It can be accessed from vault with either the
-##' \code{$read}, \code{$write}, \code{$list} and \code{$delete}
-##' methods on the main \code{\link{vault_client}} object or by the
-##' \code{$kv1} member of the
-##' \code{\link[=vault_client_secrets]{secrets}} member of the main
-##' vault client.
-##'
-##' @template vault_client_kv1
+##' `/secret`.  It can be accessed from vault with either the `$read`,
+##' `$write`, `$list` and `$delete` methods on the main
+##' [vaultr::vault_client] object or by the `$kv1` member of the
+##' `secrets` member of the main vault client
+##' ([vaultr::vault_client_secrets])
 ##'
 ##' @title Key-Value Store (Version 1)
 ##' @name vault_client_kv1
@@ -38,9 +35,6 @@
 ##'   # cleanup
 ##'   server$kill()
 ##' }
-NULL
-
-
 vault_client_kv1 <- R6::R6Class(
   "vault_client_kv1",
   inherit = vault_client_object,
@@ -52,6 +46,12 @@ vault_client_kv1 <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_kv1` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact with vault's key/value store (version 1)")
       private$api_client <- api_client
@@ -60,22 +60,71 @@ vault_client_kv1 <- R6::R6Class(
       }
     },
 
+    ##' @description Set up a `vault_client_kv1` object at a custom
+    ##'   mount.  For example, suppose you mounted another copy of the
+    ##'   `kv1` secret backend at `/secret2` you might use `kv <-
+    ##'   vault$secrets$kv1$custom_mount("/secret2")` - this pattern is
+    ##'   repeated for other secret and authentication backends.
+    ##'
+    ##' @param mount String, indicating the path that the engine is
+    ##'   mounted at.
     custom_mount = function(mount) {
       vault_client_kv1$new(private$api_client, mount)
     },
 
+    ##' @description Read a value from the vault.  This can be used to
+    ##'   read any value that you have permission to read in this
+    ##'   store.
+    ##'
+    ##' @param path Path for the secret to read, such as
+    ##'    `/secret/mysecret`
+    ##'
+    ##' @param field Optional field to read from the secret.  Each
+    ##'   secret is stored as a key/value set (represented in R as a
+    ##'   named list) and this is equivalent to using `[[field]]` on
+    ##'   the return value.  The default, `NULL`, returns the full set
+    ##'   of values.
+    ##'
+    ##' @param metadata Logical, indicating if we should return
+    ##'   metadata for this secret (lease information etc) as an
+    ##'   attribute along with the values itself.  Ignored if `field`
+    ##'   is specified.
     read = function(path, field = NULL, metadata = FALSE) {
       vault_kv_read(private$api_client, private$mount, path, field, metadata)
     },
 
+    ##' @description Write data into the vault.  This can be used to
+    ##'   write any value that you have permission to write in this
+    ##'   store.
+    ##'
+    ##' @param path Path for the secret to write, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param data A named list of values to write into the vault at
+    ##'   this path.  This *replaces* any existing values.
     write = function(path, data) {
       vault_kv_write(private$api_client, private$mount, path, data)
     },
 
+    ##' @description List data in the vault at a give path.  This can
+    ##'     be used to list keys, etc (e.g., at `/secret`).
+    ##'
+    ##' @param path The path to list
+    ##'
+    ##' @param full_names Logical, indicating if full paths (relative
+    ##'   to the vault root) should be returned.
+    ##'
+    ##' @param value A character vector (of zero length if no keys are
+    ##'   found).  Paths that are "directories" (i.e., that contain
+    ##'   keys and could themselves be listed) will be returned with a
+    ##'   trailing forward slash, e.g. `path/`
     list = function(path, full_names = FALSE) {
       vault_kv_list(private$api_client, private$mount, path, full_names)
     },
 
+    ##' @description Delete a value from the vault
+    ##'
+    ##' @param path The path to delete
     delete = function(path) {
       vault_kv_delete(private$api_client, private$mount, path)
     }

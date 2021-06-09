@@ -5,10 +5,10 @@ test_that("vault secrets can be resolved", {
   cl <- srv$client()
   cl$write("/secret/users/alice", list(password = "ALICE"))
   cl$write("/secret/users/bob", list(password = "BOB"))
-  
+
   config <- list(path = tempfile(),
                  vault_server = srv$addr)
-  
+
   x <- list(name = "alice",
             password = "VAULT:/secret/users/alice:password")
   withr::with_envvar(c(VAULTR_AUTH_METHOD = NA_character_), {
@@ -16,14 +16,14 @@ test_that("vault secrets can be resolved", {
                  "Default login method not set in 'VAULTR_AUTH_METHOD'")
   })
   withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = NA), {
-    expect_error(vault_resolve_secrets(x, addr = config$vault_server), 
+    expect_error(vault_resolve_secrets(x, addr = config$vault_server),
                  "Vault token was not found")
   })
   withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = "fake"), {
     expect_error(vault_resolve_secrets(x, addr = config$vault_server),
                  "Token login failed with error")
   })
-  
+
   withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = srv$token), {
     expect_equal(vault_resolve_secrets(x, addr = config$vault_server),
                  list(name = "alice", password = "ALICE"))
@@ -50,7 +50,7 @@ test_that("Provide better error messages when failing to read", {
 
   rules <- paste('path "secret/users/alice" {',
                  '  policy = "read"',
-                 '}',
+                 "}",
                  sep = "\n")
   cl$policy$write("read-secret-alice", rules)
   token <- cl$token$create(policies = "read-secret-alice")

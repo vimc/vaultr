@@ -71,4 +71,3 @@ test_that("copy failure", {
                "Error copying files")
   expect_equal(readLines(path2), "b")
 })
-

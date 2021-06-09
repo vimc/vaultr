@@ -4,14 +4,19 @@
 \alias{vault_client_token}
 \title{Vault Tokens}
 \description{
+Vault Tokens
+
+Vault Tokens
+}
+\details{
 Interact with vault's token methods.  This includes support for
 querying, creating and deleting tokens.  Tokens are fundamental to
 the way that vault works, so there are a lot of methods here.  The
-\href{https://www.vaultproject.io/docs/concepts/tokens.html}{vault
-documentation has a page devoted to token concepts} and
-\href{https://www.vaultproject.io/docs/commands/token/index.html}{another
-with commands} that have names very similar to the names used
-here.
+vault documentation has a page devoted to token concepts:
+https://www.vaultproject.io/docs/concepts/tokens.html. There is
+also a page with commands:
+https://www.vaultproject.io/docs/commands/token/index.html - these
+have names very similar to the names used here.
 }
 \section{Token Accessors}{
 
@@ -20,7 +25,6 @@ Many of the methods use "token accessors" - whenever a token is
 created, an "accessor" is created at the same time.  This is
 another token that can be used to perform limited actions with the
 token such as
-
 \itemize{
 \item Look up a token's properties (not including the actual token ID)
 \item Look up a token's capabilities on a path
@@ -29,265 +33,6 @@ token such as
 
 However, accessors cannot be used to login, nor to retrieve the
 actual token itself.
-}
-
-\section{Methods}{
-
-
-\describe{
-\item{\code{list}}{
-  List token accessors, returning a character vector
-  \cr\emph{Usage:}\preformatted{list()}
-}
-\item{\code{capabilities}}{
-  Fetch the capabilities of a token on the given paths. The capabilities returned will be derived from the policies that are on the token, and from the policies to which the token is entitled to through the entity and entity's group memberships.
-  \cr\emph{Usage:}\preformatted{capabilities(path, token)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Vector of paths on which capabilities are being queried
-    }
-
-    \item{\code{token}:   Single token for which capabilities are being queried
-    }
-  }
-}
-\item{\code{capabilities_self}}{
-  As for the \code{capabilities} method, but for the client token used to make the request.
-  \cr\emph{Usage:}\preformatted{capabilities_self(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Vector of paths on which capabilities are being queried
-    }
-  }
-}
-\item{\code{capabilities_accessor}}{
-  As for the \code{capabilities} method, but using a token \emph{accessor} rather than a token itself.
-  \cr\emph{Usage:}\preformatted{capabilities_accessor(path, accessor)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Vector of paths on which capabilities are being queried
-    }
-
-    \item{\code{accessor}:   Accessor of the token for which capabilities are being queried
-    }
-  }
-}
-\item{\code{client}}{
-  Return the current client token
-  \cr\emph{Usage:}\preformatted{client()}
-}
-\item{\code{create}}{
-  Create a new token
-  \cr\emph{Usage:}\preformatted{create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
-      orphan = FALSE, no_default_policy = FALSE, max_ttl = NULL,
-      display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL,
-      wrap_ttl = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{role_name}:   The name of the token role
-    }
-
-    \item{\code{id}:   The ID of the client token. Can only be specified by a root token. Otherwise, the token ID is a randomly generated value
-    }
-
-    \item{\code{policies}:   A character vector of policies for the token. This must be a subset of the policies belonging to the token making the request, unless root. If not specified, defaults to all the policies of the calling token.
-    }
-
-    \item{\code{meta}:   A named list of strings as metadata to pass through to audit
-       devices.
-    }
-
-    \item{\code{orphan}:   Logical, indicating if the token created should be an orphan (they will have no parent). As such, they will not be automatically revoked by the revocation of any other token.
-    }
-
-    \item{\code{no_default_policy}:   Logical, if \code{TRUE}, then the default policy will not be contained in this token's policy set.
-    }
-
-    \item{\code{max_ttl}:   Provides a maximum lifetime for any tokens issued against this role, including periodic tokens. Unlike direct token creation, where the value for an explicit max TTL is stored in the token, for roles this check will always use the current value set in the role. The main use of this is to provide a hard upper bound on periodic tokens, which otherwise can live forever as long as they are renewed. This is an integer number of seconds
-    }
-
-    \item{\code{display_name}:   The display name of the token
-    }
-
-    \item{\code{num_uses}:   Maximum number of uses that a token can have.  This can be used to create a one-time-token or limited use token. The default, or the value of 0, has no limit to the number of uses.
-    }
-
-    \item{\code{period}:   If specified, the token will be periodic; it will have no maximum TTL (unless a \code{max_ttl} is also set) but every renewal will use the given period. Requires a root/sudo token to use.
-    }
-
-    \item{\code{ttl}:   The TTL period of the token, provided as "1h", where hour is the largest suffix. If not provided, the token is valid for the default lease TTL, or indefinitely if the root policy is used.
-    }
-
-    \item{\code{wrap_ttl}:   Indicates that the secret should be wrapped.  This is discussed in \href{https://www.vaultproject.io/docs/concepts/response-wrapping.html}{the vault documentation}.  When this option is used, \code{vault} will take the response it would have sent to an HTTP client and instead insert it into the cubbyhole of a single-use token, returning that single-use token instead. Logically speaking, the response is wrapped by the token, and retrieving it requires an unwrap operation against this token (see the \code{$unwrap} method \code{\link{vault_client}}).  Must be specified as a valid duration (e.g., \code{1h}).
-    }
-  }
-}
-\item{\code{lookup}}{
-  Returns information about the client token
-  \cr\emph{Usage:}\preformatted{lookup(token = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   The token to lookup
-    }
-  }
-}
-\item{\code{lookup_self}}{
-  Returns information about the current client token (as if calling \code{$lookup} with the token the client is using.
-  \cr\emph{Usage:}\preformatted{lookup_self()}
-}
-\item{\code{lookup_accessor}}{
-  Returns information about the client token from the accessor.
-  \cr\emph{Usage:}\preformatted{lookup_accessor(accessor)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{accessor}:   The token accessor to lookup
-    }
-  }
-}
-\item{\code{renew}}{
-  Renews a lease associated with a token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.
-  \cr\emph{Usage:}\preformatted{renew(token, increment = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   The token to renew
-    }
-
-    \item{\code{increment}:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., \code{1h}).
-    }
-  }
-}
-\item{\code{renew_self}}{
-  Renews a lease associated with the calling token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.  This is equivalent to calling \code{$renew()} with the client token.
-  \cr\emph{Usage:}\preformatted{renew_self(increment = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{increment}:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., \code{1h}).
-    }
-  }
-}
-\item{\code{revoke}}{
-  Revokes a token and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.
-  \cr\emph{Usage:}\preformatted{revoke(token)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   The token to revoke
-    }
-  }
-}
-\item{\code{revoke_self}}{
-  Revokes the token used to call it and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.  This is equivalent to calling \code{$revoke()} with the client token.
-  \cr\emph{Usage:}\preformatted{revoke_self()}
-}
-\item{\code{revoke_accessor}}{
-  Revoke the token associated with the accessor and all the child tokens. This is meant for purposes where there is no access to token ID but there is need to revoke a token and its children.
-  \cr\emph{Usage:}\preformatted{revoke_accessor(accessor)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{accessor}:   Accessor of the token to revoke.
-    }
-  }
-}
-\item{\code{revoke_and_orphan}}{
-  Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked subsequently using /auth/token/revoke/. This is a root-protected method.
-  \cr\emph{Usage:}\preformatted{revoke_and_orphan(token)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   The token to revoke
-    }
-  }
-}
-\item{\code{role_read}}{
-  Fetches the named role configuration.
-  \cr\emph{Usage:}\preformatted{role_read(role_name)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{role_name}:   The name of the token role.
-    }
-  }
-}
-\item{\code{role_list}}{
-  List available token roles.
-  \cr\emph{Usage:}\preformatted{role_list()}
-}
-\item{\code{role_write}}{
-  Creates (or replaces) the named role. Roles enforce specific behaviour when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the \code{/sys/leases/revoke-prefix} endpoint.
-  \cr\emph{Usage:}\preformatted{role_write(role_name, allowed_policies = NULL, disallowed_policies = NULL,
-      orphan = NULL, period = NULL, renewable = NULL, explicit_max_ttl = NULL,
-      path_suffix = NULL, bound_cidrs = NULL, token_type = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{role_name}:   Name for the role - this will be used later to refer to the role (e.g., in \code{$create} and other \code{$role_*} methods.
-    }
-
-    \item{\code{allowed_policies}:   Character vector of policies allowed for this role.  If set, tokens can be created with any subset of the policies in this list, rather than the normal semantics of tokens being a subset of the calling token's policies. The parameter is a comma-delimited string of policy names. If at creation time \code{no_default_policy} is not set and "default" is not contained in disallowed_policies, the "default" policy will be added to the created token automatically.
-    }
-
-    \item{\code{disallowed_policies}:   Character vector of policies forbidden for this role.  If set, successful token creation via this role will require that no policies in the given list are requested. Adding "default" to this list will prevent "default" from being added automatically to created tokens.
-    }
-
-    \item{\code{orphan}:   If \code{TRUE}, then tokens created against this policy will be orphan tokens (they will have no parent). As such, they will not be automatically revoked by the revocation of any other token.
-    }
-
-    \item{\code{period}:   A duration (e.g., \code{1h}).  If specified, the token will be periodic; it will have no maximum TTL (unless an "explicit-max-ttl" is also set) but every renewal will use the given period. Requires a root/sudo token to use.
-    }
-
-    \item{\code{renewable}:   Set to \code{FALSE} to disable the ability of the token to be renewed past its initial TTL. The default value of \code{TRUE} will allow the token to be renewable up to the system/mount maximum TTL.
-    }
-
-    \item{\code{explicit_max_ttl}:   An integer number of seconds.  Provides a maximum lifetime for any tokens issued against this role, including periodic tokens. Unlike direct token creation, where the value for an explicit max TTL is stored in the token, for roles this check will always use the current value set in the role. The main use of this is to provide a hard upper bound on periodic tokens, which otherwise can live forever as long as they are renewed. This is an integer number of seconds.
-    }
-
-    \item{\code{path_suffix}:   A string.  If set, tokens created against this role will have the given suffix as part of their path in addition to the role name. This can be useful in certain scenarios, such as keeping the same role name in the future but revoking all tokens created against it before some point in time. The suffix can be changed, allowing new callers to have the new suffix as part of their path, and then tokens with the old suffix can be revoked via \code{/sys/leases/revoke-prefix}.
-    }
-
-    \item{\code{bound_cidrs}:   Character vector of CIDRS.  If set, restricts usage of the generated token to client IPs falling within the range of the specified CIDR(s). Unlike most other role parameters, this is not reevaluated from the current role value at each usage; it is set on the token itself. Root tokens with no TTL will not be bound by these CIDRs; root tokens with TTLs will be bound by these CIDRs.
-    }
-
-    \item{\code{token_type}:   Specifies the type of tokens that should be returned by the role. If either service or batch is specified, that kind of token will always be returned. If \code{default-service}, then \code{service} tokens will be returned unless the client requests a batch type token at token creation time. If \code{default-batch}, then \code{batch} tokens will be returned unless the client requests a service type token at token creation time.
-    }
-  }
-}
-\item{\code{role_delete}}{
-  Delete a named token role
-  \cr\emph{Usage:}\preformatted{role_delete(role_name)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{role_name}:   The name of the role to delete
-    }
-  }
-}
-\item{\code{tidy}}{
-  Performs some maintenance tasks to clean up invalid entries that may remain in the token store. Generally, running this is not needed unless upgrade notes or support personnel suggest it. This may perform a lot of I/O to the storage method so should be used sparingly.
-  \cr\emph{Usage:}\preformatted{tidy()}
-}
-\item{\code{login}}{
-  Unlike other auth backend \code{login} methods, this does not actually log in to the vault.  Instead it verifies that a token can be used to communicate with the vault.
-  \cr\emph{Usage:}\preformatted{login(token = NULL, quiet = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   The token to test
-    }
-
-    \item{\code{quiet}:   Logical scalar, set to \code{TRUE} to suppress informational messages.
-    }
-  }
-}
-}
 }
 
 \examples{
@@ -331,5 +76,588 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_token}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_token$new()}}
+\item \href{#method-list}{\code{vault_client_token$list()}}
+\item \href{#method-capabilities}{\code{vault_client_token$capabilities()}}
+\item \href{#method-capabilities_self}{\code{vault_client_token$capabilities_self()}}
+\item \href{#method-capabilities_accessor}{\code{vault_client_token$capabilities_accessor()}}
+\item \href{#method-client}{\code{vault_client_token$client()}}
+\item \href{#method-create}{\code{vault_client_token$create()}}
+\item \href{#method-lookup}{\code{vault_client_token$lookup()}}
+\item \href{#method-lookup_self}{\code{vault_client_token$lookup_self()}}
+\item \href{#method-lookup_accessor}{\code{vault_client_token$lookup_accessor()}}
+\item \href{#method-renew}{\code{vault_client_token$renew()}}
+\item \href{#method-renew_self}{\code{vault_client_token$renew_self()}}
+\item \href{#method-revoke}{\code{vault_client_token$revoke()}}
+\item \href{#method-revoke_self}{\code{vault_client_token$revoke_self()}}
+\item \href{#method-revoke_accessor}{\code{vault_client_token$revoke_accessor()}}
+\item \href{#method-revoke_and_orphan}{\code{vault_client_token$revoke_and_orphan()}}
+\item \href{#method-role_read}{\code{vault_client_token$role_read()}}
+\item \href{#method-role_list}{\code{vault_client_token$role_list()}}
+\item \href{#method-role_write}{\code{vault_client_token$role_write()}}
+\item \href{#method-role_delete}{\code{vault_client_token$role_delete()}}
+\item \href{#method-tidy}{\code{vault_client_token$tidy()}}
+\item \href{#method-login}{\code{vault_client_token$login()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a \code{vault_client_token} object. Not typically
+called by users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$new(api_client)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List token accessors, returning a character vector
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$list()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-capabilities"></a>}}
+\if{latex}{\out{\hypertarget{method-capabilities}{}}}
+\subsection{Method \code{capabilities()}}{
+Fetch the capabilities of a token on the given
+paths. The capabilities returned will be derived from the
+policies that are on the token, and from the policies to
+which the token is entitled to through the entity and
+entity's group memberships.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$capabilities(path, token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Vector of paths on which capabilities are being
+queried}
+
+\item{\code{token}}{Single token for which capabilities are being
+queried}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-capabilities_self"></a>}}
+\if{latex}{\out{\hypertarget{method-capabilities_self}{}}}
+\subsection{Method \code{capabilities_self()}}{
+As for the \code{capabilities} method, but for the
+client token used to make the request.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$capabilities_self(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Vector of paths on which capabilities are being
+queried}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-capabilities_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-capabilities_accessor}{}}}
+\subsection{Method \code{capabilities_accessor()}}{
+As for the \code{capabilities} method, but using a
+token \emph{accessor} rather than a token itself.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$capabilities_accessor(path, accessor)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Vector of paths on which capabilities are being
+queried}
+
+\item{\code{accessor}}{Accessor of the token for which capabilities
+are being queried}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-client"></a>}}
+\if{latex}{\out{\hypertarget{method-client}{}}}
+\subsection{Method \code{client()}}{
+\preformatted{Return the current client token
+}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$client()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-create"></a>}}
+\if{latex}{\out{\hypertarget{method-create}{}}}
+\subsection{Method \code{create()}}{
+Create a new token
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$create(
+  role_name = NULL,
+  id = NULL,
+  policies = NULL,
+  meta = NULL,
+  orphan = FALSE,
+  no_default_policy = FALSE,
+  max_ttl = NULL,
+  display_name = NULL,
+  num_uses = 0L,
+  period = NULL,
+  ttl = NULL,
+  wrap_ttl = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{role_name}}{The name of the token role}
+
+\item{\code{id}}{The ID of the client token. Can only be specified by
+a root token. Otherwise, the token ID is a randomly generated
+value}
+
+\item{\code{policies}}{A character vector of policies for the
+token. This must be a subset of the policies belonging to the
+token making the request, unless root. If not specified,
+defaults to all the policies of the calling token.}
+
+\item{\code{meta}}{A named list of strings as metadata to pass through
+to audit devices.}
+
+\item{\code{orphan}}{Logical, indicating if the token created should
+be an orphan (they will have no parent). As such, they will
+not be automatically revoked by the revocation of any other
+token.}
+
+\item{\code{no_default_policy}}{Logical, if \code{TRUE}, then the default
+policy will not be contained in this token's policy set.}
+
+\item{\code{max_ttl}}{Provides a maximum lifetime for any tokens
+issued against this role, including periodic tokens. Unlike
+direct token creation, where the value for an explicit max
+TTL is stored in the token, for roles this check will always
+use the current value set in the role. The main use of this
+is to provide a hard upper bound on periodic tokens, which
+otherwise can live forever as long as they are renewed. This
+is an integer number of seconds}
+
+\item{\code{display_name}}{The display name of the token}
+
+\item{\code{num_uses}}{Maximum number of uses that a token can have.
+This can be used to create a one-time-token or limited use
+token. The default, or the value of 0, has no limit to the
+number of uses.}
+
+\item{\code{period}}{If specified, the token will be periodic; it will
+have no maximum TTL (unless a \code{max_ttl} is also set) but
+every renewal will use the given period. Requires a
+root/sudo token to use.}
+
+\item{\code{ttl}}{The TTL period of the token, provided as "1h", where
+hour is the largest suffix. If not provided, the token is
+valid for the default lease TTL, or indefinitely if the root
+policy is used.}
+
+\item{\code{wrap_ttl}}{Indicates that the secret should be wrapped.
+This is discussed in the vault documentation:
+https://www.vaultproject.io/docs/concepts/response-wrapping.html
+When this option is used, \code{vault} will take the response it
+would have sent to an HTTP client and instead insert it into
+the cubbyhole of a single-use token, returning that
+single-use token instead. Logically speaking, the response is
+wrapped by the token, and retrieving it requires an unwrap
+operation against this token (see the \verb{$unwrap} method
+\link{vault_client}.  Must be specified as a valid
+duration (e.g., \verb{1h}).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-lookup"></a>}}
+\if{latex}{\out{\hypertarget{method-lookup}{}}}
+\subsection{Method \code{lookup()}}{
+Returns information about the client token
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$lookup(token = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{The token to lookup}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-lookup_self"></a>}}
+\if{latex}{\out{\hypertarget{method-lookup_self}{}}}
+\subsection{Method \code{lookup_self()}}{
+Returns information about the current client token
+(as if calling \verb{$lookup} with the token the client is using.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$lookup_self()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-lookup_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-lookup_accessor}{}}}
+\subsection{Method \code{lookup_accessor()}}{
+Returns information about the client token from
+the accessor.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$lookup_accessor(accessor)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{accessor}}{The token accessor to lookup}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-renew"></a>}}
+\if{latex}{\out{\hypertarget{method-renew}{}}}
+\subsection{Method \code{renew()}}{
+Renews a lease associated with a token. This is
+used to prevent the expiration of a token, and the automatic
+revocation of it. Token renewal is possible only if there is
+a lease associated with it.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$renew(token, increment = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{The token to renew}
+
+\item{\code{increment}}{An optional requested lease increment can be
+provided. This increment may be ignored.  If given, it should
+be a duration (e.g., \verb{1h}).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-renew_self"></a>}}
+\if{latex}{\out{\hypertarget{method-renew_self}{}}}
+\subsection{Method \code{renew_self()}}{
+Renews a lease associated with the calling
+token. This is used to prevent the expiration of a token, and
+the automatic revocation of it. Token renewal is possible
+only if there is a lease associated with it.  This is
+equivalent to calling \verb{$renew()} with the client token.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$renew_self(increment = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{increment}}{An optional requested lease increment can be
+provided. This increment may be ignored.  If given, it should
+be a duration (e.g., \verb{1h}).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-revoke"></a>}}
+\if{latex}{\out{\hypertarget{method-revoke}{}}}
+\subsection{Method \code{revoke()}}{
+Revokes a token and all child tokens. When the
+token is revoked, all dynamic secrets generated with it are
+also revoked.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$revoke(token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{The token to revoke}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-revoke_self"></a>}}
+\if{latex}{\out{\hypertarget{method-revoke_self}{}}}
+\subsection{Method \code{revoke_self()}}{
+Revokes the token used to call it and all child
+tokens. When the token is revoked, all dynamic secrets
+generated with it are also revoked.  This is equivalent to
+calling \verb{$revoke()} with the client token.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$revoke_self()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-revoke_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-revoke_accessor}{}}}
+\subsection{Method \code{revoke_accessor()}}{
+Revoke the token associated with the accessor and
+all the child tokens. This is meant for purposes where there
+is no access to token ID but there is need to revoke a token
+and its children.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$revoke_accessor(accessor)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{accessor}}{Accessor of the token to revoke.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-revoke_and_orphan"></a>}}
+\if{latex}{\out{\hypertarget{method-revoke_and_orphan}{}}}
+\subsection{Method \code{revoke_and_orphan()}}{
+Revokes a token but not its child tokens. When the
+token is revoked, all secrets generated with it are also
+revoked. All child tokens are orphaned, but can be revoked
+subsequently using /auth/token/revoke/. This is a
+root-protected method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$revoke_and_orphan(token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{The token to revoke}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-role_read"></a>}}
+\if{latex}{\out{\hypertarget{method-role_read}{}}}
+\subsection{Method \code{role_read()}}{
+Fetches the named role configuration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$role_read(role_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{role_name}}{The name of the token role.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-role_list"></a>}}
+\if{latex}{\out{\hypertarget{method-role_list}{}}}
+\subsection{Method \code{role_list()}}{
+List available token roles.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$role_list()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-role_write"></a>}}
+\if{latex}{\out{\hypertarget{method-role_write}{}}}
+\subsection{Method \code{role_write()}}{
+Creates (or replaces) the named role. Roles
+enforce specific behaviour when creating tokens that allow
+token functionality that is otherwise not available or would
+require sudo/root privileges to access. Role parameters, when
+set, override any provided options to the create
+endpoints. The role name is also included in the token path,
+allowing all tokens created against a role to be revoked
+using the \verb{/sys/leases/revoke-prefix} endpoint.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$role_write(
+  role_name,
+  allowed_policies = NULL,
+  disallowed_policies = NULL,
+  orphan = NULL,
+  period = NULL,
+  renewable = NULL,
+  explicit_max_ttl = NULL,
+  path_suffix = NULL,
+  bound_cidrs = NULL,
+  token_type = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{role_name}}{Name for the role - this will be used later to
+refer to the role (e.g., in \verb{$create} and other \verb{$role_*}
+methods.}
+
+\item{\code{allowed_policies}}{Character vector of policies allowed
+for this role.  If set, tokens can be created with any subset
+of the policies in this list, rather than the normal
+semantics of tokens being a subset of the calling token's
+policies. The parameter is a comma-delimited string of policy
+names. If at creation time \code{no_default_policy} is not set and
+"default" is not contained in disallowed_policies, the
+"default" policy will be added to the created token
+automatically.}
+
+\item{\code{disallowed_policies}}{Character vector of policies
+forbidden for this role.  If set, successful token creation
+via this role will require that no policies in the given list
+are requested. Adding "default" to this list will prevent
+"default" from being added automatically to created tokens.}
+
+\item{\code{orphan}}{If \code{TRUE}, then tokens created against this
+policy will be orphan tokens (they will have no parent). As
+such, they will not be automatically revoked by the
+revocation of any other token.}
+
+\item{\code{period}}{A duration (e.g., \verb{1h}).  If specified, the token
+will be periodic; it will have no maximum TTL (unless an
+"explicit-max-ttl" is also set) but every renewal will use
+the given period. Requires a root/sudo token to use.}
+
+\item{\code{renewable}}{Set to \code{FALSE} to disable the ability of the
+token to be renewed past its initial TTL. The default value
+of \code{TRUE} will allow the token to be renewable up to the
+system/mount maximum TTL.}
+
+\item{\code{explicit_max_ttl}}{An integer number of seconds.  Provides
+a maximum lifetime for any tokens issued against this role,
+including periodic tokens. Unlike direct token creation,
+where the value for an explicit max TTL is stored in the
+token, for roles this check will always use the current value
+set in the role. The main use of this is to provide a hard
+upper bound on periodic tokens, which otherwise can live
+forever as long as they are renewed. This is an integer
+number of seconds.}
+
+\item{\code{path_suffix}}{A string.  If set, tokens created against
+this role will have the given suffix as part of their path in
+addition to the role name. This can be useful in certain
+scenarios, such as keeping the same role name in the future
+but revoking all tokens created against it before some point
+in time. The suffix can be changed, allowing new callers to
+have the new suffix as part of their path, and then tokens
+with the old suffix can be revoked via
+\verb{/sys/leases/revoke-prefix}.}
+
+\item{\code{bound_cidrs}}{Character vector of CIDRS.  If set,
+restricts usage of the generated token to client IPs falling
+within the range of the specified CIDR(s). Unlike most other
+role parameters, this is not reevaluated from the current
+role value at each usage; it is set on the token itself. Root
+tokens with no TTL will not be bound by these CIDRs; root
+tokens with TTLs will be bound by these CIDRs.}
+
+\item{\code{token_type}}{Specifies the type of tokens that should be
+returned by the role. If either service or batch is
+specified, that kind of token will always be returned. If
+\code{default-service}, then \code{service} tokens will be returned
+unless the client requests a batch type token at token
+creation time. If \code{default-batch}, then \code{batch} tokens will
+be returned unless the client requests a service type token
+at token creation time.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-role_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-role_delete}{}}}
+\subsection{Method \code{role_delete()}}{
+Delete a named token role
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$role_delete(role_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{role_name}}{The name of the role to delete}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-tidy"></a>}}
+\if{latex}{\out{\hypertarget{method-tidy}{}}}
+\subsection{Method \code{tidy()}}{
+Performs some maintenance tasks to clean up
+invalid entries that may remain in the token
+store. Generally, running this is not needed unless upgrade
+notes or support personnel suggest it. This may perform a lot
+of I/O to the storage method so should be used sparingly.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$tidy()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-login"></a>}}
+\if{latex}{\out{\hypertarget{method-login}{}}}
+\subsection{Method \code{login()}}{
+Unlike other auth backend \code{login} methods, this
+does not actually log in to the vault.  Instead it verifies
+that a token can be used to communicate with the vault.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_token$login(token = NULL, quiet = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{The token to test}
+
+\item{\code{quiet}}{Logical scalar, set to \code{TRUE} to suppress
+informational messages.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

@@ -4,62 +4,14 @@
 \alias{vault_client_audit}
 \title{Vault Audit Devices}
 \description{
+Vault Audit Devices
+
+Vault Audit Devices
+}
+\details{
 Interact with vault's audit devices.  For more details, see
-\url{https://www.vaultproject.io/docs/audit/}
+https://www.vaultproject.io/docs/audit/
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{list}}{
-  List active audit devices.  Returns a \code{data.frame} of names, paths and descriptions of active audit devices.
-  \cr\emph{Usage:}\preformatted{list()}
-}
-\item{\code{enable}}{
-  This endpoint enables a new audit device at the supplied path.
-  \cr\emph{Usage:}\preformatted{enable(type, description = NULL, options = NULL, path = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{type}:   Name of the audit device to enable
-    }
-
-    \item{\code{description}:   Human readable description for this audit device
-    }
-
-    \item{\code{options}:   Options to configure the device with.  These vary by device. This must be a named list of strings.
-    }
-
-    \item{\code{path}:   Path to mount the audit device.  By default, \code{type} is used as the path.
-    }
-  }
-}
-\item{\code{disable}}{
-  Disable an audit device
-  \cr\emph{Usage:}\preformatted{disable(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path of the audit device to remove
-    }
-  }
-}
-\item{\code{hash}}{
-  The \code{hash} method is used to calculate the hash of the data used by an audit device's hash function and salt. This can be used to search audit logs for a hashed value when the original value is known.
-  \cr\emph{Usage:}\preformatted{hash(input, device)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{input}:   The input string to hash
-    }
-
-    \item{\code{device}:   The path of the audit device
-    }
-  }
-}
-}
-}
-
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
@@ -82,5 +34,125 @@ if (!is.null(server)) {
   # cleanup
   server$kill()
   unlink(path)
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_audit}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_audit$new()}}
+\item \href{#method-list}{\code{vault_client_audit$list()}}
+\item \href{#method-enable}{\code{vault_client_audit$enable()}}
+\item \href{#method-disable}{\code{vault_client_audit$disable()}}
+\item \href{#method-hash}{\code{vault_client_audit$hash()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create an audit object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_audit$new(api_client)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{a \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List active audit devices.  Returns a \link{data.frame}
+of names, paths and descriptions of active audit devices.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_audit$list()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-enable}{}}}
+\subsection{Method \code{enable()}}{
+This endpoint enables a new audit device at the
+supplied path.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_audit$enable(
+  type,
+  description = NULL,
+  options = NULL,
+  path = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{Name of the audit device to enable}
+
+\item{\code{description}}{Human readable description for this audit device}
+
+\item{\code{options}}{Options to configure the device with.  These vary
+by device. This must be a named list of strings.}
+
+\item{\code{path}}{Path to mount the audit device.  By default, \code{type} is used
+as the path.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-disable}{}}}
+\subsection{Method \code{disable()}}{
+Disable an audit device
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_audit$disable(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path of the audit device to remove}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-hash"></a>}}
+\if{latex}{\out{\hypertarget{method-hash}{}}}
+\subsection{Method \code{hash()}}{
+The \code{hash} method is used to calculate the hash of the
+data used by an audit device's hash function and salt. This can be
+used to search audit logs for a hashed value when the original
+value is known.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_audit$hash(input, device)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{input}}{The input string to hash}
+
+\item{\code{device}}{The path of the audit device}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

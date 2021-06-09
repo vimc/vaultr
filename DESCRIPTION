@@ -6,7 +6,7 @@ Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
              person("Imperial College of Science, Technology and Medicine",
                     role = "cph"))
 Title: Vault Client for Secrets and Sensitive Data
-Version: 1.0.5
+Version: 1.1.0
 Description: Provides an interface to a 'HashiCorp' vault server over
   its http API (typically these are self-hosted; see
   <https://www.vaultproject.io>).  This allows for secure storage and
@@ -15,7 +15,7 @@ Description: Provides an interface to a 'HashiCorp' vault server over
   several backends including user name/password and authentication via
   'GitHub'.
 License: MIT + file LICENSE
-URL: https://github.com/vimc/vaultr, https://vimc.github.io/vaultr/
+URL: https://github.com/vimc/vaultr, https://www.vaccineimpact.org/vaultr/
 BugReports: https://github.com/vimc/vaultr/issues
 SystemRequirements: vault
 Imports:
@@ -30,7 +30,8 @@ Suggests:
     rmarkdown,
     testthat,
     withr
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB
+Roxygen: list(markdown = TRUE)

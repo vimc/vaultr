@@ -4,67 +4,13 @@
 \alias{vault_client_secrets}
 \title{Vault Secret Configuration}
 \description{
+Vault Secret Configuration
+
+Vault Secret Configuration
+}
+\details{
 Interact with vault's secret backends.
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{enable}}{
-  Enable a secret backend in the vault server
-  \cr\emph{Usage:}\preformatted{enable(type, path = type, description = NULL, version = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{type}:   The type of secret backend (e.g., \code{transit}, \code{kv}).
-    }
-
-    \item{\code{path}:   Specifies the path in which to enable the auth method. Defaults to be the same as \code{type}.
-    }
-
-    \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
-    }
-
-    \item{\code{version}:   Used only for the \code{kv} backend, where an integer is used to select between \code{\link{vault_client_kv1}} and \code{\link{vault_client_kv2}} engines.
-    }
-  }
-}
-\item{\code{disable}}{
-  Disable a previously-enabled secret engine
-  \cr\emph{Usage:}\preformatted{disable(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path of the secret engine
-    }
-  }
-}
-\item{\code{list}}{
-  List enabled secret engines
-  \cr\emph{Usage:}\preformatted{list(detailed = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{detailed}:   Logical, indicating if detailed output is wanted.
-    }
-  }
-}
-\item{\code{move}}{
-  Move the path that a secret engine is mounted at
-  \cr\emph{Usage:}\preformatted{move(from, to)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{from}:   Original path
-    }
-
-    \item{\code{to}:   New path
-    }
-  }
-}
-}
-}
-
 \examples{
 
 server <- vaultr::vault_test_server(if_disabled = message)
@@ -78,5 +24,148 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_secrets}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{cubbyhole}}{The cubbyhole backend:
+\link{vault_client_cubbyhole}}
+
+\item{\code{kv1}}{The version 1 key-value backend:
+\link{vault_client_kv1}}
+
+\item{\code{kv2}}{The version 2 key-value backend:
+\link{vault_client_kv2}}
+
+\item{\code{transit}}{The transit backend:
+\link{vault_client_transit}}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_secrets$new()}}
+\item \href{#method-disable}{\code{vault_client_secrets$disable()}}
+\item \href{#method-enable}{\code{vault_client_secrets$enable()}}
+\item \href{#method-list}{\code{vault_client_secrets$list()}}
+\item \href{#method-move}{\code{vault_client_secrets$move()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a \code{vault_client_secrets} object. Not typically
+called by users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$new(api_client)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-disable}{}}}
+\subsection{Method \code{disable()}}{
+Disable a previously-enabled secret engine
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$disable(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path of the secret engine}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-enable}{}}}
+\subsection{Method \code{enable()}}{
+Enable a secret backend in the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$enable(
+  type,
+  path = type,
+  description = NULL,
+  version = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{The type of secret backend (e.g., \code{transit}, \code{kv}).}
+
+\item{\code{path}}{Specifies the path in which to enable the auth
+method. Defaults to be the same as \code{type}.}
+
+\item{\code{description}}{Human-friendly description of the backend;
+will be returned by \verb{$list()}}
+
+\item{\code{version}}{Used only for the \code{kv} backend, where an integer
+is used to select between \link{vault_client_kv1} and
+\link{vault_client_kv2} engines.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List enabled secret engines
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$list(detailed = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{detailed}}{Logical, indicating if detailed output is
+wanted.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-move"></a>}}
+\if{latex}{\out{\hypertarget{method-move}{}}}
+\subsection{Method \code{move()}}{
+Move the path that a secret engine is mounted at
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$move(from, to)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from}}{Original path}
+
+\item{\code{to}}{New path}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

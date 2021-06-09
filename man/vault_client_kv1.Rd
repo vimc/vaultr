@@ -4,91 +4,22 @@
 \alias{vault_client_kv1}
 \title{Key-Value Store (Version 1)}
 \description{
-Interact with vault's version 1 key-value store.  This is useful
-for storing simple key-value data without versioning or metadata
-(see \code{\link{vault_client_kv2}} for a richer key-value store).
+Key-Value Store (Version 1)
+
+Key-Value Store (Version 1)
 }
 \details{
+Interact with vault's version 1 key-value store.  This is useful
+for storing simple key-value data without versioning or metadata
+(see \link{vault_client_kv2} for a richer key-value store).
+
 Up to vault version 0.12.0 this was mounted by default at
-\code{/secret}.  It can be accessed from vault with either the
-\code{$read}, \code{$write}, \code{$list} and \code{$delete}
-methods on the main \code{\link{vault_client}} object or by the
-\code{$kv1} member of the
-\code{\link[=vault_client_secrets]{secrets}} member of the main
-vault client.
+\verb{/secret}.  It can be accessed from vault with either the \verb{$read},
+\verb{$write}, \verb{$list} and \verb{$delete} methods on the main
+\link{vault_client} object or by the \verb{$kv1} member of the
+\code{secrets} member of the main vault client
+(\link{vault_client_secrets})
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{read}}{
-  Read a value from the vault.  This can be used to read any value that you have permission to read in this store.
-  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to read, such as \code{/secret/mysecret}
-    }
-
-    \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
-    }
-
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
-    }
-  }
-}
-\item{\code{write}}{
-  Write data into the vault.  This can be used to write any value that you have permission to write in this store.
-  \cr\emph{Usage:}\preformatted{write(path, data)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to write, such as \code{/secret/mysecret}
-    }
-
-    \item{\code{data}:   A named list of values to write into the vault at this path. This \emph{replaces} any existing values.
-    }
-  }
-}
-\item{\code{list}}{
-  List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to list
-    }
-
-    \item{\code{full_names}:   Logical, indicating if full paths (relative to the vault root) should be returned.
-    }
-  }
-
-  \emph{Value}:
-  A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
-}
-\item{\code{delete}}{
-  Delete a value from the vault
-  \cr\emph{Usage:}\preformatted{delete(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to delete
-    }
-  }
-}
-\item{\code{custom_mount}}{
-  Set up a \code{vault_client_kv1} object at a custom mount.  For example, suppose you mounted another copy of the \code{kv1} secret backend at \code{/secret2} you might use \code{kv <- vault$secrets$kv1$custom_mount("/secret2")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{mount}:   String, indicating the path that the engine is mounted at.
-    }
-  }
-}
-}
-}
-
 \examples{
 
 server <- vaultr::vault_test_server(if_disabled = message)
@@ -112,5 +43,166 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_kv1}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_kv1$new()}}
+\item \href{#method-custom_mount}{\code{vault_client_kv1$custom_mount()}}
+\item \href{#method-read}{\code{vault_client_kv1$read()}}
+\item \href{#method-write}{\code{vault_client_kv1$write()}}
+\item \href{#method-list}{\code{vault_client_kv1$list()}}
+\item \href{#method-delete}{\code{vault_client_kv1$delete()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a \code{vault_client_kv1} object. Not typically
+called by users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$new(api_client, mount)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\subsection{Method \code{custom_mount()}}{
+Set up a \code{vault_client_kv1} object at a custom
+mount.  For example, suppose you mounted another copy of the
+\code{kv1} secret backend at \verb{/secret2} you might use \code{kv <- vault$secrets$kv1$custom_mount("/secret2")} - this pattern is
+repeated for other secret and authentication backends.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$custom_mount(mount)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mount}}{String, indicating the path that the engine is
+mounted at.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-read"></a>}}
+\if{latex}{\out{\hypertarget{method-read}{}}}
+\subsection{Method \code{read()}}{
+Read a value from the vault.  This can be used to
+read any value that you have permission to read in this
+store.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$read(path, field = NULL, metadata = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to read, such as
+\verb{/secret/mysecret}}
+
+\item{\code{field}}{Optional field to read from the secret.  Each
+secret is stored as a key/value set (represented in R as a
+named list) and this is equivalent to using \verb{[[field]]} on
+the return value.  The default, \code{NULL}, returns the full set
+of values.}
+
+\item{\code{metadata}}{Logical, indicating if we should return
+metadata for this secret (lease information etc) as an
+attribute along with the values itself.  Ignored if \code{field}
+is specified.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-write"></a>}}
+\if{latex}{\out{\hypertarget{method-write}{}}}
+\subsection{Method \code{write()}}{
+Write data into the vault.  This can be used to
+write any value that you have permission to write in this
+store.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$write(path, data)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to write, such as
+\verb{/secret/mysecret}}
+
+\item{\code{data}}{A named list of values to write into the vault at
+this path.  This \emph{replaces} any existing values.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List data in the vault at a give path.  This can
+be used to list keys, etc (e.g., at \verb{/secret}).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$list(path, full_names = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to list}
+
+\item{\code{full_names}}{Logical, indicating if full paths (relative
+to the vault root) should be returned.}
+
+\item{\code{value}}{A character vector (of zero length if no keys are
+found).  Paths that are "directories" (i.e., that contain
+keys and could themselves be listed) will be returned with a
+trailing forward slash, e.g. \verb{path/}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-delete}{}}}
+\subsection{Method \code{delete()}}{
+Delete a value from the vault
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_kv1$delete(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to delete}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

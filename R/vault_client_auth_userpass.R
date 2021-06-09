@@ -2,9 +2,7 @@
 ##' This backend can be used to configure basic username+password
 ##' authentication, suitable for human users.  For more information,
 ##' please see the vault documentation
-##' \url{https://www.vaultproject.io/docs/auth/userpass.html}
-##'
-##' @template vault_client_auth_userpass
+##' https://www.vaultproject.io/docs/auth/userpass.html
 ##'
 ##' @title Vault Username/Password Authentication Configuration
 ##' @name vault_client_auth_userpass
@@ -34,9 +32,6 @@
 ##'   # (wheras our original root user has the "root" policy)
 ##'   root$auth$token$lookup_self()$policies
 ##' }
-NULL
-
-
 vault_client_auth_userpass <- R6::R6Class(
   "vault_client_auth_userpass",
   inherit = vault_client_object,
@@ -48,6 +43,12 @@ vault_client_auth_userpass <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_userpass` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact and configure vault's userpass support")
       assert_scalar_character(mount)
@@ -55,10 +56,34 @@ vault_client_auth_userpass <- R6::R6Class(
       private$api_client <- api_client
     },
 
+    ##' @description Set up a `vault_client_auth_userpass` object at a
+    ##'   custom mount.  For example, suppose you mounted the
+    ##'   `userpass` authentication backend at `/userpass2` you might
+    ##'   use `up <- vault$auth$userpass2$custom_mount("/userpass2")` -
+    ##'   this pattern is repeated for other secret and authentication
+    ##'   backends.
+    ##'
+    ##' @param mount String, indicating the path that the engine is mounted at.
     custom_mount = function(mount) {
       vault_client_auth_userpass$new(private$api_client, mount)
     },
 
+    ##' @description Create or update a user.
+    ##'
+    ##' @param username Username for the user
+    ##'
+    ##' @param password Password for the user (required when creating a
+    ##'   user only)
+    ##'
+    ##' @param policies Character vector of policies for the user
+    ##'
+    ##' @param ttl The lease duration which decides login expiration
+    ##'
+    ##' @param max_ttl Maximum duration after which login should expire
+    ##'
+    ##' @param bound_cidrs Character vector of CIDRs.  If set,
+    ##'   restricts usage of the login and token to client IPs falling
+    ##'   within the range of the specified CIDR(s).
     write = function(username, password = NULL, policies = NULL, ttl = NULL,
                    max_ttl = NULL, bound_cidrs = NULL) {
       username <- assert_scalar_character(username)
@@ -75,6 +100,9 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Reads the properties of an existing username.
+    ##'
+    ##' @param username Username to read
     read = function(username) {
       assert_scalar_character(username)
       path <- sprintf("/auth/%s/users/%s", private$mount, username)
@@ -83,6 +111,9 @@ vault_client_auth_userpass <- R6::R6Class(
       ret
     },
 
+    ##' @description Delete a user
+    ##'
+    ##' @param username Username to delete
     delete = function(username) {
       assert_scalar_character(username)
       path <- sprintf("/auth/%s/users/%s", private$mount, username)
@@ -90,6 +121,11 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Update password for a user
+    ##'
+    ##' @param username Username for the user to update
+    ##'
+    ##' @param password New password for the user
     update_password = function(username, password) {
       assert_scalar_character(username)
       body <- list(password = assert_scalar_character(password))
@@ -99,6 +135,11 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description Update vault policies for a user
+    ##'
+    ##' @param username Username for the user to update
+    ##'
+    ##' @param policies Character vector of policies for this user
     update_policies = function(username, policies) {
       assert_scalar_character(username)
       body <- list(policies = paste(assert_character(policies),
@@ -109,6 +150,7 @@ vault_client_auth_userpass <- R6::R6Class(
       invisible(NULL)
     },
 
+    ##' @description List users known to vault
     list = function() {
       path <- sprintf("/auth/%s/users", private$mount)
       tryCatch(
@@ -116,6 +158,18 @@ vault_client_auth_userpass <- R6::R6Class(
         vault_invalid_path = function(e) character(0))
     },
 
+    ##' @description Log into the vault using username/password
+    ##'   authentication.  Normally you would not call this directly
+    ##'   but instead use `$login` with `method = "userpass"` and
+    ##'   proving the `username` argument and optionally the `password`
+    ##'   argument.  This function returns a vault token but does not
+    ##'   set it as the client token.
+    ##'
+    ##' @param username Username to authenticate with
+    ##'
+    ##' @param password Password to authenticate with. If omitted or
+    ##'   `NULL` and the session is interactive, the password will be
+    ##'   prompted for.
     login = function(username, password = NULL) {
       data <- userpass_data(username, password)
       path <- sprintf("/auth/%s/login/%s", private$mount, username)

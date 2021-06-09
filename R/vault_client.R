@@ -8,53 +8,48 @@
 ##' The creation of a client is affected by a number of environment
 ##'   variables, following the main vault command line client.
 ##'
-##' \describe{
+##' * `VAULT_ADDR`: The url of the vault server.  Must
+##'   include a protocol (most likely `https://` but in testing
+##'   `http://` might be used)
 ##'
-##' \item{\code{VAULT_ADDR}}{The url of the vault server.  Must
-##'   include a protocol (most likely \code{https://} but in testing
-##'   \code{http://} might be used)}
+##' * `VAULT_CAPATH`: The path to CA certificates
 ##'
-##' \item{\code{VAULT_CAPATH}}{The path to CA certificates}
+##' * `VAULT_TOKEN`: A vault token to use in authentication.
+##'   Only used for token-based authentication
 ##'
-##' \item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
-##'   Only used for token-based authentication}
-##'
-##' \item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+##' * `VAULT_AUTH_GITHUB_TOKEN`: As for the command line
 ##'   client, a github token for authentication using the github
-##'   authentication backend}
+##'   authentication backend
 ##'
-##' \item{\code{VAULTR_AUTH_METHOD}}{The method to use for
-##'   authentication}
-##'
-##' }
+##' * `VAULTR_AUTH_METHOD`: The method to use for
+##'   authentication
 ##'
 ##' @title Make a vault client
 ##'
 ##' @param login Login method.  Specify a string to be passed along as
-##'   the \code{method} argument to \code{$login}.  The default
-##'   \code{FALSE} means not to login.  \code{TRUE} means to login
+##'   the `method` argument to `$login`.  The default
+##'   `FALSE` means not to login.  `TRUE` means to login
 ##'   using a default method specified by the environment variable
-##'   \code{VAULTR_AUTH_METHOD} - if that variable is not set, an
-##'   error is thrown.  The value of \code{NULL} is the same as
-##'   \code{TRUE} but does not throw an error if
-##'   \code{VAULTR_AUTH_METHOD} is not set.  Supported methods are
-##'   \code{token}, \code{github} and \code{userpass}.
+##'   `VAULTR_AUTH_METHOD` - if that variable is not set, an
+##'   error is thrown.  The value of `NULL` is the same as
+##'   `TRUE` but does not throw an error if
+##'   `VAULTR_AUTH_METHOD` is not set.  Supported methods are
+##'   `token`, `github` and `userpass`.
 ##'
 ##' @param ... Additional arguments passed along to the authentication
-##'   method indicated by \code{login}, if used.
+##'   method indicated by `login`, if used.
 ##'
-##' @param addr The value address \emph{including protocol and port},
-##'   e.g., \code{https://vault.example.com:8200}.  If not given, the
-##'   default is the environment variable \code{VAULT_ADDR}, which is
+##' @param addr The vault address *including protocol and port*,
+##'   e.g., `https://vault.example.com:8200`.  If not given, the
+##'   default is the environment variable `VAULT_ADDR`, which is
 ##'   the same as used by vault's command line client.
 ##'
 ##' @param tls_config TLS (https) configuration.  For most uses this
 ##'   can be left blank.  However, if your vault server uses a
 ##'   self-signed certificate you will need to provide this.  Defaults
-##'   to the environment variable \code{VAULT_CAPATH}, which is the
+##'   to the environment variable `VAULT_CAPATH`, which is the
 ##'   same as vault's command line client.
 ##'
-##' @template vault_client
 ##' @export
 ##' @author Rich FitzJohn
 ##' @examples
@@ -107,7 +102,7 @@
 ##'   client$delete("/secret/users/alice")
 ##' }
 vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
-  client <- R6_vault_client$new(addr, tls_config)
+  client <- vault_client_$new(addr, tls_config)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
     client$login(..., method = method)
@@ -116,7 +111,8 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 }
 
 
-R6_vault_client <- R6::R6Class(
+##' @rdname vault_client
+vault_client_ <- R6::R6Class(
   "vault_client",
   inherit = vault_client_object,
   cloneable = FALSE,
@@ -125,17 +121,37 @@ R6_vault_client <- R6::R6Class(
     api_client = NULL),
 
   public = list(
+    ##' @field auth Authentication backends: [vaultr::vault_client_auth]
     auth = NULL,
+
+    ##' @field audit Audit methods: [vaultr::vault_client_audit]
     audit = NULL,
+
+    ##' @field cubbyhole The vault cubbyhole key-value store:
+    ##'   [vaultr::vault_client_cubbyhole]
     cubbyhole = NULL,
-    kv1 = NULL,
-    kv2 = NULL,
+
+    ##' @field operator Operator methods: [vaultr::vault_client_operator]
     operator = NULL,
+
+    ##' @field policy Policy methods: [vaultr::vault_client_policy]
     policy = NULL,
+
+    ##' @field secrets Secret backends: [vaultr::vault_client_secrets]
     secrets = NULL,
+
+    ##' @field token Token methods: [vaultr::vault_client_token]
     token = NULL,
+
+    ##' @field tools Vault tools: [vaultr::vault_client_tools]
     tools = NULL,
 
+    ##' @description Create a new vault client. Not typically called
+    ##'   directly, but via the `vault_client` method.
+    ##'
+    ##' @param addr The vault address, including protocol and port
+    ##'
+    ##' @param tls_config The TLS config, if used
     initialize = function(addr, tls_config) {
       super$initialize("core methods for interacting with vault")
       api_client <- vault_api_client$new(addr, tls_config)
@@ -151,28 +167,108 @@ R6_vault_client <- R6::R6Class(
       add_const_member(self, "tools", vault_client_tools$new(api_client))
     },
 
+    ##' @description Returns an api client object that can be used to
+    ##'   directly interact with the vault server.
     api = function() {
       private$api_client
     },
 
     ## Root object kv1 methods
+    ##' @description Read a value from the vault.  This can be used to
+    ##'   read any value that you have permission to read, and can also
+    ##'   be used as an interface to a version 1 key-value store (see
+    ##'   [vaultr::vault_client_kv1].  Similar to the vault CLI command
+    ##'   `vault read`.
+    ##'
+    ##' @param path Path for the secret to read, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param field Optional field to read from the secret.  Each
+    ##'   secret is stored as a key/value set (represented in R as a
+    ##'   named list) and this is equivalent to using `[[field]]` on
+    ##'   the return value.  The default, `NULL`, returns the full set
+    ##'   of values.
+    ##'
+    ##' @param metadata Logical, indicating if we should return
+    ##'   metadata for this secret (lease information etc) as an
+    ##'   attribute along with the values itself.  Ignored if `field`
+    ##'   is specified.
     read = function(path, field = NULL, metadata = FALSE) {
       self$secrets$kv1$read(path, field, metadata)
     },
 
+    ##' @description Write data into the vault.  This can be used to
+    ##'   write any value that you have permission to write, and can
+    ##'   also be used as an interface to a version 1 key-value store
+    ##'   (see [vaultr::vault_client_kv1].  Similar to the vault CLI
+    ##'   command `vault write`.
+    ##'
+    ##' @param path Path for the secret to write, such as
+    ##'   `/secret/mysecret`
+    ##'
+    ##' @param data A named list of values to write into the vault at
+    ##'    this path.  This *replaces* any existing values.
     write = function(path, data) {
       self$secrets$kv1$write(path, data)
     },
 
+    ##' @description Delete a value from the vault
+    ##'
+    ##' @param path The path to delete
     delete = function(path) {
       self$secrets$kv1$delete(path)
     },
 
     ## NOTE: no recursive list here
+    ##' @description List data in the vault at a given path.  This can
+    ##'   be used to list keys, etc (e.g., at `/secret`).
+    ##'
+    ##' @param path The path to list
+    ##
+    ##' @param full_names Logical, indicating if full paths (relative
+    ##'   to the vault root) should be returned.
+    ##'
+    ##' @return A character vector (of zero length if no keys are
+    ##'   found).  Paths that are "directories" (i.e., that contain
+    ##'   keys and could themselves be listed) will be returned with a
+    ##'   trailing forward slash, e.g. `path/`
     list = function(path, full_names = FALSE) {
       self$secrets$kv1$list(path, full_names)
     },
 
+    ##' @description Login to the vault.  This method is more
+    ##'   complicated than most.
+    ##'
+    ##' @param ...  Additional named parameters passed through to the
+    ##'   underlying method
+    ##'
+    ##' @param method Authentication method to use, as a string.
+    ##'   Supported values include `token` (the default), `github`,
+    ##'   `approle` and `userpass`.
+    ##'
+    ##' @param mount The mount path for the authentication backend, *if
+    ##'   it has been mounted in a nonstandard location*.  If not
+    ##'   given, then it is assumed that the backend was mounted at a
+    ##'   path corresponding to the method name.
+    ##'
+    ##' @param renew Login, even if we appear to hold a valid token.
+    ##'   If `FALSE` and we have a token then `login` does nothing.
+    ##'
+    ##' @param quiet Suppress some informational messages
+    ##'
+    ##' @param token_only Logical, indicating that we do not want to
+    ##'   actually log in, but instead just generate a token and return
+    ##'   that.  IF given then `renew` is ignored and we always
+    ##'   generate a new token.
+    ##'
+    ##' @param use_cache Logical, indicating if we should look in the
+    ##'   session cache for a token for this client.  If this is `TRUE`
+    ##'   then when we log in we save a copy of the token for this
+    ##'   session and any subsequent calls to `login` at this vault
+    ##'   address that use `use_cache = TRUE` will be able to use this
+    ##'   token.  Using cached tokens will make using some
+    ##'   authentication backends that require authentication with
+    ##'   external resources (e.g., `github`) much faster.
     login = function(..., method = "token", mount = NULL,
                      renew = FALSE, quiet = FALSE,
                      token_only = FALSE, use_cache = TRUE) {
@@ -225,15 +321,27 @@ R6_vault_client <- R6::R6Class(
       invisible(token)
     },
 
+    ##' @description Return the status of the vault server, including
+    ##'   whether it is sealed or not, and the vault server version.
     status = function() {
       self$operator$seal_status()
     },
 
+    ##' @description Returns the original response inside the given
+    ##'   wrapping token. The vault endpoints used by this method
+    ##'   perform validation checks on the token, returns the original
+    ##'   value on the wire rather than a JSON string representation of
+    ##'   it, and ensures that the response is properly audit-logged.
+    ##'
+    ##' @param token Specifies the wrapping token ID
     unwrap = function(token) {
       assert_scalar_character(token)
       private$api_client$POST("/sys/wrapping/unwrap", token = token)
     },
 
+    ##' @description Look up properties of a wrapping token.
+    ##'
+    ##' @param token Specifies the wrapping token ID to lookup
     wrap_lookup = function(token) {
       assert_scalar_character(token)
       private$api_client$POST("/sys/wrapping/lookup", token = token,

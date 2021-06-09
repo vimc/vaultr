@@ -4,67 +4,13 @@
 \alias{vault_client_auth}
 \title{Vault Authentication Configuration}
 \description{
+Vault Authentication Configuration
+
+Vault Authentication Configuration
+}
+\details{
 Interact with vault's authentication backends.
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{backends}}{
-  Return a character vector of supported authentication backends. If a backend \code{x} is present, then you can access it with \code{$auth$x}.  Note that vault calls these authentication \emph{methods} but we use \emph{backends} here to differentiate with R6 methods.  Note that these are backends supported by \code{vaultr} and not necessarily supported by the server - the server may not have enabled some of these backends, and may support other authentication backends not directly supported by vaultr.  See the \code{$list()} method to query what the server supports.
-  \cr\emph{Usage:}\preformatted{backends()}
-}
-\item{\code{list}}{
-  List authentication backends supported by the vault server, including information about where these backends are mounted.
-  \cr\emph{Usage:}\preformatted{list(detailed = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{detailed}:   Logical, indicating if detailed information should be returned
-    }
-  }
-}
-\item{\code{enable}}{
-  Enable an authentication backend in the vault server.
-  \cr\emph{Usage:}\preformatted{enable(type, description = NULL, local = FALSE, path = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{type}:   The type of authentication backend (e.g., \code{userpass}, \code{github})
-    }
-
-    \item{\code{description}:   Human-friendly description of the backend; will be returned by \code{$list()}
-    }
-
-    \item{\code{local}:   Specifies if the auth method is local only. Local auth methods are not replicated nor (if a secondary) removed by replication.
-    }
-
-    \item{\code{path}:   Specifies the path in which to enable the auth method. Defaults to be the same as \code{type}.
-    }
-  }
-}
-\item{\code{disable}}{
-  Disable an active authentication backend.
-  \cr\emph{Usage:}\preformatted{disable(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path of the authentication backend to disable.
-    }
-  }
-}
-\item{\code{token}}{
-  Interact with vault's token authentication.  See \code{\link{vault_client_token}} for more information.
-}
-\item{\code{github}}{
-  Interact with vault's GitHub authentication.  See \code{\link{vault_client_auth_github}} for more information.
-}
-\item{\code{userpass}}{
-  Interact with vault's username/password based authentication.  See \code{\link{vault_client_auth_userpass}} for more information.
-}
-}
-}
-
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
@@ -75,5 +21,148 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_auth}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{approle}}{Interact with vault's AppRole authentication.  See
+\code{\link{vault_client_auth_approle}} for more information.}
+
+\item{\code{github}}{Interact with vault's GitHub authentication.  See
+\code{\link{vault_client_auth_github}} for more information.}
+
+\item{\code{token}}{Interact with vault's token authentication.  See
+\code{\link{vault_client_token}} for more information.}
+
+\item{\code{userpass}}{Interact with vault's username/password based
+authentication.  See \code{\link{vault_client_auth_userpass}} for
+more information.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_auth$new()}}
+\item \href{#method-backends}{\code{vault_client_auth$backends()}}
+\item \href{#method-list}{\code{vault_client_auth$list()}}
+\item \href{#method-enable}{\code{vault_client_auth$enable()}}
+\item \href{#method-disable}{\code{vault_client_auth$disable()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a \code{vault_client_auth} object. Not typically
+called by users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$new(api_client)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-backends"></a>}}
+\if{latex}{\out{\hypertarget{method-backends}{}}}
+\subsection{Method \code{backends()}}{
+Return a character vector of supported
+authentication backends.  If a backend \code{x} is present, then
+you can access it with \verb{$auth$x}.  Note that vault calls
+these authentication \emph{methods} but we use \emph{backends} here to
+differentiate with R6 methods.  Note that these are backends
+supported by \code{vaultr} and not necessarily supported by the
+server - the server may not have enabled some of these
+backends, and may support other authentication backends not
+directly supported by vaultr.  See the \verb{$list()} method to
+query what the server supports.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$backends()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List authentication backends supported by the
+vault server, including information about where these
+backends are mounted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$list(detailed = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{detailed}}{Logical, indicating if detailed information
+should be returned}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-enable}{}}}
+\subsection{Method \code{enable()}}{
+Enable an authentication backend in the vault
+server.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$enable(type, description = NULL, local = FALSE, path = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{The type of authentication backend (e.g.,
+\code{userpass}, \code{github})}
+
+\item{\code{description}}{Human-friendly description of the backend;
+will be returned by \verb{$list()}}
+
+\item{\code{local}}{Specifies if the auth method is local only. Local
+auth methods are not replicated nor (if a secondary) removed
+by replication.}
+
+\item{\code{path}}{Specifies the path in which to enable the auth
+method. Defaults to be the same as \code{type}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-disable}{}}}
+\subsection{Method \code{disable()}}{
+Disable an active authentication backend.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$disable(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path of the authentication backend to disable.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

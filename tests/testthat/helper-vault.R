@@ -2,7 +2,7 @@ skip_if_no_vaultr_test_github_pat <- function() {
   if (has_vaultr_test_github_pat()) {
     return(invisible(TRUE))
   }
-  skip("No access token set")
+  testthat::skip("No access token set")
 }
 
 has_vaultr_test_github_pat <- function() {
@@ -22,8 +22,8 @@ has_internet <- function() {
 }
 
 skip_if_no_internet <- function() {
-  skip_on_cran() # not worth it
-  skip_on_os("windows")
+  testthat::skip_on_cran() # not worth it
+  testthat::skip_on_os("windows")
   if (has_internet()) {
     return()
   }
@@ -41,7 +41,6 @@ skip_if_vault_before <- function(required, server, api, description) {
 
 
 read_vault_env <- function() {
-  txt <- readLines(".vault-env")
   tmp <- tempfile()
   on.exit(unlink(tmp))
   writeLines(sub("^export\\s+", "", readLines(".vault-env")), tmp)

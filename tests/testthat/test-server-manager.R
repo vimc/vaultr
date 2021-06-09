@@ -31,16 +31,16 @@ test_that("install", {
               VAULTR_TEST_SERVER_INSTALL = "true")
     res <- withr::with_envvar(vars, {
       vault_test_server_install(path = path,
-                                quiet = TRUE, 
+                                quiet = TRUE,
                                 platform = platform)
     })
-  
+
     expect_equal(res, file.path(path, vault_exe_filename(platform)))
     expect_true(file.exists(res))
     expect_equal(dir(path), vault_exe_filename(platform))
-    
+
     if (platform == vault_platform()) {
-      expect_equal(substr(system2(res, "--version", stdout = TRUE), 1, 7), 
+      expect_equal(substr(system2(res, "--version", stdout = TRUE), 1, 7),
                    "Vault v")
     }
   }
@@ -57,7 +57,7 @@ test_that("reinstall", {
             VAULTR_TEST_SERVER_INSTALL = "true")
 
   dir.create(path)
-  
+
   dest <- file.path(path, vault_exe_filename())
   writeLines("vault executable", dest)
   res <- withr::with_envvar(vars, {
@@ -65,7 +65,7 @@ test_that("reinstall", {
                                              quiet = TRUE),
                  "vault already installed at")
   })
-  
+
   expect_identical(readLines(dest), "vault executable")
 })
 

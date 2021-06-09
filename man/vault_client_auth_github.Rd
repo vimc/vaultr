@@ -4,89 +4,15 @@
 \alias{vault_client_auth_github}
 \title{Vault GitHub Authentication Configuration}
 \description{
+Vault GitHub Authentication Configuration
+
+Vault GitHub Authentication Configuration
+}
+\details{
 Interact with vault's GitHub authentication backend.  For more
 details, please see the vault documentation at
-\url{https://www.vaultproject.io/docs/auth/github.html}
+https://www.vaultproject.io/docs/auth/github.html
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{custom_mount}}{
-  Set up a \code{vault_client_auth_github} object at a custom mount. For example, suppose you mounted the \code{github} authentication backend at \code{/github-myorg} you might use \code{gh <- vault$auth$github2$custom_mount("/github-myorg")} - this pattern is repeated for other secret and authentication backends.
-  \cr\emph{Usage:}\preformatted{custom_mount(mount)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{mount}:   String, indicating the path that the engine is mounted at.
-    }
-  }
-}
-\item{\code{configure}}{
-  Configures the connection parameters for GitHub-based authentication.
-  \cr\emph{Usage:}\preformatted{configure(organization, base_url = NULL, ttl = NULL, max_ttl = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{organization}:   The organization users must be part of (note American spelling).
-    }
-
-    \item{\code{base_url}:   The API endpoint to use. Useful if you are running GitHub Enterprise or an API-compatible authentication server.
-    }
-
-    \item{\code{ttl}:   Duration after which authentication will be expired
-    }
-
-    \item{\code{max_ttl}:   Maximum duration after which authentication will be expired
-    }
-  }
-}
-\item{\code{configuration}}{
-  Reads the connection parameters for GitHub-based authentication.
-  \cr\emph{Usage:}\preformatted{configuration()}
-}
-\item{\code{write}}{
-  Write a mapping between a GitHub team or user and a set of vault policies.
-  \cr\emph{Usage:}\preformatted{write(team_name, policies, user = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{team_name}:   String, with the GitHub team name
-    }
-
-    \item{\code{policies}:   A character vector of vault policies that this user or team will have for vault access if they match this team or user.
-    }
-
-    \item{\code{user}:   Scalar logical - if \code{TRUE}, then \code{team_name} is interpreted as a \emph{user} instead.
-    }
-  }
-}
-\item{\code{read}}{
-  Write a mapping between a GitHub team or user and a set of vault policies.
-  \cr\emph{Usage:}\preformatted{read(team_name, user = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{team_name}:   String, with the GitHub team name
-    }
-
-    \item{\code{user}:   Scalar logical - if \code{TRUE}, then \code{team_name} is interpreted as a \emph{user} instead.
-    }
-  }
-}
-\item{\code{login}}{
-  Log into the vault using GitHub authentication.  Normally you would not call this directly but instead use \code{$login} with \code{method = "github"} and proving the \code{token} argument. This function returns a vault token but does not set it as the client token.
-  \cr\emph{Usage:}\preformatted{login(token = NULL)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   A GitHub token to authenticate with.
-    }
-  }
-}
-}
-}
-
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
@@ -110,5 +36,182 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_auth_github}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_auth_github$new()}}
+\item \href{#method-custom_mount}{\code{vault_client_auth_github$custom_mount()}}
+\item \href{#method-configure}{\code{vault_client_auth_github$configure()}}
+\item \href{#method-configuration}{\code{vault_client_auth_github$configuration()}}
+\item \href{#method-write}{\code{vault_client_auth_github$write()}}
+\item \href{#method-read}{\code{vault_client_auth_github$read()}}
+\item \href{#method-login}{\code{vault_client_auth_github$login()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a \code{vault_client_github} object. Not typically
+called by users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$new(api_client, mount)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\subsection{Method \code{custom_mount()}}{
+Set up a \code{vault_client_auth_github} object at a
+custom mount.  For example, suppose you mounted the \code{github}
+authentication backend at \verb{/github-myorg} you might use \code{gh <- vault$auth$github2$custom_mount("/github-myorg")} - this
+pattern is repeated for other secret and authentication
+backends.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$custom_mount(mount)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mount}}{String, indicating the path that the engine is
+mounted at.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-configure"></a>}}
+\if{latex}{\out{\hypertarget{method-configure}{}}}
+\subsection{Method \code{configure()}}{
+Configures the connection parameters for
+GitHub-based authentication.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$configure(
+  organization,
+  base_url = NULL,
+  ttl = NULL,
+  max_ttl = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{organization}}{The organization users must be part of
+(note American spelling).}
+
+\item{\code{base_url}}{The API endpoint to
+use. Useful if you are running GitHub Enterprise or an
+API-compatible authentication server.}
+
+\item{\code{ttl}}{Duration after which authentication will be expired}
+
+\item{\code{max_ttl}}{Maximum duration after which authentication will
+be expired}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-configuration"></a>}}
+\if{latex}{\out{\hypertarget{method-configuration}{}}}
+\subsection{Method \code{configuration()}}{
+Reads the connection parameters for GitHub-based
+authentication.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$configuration()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-write"></a>}}
+\if{latex}{\out{\hypertarget{method-write}{}}}
+\subsection{Method \code{write()}}{
+Write a mapping between a GitHub team or user and
+a set of vault policies.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$write(team_name, policies, user = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{team_name}}{String, with the GitHub team name}
+
+\item{\code{policies}}{A character vector of vault policies that this
+user or team will have for vault access if they match this
+team or user.}
+
+\item{\code{user}}{Scalar logical - if \code{TRUE}, then \code{team_name} is
+interpreted as a \emph{user} instead.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-read"></a>}}
+\if{latex}{\out{\hypertarget{method-read}{}}}
+\subsection{Method \code{read()}}{
+Write a mapping between a GitHub team or user and
+a set of vault policies.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$read(team_name, user = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{team_name}}{String, with the GitHub team name}
+
+\item{\code{user}}{Scalar logical - if \code{TRUE}, then \code{team_name} is
+interpreted as a \emph{user} instead.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-login"></a>}}
+\if{latex}{\out{\hypertarget{method-login}{}}}
+\subsection{Method \code{login()}}{
+Log into the vault using GitHub authentication.
+Normally you would not call this directly but instead use
+\verb{$login} with \code{method = "github"} and proving the \code{token}
+argument.  This function returns a vault token but does not
+set it as the client token.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$login(token = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{A GitHub token to authenticate with.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

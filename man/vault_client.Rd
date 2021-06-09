@@ -2,13 +2,14 @@
 % Please edit documentation in R/vault_client.R
 \name{vault_client}
 \alias{vault_client}
+\alias{vault_client_}
 \title{Make a vault client}
 \usage{
 vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL)
 }
 \arguments{
 \item{login}{Login method.  Specify a string to be passed along as
-the \code{method} argument to \code{$login}.  The default
+the \code{method} argument to \verb{$login}.  The default
 \code{FALSE} means not to login.  \code{TRUE} means to login
 using a default method specified by the environment variable
 \code{VAULTR_AUTH_METHOD} - if that variable is not set, an
@@ -20,8 +21,8 @@ error is thrown.  The value of \code{NULL} is the same as
 \item{...}{Additional arguments passed along to the authentication
 method indicated by \code{login}, if used.}
 
-\item{addr}{The value address \emph{including protocol and port},
-e.g., \code{https://vault.example.com:8200}.  If not given, the
+\item{addr}{The vault address \emph{including protocol and port},
+e.g., \verb{https://vault.example.com:8200}.  If not given, the
 default is the environment variable \code{VAULT_ADDR}, which is
 the same as used by vault's command line client.}
 
@@ -41,145 +42,19 @@ arguments override these defaults.
 
 
 The creation of a client is affected by a number of environment
-  variables, following the main vault command line client.
-
-\describe{
-
-\item{\code{VAULT_ADDR}}{The url of the vault server.  Must
-  include a protocol (most likely \code{https://} but in testing
-  \code{http://} might be used)}
-
-\item{\code{VAULT_CAPATH}}{The path to CA certificates}
-
-\item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
-  Only used for token-based authentication}
-
-\item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
-  client, a github token for authentication using the github
-  authentication backend}
-
-\item{\code{VAULTR_AUTH_METHOD}}{The method to use for
-  authentication}
-
-}
-}
-
-\section{Methods}{
-
-
-\describe{
-\item{\code{api}}{
-  Returns an api client object that can be used to directly interact with the vault server.
-  \cr\emph{Usage:}\preformatted{api()}
-}
-\item{\code{read}}{
-  Read a value from the vault.  This can be used to read any value that you have permission to read, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault read}.
-  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to read, such as \code{/secret/mysecret}
-    }
-
-    \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
-    }
-
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
-    }
-  }
-}
-\item{\code{write}}{
-  Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see \code{\link{vault_client_kv1}}.  Similar to the vault CLI command \code{vault write}.
-  \cr\emph{Usage:}\preformatted{write(path, data)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to write, such as \code{/secret/mysecret}
-    }
-
-    \item{\code{data}:   A named list of values to write into the vault at this path. This \emph{replaces} any existing values.
-    }
-  }
-}
-\item{\code{list}}{
-  List data in the vault at a given path.  This can be used to list keys, etc (e.g., at \code{/secret}).
-  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to list
-    }
-
-    \item{\code{full_names}:   Logical, indicating if full paths (relative to the vault root) should be returned.
-    }
-  }
-
-  \emph{Value}:
-  A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
-}
-\item{\code{delete}}{
-  Delete a value from the vault
-  \cr\emph{Usage:}\preformatted{delete(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to delete
-    }
-  }
-}
-\item{\code{login}}{
-  Login to the vault.  This method is more complicated than most.
-  \cr\emph{Usage:}\preformatted{login(..., method = "token", mount = NULL, renew = FALSE,
-      quiet = FALSE, token_only = FALSE, use_cache = TRUE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{...}:   Additional named parameters passed through to the underlying method
-    }
-
-    \item{\code{method}:   Authentication method to use, as a string.  Supported values include \code{token} (the default), \code{github}, \code{approle} and \code{userpass}.
-    }
-
-    \item{\code{mount}:   The mount path for the authentication backend, \emph{if it has been mounted in a nonstandard location}.  If not given, then it is assumed that the backend was mounted at a path corresponding to the method name.
-    }
-
-    \item{\code{renew}:   Login, even if we appear to hold a valid token.  If \code{FALSE} and we have a token then \code{login} does nothing.
-    }
-
-    \item{\code{quiet}:   Suppress some informational messages
-    }
-
-    \item{\code{token_only}:   Logical, indicating that we do not want to actually log in, but instead just generate a token and return that.  IF given then \code{renew} is ignored and we always generate a new token.
-    }
-
-    \item{\code{use_cache}:   Logical, indicating if we should look in the session cache for a token for this client.  If this is \code{TRUE} then when we log in we save a copy of the token for this session and any subsequent calls to \code{login} at this vault address that use \code{use_cache = TRUE} will be able to use this token.  Using cached tokens will make using some authentication backends that require authentication with external resources (e.g., \code{github}) much faster.
-    }
-  }
-}
-\item{\code{status}}{
-  Return the status of the vault server, including whether it is sealed or not, and the vault server version.
-  \cr\emph{Usage:}\preformatted{status()}
-}
-\item{\code{unwrap}}{
-  Returns the original response inside the given wrapping token. The vault endpoints used by this method perform validation checks on the token, returns the original value on the wire rather than a JSON string representation of it, and ensures that the response is properly audit-logged.
-  \cr\emph{Usage:}\preformatted{unwrap(token)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   Specifies the wrapping token ID
-    }
-  }
-}
-\item{\code{wrap_lookup}}{
-  Look up properties of a wrapping token.
-  \cr\emph{Usage:}\preformatted{wrap_lookup(token)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   Specifies the wrapping token ID to lookup
-    }
-  }
-}
+variables, following the main vault command line client.
+\itemize{
+\item \code{VAULT_ADDR}: The url of the vault server.  Must
+include a protocol (most likely \verb{https://} but in testing
+\verb{http://} might be used)
+\item \code{VAULT_CAPATH}: The path to CA certificates
+\item \code{VAULT_TOKEN}: A vault token to use in authentication.
+Only used for token-based authentication
+\item \code{VAULT_AUTH_GITHUB_TOKEN}: As for the command line
+client, a github token for authentication using the github
+authentication backend
+\item \code{VAULTR_AUTH_METHOD}: The method to use for
+authentication
 }
 }
 
@@ -235,4 +110,290 @@ if (!is.null(server)) {
 }
 \author{
 Rich FitzJohn
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{auth}}{Authentication backends: \link{vault_client_auth}}
+
+\item{\code{audit}}{Audit methods: \link{vault_client_audit}}
+
+\item{\code{cubbyhole}}{The vault cubbyhole key-value store:
+\link{vault_client_cubbyhole}}
+
+\item{\code{operator}}{Operator methods: \link{vault_client_operator}}
+
+\item{\code{policy}}{Policy methods: \link{vault_client_policy}}
+
+\item{\code{secrets}}{Secret backends: \link{vault_client_secrets}}
+
+\item{\code{token}}{Token methods: \link{vault_client_token}}
+
+\item{\code{tools}}{Vault tools: \link{vault_client_tools}}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_$new()}}
+\item \href{#method-api}{\code{vault_client_$api()}}
+\item \href{#method-read}{\code{vault_client_$read()}}
+\item \href{#method-write}{\code{vault_client_$write()}}
+\item \href{#method-delete}{\code{vault_client_$delete()}}
+\item \href{#method-list}{\code{vault_client_$list()}}
+\item \href{#method-login}{\code{vault_client_$login()}}
+\item \href{#method-status}{\code{vault_client_$status()}}
+\item \href{#method-unwrap}{\code{vault_client_$unwrap()}}
+\item \href{#method-wrap_lookup}{\code{vault_client_$wrap_lookup()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a new vault client. Not typically called
+directly, but via the \code{vault_client} method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{addr}}{The vault address, including protocol and port}
+
+\item{\code{tls_config}}{The TLS config, if used}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-api"></a>}}
+\if{latex}{\out{\hypertarget{method-api}{}}}
+\subsection{Method \code{api()}}{
+Returns an api client object that can be used to
+directly interact with the vault server.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$api()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-read"></a>}}
+\if{latex}{\out{\hypertarget{method-read}{}}}
+\subsection{Method \code{read()}}{
+Read a value from the vault.  This can be used to
+read any value that you have permission to read, and can also
+be used as an interface to a version 1 key-value store (see
+\link{vault_client_kv1}.  Similar to the vault CLI command
+\verb{vault read}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$read(path, field = NULL, metadata = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to read, such as
+\verb{/secret/mysecret}}
+
+\item{\code{field}}{Optional field to read from the secret.  Each
+secret is stored as a key/value set (represented in R as a
+named list) and this is equivalent to using \verb{[[field]]} on
+the return value.  The default, \code{NULL}, returns the full set
+of values.}
+
+\item{\code{metadata}}{Logical, indicating if we should return
+metadata for this secret (lease information etc) as an
+attribute along with the values itself.  Ignored if \code{field}
+is specified.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-write"></a>}}
+\if{latex}{\out{\hypertarget{method-write}{}}}
+\subsection{Method \code{write()}}{
+Write data into the vault.  This can be used to
+write any value that you have permission to write, and can
+also be used as an interface to a version 1 key-value store
+(see \link{vault_client_kv1}.  Similar to the vault CLI
+command \verb{vault write}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$write(path, data)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to write, such as
+\verb{/secret/mysecret}}
+
+\item{\code{data}}{A named list of values to write into the vault at
+this path.  This \emph{replaces} any existing values.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-delete}{}}}
+\subsection{Method \code{delete()}}{
+Delete a value from the vault
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$delete(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to delete}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List data in the vault at a given path.  This can
+be used to list keys, etc (e.g., at \verb{/secret}).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$list(path, full_names = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to list}
+
+\item{\code{full_names}}{Logical, indicating if full paths (relative
+to the vault root) should be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A character vector (of zero length if no keys are
+found).  Paths that are "directories" (i.e., that contain
+keys and could themselves be listed) will be returned with a
+trailing forward slash, e.g. \verb{path/}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-login"></a>}}
+\if{latex}{\out{\hypertarget{method-login}{}}}
+\subsection{Method \code{login()}}{
+Login to the vault.  This method is more
+complicated than most.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$login(
+  ...,
+  method = "token",
+  mount = NULL,
+  renew = FALSE,
+  quiet = FALSE,
+  token_only = FALSE,
+  use_cache = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Additional named parameters passed through to the
+underlying method}
+
+\item{\code{method}}{Authentication method to use, as a string.
+Supported values include \code{token} (the default), \code{github},
+\code{approle} and \code{userpass}.}
+
+\item{\code{mount}}{The mount path for the authentication backend, \emph{if
+it has been mounted in a nonstandard location}.  If not
+given, then it is assumed that the backend was mounted at a
+path corresponding to the method name.}
+
+\item{\code{renew}}{Login, even if we appear to hold a valid token.
+If \code{FALSE} and we have a token then \code{login} does nothing.}
+
+\item{\code{quiet}}{Suppress some informational messages}
+
+\item{\code{token_only}}{Logical, indicating that we do not want to
+actually log in, but instead just generate a token and return
+that.  IF given then \code{renew} is ignored and we always
+generate a new token.}
+
+\item{\code{use_cache}}{Logical, indicating if we should look in the
+session cache for a token for this client.  If this is \code{TRUE}
+then when we log in we save a copy of the token for this
+session and any subsequent calls to \code{login} at this vault
+address that use \code{use_cache = TRUE} will be able to use this
+token.  Using cached tokens will make using some
+authentication backends that require authentication with
+external resources (e.g., \code{github}) much faster.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-status"></a>}}
+\if{latex}{\out{\hypertarget{method-status}{}}}
+\subsection{Method \code{status()}}{
+Return the status of the vault server, including
+whether it is sealed or not, and the vault server version.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$status()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-unwrap"></a>}}
+\if{latex}{\out{\hypertarget{method-unwrap}{}}}
+\subsection{Method \code{unwrap()}}{
+Returns the original response inside the given
+wrapping token. The vault endpoints used by this method
+perform validation checks on the token, returns the original
+value on the wire rather than a JSON string representation of
+it, and ensures that the response is properly audit-logged.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$unwrap(token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{Specifies the wrapping token ID}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-wrap_lookup"></a>}}
+\if{latex}{\out{\hypertarget{method-wrap_lookup}{}}}
+\subsection{Method \code{wrap_lookup()}}{
+Look up properties of a wrapping token.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$wrap_lookup(token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{Specifies the wrapping token ID to lookup}
+}
+\if{html}{\out{</div>}}
+}
+}
 }
