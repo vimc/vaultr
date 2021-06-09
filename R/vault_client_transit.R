@@ -401,7 +401,6 @@ vault_client_transit <- R6::R6Class(
       data$ciphertext
     },
 
-    ##' https://groups.google.com/forum/#!topic/vault-tool/gEjLRWlc6C4
     ##' @description This endpoint generates a new high-entropy key and
     ##'   the value encrypted with the named key. Optionally return the
     ##'   plaintext of the key as well.

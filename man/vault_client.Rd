@@ -174,7 +174,7 @@ directly, but via the \code{vault_client} method.
 \describe{
 \item{\code{addr}}{The vault address, including protocol and port}
 
-\item{\code{tls_config}}{The TLS confg, if used}
+\item{\code{tls_config}}{The TLS config, if used}
 }
 \if{html}{\out{</div>}}
 }

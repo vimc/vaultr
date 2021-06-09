@@ -151,7 +151,7 @@ R6_vault_client <- R6::R6Class(
     ##'
     ##' @param addr The vault address, including protocol and port
     ##'
-    ##' @param tls_config The TLS confg, if used
+    ##' @param tls_config The TLS config, if used
     initialize = function(addr, tls_config) {
       super$initialize("core methods for interacting with vault")
       api_client <- vault_api_client$new(addr, tls_config)

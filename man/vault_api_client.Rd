@@ -97,7 +97,7 @@ Create a new api client
 \describe{
 \item{\code{addr}}{Address of the vault server}
 
-\item{\code{tls_config}}{Optional tls config}
+\item{\code{tls_config}}{Optional TLS config}
 }
 \if{html}{\out{</div>}}
 }

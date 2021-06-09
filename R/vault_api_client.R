@@ -57,7 +57,7 @@ vault_api_client <- R6::R6Class(
     ##'
     ##' @param addr Address of the vault server
     ##'
-    ##' @param tls_config Optional tls config
+    ##' @param tls_config Optional TLS config
     initialize = function(addr = NULL, tls_config = NULL) {
       super$initialize("Low-level API client")
       self$addr <- vault_addr(addr)

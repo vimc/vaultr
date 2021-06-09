@@ -461,8 +461,7 @@ by \verb{$data_encrypt}.}
 \item{\code{key_version}}{Specifies the version of the key to use for
 the operation. If not set, uses the latest version. Must be
 greater than or equal to the key's \code{min_encryption_version},
-if set.
-https://groups.google.com/forum/#!topic/vault-tool/gEjLRWlc6C4}
+if set.}
 
 \item{\code{context}}{Specifies the context for key derivation. This
 is required if key derivation is enabled for this key.  Must
