@@ -27,17 +27,18 @@ should be initialised.}
 \item{if_disabled}{Callback function to run if the vault server is
 not enabled.  The default, designed to be used within tests, is
 \code{testthat::skip}.  Alternatively, inspect the
-\code{$enabled} property of the returned object.}
+\verb{$enabled} property of the returned object.}
 
-\item{path}{Path in which to install vault test server. Leave as NULL to use the
-\emph{VAULTR_TEST_SERVER_BIN_PATH} environment variable.}
+\item{path}{Path in which to install vault test server. Leave as
+\code{NULL} to use the \code{VAULTR_TEST_SERVER_BIN_PATH} environment
+variable.}
 
 \item{quiet}{Suppress progress bars on install}
 
 \item{version}{Version of vault to install}
 
-\item{platform}{For testing, overwrite the platform vault is being installed
-on, with either "windows", "darwin" or "linux".}
+\item{platform}{For testing, overwrite the platform vault is being
+installed on, with either "windows", "darwin" or "linux".}
 }
 \description{
 Control a server for use with testing.  This is designed to be
@@ -49,7 +50,7 @@ to point at the directory containing the vault binary.
 Once created with \code{vault_test_server}, a server will stay
 alive for as long as the R process is alive \emph{or} until the
 \code{vault_server_instance} object goes out of scope and is
-garbage collected.  Calling \code{$kill()} will explicitly stop
+garbage collected.  Calling \verb{$kill()} will explicitly stop
 the server, but this is not strictly needed.  See below for
 methods to control the server instance.
 
@@ -57,26 +58,26 @@ The function \code{vault_test_server_install} will install a test
 server, but \emph{only} if the user sets the following environmental
 variables:
 \itemize{
-\item \code{VAULTR_TEST_SERVER_INSTALL} to \code{"true"} to opt in
-to the download.
-\item \code{VAULTR_TEST_SERVER_BIN_PATH} to the directory where
-the binary should be downloaded to.
-\item \code{NOT_CRAN} to \code{"true"} to indicate this is not running
-on CRAN as it requires installation of a binary from a website.
+\item \code{VAULTR_TEST_SERVER_INSTALL} to \code{"true"} to opt in to the
+download.
+\item \code{VAULTR_TEST_SERVER_BIN_PATH} to the directory where the binary
+should be downloaded to.
+\item \code{NOT_CRAN} to \code{"true"} to indicate this is not running on CRAN
+as it requires installation of a binary from a website.
 }
-This will download a ~100MB binary from \url{https://vaultproject.io}
+
+This will download a ~100MB binary from https://vaultproject.io
 so use with care.  It is intended \emph{only} for use in automated
 testing environments.
 }
 \section{Warning}{
 
 
-Starting a server in test mode must \emph{not} be used for
-production under any circumstances.  As the name suggests,
-\code{vault_test_server} is a server suitable for \emph{tests}
-only and lacks any of the features required to make vault
-secure.  Please see
-\url{https://www.vaultproject.io/docs/concepts/dev-server.html}
+Starting a server in test mode must \emph{not} be used for production
+under any circumstances.  As the name suggests,
+\code{vault_test_server} is a server suitable for \emph{tests} only and
+lacks any of the features required to make vault secure.  Please
+see https://www.vaultproject.io/docs/concepts/dev-server.html
 for more information
 
 
@@ -84,7 +85,7 @@ for more information
 The \code{vault_test_server_install} function will download a
 binary from HashiCorp in order to use a vault server.  Use this
 function with care.  The download will happen from
-\url{https://releases.hashicorp.com/vault} (over https).  This
+https://releases.hashicorp.com/vault (over https).  This
 function is primarily designed to be used from continuous
 integration services only and for local use you are strongly
 recommended to curate your own installations.
@@ -93,7 +94,7 @@ recommended to curate your own installations.
 \examples{
 
 # Try and start a server; if one is not enabled (see details
-# above) then this will return \code{NULL}
+# above) then this will return NULL
 server <- vault_test_server(if_disabled = message)
 
 if (!is.null(server)) {
@@ -110,7 +111,7 @@ if (!is.null(server)) {
 
   # The server stops automatically when the server object is
   # garbage collected, or it can be turned off with the
-  # \code{kill} method:
+  # 'kill' method:
   server$kill()
   tryCatch(client$status(), error = function(e) message(e$message))
 }

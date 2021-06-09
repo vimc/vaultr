@@ -11,15 +11,14 @@ Key-Value Store (Version 1)
 \details{
 Interact with vault's version 1 key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
-(see \code{\link{vault_client_kv2}} for a richer key-value store).
+(see \link{vault_client_kv2} for a richer key-value store).
 
 Up to vault version 0.12.0 this was mounted by default at
-\code{/secret}.  It can be accessed from vault with either the
-\code{$read}, \code{$write}, \code{$list} and \code{$delete}
-methods on the main \code{\link{vault_client}} object or by the
-\code{$kv1} member of the
-\code{\link[=vault_client_secrets]{secrets}} member of the main
-vault client.
+\verb{/secret}.  It can be accessed from vault with either the \verb{$read},
+\verb{$write}, \verb{$list} and \verb{$delete} methods on the main
+\link{vault_client} object or by the \verb{$kv1} member of the
+\code{secrets} member of the main vault client
+(\link{vault_client_secrets})
 }
 \examples{
 

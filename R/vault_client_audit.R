@@ -1,5 +1,5 @@
 ##' Interact with vault's audit devices.  For more details, see
-##' \url{https://www.vaultproject.io/docs/audit/}
+##' https://www.vaultproject.io/docs/audit/
 ##'
 ##' @title Vault Audit Devices
 ##' @name vault_client_audit

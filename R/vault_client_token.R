@@ -1,11 +1,11 @@
 ##' Interact with vault's token methods.  This includes support for
 ##' querying, creating and deleting tokens.  Tokens are fundamental to
 ##' the way that vault works, so there are a lot of methods here.  The
-##' \href{https://www.vaultproject.io/docs/concepts/tokens.html}{vault
-##' documentation has a page devoted to token concepts} and
-##' \href{https://www.vaultproject.io/docs/commands/token/index.html}{another
-##' with commands} that have names very similar to the names used
-##' here.
+##' vault documentation has a page devoted to token concepts:
+##' https://www.vaultproject.io/docs/concepts/tokens.html. There is
+##' also a page with commands:
+##' https://www.vaultproject.io/docs/commands/token/index.html - these
+##' have names very similar to the names used here.
 ##'
 ##' @section Token Accessors:
 ##'
@@ -14,11 +14,9 @@
 ##' another token that can be used to perform limited actions with the
 ##' token such as
 ##'
-##' \itemize{
-##' \item Look up a token's properties (not including the actual token ID)
-##' \item Look up a token's capabilities on a path
-##' \item Revoke the token
-##' }
+##' * Look up a token's properties (not including the actual token ID)
+##' * Look up a token's capabilities on a path
+##' * Revoke the token
 ##'
 ##' However, accessors cannot be used to login, nor to retrieve the
 ##' actual token itself.

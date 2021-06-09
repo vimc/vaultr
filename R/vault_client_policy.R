@@ -1,6 +1,6 @@
 ##' Interact with vault's policies.  To get started, you may want to
 ##' read up on policies as described in the vault manual, here:
-##' \url{https://www.vaultproject.io/docs/concepts/policies.html}
+##' https://www.vaultproject.io/docs/concepts/policies.html
 ##'
 ##' @title Vault Policy Configuration
 ##' @name vault_client_policy

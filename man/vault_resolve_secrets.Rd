@@ -11,17 +11,17 @@ vault_resolve_secrets(x, ..., login = TRUE, vault_args = NULL)
 (see Details for pattern).  Any values that are not strings or
 do not match the pattern of a secret are left as-is.}
 
-\item{...}{Args to be passed to \code{\link{vault_client}} call.}
+\item{...}{Args to be passed to \link{vault_client} call.}
 
 \item{login}{Login method to be passed to call to
-\code{\link{vault_client}}.}
+\link{vault_client}.}
 
-\item{vault_args}{As an alternative to using \code{login} and
-\code{...}, a list of (named) arguments can be provided here,
-equivalent to the full set of arguments that you might pass to
-\code{\link{vault_client}}.  If provided, then \code{login} is
-ignored and if additional arguments are provided through
-\code{...} an error will be thrown.}
+\item{vault_args}{As an alternative to using \code{login} and \code{...}, a
+list of (named) arguments can be provided here, equivalent to
+the full set of arguments that you might pass to
+\link{vault_client}.  If provided, then \code{login} is ignored
+and if additional arguments are provided through \code{...} an error
+will be thrown.}
 }
 \value{
 List of properties with any vault secrets resolved.
@@ -34,25 +34,18 @@ special strings that indicate that the string refers to a vault
 secret.  This function resolves those secrets.
 }
 \details{
-For each element of the data, if a string matches the form:
-
-\preformatted{
-  VAULT:<path to secret>:<field>
+For each element of the data, if a string matches the form:\preformatted{  VAULT:<path to secret>:<field>
 }
 
 then it will be treated as a vault secret and resolved.  The
-\code{<path to get>} will be something like
-\code{/secret/path/password} and the \code{<field>} the name of a
+\verb{<path to get>} will be something like
+\verb{/secret/path/password} and the \verb{<field>} the name of a
 field in the key/value data stored at that path.  For example,
-suppose you have the data \code{list(username = "alice", password =
-"s3cret!")} stored at \code{/secret/database/user}, then the
-string
-
-\preformatted{
-  VAULT:/secret/database/user:password
+suppose you have the data \code{list(username = "alice", password = "s3cret!")} stored at \verb{/secret/database/user}, then the
+string\preformatted{  VAULT:/secret/database/user:password
 }
 
-would refer to the value \code{s3cret!}
+would refer to the value \verb{s3cret!}
 }
 \examples{
 

@@ -11,7 +11,7 @@ Vault Policy Configuration
 \details{
 Interact with vault's policies.  To get started, you may want to
 read up on policies as described in the vault manual, here:
-\url{https://www.vaultproject.io/docs/concepts/policies.html}
+https://www.vaultproject.io/docs/concepts/policies.html
 }
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)

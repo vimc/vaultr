@@ -11,10 +11,10 @@ Cubbyhole secret store
 \details{
 Interact with vault's cubbyhole key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
-(c.f. \code{\link{vault_client_kv2}}) that is scoped to your
+(c.f. \link{vault_client_kv2}) that is scoped to your
 current token only and not accessible to anyone else.  For more
 details please see the vault documentation
-\url{https://www.vaultproject.io/docs/secrets/cubbyhole/index.html}
+https://www.vaultproject.io/docs/secrets/cubbyhole/index.html
 }
 \examples{
 

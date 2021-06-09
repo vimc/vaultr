@@ -9,7 +9,7 @@ vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL)
 }
 \arguments{
 \item{login}{Login method.  Specify a string to be passed along as
-the \code{method} argument to \code{$login}.  The default
+the \code{method} argument to \verb{$login}.  The default
 \code{FALSE} means not to login.  \code{TRUE} means to login
 using a default method specified by the environment variable
 \code{VAULTR_AUTH_METHOD} - if that variable is not set, an
@@ -22,7 +22,7 @@ error is thrown.  The value of \code{NULL} is the same as
 method indicated by \code{login}, if used.}
 
 \item{addr}{The vault address \emph{including protocol and port},
-e.g., \code{https://vault.example.com:8200}.  If not given, the
+e.g., \verb{https://vault.example.com:8200}.  If not given, the
 default is the environment variable \code{VAULT_ADDR}, which is
 the same as used by vault's command line client.}
 
@@ -43,25 +43,18 @@ arguments override these defaults.
 
 The creation of a client is affected by a number of environment
 variables, following the main vault command line client.
-
-\describe{
-
-\item{\code{VAULT_ADDR}}{The url of the vault server.  Must
-include a protocol (most likely \code{https://} but in testing
-\code{http://} might be used)}
-
-\item{\code{VAULT_CAPATH}}{The path to CA certificates}
-
-\item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
-Only used for token-based authentication}
-
-\item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+\itemize{
+\item \code{VAULT_ADDR}: The url of the vault server.  Must
+include a protocol (most likely \verb{https://} but in testing
+\verb{http://} might be used)
+\item \code{VAULT_CAPATH}: The path to CA certificates
+\item \code{VAULT_TOKEN}: A vault token to use in authentication.
+Only used for token-based authentication
+\item \code{VAULT_AUTH_GITHUB_TOKEN}: As for the command line
 client, a github token for authentication using the github
-authentication backend}
-
-\item{\code{VAULTR_AUTH_METHOD}}{The method to use for
-authentication}
-
+authentication backend
+\item \code{VAULTR_AUTH_METHOD}: The method to use for
+authentication
 }
 }
 

@@ -8,50 +8,46 @@
 ##' The creation of a client is affected by a number of environment
 ##'   variables, following the main vault command line client.
 ##'
-##' \describe{
+##' * `VAULT_ADDR`: The url of the vault server.  Must
+##'   include a protocol (most likely `https://` but in testing
+##'   `http://` might be used)
 ##'
-##' \item{\code{VAULT_ADDR}}{The url of the vault server.  Must
-##'   include a protocol (most likely \code{https://} but in testing
-##'   \code{http://} might be used)}
+##' * `VAULT_CAPATH`: The path to CA certificates
 ##'
-##' \item{\code{VAULT_CAPATH}}{The path to CA certificates}
+##' * `VAULT_TOKEN`: A vault token to use in authentication.
+##'   Only used for token-based authentication
 ##'
-##' \item{\code{VAULT_TOKEN}}{A vault token to use in authentication.
-##'   Only used for token-based authentication}
-##'
-##' \item{\code{VAULT_AUTH_GITHUB_TOKEN}}{As for the command line
+##' * `VAULT_AUTH_GITHUB_TOKEN`: As for the command line
 ##'   client, a github token for authentication using the github
-##'   authentication backend}
+##'   authentication backend
 ##'
-##' \item{\code{VAULTR_AUTH_METHOD}}{The method to use for
-##'   authentication}
-##'
-##' }
+##' * `VAULTR_AUTH_METHOD`: The method to use for
+##'   authentication
 ##'
 ##' @title Make a vault client
 ##'
 ##' @param login Login method.  Specify a string to be passed along as
-##'   the \code{method} argument to \code{$login}.  The default
-##'   \code{FALSE} means not to login.  \code{TRUE} means to login
+##'   the `method` argument to `$login`.  The default
+##'   `FALSE` means not to login.  `TRUE` means to login
 ##'   using a default method specified by the environment variable
-##'   \code{VAULTR_AUTH_METHOD} - if that variable is not set, an
-##'   error is thrown.  The value of \code{NULL} is the same as
-##'   \code{TRUE} but does not throw an error if
-##'   \code{VAULTR_AUTH_METHOD} is not set.  Supported methods are
-##'   \code{token}, \code{github} and \code{userpass}.
+##'   `VAULTR_AUTH_METHOD` - if that variable is not set, an
+##'   error is thrown.  The value of `NULL` is the same as
+##'   `TRUE` but does not throw an error if
+##'   `VAULTR_AUTH_METHOD` is not set.  Supported methods are
+##'   `token`, `github` and `userpass`.
 ##'
 ##' @param ... Additional arguments passed along to the authentication
-##'   method indicated by \code{login}, if used.
+##'   method indicated by `login`, if used.
 ##'
-##' @param addr The vault address \emph{including protocol and port},
-##'   e.g., \code{https://vault.example.com:8200}.  If not given, the
-##'   default is the environment variable \code{VAULT_ADDR}, which is
+##' @param addr The vault address *including protocol and port*,
+##'   e.g., `https://vault.example.com:8200`.  If not given, the
+##'   default is the environment variable `VAULT_ADDR`, which is
 ##'   the same as used by vault's command line client.
 ##'
 ##' @param tls_config TLS (https) configuration.  For most uses this
 ##'   can be left blank.  However, if your vault server uses a
 ##'   self-signed certificate you will need to provide this.  Defaults
-##'   to the environment variable \code{VAULT_CAPATH}, which is the
+##'   to the environment variable `VAULT_CAPATH`, which is the
 ##'   same as vault's command line client.
 ##'
 ##' @export

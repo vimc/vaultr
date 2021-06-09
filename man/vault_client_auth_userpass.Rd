@@ -13,7 +13,7 @@ Interact with vault's username/password authentication backend.
 This backend can be used to configure basic username+password
 authentication, suitable for human users.  For more information,
 please see the vault documentation
-\url{https://www.vaultproject.io/docs/auth/userpass.html}
+https://www.vaultproject.io/docs/auth/userpass.html
 }
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)

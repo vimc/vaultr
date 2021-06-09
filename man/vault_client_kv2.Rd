@@ -12,27 +12,21 @@ Key-Value Store (Version 2)
 Interact with vault's version 2 key-value store.  This is useful
 for storing simple key-value data that can be versioned and for
 storing metadata alongside the secrets (see
-\code{\link{vault_client_kv1}} for a simpler key-value store, and
-see \url{https://www.vaultproject.io/docs/secrets/kv/kv-v2.html}
-for detailed information about this secret store.
+\link{vault_client_kv1} for a simpler key-value store, and see
+https://www.vaultproject.io/docs/secrets/kv/kv-v2.html for
+detailed information about this secret store.
 
 A \code{kv2} store can be mounted anywhere, so all methods accept
 a \code{mount} argument.  This is different to the CLI which lets
 you try and read values from any vault path, but similar to other
 secret and auth backends which accept arguments like
 \code{-mount-point}.  So if the \code{kv2} store is mounted at
-\code{/project-secrets} for example, with a vault client
-\code{vault} one could write
-
-\preformatted{
-vault$secrets$kv2$get("/project-secrets/mysecret",
+\verb{/project-secrets} for example, with a vault client
+\code{vault} one could write\preformatted{vault$secrets$kv2$get("/project-secrets/mysecret",
                       mount = "project-secrets")
 }
 
-or
-
-\preformatted{
-kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
+or\preformatted{kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
 kv2$get("mysecret")
 }
 
