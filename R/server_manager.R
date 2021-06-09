@@ -257,13 +257,19 @@ vault_server_start_dev <- function(bin, port) {
   vault_server_wait(cl$operator$is_initialized, process)
   on.exit()
 
-  txt <- readLines(process$get_output_file())
-  re <- "\\s*Unseal Key:\\s+([^ ]+)\\s*$"
-  i <- grep(re, txt)
-  key <- NULL
-  if (length(i) == 1L) {
-    key <- sub(re, "\\1", txt[[i]])
+  for (i in 1:5) {
+    txt <- readLines(process$get_output_file())
+    re <- "\\s*Unseal Key:\\s+([^ ]+)\\s*$"
+    i <- grep(re, txt)
+    key <- NULL
+    if (length(i) == 1L) {
+      key <- sub(re, "\\1", txt[[i]])
+      break
+    }
+    Sys.sleep(0.5) # nocov
   }
+
+  txt2 <- readLines(process$get_error_file())
 
   ## See https://www.vaultproject.io/docs/secrets/kv/kv-v2.html#setup
   ##
