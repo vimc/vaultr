@@ -75,7 +75,7 @@ to point at the directory containing the vault binary." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@ to point at the directory containing the vault binary." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Control a test vault server</h1>
-    <small class="dont-index">Source: <a href='https://github.com/vimc/vaultr/blob/master/R/server_manager.R'><code>R/server_manager.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/vimc/vaultr/blob/master/R/server_manager.R'><code>R/server_manager.R</code></a>, <a href='https://github.com/vimc/vaultr/blob/master/R/vault_server_instance.R'><code>R/vault_server_instance.R</code></a></small>
     <div class="hidden name"><code>vault_test_server.Rd</code></div>
     </div>
 
@@ -174,8 +174,9 @@ not enabled.  The default, designed to be used within tests, is
     </tr>
     <tr>
       <th>path</th>
-      <td><p>Path in which to install vault test server. Leave as NULL to use the 
-<em>VAULTR_TEST_SERVER_BIN_PATH</em> environment variable.</p></td>
+      <td><p>Path in which to install vault test server. Leave as
+<code>NULL</code> to use the <code>VAULTR_TEST_SERVER_BIN_PATH</code> environment
+variable.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -187,8 +188,8 @@ not enabled.  The default, designed to be used within tests, is
     </tr>
     <tr>
       <th>platform</th>
-      <td><p>For testing, overwrite the platform vault is being installed
-on, with either "windows", "darwin" or "linux".</p></td>
+      <td><p>For testing, overwrite the platform vault is being
+installed on, with either "windows", "darwin" or "linux".</p></td>
     </tr>
     </table>
 
@@ -203,71 +204,151 @@ methods to control the server instance.</p>
 <p>The function <code>vault_test_server_install</code> will install a test
 server, but <em>only</em> if the user sets the following environmental
 variables:</p><ul>
-<li><p><code>VAULTR_TEST_SERVER_INSTALL</code> to <code>"true"</code> to opt in
-to the download.</p></li>
-<li><p><code>VAULTR_TEST_SERVER_BIN_PATH</code> to the directory where 
-the binary should be downloaded to.</p></li>
-<li><p><code>NOT_CRAN</code> to <code>"true"</code> to indicate this is not running
-on CRAN as it requires installation of a binary from a website.</p></li>
-</ul><p>This will download a ~100MB binary from <a href='https://vaultproject.io'>https://vaultproject.io</a>
+<li><p><code>VAULTR_TEST_SERVER_INSTALL</code> to <code>"true"</code> to opt in to the
+download.</p></li>
+<li><p><code>VAULTR_TEST_SERVER_BIN_PATH</code> to the directory where the binary
+should be downloaded to.</p></li>
+<li><p><code>NOT_CRAN</code> to <code>"true"</code> to indicate this is not running on CRAN
+as it requires installation of a binary from a website.</p></li>
+</ul>
+
+<p>This will download a ~100MB binary from https://vaultproject.io
 so use with care.  It is intended <em>only</em> for use in automated
 testing environments.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-
-<dl>
-<dt><code>addr</code></dt><dd><p>The vault address; this is suitable for using with <code><a href='vault_client.html'>vault_client</a></code> (read-only).</p></dd>
-<dt><code>port</code></dt><dd><p>The vault port (read-only).</p></dd>
-<dt><code>token</code></dt><dd><p>The vault root token, from when the testing vault server was created.  If the vault is rekeyed this will no longer be accurate (read-only).</p></dd>
-<dt><code>keys</code></dt><dd><p>Key shares from when the vault was initialised (read-only).</p></dd>
-<dt><code>cacert</code></dt><dd><p>Path to the https certificate, if running in https mode (read-only).</p></dd>
-<dt><code>version</code></dt><dd><p>Return the server version, as a <code><a href='https://rdrr.io/r/base/numeric_version.html'>numeric_version</a></code> object.
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/Version.html'>version</a></span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>client</code></dt><dd><p>Create a new client that can use this server.  The client will be a <code><a href='vault_client.html'>vault_client</a></code> object.
-  <br /><em>Usage:</em><pre><span class='fu'>client</span><span class='op'>(</span>login <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>login</code>:   Logical, indicating if the client should login to the server (default is <code>TRUE</code>).</p></li>
-<li><p><code>quiet</code>:   Logical, indicating if informational messages should be suppressed.  Default is <code>TRUE</code>, in contrast with most other methods.</p></li>
-</ul></p></dd>
-<dt><code>env</code></dt><dd><p>Return a named character vector of environment variables that can be used to communicate with this vault server (<code>VAULT_ADDR</code>, <code>VAU:T_TOKEN</code>, etc).
-  <br /><em>Usage:</em><pre><span class='fu'>env</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>export</code></dt><dd><p>Export the variables returned by the <code>$env()</code> method to the environment.  This makes them available to child processes.
-  <br /><em>Usage:</em><pre><span class='fu'>export</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>clear_cached_token</code></dt><dd><p>Clear any session-cached token for this server.  This is intended for testing new authentication backends.
-  <br /><em>Usage:</em><pre><span class='fu'>clear_cached_token</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>kill</code></dt><dd><p>Kill the server.
-  <br /><em>Usage:</em><pre><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-
-</dl>
-
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
 
 
-<p>Starting a server in test mode must <em>not</em> be used for
-  production under any circumstances.  As the name suggests,
-  <code>vault_test_server</code> is a server suitable for <em>tests</em>
-  only and lacks any of the features required to make vault
-  secure.  Please see
-  <a href='https://www.vaultproject.io/docs/concepts/dev-server.html'>https://www.vaultproject.io/docs/concepts/dev-server.html</a>
-  for more information</p>
+<p>Starting a server in test mode must <em>not</em> be used for production
+under any circumstances.  As the name suggests,
+<code>vault_test_server</code> is a server suitable for <em>tests</em> only and
+lacks any of the features required to make vault secure.  Please
+see https://www.vaultproject.io/docs/concepts/dev-server.html
+for more information</p>
 
 
 <p>The <code>vault_test_server_install</code> function will download a
-  binary from HashiCorp in order to use a vault server.  Use this
-  function with care.  The download will happen from
-  <a href='https://releases.hashicorp.com/vault'>https://releases.hashicorp.com/vault</a> (over https).  This
-  function is primarily designed to be used from continuous
-  integration services only and for local use you are strongly
-  recommended to curate your own installations.</p>
+binary from HashiCorp in order to use a vault server.  Use this
+function with care.  The download will happen from
+https://releases.hashicorp.com/vault (over https).  This
+function is primarily designed to be used from continuous
+integration services only and for local use you are strongly
+recommended to curate your own installations.</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_server_instance</code></p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl>
+<dt><code>port</code></dt><dd><p>The vault port (read-only).</p></dd>
+
+<dt><code>addr</code></dt><dd><p>The vault address; this is suitable for using with
+<a href='vault_client.html'>vault_client</a> (read-only).</p></dd>
+
+<dt><code>token</code></dt><dd><p>The vault root token, from when the testing vault
+server was created.  If the vault is rekeyed this will no
+longer be accurate (read-only).</p></dd>
+
+<dt><code>keys</code></dt><dd><p>Key shares from when the vault was initialised
+(read-only).</p></dd>
+
+<dt><code>cacert</code></dt><dd><p>Path to the https certificate, if running in
+https mode (read-only).</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>vault_server_instance$new()</code></a></p></li>
+<li><p><a href='#method-version'><code>vault_server_instance$version()</code></a></p></li>
+<li><p><a href='#method-client'><code>vault_server_instance$client()</code></a></p></li>
+<li><p><a href='#method-env'><code>vault_server_instance$env()</code></a></p></li>
+<li><p><a href='#method-export'><code>vault_server_instance$export()</code></a></p></li>
+<li><p><a href='#method-clear_cached_token'><code>vault_server_instance$clear_cached_token()</code></a></p></li>
+<li><p><a href='#method-kill'><code>vault_server_instance$kill()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a <code>vault_server_instance</code> object. Not typically
+called by users.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>bin</span>, <span class='va'>port</span>, <span class='va'>https</span>, <span class='va'>init</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>bin</code></dt><dd><p>Path to the vault binary</p></dd>
+
+<dt><code>port</code></dt><dd><p>Port to use</p></dd>
+
+<dt><code>https</code></dt><dd><p>Logical, indicating if we should use TLS/https</p></dd>
+
+<dt><code>init</code></dt><dd><p>Logical, indicating if we should initialise</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-version"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/Version.html'>version()</a></code></h3>
+<p>Return the server version, as a <a href='https://rdrr.io/r/base/numeric_version.html'>numeric_version</a>
+object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>version</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-client"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>client()</code></h3>
+<p>Create a new client that can use this server.  The
+client will be a <a href='vault_client.html'>vault_client</a> object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span>login <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>login</code></dt><dd><p>Logical, indicating if the client should login to
+the server (default is <code>TRUE</code>).</p></dd>
+
+<dt><code>quiet</code></dt><dd><p>Logical, indicating if informational messages
+should be suppressed.  Default is <code>TRUE</code>, in contrast with
+most other methods.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-env"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>env()</code></h3>
+<p>Return a named character vector of environment
+variables that can be used to communicate with this vault
+server (<code>VAULT_ADDR</code>, <code>VAULT_TOKEN</code>, etc).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>env</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-export"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>export()</code></h3>
+<p>Export the variables returned by the <code>$env()</code>
+method to the environment.  This makes them available to
+child processes.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>export</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-clear_cached_token"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clear_cached_token()</code></h3>
+<p>Clear any session-cached token for this server.
+This is intended for testing new authentication backends.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>clear_cached_token</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-kill"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>kill()</code></h3>
+<p>Kill the server.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_server_instance</span><span class='op'>$</span><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Try and start a server; if one is not enabled (see details</span>
-<span class='co'># above) then this will return \code{NULL}</span>
+<span class='co'># above) then this will return NULL</span>
 <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vault_test_server</span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
@@ -284,7 +365,7 @@ testing environments.</p>
 
   <span class='co'># The server stops automatically when the server object is</span>
   <span class='co'># garbage collected, or it can be turned off with the</span>
-  <span class='co'># \code{kill} method:</span>
+  <span class='co'># 'kill' method:</span>
   <span class='va'>server</span><span class='op'>$</span><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span>
   <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='va'>client</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span>, error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='va'>e</span><span class='op'>$</span><span class='va'>message</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>

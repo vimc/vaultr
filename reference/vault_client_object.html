@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • vaultr</title>
+<title>Base object type — vault_client_object • vaultr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Base object type — vault_client_object" />
+<meta property="og:description" content="Base object type
+Base object type" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -125,18 +127,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/vimc/vaultr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Base object type</h1>
+    <small class="dont-index">Source: <a href='https://github.com/vimc/vaultr/blob/master/R/aaa.R'><code>R/aaa.R</code></a></small>
+    <div class="hidden name"><code>vault_client_object.Rd</code></div>
     </div>
 
-  </div>
+    <div class="ref-description">
+    <p>Base object type</p>
+<p>Base object type</p>
+    </div>
 
+
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Base object used by vaultr for all objects</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>vault_client_object$new()</code></a></p></li>
+<li><p><a href='#method-format'><code>vault_client_object$format()</code></a></p></li>
+<li><p><a href='#method-help'><code>vault_client_object$help()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Construct an object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_object</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>description</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>description</code></dt><dd><p>Description for the object, will be printed</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Format method, overriding the R6 default</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_object</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span>brief <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>brief</code></dt><dd><p>Logical, indicating if this is the full format or
+a brief (one line) format.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-help"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>help()</code></h3>
+<p>Display help for this object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_object</span><span class='op'>$</span><span class='fu'>help</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_test_server.html'>vault_test_server</a></span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>client</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_client.html'>vault_client</a></span><span class='op'>(</span>addr <span class='op'>=</span> <span class='va'>server</span><span class='op'>$</span><span class='va'>addr</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>operator</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>operator</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

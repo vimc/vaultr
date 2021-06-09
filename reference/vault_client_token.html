@@ -40,14 +40,8 @@
 
 
 <meta property="og:title" content="Vault Tokens — vault_client_token" />
-<meta property="og:description" content="Interact with vault's token methods.  This includes support for
-querying, creating and deleting tokens.  Tokens are fundamental to
-the way that vault works, so there are a lot of methods here.  The
-vault
-documentation has a page devoted to token concepts and
-another
-with commands that have names very similar to the names used
-here." />
+<meta property="og:description" content="Vault Tokens
+Vault Tokens" />
 
 
 
@@ -79,7 +73,7 @@ here." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -139,18 +133,22 @@ here." />
     </div>
 
     <div class="ref-description">
-    <p>Interact with vault's token methods.  This includes support for
-querying, creating and deleting tokens.  Tokens are fundamental to
-the way that vault works, so there are a lot of methods here.  The
-<a href='https://www.vaultproject.io/docs/concepts/tokens.html'>vault
-documentation has a page devoted to token concepts</a> and
-<a href='https://www.vaultproject.io/docs/commands/token/index.html'>another
-with commands</a> that have names very similar to the names used
-here.</p>
+    <p>Vault Tokens</p>
+<p>Vault Tokens</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Interact with vault's token methods.  This includes support for
+querying, creating and deleting tokens.  Tokens are fundamental to
+the way that vault works, so there are a lot of methods here.  The
+vault documentation has a page devoted to token concepts:
+https://www.vaultproject.io/docs/concepts/tokens.html. There is
+also a page with commands:
+https://www.vaultproject.io/docs/commands/token/index.html - these
+have names very similar to the names used here.</p>
     <h2 class="hasAnchor" id="token-accessors"><a class="anchor" href="#token-accessors"></a>Token Accessors</h2>
 
     
@@ -159,8 +157,7 @@ here.</p>
 <p>Many of the methods use "token accessors" - whenever a token is
 created, an "accessor" is created at the same time.  This is
 another token that can be used to perform limited actions with the
-token such as</p>
-<ul>
+token such as</p><ul>
 <li><p>Look up a token's properties (not including the actual token ID)</p></li>
 <li><p>Look up a token's capabilities on a path</p></li>
 <li><p>Revoke the token</p></li>
@@ -168,131 +165,450 @@ token such as</p>
 
 <p>However, accessors cannot be used to login, nor to retrieve the
 actual token itself.</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_client_token</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
+<ul>
+<li><p><a href='#method-new'><code>vault_client_token$new()</code></a></p></li>
+<li><p><a href='#method-list'><code>vault_client_token$list()</code></a></p></li>
+<li><p><a href='#method-capabilities'><code>vault_client_token$capabilities()</code></a></p></li>
+<li><p><a href='#method-capabilities_self'><code>vault_client_token$capabilities_self()</code></a></p></li>
+<li><p><a href='#method-capabilities_accessor'><code>vault_client_token$capabilities_accessor()</code></a></p></li>
+<li><p><a href='#method-client'><code>vault_client_token$client()</code></a></p></li>
+<li><p><a href='#method-create'><code>vault_client_token$create()</code></a></p></li>
+<li><p><a href='#method-lookup'><code>vault_client_token$lookup()</code></a></p></li>
+<li><p><a href='#method-lookup_self'><code>vault_client_token$lookup_self()</code></a></p></li>
+<li><p><a href='#method-lookup_accessor'><code>vault_client_token$lookup_accessor()</code></a></p></li>
+<li><p><a href='#method-renew'><code>vault_client_token$renew()</code></a></p></li>
+<li><p><a href='#method-renew_self'><code>vault_client_token$renew_self()</code></a></p></li>
+<li><p><a href='#method-revoke'><code>vault_client_token$revoke()</code></a></p></li>
+<li><p><a href='#method-revoke_self'><code>vault_client_token$revoke_self()</code></a></p></li>
+<li><p><a href='#method-revoke_accessor'><code>vault_client_token$revoke_accessor()</code></a></p></li>
+<li><p><a href='#method-revoke_and_orphan'><code>vault_client_token$revoke_and_orphan()</code></a></p></li>
+<li><p><a href='#method-role_read'><code>vault_client_token$role_read()</code></a></p></li>
+<li><p><a href='#method-role_list'><code>vault_client_token$role_list()</code></a></p></li>
+<li><p><a href='#method-role_write'><code>vault_client_token$role_write()</code></a></p></li>
+<li><p><a href='#method-role_delete'><code>vault_client_token$role_delete()</code></a></p></li>
+<li><p><a href='#method-tidy'><code>vault_client_token$tidy()</code></a></p></li>
+<li><p><a href='#method-login'><code>vault_client_token$login()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
 
-<dl>
-<dt><code>list</code></dt><dd><p>List token accessors, returning a character vector
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>capabilities</code></dt><dd><p>Fetch the capabilities of a token on the given paths. The capabilities returned will be derived from the policies that are on the token, and from the policies to which the token is entitled to through the entity and entity's group memberships.
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/capabilities.html'>capabilities</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
-<li><p><code>token</code>:   Single token for which capabilities are being queried</p></li>
-</ul></p></dd>
-<dt><code>capabilities_self</code></dt><dd><p>As for the <code>capabilities</code> method, but for the client token used to make the request.
-  <br /><em>Usage:</em><pre><span class='fu'>capabilities_self</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
-</ul></p></dd>
-<dt><code>capabilities_accessor</code></dt><dd><p>As for the <code>capabilities</code> method, but using a token <em>accessor</em> rather than a token itself.
-  <br /><em>Usage:</em><pre><span class='fu'>capabilities_accessor</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
-<li><p><code>accessor</code>:   Accessor of the token for which capabilities are being queried</p></li>
-</ul></p></dd>
-<dt><code>client</code></dt><dd><p>Return the current client token
-  <br /><em>Usage:</em><pre><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>create</code></dt><dd><p>Create a new token
-  <br /><em>Usage:</em><pre><span class='fu'>create</span><span class='op'>(</span>role_name <span class='op'>=</span> <span class='cn'>NULL</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, policies <span class='op'>=</span> <span class='cn'>NULL</span>, meta <span class='op'>=</span> <span class='cn'>NULL</span>,
-      orphan <span class='op'>=</span> <span class='cn'>FALSE</span>, no_default_policy <span class='op'>=</span> <span class='cn'>FALSE</span>, max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
-      display_name <span class='op'>=</span> <span class='cn'>NULL</span>, num_uses <span class='op'>=</span> <span class='fl'>0L</span>, period <span class='op'>=</span> <span class='cn'>NULL</span>, ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
-      wrap_ttl <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>role_name</code>:   The name of the token role</p></li>
-<li><p><code>id</code>:   The ID of the client token. Can only be specified by a root token. Otherwise, the token ID is a randomly generated value</p></li>
-<li><p><code>policies</code>:   A character vector of policies for the token. This must be a subset of the policies belonging to the token making the request, unless root. If not specified, defaults to all the policies of the calling token.</p></li>
-<li><p><code>meta</code>:   A named list of strings as metadata to pass through to audit
-       devices.</p></li>
-<li><p><code>orphan</code>:   Logical, indicating if the token created should be an orphan (they will have no parent). As such, they will not be automatically revoked by the revocation of any other token.</p></li>
-<li><p><code>no_default_policy</code>:   Logical, if <code>TRUE</code>, then the default policy will not be contained in this token's policy set.</p></li>
-<li><p><code>max_ttl</code>:   Provides a maximum lifetime for any tokens issued against this role, including periodic tokens. Unlike direct token creation, where the value for an explicit max TTL is stored in the token, for roles this check will always use the current value set in the role. The main use of this is to provide a hard upper bound on periodic tokens, which otherwise can live forever as long as they are renewed. This is an integer number of seconds</p></li>
-<li><p><code>display_name</code>:   The display name of the token</p></li>
-<li><p><code>num_uses</code>:   Maximum number of uses that a token can have.  This can be used to create a one-time-token or limited use token. The default, or the value of 0, has no limit to the number of uses.</p></li>
-<li><p><code>period</code>:   If specified, the token will be periodic; it will have no maximum TTL (unless a <code>max_ttl</code> is also set) but every renewal will use the given period. Requires a root/sudo token to use.</p></li>
-<li><p><code>ttl</code>:   The TTL period of the token, provided as "1h", where hour is the largest suffix. If not provided, the token is valid for the default lease TTL, or indefinitely if the root policy is used.</p></li>
-<li><p><code>wrap_ttl</code>:   Indicates that the secret should be wrapped.  This is discussed in <a href='https://www.vaultproject.io/docs/concepts/response-wrapping.html'>the vault documentation</a>.  When this option is used, <code>vault</code> will take the response it would have sent to an HTTP client and instead insert it into the cubbyhole of a single-use token, returning that single-use token instead. Logically speaking, the response is wrapped by the token, and retrieving it requires an unwrap operation against this token (see the <code>$unwrap</code> method <code><a href='vault_client.html'>vault_client</a></code>).  Must be specified as a valid duration (e.g., <code>1h</code>).</p></li>
-</ul></p></dd>
-<dt><code>lookup</code></dt><dd><p>Returns information about the client token
-  <br /><em>Usage:</em><pre><span class='fu'>lookup</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   The token to lookup</p></li>
-</ul></p></dd>
-<dt><code>lookup_self</code></dt><dd><p>Returns information about the current client token (as if calling <code>$lookup</code> with the token the client is using.
-  <br /><em>Usage:</em><pre><span class='fu'>lookup_self</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>lookup_accessor</code></dt><dd><p>Returns information about the client token from the accessor.
-  <br /><em>Usage:</em><pre><span class='fu'>lookup_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>accessor</code>:   The token accessor to lookup</p></li>
-</ul></p></dd>
-<dt><code>renew</code></dt><dd><p>Renews a lease associated with a token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.
-  <br /><em>Usage:</em><pre><span class='fu'>renew</span><span class='op'>(</span><span class='va'>token</span>, increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   The token to renew</p></li>
-<li><p><code>increment</code>:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., <code>1h</code>).</p></li>
-</ul></p></dd>
-<dt><code>renew_self</code></dt><dd><p>Renews a lease associated with the calling token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.  This is equivalent to calling <code>$renew()</code> with the client token.
-  <br /><em>Usage:</em><pre><span class='fu'>renew_self</span><span class='op'>(</span>increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>increment</code>:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., <code>1h</code>).</p></li>
-</ul></p></dd>
-<dt><code>revoke</code></dt><dd><p>Revokes a token and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.
-  <br /><em>Usage:</em><pre><span class='fu'>revoke</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   The token to revoke</p></li>
-</ul></p></dd>
-<dt><code>revoke_self</code></dt><dd><p>Revokes the token used to call it and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.  This is equivalent to calling <code>$revoke()</code> with the client token.
-  <br /><em>Usage:</em><pre><span class='fu'>revoke_self</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>revoke_accessor</code></dt><dd><p>Revoke the token associated with the accessor and all the child tokens. This is meant for purposes where there is no access to token ID but there is need to revoke a token and its children.
-  <br /><em>Usage:</em><pre><span class='fu'>revoke_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>accessor</code>:   Accessor of the token to revoke.</p></li>
-</ul></p></dd>
-<dt><code>revoke_and_orphan</code></dt><dd><p>Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked subsequently using /auth/token/revoke/. This is a root-protected method.
-  <br /><em>Usage:</em><pre><span class='fu'>revoke_and_orphan</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   The token to revoke</p></li>
-</ul></p></dd>
-<dt><code>role_read</code></dt><dd><p>Fetches the named role configuration.
-  <br /><em>Usage:</em><pre><span class='fu'>role_read</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>role_name</code>:   The name of the token role.</p></li>
-</ul></p></dd>
-<dt><code>role_list</code></dt><dd><p>List available token roles.
-  <br /><em>Usage:</em><pre><span class='fu'>role_list</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>role_write</code></dt><dd><p>Creates (or replaces) the named role. Roles enforce specific behaviour when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the <code>/sys/leases/revoke-prefix</code> endpoint.
-  <br /><em>Usage:</em><pre><span class='fu'>role_write</span><span class='op'>(</span><span class='va'>role_name</span>, allowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>, disallowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>,
-      orphan <span class='op'>=</span> <span class='cn'>NULL</span>, period <span class='op'>=</span> <span class='cn'>NULL</span>, renewable <span class='op'>=</span> <span class='cn'>NULL</span>, explicit_max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
-      path_suffix <span class='op'>=</span> <span class='cn'>NULL</span>, bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span>, token_type <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>role_name</code>:   Name for the role - this will be used later to refer to the role (e.g., in <code>$create</code> and other <code>$role_*</code> methods.</p></li>
-<li><p><code>allowed_policies</code>:   Character vector of policies allowed for this role.  If set, tokens can be created with any subset of the policies in this list, rather than the normal semantics of tokens being a subset of the calling token's policies. The parameter is a comma-delimited string of policy names. If at creation time <code>no_default_policy</code> is not set and "default" is not contained in disallowed_policies, the "default" policy will be added to the created token automatically.</p></li>
-<li><p><code>disallowed_policies</code>:   Character vector of policies forbidden for this role.  If set, successful token creation via this role will require that no policies in the given list are requested. Adding "default" to this list will prevent "default" from being added automatically to created tokens.</p></li>
-<li><p><code>orphan</code>:   If <code>TRUE</code>, then tokens created against this policy will be orphan tokens (they will have no parent). As such, they will not be automatically revoked by the revocation of any other token.</p></li>
-<li><p><code>period</code>:   A duration (e.g., <code>1h</code>).  If specified, the token will be periodic; it will have no maximum TTL (unless an "explicit-max-ttl" is also set) but every renewal will use the given period. Requires a root/sudo token to use.</p></li>
-<li><p><code>renewable</code>:   Set to <code>FALSE</code> to disable the ability of the token to be renewed past its initial TTL. The default value of <code>TRUE</code> will allow the token to be renewable up to the system/mount maximum TTL.</p></li>
-<li><p><code>explicit_max_ttl</code>:   An integer number of seconds.  Provides a maximum lifetime for any tokens issued against this role, including periodic tokens. Unlike direct token creation, where the value for an explicit max TTL is stored in the token, for roles this check will always use the current value set in the role. The main use of this is to provide a hard upper bound on periodic tokens, which otherwise can live forever as long as they are renewed. This is an integer number of seconds.</p></li>
-<li><p><code>path_suffix</code>:   A string.  If set, tokens created against this role will have the given suffix as part of their path in addition to the role name. This can be useful in certain scenarios, such as keeping the same role name in the future but revoking all tokens created against it before some point in time. The suffix can be changed, allowing new callers to have the new suffix as part of their path, and then tokens with the old suffix can be revoked via <code>/sys/leases/revoke-prefix</code>.</p></li>
-<li><p><code>bound_cidrs</code>:   Character vector of CIDRS.  If set, restricts usage of the generated token to client IPs falling within the range of the specified CIDR(s). Unlike most other role parameters, this is not reevaluated from the current role value at each usage; it is set on the token itself. Root tokens with no TTL will not be bound by these CIDRs; root tokens with TTLs will be bound by these CIDRs.</p></li>
-<li><p><code>token_type</code>:   Specifies the type of tokens that should be returned by the role. If either service or batch is specified, that kind of token will always be returned. If <code>default-service</code>, then <code>service</code> tokens will be returned unless the client requests a batch type token at token creation time. If <code>default-batch</code>, then <code>batch</code> tokens will be returned unless the client requests a service type token at token creation time.</p></li>
-</ul></p></dd>
-<dt><code>role_delete</code></dt><dd><p>Delete a named token role
-  <br /><em>Usage:</em><pre><span class='fu'>role_delete</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>role_name</code>:   The name of the role to delete</p></li>
-</ul></p></dd>
-<dt><code>tidy</code></dt><dd><p>Performs some maintenance tasks to clean up invalid entries that may remain in the token store. Generally, running this is not needed unless upgrade notes or support personnel suggest it. This may perform a lot of I/O to the storage method so should be used sparingly.
-  <br /><em>Usage:</em><pre><span class='fu'>tidy</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>login</code></dt><dd><p>Unlike other auth backend <code>login</code> methods, this does not actually log in to the vault.  Instead it verifies that a token can be used to communicate with the vault.
-  <br /><em>Usage:</em><pre><span class='fu'>login</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   The token to test</p></li>
-<li><p><code>quiet</code>:   Logical scalar, set to <code>TRUE</code> to suppress informational messages.</p></li>
-</ul></p></dd>
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a <code>vault_client_token</code> object. Not typically
+called by users.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>api_client</span><span class='op'>)</span></pre><p></div></p>
 
-</dl>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>api_client</code></dt><dd><p>A <a href='vault_api_client.html'>vault_api_client</a> object</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-list"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code></h3>
+<p>List token accessors, returning a character vector</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>list</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-capabilities"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/capabilities.html'>capabilities()</a></code></h3>
+<p>Fetch the capabilities of a token on the given
+paths. The capabilities returned will be derived from the
+policies that are on the token, and from the policies to
+which the token is entitled to through the entity and
+entity's group memberships.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>capabilities</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Vector of paths on which capabilities are being
+queried</p></dd>
+
+<dt><code>token</code></dt><dd><p>Single token for which capabilities are being
+queried</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-capabilities_self"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>capabilities_self()</code></h3>
+<p>As for the <code>capabilities</code> method, but for the
+client token used to make the request.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>capabilities_self</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Vector of paths on which capabilities are being
+queried</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-capabilities_accessor"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>capabilities_accessor()</code></h3>
+<p>As for the <code>capabilities</code> method, but using a
+token <em>accessor</em> rather than a token itself.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>capabilities_accessor</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>accessor</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Vector of paths on which capabilities are being
+queried</p></dd>
+
+<dt><code>accessor</code></dt><dd><p>Accessor of the token for which capabilities
+are being queried</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-client"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>client()</code></h3>
+
+<pre>Return the current client token
+</pre>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-create"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>create()</code></h3>
+<p>Create a new token</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>create</span><span class='op'>(</span>
+  role_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  policies <span class='op'>=</span> <span class='cn'>NULL</span>,
+  meta <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orphan <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  no_default_policy <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  display_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  num_uses <span class='op'>=</span> <span class='fl'>0L</span>,
+  period <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap_ttl <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>role_name</code></dt><dd><p>The name of the token role</p></dd>
+
+<dt><code>id</code></dt><dd><p>The ID of the client token. Can only be specified by
+a root token. Otherwise, the token ID is a randomly generated
+value</p></dd>
+
+<dt><code>policies</code></dt><dd><p>A character vector of policies for the
+token. This must be a subset of the policies belonging to the
+token making the request, unless root. If not specified,
+defaults to all the policies of the calling token.</p></dd>
+
+<dt><code>meta</code></dt><dd><p>A named list of strings as metadata to pass through
+to audit devices.</p></dd>
+
+<dt><code>orphan</code></dt><dd><p>Logical, indicating if the token created should
+be an orphan (they will have no parent). As such, they will
+not be automatically revoked by the revocation of any other
+token.</p></dd>
+
+<dt><code>no_default_policy</code></dt><dd><p>Logical, if <code>TRUE</code>, then the default
+policy will not be contained in this token's policy set.</p></dd>
+
+<dt><code>max_ttl</code></dt><dd><p>Provides a maximum lifetime for any tokens
+issued against this role, including periodic tokens. Unlike
+direct token creation, where the value for an explicit max
+TTL is stored in the token, for roles this check will always
+use the current value set in the role. The main use of this
+is to provide a hard upper bound on periodic tokens, which
+otherwise can live forever as long as they are renewed. This
+is an integer number of seconds</p></dd>
+
+<dt><code>display_name</code></dt><dd><p>The display name of the token</p></dd>
+
+<dt><code>num_uses</code></dt><dd><p>Maximum number of uses that a token can have.
+This can be used to create a one-time-token or limited use
+token. The default, or the value of 0, has no limit to the
+number of uses.</p></dd>
+
+<dt><code>period</code></dt><dd><p>If specified, the token will be periodic; it will
+have no maximum TTL (unless a <code>max_ttl</code> is also set) but
+every renewal will use the given period. Requires a
+root/sudo token to use.</p></dd>
+
+<dt><code>ttl</code></dt><dd><p>The TTL period of the token, provided as "1h", where
+hour is the largest suffix. If not provided, the token is
+valid for the default lease TTL, or indefinitely if the root
+policy is used.</p></dd>
+
+<dt><code>wrap_ttl</code></dt><dd><p>Indicates that the secret should be wrapped.
+This is discussed in the vault documentation:
+https://www.vaultproject.io/docs/concepts/response-wrapping.html
+When this option is used, <code>vault</code> will take the response it
+would have sent to an HTTP client and instead insert it into
+the cubbyhole of a single-use token, returning that
+single-use token instead. Logically speaking, the response is
+wrapped by the token, and retrieving it requires an unwrap
+operation against this token (see the <code>$unwrap</code> method
+<a href='vault_client.html'>vault_client</a>.  Must be specified as a valid
+duration (e.g., <code>1h</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-lookup"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>lookup()</code></h3>
+<p>Returns information about the client token</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>lookup</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>The token to lookup</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-lookup_self"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>lookup_self()</code></h3>
+<p>Returns information about the current client token
+(as if calling <code>$lookup</code> with the token the client is using.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>lookup_self</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-lookup_accessor"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>lookup_accessor()</code></h3>
+<p>Returns information about the client token from
+the accessor.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>lookup_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>accessor</code></dt><dd><p>The token accessor to lookup</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-renew"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>renew()</code></h3>
+<p>Renews a lease associated with a token. This is
+used to prevent the expiration of a token, and the automatic
+revocation of it. Token renewal is possible only if there is
+a lease associated with it.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>renew</span><span class='op'>(</span><span class='va'>token</span>, increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>The token to renew</p></dd>
+
+<dt><code>increment</code></dt><dd><p>An optional requested lease increment can be
+provided. This increment may be ignored.  If given, it should
+be a duration (e.g., <code>1h</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-renew_self"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>renew_self()</code></h3>
+<p>Renews a lease associated with the calling
+token. This is used to prevent the expiration of a token, and
+the automatic revocation of it. Token renewal is possible
+only if there is a lease associated with it.  This is
+equivalent to calling <code>$renew()</code> with the client token.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>renew_self</span><span class='op'>(</span>increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>increment</code></dt><dd><p>An optional requested lease increment can be
+provided. This increment may be ignored.  If given, it should
+be a duration (e.g., <code>1h</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-revoke"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>revoke()</code></h3>
+<p>Revokes a token and all child tokens. When the
+token is revoked, all dynamic secrets generated with it are
+also revoked.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>revoke</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>The token to revoke</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-revoke_self"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>revoke_self()</code></h3>
+<p>Revokes the token used to call it and all child
+tokens. When the token is revoked, all dynamic secrets
+generated with it are also revoked.  This is equivalent to
+calling <code>$revoke()</code> with the client token.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>revoke_self</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-revoke_accessor"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>revoke_accessor()</code></h3>
+<p>Revoke the token associated with the accessor and
+all the child tokens. This is meant for purposes where there
+is no access to token ID but there is need to revoke a token
+and its children.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>revoke_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>accessor</code></dt><dd><p>Accessor of the token to revoke.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-revoke_and_orphan"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>revoke_and_orphan()</code></h3>
+<p>Revokes a token but not its child tokens. When the
+token is revoked, all secrets generated with it are also
+revoked. All child tokens are orphaned, but can be revoked
+subsequently using /auth/token/revoke/. This is a
+root-protected method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>revoke_and_orphan</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>The token to revoke</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-role_read"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>role_read()</code></h3>
+<p>Fetches the named role configuration.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>role_read</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>role_name</code></dt><dd><p>The name of the token role.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-role_list"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>role_list()</code></h3>
+<p>List available token roles.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>role_list</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-role_write"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>role_write()</code></h3>
+<p>Creates (or replaces) the named role. Roles
+enforce specific behaviour when creating tokens that allow
+token functionality that is otherwise not available or would
+require sudo/root privileges to access. Role parameters, when
+set, override any provided options to the create
+endpoints. The role name is also included in the token path,
+allowing all tokens created against a role to be revoked
+using the <code>/sys/leases/revoke-prefix</code> endpoint.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>role_write</span><span class='op'>(</span>
+  <span class='va'>role_name</span>,
+  allowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>,
+  disallowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orphan <span class='op'>=</span> <span class='cn'>NULL</span>,
+  period <span class='op'>=</span> <span class='cn'>NULL</span>,
+  renewable <span class='op'>=</span> <span class='cn'>NULL</span>,
+  explicit_max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  path_suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  token_type <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>role_name</code></dt><dd><p>Name for the role - this will be used later to
+refer to the role (e.g., in <code>$create</code> and other <code>$role_*</code>
+methods.</p></dd>
+
+<dt><code>allowed_policies</code></dt><dd><p>Character vector of policies allowed
+for this role.  If set, tokens can be created with any subset
+of the policies in this list, rather than the normal
+semantics of tokens being a subset of the calling token's
+policies. The parameter is a comma-delimited string of policy
+names. If at creation time <code>no_default_policy</code> is not set and
+"default" is not contained in disallowed_policies, the
+"default" policy will be added to the created token
+automatically.</p></dd>
+
+<dt><code>disallowed_policies</code></dt><dd><p>Character vector of policies
+forbidden for this role.  If set, successful token creation
+via this role will require that no policies in the given list
+are requested. Adding "default" to this list will prevent
+"default" from being added automatically to created tokens.</p></dd>
+
+<dt><code>orphan</code></dt><dd><p>If <code>TRUE</code>, then tokens created against this
+policy will be orphan tokens (they will have no parent). As
+such, they will not be automatically revoked by the
+revocation of any other token.</p></dd>
+
+<dt><code>period</code></dt><dd><p>A duration (e.g., <code>1h</code>).  If specified, the token
+will be periodic; it will have no maximum TTL (unless an
+"explicit-max-ttl" is also set) but every renewal will use
+the given period. Requires a root/sudo token to use.</p></dd>
+
+<dt><code>renewable</code></dt><dd><p>Set to <code>FALSE</code> to disable the ability of the
+token to be renewed past its initial TTL. The default value
+of <code>TRUE</code> will allow the token to be renewable up to the
+system/mount maximum TTL.</p></dd>
+
+<dt><code>explicit_max_ttl</code></dt><dd><p>An integer number of seconds.  Provides
+a maximum lifetime for any tokens issued against this role,
+including periodic tokens. Unlike direct token creation,
+where the value for an explicit max TTL is stored in the
+token, for roles this check will always use the current value
+set in the role. The main use of this is to provide a hard
+upper bound on periodic tokens, which otherwise can live
+forever as long as they are renewed. This is an integer
+number of seconds.</p></dd>
+
+<dt><code>path_suffix</code></dt><dd><p>A string.  If set, tokens created against
+this role will have the given suffix as part of their path in
+addition to the role name. This can be useful in certain
+scenarios, such as keeping the same role name in the future
+but revoking all tokens created against it before some point
+in time. The suffix can be changed, allowing new callers to
+have the new suffix as part of their path, and then tokens
+with the old suffix can be revoked via
+<code>/sys/leases/revoke-prefix</code>.</p></dd>
+
+<dt><code>bound_cidrs</code></dt><dd><p>Character vector of CIDRS.  If set,
+restricts usage of the generated token to client IPs falling
+within the range of the specified CIDR(s). Unlike most other
+role parameters, this is not reevaluated from the current
+role value at each usage; it is set on the token itself. Root
+tokens with no TTL will not be bound by these CIDRs; root
+tokens with TTLs will be bound by these CIDRs.</p></dd>
+
+<dt><code>token_type</code></dt><dd><p>Specifies the type of tokens that should be
+returned by the role. If either service or batch is
+specified, that kind of token will always be returned. If
+<code>default-service</code>, then <code>service</code> tokens will be returned
+unless the client requests a batch type token at token
+creation time. If <code>default-batch</code>, then <code>batch</code> tokens will
+be returned unless the client requests a service type token
+at token creation time.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-role_delete"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>role_delete()</code></h3>
+<p>Delete a named token role</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>role_delete</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>role_name</code></dt><dd><p>The name of the role to delete</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-tidy"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>tidy()</code></h3>
+<p>Performs some maintenance tasks to clean up
+invalid entries that may remain in the token
+store. Generally, running this is not needed unless upgrade
+notes or support personnel suggest it. This may perform a lot
+of I/O to the storage method so should be used sparingly.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>tidy</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-login"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>login()</code></h3>
+<p>Unlike other auth backend <code>login</code> methods, this
+does not actually log in to the vault.  Instead it verifies
+that a token can be used to communicate with the vault.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_token</span><span class='op'>$</span><span class='fu'>login</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>The token to test</p></dd>
+
+<dt><code>quiet</code></dt><dd><p>Logical scalar, set to <code>TRUE</code> to suppress
+informational messages.</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

@@ -40,12 +40,8 @@
 
 
 <meta property="og:title" content="Key-Value Store (Version 2) — vault_client_kv2" />
-<meta property="og:description" content="Interact with vault's version 2 key-value store.  This is useful
-for storing simple key-value data that can be versioned and for
-storing metadata alongside the secrets (see
-vault_client_kv1 for a simpler key-value store, and
-see https://www.vaultproject.io/docs/secrets/kv/kv-v2.html
-for detailed information about this secret store." />
+<meta property="og:description" content="Key-Value Store (Version 2)
+Key-Value Store (Version 2)" />
 
 
 
@@ -77,7 +73,7 @@ for detailed information about this secret store." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -137,33 +133,31 @@ for detailed information about this secret store." />
     </div>
 
     <div class="ref-description">
-    <p>Interact with vault's version 2 key-value store.  This is useful
-for storing simple key-value data that can be versioned and for
-storing metadata alongside the secrets (see
-<code><a href='vault_client_kv1.html'>vault_client_kv1</a></code> for a simpler key-value store, and
-see <a href='https://www.vaultproject.io/docs/secrets/kv/kv-v2.html'>https://www.vaultproject.io/docs/secrets/kv/kv-v2.html</a>
-for detailed information about this secret store.</p>
+    <p>Key-Value Store (Version 2)</p>
+<p>Key-Value Store (Version 2)</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A <code>kv2</code> store can be mounted anywhere, so all methods accept
+    <p>Interact with vault's version 2 key-value store.  This is useful
+for storing simple key-value data that can be versioned and for
+storing metadata alongside the secrets (see
+<a href='vault_client_kv1.html'>vault_client_kv1</a> for a simpler key-value store, and see
+https://www.vaultproject.io/docs/secrets/kv/kv-v2.html for
+detailed information about this secret store.</p>
+<p>A <code>kv2</code> store can be mounted anywhere, so all methods accept
 a <code>mount</code> argument.  This is different to the CLI which lets
 you try and read values from any vault path, but similar to other
 secret and auth backends which accept arguments like
 <code>-mount-point</code>.  So if the <code>kv2</code> store is mounted at
 <code>/project-secrets</code> for example, with a vault client
-<code>vault</code> one could write</p>
-<pre>
-<span class='va'>vault</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv2</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"/project-secrets/mysecret"</span>,
+<code>vault</code> one could write</p><pre><span class='va'>vault</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv2</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"/project-secrets/mysecret"</span>,
                       mount <span class='op'>=</span> <span class='st'>"project-secrets"</span><span class='op'>)</span>
 </pre>
 
-<p>or</p>
-<pre>
-<span class='va'>kv2</span> <span class='op'>&lt;-</span> <span class='va'>vault</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv2</span><span class='op'>$</span><span class='fu'>custom_mount</span><span class='op'>(</span><span class='st'>"project-secrets"</span><span class='op'>)</span>
+<p>or</p><pre><span class='va'>kv2</span> <span class='op'>&lt;-</span> <span class='va'>vault</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv2</span><span class='op'>$</span><span class='fu'>custom_mount</span><span class='op'>(</span><span class='st'>"project-secrets"</span><span class='op'>)</span>
 <span class='va'>kv2</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"mysecret"</span><span class='op'>)</span>
 </pre>
 
@@ -171,91 +165,263 @@ secret and auth backends which accept arguments like
 store does not match the mount point, <code>vaultr</code> will throw an
 error.  This approach results in more predictable error messages,
 though it is a little more typing than for the CLI vault client.</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_client_kv2</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
+<ul>
+<li><p><a href='#method-new'><code>vault_client_kv2$new()</code></a></p></li>
+<li><p><a href='#method-config'><code>vault_client_kv2$config()</code></a></p></li>
+<li><p><a href='#method-custom_mount'><code>vault_client_kv2$custom_mount()</code></a></p></li>
+<li><p><a href='#method-delete'><code>vault_client_kv2$delete()</code></a></p></li>
+<li><p><a href='#method-destroy'><code>vault_client_kv2$destroy()</code></a></p></li>
+<li><p><a href='#method-get'><code>vault_client_kv2$get()</code></a></p></li>
+<li><p><a href='#method-list'><code>vault_client_kv2$list()</code></a></p></li>
+<li><p><a href='#method-metadata_get'><code>vault_client_kv2$metadata_get()</code></a></p></li>
+<li><p><a href='#method-metadata_put'><code>vault_client_kv2$metadata_put()</code></a></p></li>
+<li><p><a href='#method-metadata_delete'><code>vault_client_kv2$metadata_delete()</code></a></p></li>
+<li><p><a href='#method-put'><code>vault_client_kv2$put()</code></a></p></li>
+<li><p><a href='#method-undelete'><code>vault_client_kv2$undelete()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
 
-<dl>
-<dt><code>config</code></dt><dd><p>Fetch the configuration for this <code>kv2</code> store.  Returns a named list of values, the contents of which will depend on the vault version.
-  <br /><em>Usage:</em><pre><span class='fu'>config</span><span class='op'>(</span>mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>custom_mount</code></dt><dd><p>Set up a <code>vault_client_kv2</code> object at a custom mount.  For example, suppose you mounted another copy of the <code>kv2</code> secret backend at <code>/secret2</code> you might use <code>kv &lt;- vault$secrets$kv2$custom_mount("/secret2")</code> - this pattern is repeated for other secret and authentication backends.
-  <br /><em>Usage:</em><pre><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>mount</code>:   String, indicating the path that the engine is mounted at.</p></li>
-</ul></p></dd>
-<dt><code>delete</code></dt><dd><p>Delete a secret from the vault.  This marks the version as deleted and will stop it from being returned from reads, but the underlying data will not be removed. A delete can be undone using the undelete method.
-  <br /><em>Usage:</em><pre><span class='fu'>delete</span><span class='op'>(</span><span class='va'>path</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path to delete</p></li>
-<li><p><code>version</code>:   Optional version to delete.  If <code>NULL</code> (the default) then the latest version of the secret is deleted.  Otherwise, <code>version</code> can be a vector of integer versions to delete.</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>destroy</code></dt><dd><p>Delete a secret entirely.  Unlike <code>delete</code> this operation is irreversible and is more like the <code>delete</code> operation on <code><a href='vault_client_kv1.html'>vault_client_kv1</a></code> stores.
-  <br /><em>Usage:</em><pre><span class='fu'>destroy</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>version</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path to delete</p></li>
-<li><p><code>version</code>:   Version numbers to delete, as a vector of integers (this is required)</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>get</code></dt><dd><p>Read a secret from the vault
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>path</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>FALSE</span>,
-      mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path of the secret to read</p></li>
-<li><p><code>version</code>:   Optional version of the secret to read.  If <code>NULL</code> (the default) then the most recent version is read.  Otherwise this must be a scalar integer.</p></li>
-<li><p><code>field</code>:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using <code>[[field]]</code> on the return value. The default, <code>NULL</code>, returns the full set of values.</p></li>
-<li><p><code>metadata</code>:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if <code>field</code> is specified.</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>list</code></dt><dd><p>List data in the vault at a give path.  This can be used to list keys, etc (e.g., at <code>/secret</code>).
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>path</span>, full_names <span class='op'>=</span> <span class='cn'>FALSE</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The path to list</p></li>
-<li><p><code>full_names</code>:   Logical, indicating if full paths (relative to the vault root) should be returned.</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul>  <em>Value</em>:
-  A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. <code>path/</code></p></dd>
-<dt><code>metadata_get</code></dt><dd><p>Read secret metadata and versions at the specified path
-  <br /><em>Usage:</em><pre><span class='fu'>metadata_get</span><span class='op'>(</span><span class='va'>path</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path of secret to read metadata for</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>metadata_put</code></dt><dd><p>Update metadata for a secret.  This is allowed even if a secret does not yet exist, though this requires the <code>create</code> vault permission at this path.
-  <br /><em>Usage:</em><pre><span class='fu'>metadata_put</span><span class='op'>(</span><span class='va'>path</span>, cas_required <span class='op'>=</span> <span class='cn'>NULL</span>, max_versions <span class='op'>=</span> <span class='cn'>NULL</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path of secret to update metadata for</p></li>
-<li><p><code>cas_required</code>:   Logical, indicating that if If true the key will require the cas parameter to be set on all write requests (see <code>put</code>). If <code>FALSE</code>, the backends configuration will be used.</p></li>
-<li><p><code>max_versions</code>:   Integer, indicating the maximum number of versions to keep per key.  If not set, the backend's configured max version is used. Once a key has more than the configured allowed versions the oldest version will be permanently deleted.</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>metadata_delete</code></dt><dd><p>This method permanently deletes the key metadata and all version data for the specified key. All version history will be removed.
-  <br /><em>Usage:</em><pre><span class='fu'>metadata_delete</span><span class='op'>(</span><span class='va'>path</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path to delete</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>put</code></dt><dd><p>Create or update a secret in this store.
-  <br /><em>Usage:</em><pre><span class='fu'>put</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>data</span>, cas <span class='op'>=</span> <span class='cn'>NULL</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path for the secret to write, such as <code>/secret/mysecret</code></p></li>
-<li><p><code>data</code>:   A named list of values to write into the vault at this path.</p></li>
-<li><p><code>cas</code>:   Integer, indicating the "cas" value to use a "Check-And-Set" operation. If not set the write will be allowed. If set to 0 a write will only be allowed if the key doesn't exist. If the index is non-zero the write will only be allowed if the key's current version matches the version specified in the cas parameter.</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
-<dt><code>undelete</code></dt><dd><p>Undeletes the data for the provided version and path in the key-value store. This restores the data, allowing it to be returned on get requests.  This works with data deleted with <code>$delete</code> but not with <code>$destroy</code>.
-  <br /><em>Usage:</em><pre><span class='fu'>undelete</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>version</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The path to undelete</p></li>
-<li><p><code>version</code>:   Integer vector of versions to undelete</p></li>
-<li><p><code>mount</code>:   Custom mount path to use for this store (see <code>Details</code>.</p></li>
-</ul></p></dd>
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a <code>vault_client_kv2</code> object. Not typically
+called by users.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>api_client</span>, <span class='va'>mount</span><span class='op'>)</span></pre><p></div></p>
 
-</dl>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>api_client</code></dt><dd><p>A <a href='vault_api_client.html'>vault_api_client</a> object</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Mount point for the backend</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-config"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>config()</code></h3>
+<p>Fetch the configuration for this <code>kv2</code> store.
+Returns a named list of values, the contents of which will
+depend on the vault version.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>config</span><span class='op'>(</span>mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-custom_mount"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>custom_mount()</code></h3>
+<p>Set up a <code>vault_client_kv2</code> object at a custom
+mount.  For example, suppose you mounted another copy of the
+<code>kv2</code> secret backend at <code>/secret2</code> you might use <code>kv &lt;- vault$secrets$kv2$custom_mount("/secret2")</code> - this pattern is
+repeated for other secret and authentication backends.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>mount</code></dt><dd><p>String, indicating the path that the engine is
+mounted at.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-delete"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>delete()</code></h3>
+<p>Delete a secret from the vault.  This marks the
+version as deleted and will stop it from being returned from
+reads, but the underlying data will not be removed. A delete
+can be undone using the undelete method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>delete</span><span class='op'>(</span><span class='va'>path</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path to delete</p></dd>
+
+<dt><code>version</code></dt><dd><p>Optional version to delete.  If <code>NULL</code> (the
+default) then the latest version of the secret is deleted.
+Otherwise, <code>version</code> can be a vector of integer versions to
+delete.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-destroy"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>destroy()</code></h3>
+<p>Delete a secret entirely.  Unlike <code>delete</code> this
+operation is irreversible and is more like the <code>delete</code>
+operation on <code><a href='vault_client_kv1.html'>vault_client_kv1</a></code> stores.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>destroy</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>version</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path to delete</p></dd>
+
+<dt><code>version</code></dt><dd><p>Version numbers to delete, as a vector of
+integers (this is required)</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/get.html'>get()</a></code></h3>
+<p>Read a secret from the vault</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  version <span class='op'>=</span> <span class='cn'>NULL</span>,
+  field <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metadata <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  mount <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path of the secret to read</p></dd>
+
+<dt><code>version</code></dt><dd><p>Optional version of the secret to read.  If
+<code>NULL</code> (the default) then the most recent version is read.
+Otherwise this must be a scalar integer.</p></dd>
+
+<dt><code>field</code></dt><dd><p>Optional field to read from the secret.  Each
+secret is stored as a key/value set (represented in R as a
+named list) and this is equivalent to using <code>[[field]]</code> on
+the return value.  The default, <code>NULL</code>, returns the full set
+of values.</p></dd>
+
+<dt><code>metadata</code></dt><dd><p>Logical, indicating if we should return
+metadata for this secret (lease information etc) as an
+attribute along with the values itself.  Ignored if <code>field</code>
+is specified.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-list"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code></h3>
+<p>List data in the vault at a give path.  This can
+be used to list keys, etc (e.g., at <code>/secret</code>).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>list</span><span class='op'>(</span><span class='va'>path</span>, full_names <span class='op'>=</span> <span class='cn'>FALSE</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The path to list</p></dd>
+
+<dt><code>full_names</code></dt><dd><p>Logical, indicating if full paths (relative
+to the vault root) should be returned.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+<dt><code>value</code></dt><dd><p>A character vector (of zero length if no keys are
+found).  Paths that are "directories" (i.e., that contain
+keys and could themselves be listed) will be returned with a
+trailing forward slash, e.g. <code>path/</code></p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-metadata_get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>metadata_get()</code></h3>
+<p>Read secret metadata and versions at the specified
+path</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>metadata_get</span><span class='op'>(</span><span class='va'>path</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path of secret to read metadata for</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-metadata_put"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>metadata_put()</code></h3>
+<p>Update metadata for a secret.  This is allowed
+even if a secret does not yet exist, though this requires the
+<code>create</code> vault permission at this path.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>metadata_put</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  cas_required <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_versions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  mount <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path of secret to update metadata for</p></dd>
+
+<dt><code>cas_required</code></dt><dd><p>Logical, indicating that if If true the key
+will require the cas parameter to be set on all write
+requests (see <code>put</code>). If <code>FALSE</code>, the backend's configuration
+will be used.</p></dd>
+
+<dt><code>max_versions</code></dt><dd><p>Integer, indicating the
+maximum number of versions to keep per key.  If not set, the
+backend's configured max version is used. Once a key has more
+than the configured allowed versions the oldest version will
+be permanently deleted.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-metadata_delete"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>metadata_delete()</code></h3>
+<p>This method permanently deletes the key metadata
+and all version data for the specified key. All version
+history will be removed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>metadata_delete</span><span class='op'>(</span><span class='va'>path</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path to delete</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-put"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>put()</code></h3>
+<p>Create or update a secret in this store.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>put</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>data</span>, cas <span class='op'>=</span> <span class='cn'>NULL</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path for the secret to write, such as
+<code>/secret/mysecret</code></p></dd>
+
+<dt><code>data</code></dt><dd><p>A named list of values to write into the vault at
+this path.</p></dd>
+
+<dt><code>cas</code></dt><dd><p>Integer, indicating the "cas" value to use a
+"Check-And-Set" operation. If not set the write will be
+allowed. If set to 0 a write will only be allowed if the key
+doesn't exist. If the index is non-zero the write will only
+be allowed if the key's current version matches the version
+specified in the cas parameter.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-undelete"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>undelete()</code></h3>
+<p>Undeletes the data for the provided version and
+path in the key-value store. This restores the data, allowing
+it to be returned on get requests.  This works with data
+deleted with <code>$delete</code> but not with <code>$destroy</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_kv2</span><span class='op'>$</span><span class='fu'>undelete</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>version</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The path to undelete</p></dd>
+
+<dt><code>version</code></dt><dd><p>Integer vector of versions to undelete</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Custom mount path to use for this store (see <code>Details</code>).</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

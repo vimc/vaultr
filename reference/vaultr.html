@@ -41,12 +41,12 @@
 
 <meta property="og:title" content="Vault Client for Secrets and Sensitive Data — vaultr" />
 <meta property="og:description" content="Vault client for secrets and sensitive data; this package provides
-wrappers for HashiCorp's vault
-server.  The package wraps most of the high-level API, and
-includes support for authentication via a number of backends
-(tokens, username and password, github, and &quot;AppRole&quot;), as well as
-a number of secrets engines (two key-value stores, vault's
-cubbyhole and the transit backend for encryption-as-a-service)." />
+wrappers for HashiCorp's vault server.
+The package wraps most of the high-level API, and includes support
+for authentication via a number of backends (tokens, username and
+password, github, and &quot;AppRole&quot;), as well as a number of secrets
+engines (two key-value stores, vault's cubbyhole and the transit
+backend for encryption-as-a-service)." />
 
 
 
@@ -78,7 +78,7 @@ cubbyhole and the transit backend for encryption-as-a-service)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -139,12 +139,12 @@ cubbyhole and the transit backend for encryption-as-a-service)." />
 
     <div class="ref-description">
     <p>Vault client for secrets and sensitive data; this package provides
-wrappers for HashiCorp's <a href='https://vaultproject.io'>vault
-server</a>.  The package wraps most of the high-level API, and
-includes support for authentication via a number of backends
-(tokens, username and password, github, and "AppRole"), as well as
-a number of secrets engines (two key-value stores, vault's
-cubbyhole and the transit backend for encryption-as-a-service).</p>
+wrappers for HashiCorp's <a href='https://vaultproject.io'>vault server</a>.
+The package wraps most of the high-level API, and includes support
+for authentication via a number of backends (tokens, username and
+password, github, and "AppRole"), as well as a number of secrets
+engines (two key-value stores, vault's cubbyhole and the transit
+backend for encryption-as-a-service).</p>
     </div>
 
 
@@ -152,23 +152,21 @@ cubbyhole and the transit backend for encryption-as-a-service).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>To get started, you might want to start with the "vaultr"
-vignette, available from the package with
-<code><a href='../articles/vaultr.html'>vignette("vaultr")</a></code>.</p>
+vignette, available from the package with <code><a href='../articles/vaultr.html'>vignette("vaultr")</a></code>.</p>
 <p>The basic design of the package is that it has very few
 entrypoints - for most uses one will interact almost entirely with
-the <code><a href='vault_client.html'>vault_client</a></code> function.  That function returns an
+the <a href='vault_client.html'>vault_client</a> function.  That function returns an
 R6 object with several methods (functions) but also several
 objects that themselves contain more methods and objects, creating
 a nested tree of functionality.</p>
 <p>From any object, online help is available via the help method, for
-example</p><pre>
-<span class='va'>client</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_client.html'>vault_client</a></span><span class='op'>(</span><span class='op'>)</span>
+example</p><pre><span class='va'>client</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_client.html'>vault_client</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>transit</span><span class='op'>$</span><span class='fu'>help</span><span class='op'>(</span><span class='op'>)</span>
 </pre>
 
 <p>For testing packages that rely on vault, there is support for
-creating temporary vault servers; see
-<code><a href='vault_test_server.html'>vault_test_server</a></code> and the "packages" vignette.</p>
+creating temporary vault servers; see <code><a href='vault_test_server.html'>vaultr::vault_test_server</a></code>
+and the "packages" vignette.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

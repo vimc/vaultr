@@ -40,10 +40,8 @@
 
 
 <meta property="og:title" content="Vault Low-Level Client — vault_api_client" />
-<meta property="og:description" content="Low-level API client.  This can be used to directly communicate
-with the vault server.  This object will primarily be useful for
-debugging, testing or developing new vault methods, but is
-nonetheless described here." />
+<meta property="og:description" content="Vault Low-Level Client
+Vault Low-Level Client" />
 
 
 
@@ -75,7 +73,7 @@ nonetheless described here." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -135,72 +133,219 @@ nonetheless described here." />
     </div>
 
     <div class="ref-description">
-    <p>Low-level API client.  This can be used to directly communicate
-with the vault server.  This object will primarily be useful for
-debugging, testing or developing new vault methods, but is
-nonetheless described here.</p>
+    <p>Vault Low-Level Client</p>
+<p>Vault Low-Level Client</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Low-level API client.  This can be used to directly communicate
+with the vault server.  This object will primarily be useful for
+debugging, testing or developing new vault methods, but is
+nonetheless described here.</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_api_client</code></p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl>
+<dt><code>addr</code></dt><dd><p>The vault address (with protocol, hostname and port)</p></dd>
+
+<dt><code>base_url</code></dt><dd><p>The base url (with protocol, hostname, port and
+api version path)</p></dd>
+
+<dt><code>tls_config</code></dt><dd><p>Information used in TLS config, if used</p></dd>
+
+<dt><code>token</code></dt><dd><p>The vault token, if authenticated</p></dd>
+
+<dt><code>version</code></dt><dd><p>The vault server version, once queried</p></dd>
+
+</dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
+<ul>
+<li><p><a href='#method-new'><code>vault_api_client$new()</code></a></p></li>
+<li><p><a href='#method-request'><code>vault_api_client$request()</code></a></p></li>
+<li><p><a href='#method-is_authenticated'><code>vault_api_client$is_authenticated()</code></a></p></li>
+<li><p><a href='#method-set_token'><code>vault_api_client$set_token()</code></a></p></li>
+<li><p><a href='#method-verify_token'><code>vault_api_client$verify_token()</code></a></p></li>
+<li><p><a href='#method-server_version'><code>vault_api_client$server_version()</code></a></p></li>
+<li><p><a href='#method-GET'><code>vault_api_client$GET()</code></a></p></li>
+<li><p><a href='#method-LIST'><code>vault_api_client$LIST()</code></a></p></li>
+<li><p><a href='#method-POST'><code>vault_api_client$POST()</code></a></p></li>
+<li><p><a href='#method-PUT'><code>vault_api_client$PUT()</code></a></p></li>
+<li><p><a href='#method-DELETE'><code>vault_api_client$DELETE()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
 
-<dl>
-<dt><code>is_authenticated</code></dt><dd><p>Test if the vault client currently holds a vault token.  This method does not verify the token - only test that is present.
-  <br /><em>Usage:</em><pre><span class='fu'>is_authenticated</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>set_token</code></dt><dd><p>Set a token within the client
-  <br /><em>Usage:</em><pre><span class='fu'>set_token</span><span class='op'>(</span><span class='va'>token</span>, verify <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   String, with the new vault client token</p></li>
-<li><p><code>verify</code>:   Logical, indicating if we should test that the token is valid. If <code>TRUE</code>, then we use <code>$verify_token()</code> to test the token before setting it and if it is not valid an error will be thrown and the token not set.</p></li>
-<li><p><code>quiet</code>:   Logical, if <code>TRUE</code>, then informational messages will be suppressed.</p></li>
-</ul></p></dd>
-<dt><code>verify_token</code></dt><dd><p>Test that a token is valid with the vault.  This will call vault's <code>/sys/capabilities-self</code> endpoint with the token provided and check the <code>/sys</code> path.
-  <br /><em>Usage:</em><pre><span class='fu'>verify_token</span><span class='op'>(</span><span class='va'>token</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   String, with the vault client token to test</p></li>
-<li><p><code>quiet</code>:   Logical, if <code>TRUE</code>, then informational messages will be suppressed.</p></li>
-</ul></p></dd>
-<dt><code>server_version</code></dt><dd><p>Retrieve the vault server version.  This is by default cached within the client for a session.  Will return an R <code>numeric_version</code> object.
-  <br /><em>Usage:</em><pre><span class='fu'>server_version</span><span class='op'>(</span>refresh <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>refresh</code>:   Logical, indicating if the server version information should be refreshed even if known.</p></li>
-</ul></p></dd>
-<dt><code>GET</code></dt><dd><p>Send a <code>GET</code> request to the vault server
-  <br /><em>Usage:</em><pre><span class='fu'>GET</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
-<li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
-</ul></p></dd>
-<dt><code>LIST</code></dt><dd><p>Send a <code>LIST</code> request to the vault server
-  <br /><em>Usage:</em><pre><span class='fu'>LIST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
-<li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
-</ul></p></dd>
-<dt><code>POST</code></dt><dd><p>Send a <code>POST</code> request to the vault server
-  <br /><em>Usage:</em><pre><span class='fu'>POST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
-<li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
-</ul></p></dd>
-<dt><code>PUT</code></dt><dd><p>Send a <code>PUT</code> request to the vault server
-  <br /><em>Usage:</em><pre><span class='fu'>PUT</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
-<li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
-</ul></p></dd>
-<dt><code>DELETE</code></dt><dd><p>Send a <code>DELETE</code> request to the vault server
-  <br /><em>Usage:</em><pre><span class='fu'>DELETE</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
-<li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
-</ul></p></dd>
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a new api client</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>addr <span class='op'>=</span> <span class='cn'>NULL</span>, tls_config <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
-</dl>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>addr</code></dt><dd><p>Address of the vault server</p></dd>
+
+<dt><code>tls_config</code></dt><dd><p>Optional TLS config</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-request"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>request()</code></h3>
+<p>Make a request to the api. Typically you should use
+one of the higher-level wrappers, such as <code>$GET</code> or <code>$POST</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>request</span><span class='op'>(</span><span class='va'>verb</span>, <span class='va'>path</span>, <span class='va'>...</span>, token <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>verb</code></dt><dd><p>The HTTP verb to use, as a <code>httr</code> function (e.g.,
+pass <code><a href='https://httr.r-lib.org/reference/GET.html'>httr::GET</a></code> for a <code>GET</code> request).</p></dd>
+
+<dt><code>path</code></dt><dd><p>The request path</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional arguments passed to the <code>httr</code> function</p></dd>
+
+<dt><code>token</code></dt><dd><p>Optional token, overriding the client token</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-is_authenticated"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>is_authenticated()</code></h3>
+<p>Test if the vault client currently holds a vault token.
+This method does not verify the token - only test that is present.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>is_authenticated</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-set_token"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_token()</code></h3>
+<p>Set a token within the client</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>set_token</span><span class='op'>(</span><span class='va'>token</span>, verify <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>String, with the new vault client token</p></dd>
+
+<dt><code>verify</code></dt><dd><p>Logical, indicating if we should test that the token
+is valid. If <code>TRUE</code>, then we use <code>$verify_token()</code> to test the
+token before setting it and if it is not valid an error will be
+thrown and the token not set.</p></dd>
+
+<dt><code>quiet</code></dt><dd><p>Logical, if <code>TRUE</code>, then informational messages will be
+suppressed.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-verify_token"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>verify_token()</code></h3>
+<p>Test that a token is valid with the vault.
+This will call vault's <code>/sys/capabilities-self</code> endpoint with the
+token provided and check the <code>/sys</code> path.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>verify_token</span><span class='op'>(</span><span class='va'>token</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>String, with the vault client token to test</p></dd>
+
+<dt><code>quiet</code></dt><dd><p>Logical, if <code>TRUE</code>, then informational messages will be
+suppressed</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-server_version"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>server_version()</code></h3>
+<p>Retrieve the vault server version.  This is by default
+cached within the client for a session.  Will return an R
+<a href='https://rdrr.io/r/base/numeric_version.html'>numeric_version</a> object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>server_version</span><span class='op'>(</span>refresh <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>refresh</code></dt><dd><p>Logical, indicating if the server version information
+should be refreshed even if known.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-GET"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>GET()</code></h3>
+<p>Send a <code>GET</code> request to the vault server</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>GET</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional <code>httr</code>-compatible options.  These will be named
+parameters or <code>httr</code> "request" objects.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-LIST"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>LIST()</code></h3>
+<p>Send a <code>LIST</code> request to the vault server</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>LIST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional <code>httr</code>-compatible options.  These will be named
+parameters or <code>httr</code> "request" objects.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-POST"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>POST()</code></h3>
+<p>Send a <code>POST</code> request to the vault server</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>POST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional <code>httr</code>-compatible options.  These will be named
+parameters or <code>httr</code> "request" objects.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-PUT"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>PUT()</code></h3>
+<p>Send a <code>PUT</code> request to the vault server</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>PUT</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional <code>httr</code>-compatible options.  These will be named
+parameters or <code>httr</code> "request" objects.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-DELETE"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>DELETE()</code></h3>
+<p>Send a <code>DELETE</code> request to the vault server</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_api_client</span><span class='op'>$</span><span class='fu'>DELETE</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.</p></dd>
+
+<dt><code>...</code></dt><dd><p>Additional <code>httr</code>-compatible options.  These will be named
+parameters or <code>httr</code> "request" objects.</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

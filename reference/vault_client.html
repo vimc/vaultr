@@ -75,7 +75,7 @@ arguments override these defaults." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -165,7 +165,7 @@ method indicated by <code>login</code>, if used.</p></td>
     </tr>
     <tr>
       <th>addr</th>
-      <td><p>The value address <em>including protocol and port</em>,
+      <td><p>The vault address <em>including protocol and port</em>,
 e.g., <code>https://vault.example.com:8200</code>.  If not given, the
 default is the environment variable <code>VAULT_ADDR</code>, which is
 the same as used by vault's command line client.</p></td>
@@ -186,91 +186,243 @@ same as vault's command line client.</p></td>
 
 
 <p>The creation of a client is affected by a number of environment
-  variables, following the main vault command line client.</p>
-<dl>
-
-<dt><code>VAULT_ADDR</code></dt><dd><p>The url of the vault server.  Must
-  include a protocol (most likely <code>https://</code> but in testing
-  <code>http://</code> might be used)</p></dd>
-
-<dt><code>VAULT_CAPATH</code></dt><dd><p>The path to CA certificates</p></dd>
-
-<dt><code>VAULT_TOKEN</code></dt><dd><p>A vault token to use in authentication.
-  Only used for token-based authentication</p></dd>
-
-<dt><code>VAULT_AUTH_GITHUB_TOKEN</code></dt><dd><p>As for the command line
-  client, a github token for authentication using the github
-  authentication backend</p></dd>
-
-<dt><code>VAULTR_AUTH_METHOD</code></dt><dd><p>The method to use for
-  authentication</p></dd>
-
-
-</dl>
-
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-
-<dl>
-<dt><code>api</code></dt><dd><p>Returns an api client object that can be used to directly interact with the vault server.
-  <br /><em>Usage:</em><pre><span class='fu'>api</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>read</code></dt><dd><p>Read a value from the vault.  This can be used to read any value that you have permission to read, and can also be used as an interface to a version 1 key-value store (see <code><a href='vault_client_kv1.html'>vault_client_kv1</a></code>.  Similar to the vault CLI command <code>vault read</code>.
-  <br /><em>Usage:</em><pre><span class='fu'>read</span><span class='op'>(</span><span class='va'>path</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path for the secret to read, such as <code>/secret/mysecret</code></p></li>
-<li><p><code>field</code>:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using <code>[[field]]</code> on the return value. The default, <code>NULL</code>, returns the full set of values.</p></li>
-<li><p><code>metadata</code>:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if <code>field</code> is specified.</p></li>
-</ul></p></dd>
-<dt><code>write</code></dt><dd><p>Write data into the vault.  This can be used to write any value that you have permission to write, and can also be used as an interface to a version 1 key-value store (see <code><a href='vault_client_kv1.html'>vault_client_kv1</a></code>.  Similar to the vault CLI command <code>vault write</code>.
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>data</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   Path for the secret to write, such as <code>/secret/mysecret</code></p></li>
-<li><p><code>data</code>:   A named list of values to write into the vault at this path. This <em>replaces</em> any existing values.</p></li>
-</ul></p></dd>
-<dt><code>list</code></dt><dd><p>List data in the vault at a given path.  This can be used to list keys, etc (e.g., at <code>/secret</code>).
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>path</span>, full_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The path to list</p></li>
-<li><p><code>full_names</code>:   Logical, indicating if full paths (relative to the vault root) should be returned.</p></li>
-</ul>  <em>Value</em>:
-  A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. <code>path/</code></p></dd>
-<dt><code>delete</code></dt><dd><p>Delete a value from the vault
-  <br /><em>Usage:</em><pre><span class='fu'>delete</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>path</code>:   The path to delete</p></li>
-</ul></p></dd>
-<dt><code>login</code></dt><dd><p>Login to the vault.  This method is more complicated than most.
-  <br /><em>Usage:</em><pre><span class='fu'>login</span><span class='op'>(</span><span class='va'>...</span>, method <span class='op'>=</span> <span class='st'>"token"</span>, mount <span class='op'>=</span> <span class='cn'>NULL</span>, renew <span class='op'>=</span> <span class='cn'>FALSE</span>,
-      quiet <span class='op'>=</span> <span class='cn'>FALSE</span>, token_only <span class='op'>=</span> <span class='cn'>FALSE</span>, use_cache <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>...</code>:   Additional named parameters passed through to the underlying method</p></li>
-<li><p><code>method</code>:   Authentication method to use, as a string.  Supported values include <code>token</code> (the default), <code>github</code>, <code>approle</code> and <code>userpass</code>.</p></li>
-<li><p><code>mount</code>:   The mount path for the authentication backend, <em>if it has been mounted in a nonstandard location</em>.  If not given, then it is assumed that the backend was mounted at a path corresponding to the method name.</p></li>
-<li><p><code>renew</code>:   Login, even if we appear to hold a valid token.  If <code>FALSE</code> and we have a token then <code>login</code> does nothing.</p></li>
-<li><p><code>quiet</code>:   Suppress some informational messages</p></li>
-<li><p><code>token_only</code>:   Logical, indicating that we do not want to actually log in, but instead just generate a token and return that.  IF given then <code>renew</code> is ignored and we always generate a new token.</p></li>
-<li><p><code>use_cache</code>:   Logical, indicating if we should look in the session cache for a token for this client.  If this is <code>TRUE</code> then when we log in we save a copy of the token for this session and any subsequent calls to <code>login</code> at this vault address that use <code>use_cache = TRUE</code> will be able to use this token.  Using cached tokens will make using some authentication backends that require authentication with external resources (e.g., <code>github</code>) much faster.</p></li>
-</ul></p></dd>
-<dt><code>status</code></dt><dd><p>Return the status of the vault server, including whether it is sealed or not, and the vault server version.
-  <br /><em>Usage:</em><pre><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>unwrap</code></dt><dd><p>Returns the original response inside the given wrapping token. The vault endpoints used by this method perform validation checks on the token, returns the original value on the wire rather than a JSON string representation of it, and ensures that the response is properly audit-logged.
-  <br /><em>Usage:</em><pre><span class='fu'>unwrap</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   Specifies the wrapping token ID</p></li>
-</ul></p></dd>
-<dt><code>wrap_lookup</code></dt><dd><p>Look up properties of a wrapping token.
-  <br /><em>Usage:</em><pre><span class='fu'>wrap_lookup</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   Specifies the wrapping token ID to lookup</p></li>
-</ul></p></dd>
-
-</dl>
+variables, following the main vault command line client.</p><ul>
+<li><p><code>VAULT_ADDR</code>: The url of the vault server.  Must
+include a protocol (most likely <code>https://</code> but in testing
+<code>http://</code> might be used)</p></li>
+<li><p><code>VAULT_CAPATH</code>: The path to CA certificates</p></li>
+<li><p><code>VAULT_TOKEN</code>: A vault token to use in authentication.
+Only used for token-based authentication</p></li>
+<li><p><code>VAULT_AUTH_GITHUB_TOKEN</code>: As for the command line
+client, a github token for authentication using the github
+authentication backend</p></li>
+<li><p><code>VAULTR_AUTH_METHOD</code>: The method to use for
+authentication</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Rich FitzJohn</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_client</code></p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl>
+<dt><code>auth</code></dt><dd><p>Authentication backends: <a href='vault_client_auth.html'>vault_client_auth</a></p></dd>
+
+<dt><code>audit</code></dt><dd><p>Audit methods: <a href='vault_client_audit.html'>vault_client_audit</a></p></dd>
+
+<dt><code>cubbyhole</code></dt><dd><p>The vault cubbyhole key-value store:
+<a href='vault_client_cubbyhole.html'>vault_client_cubbyhole</a></p></dd>
+
+<dt><code>operator</code></dt><dd><p>Operator methods: <a href='vault_client_operator.html'>vault_client_operator</a></p></dd>
+
+<dt><code>policy</code></dt><dd><p>Policy methods: <a href='vault_client_policy.html'>vault_client_policy</a></p></dd>
+
+<dt><code>secrets</code></dt><dd><p>Secret backends: <a href='vault_client_secrets.html'>vault_client_secrets</a></p></dd>
+
+<dt><code>token</code></dt><dd><p>Token methods: <a href='vault_client_token.html'>vault_client_token</a></p></dd>
+
+<dt><code>tools</code></dt><dd><p>Vault tools: <a href='vault_client_tools.html'>vault_client_tools</a></p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>vault_client_$new()</code></a></p></li>
+<li><p><a href='#method-api'><code>vault_client_$api()</code></a></p></li>
+<li><p><a href='#method-read'><code>vault_client_$read()</code></a></p></li>
+<li><p><a href='#method-write'><code>vault_client_$write()</code></a></p></li>
+<li><p><a href='#method-delete'><code>vault_client_$delete()</code></a></p></li>
+<li><p><a href='#method-list'><code>vault_client_$list()</code></a></p></li>
+<li><p><a href='#method-login'><code>vault_client_$login()</code></a></p></li>
+<li><p><a href='#method-status'><code>vault_client_$status()</code></a></p></li>
+<li><p><a href='#method-unwrap'><code>vault_client_$unwrap()</code></a></p></li>
+<li><p><a href='#method-wrap_lookup'><code>vault_client_$wrap_lookup()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a new vault client. Not typically called
+directly, but via the <code>vault_client</code> method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>addr</span>, <span class='va'>tls_config</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>addr</code></dt><dd><p>The vault address, including protocol and port</p></dd>
+
+<dt><code>tls_config</code></dt><dd><p>The TLS config, if used</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-api"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>api()</code></h3>
+<p>Returns an api client object that can be used to
+directly interact with the vault server.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>api</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-read"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>read()</code></h3>
+<p>Read a value from the vault.  This can be used to
+read any value that you have permission to read, and can also
+be used as an interface to a version 1 key-value store (see
+<a href='vault_client_kv1.html'>vault_client_kv1</a>.  Similar to the vault CLI command
+<code>vault read</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='va'>path</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path for the secret to read, such as
+<code>/secret/mysecret</code></p></dd>
+
+<dt><code>field</code></dt><dd><p>Optional field to read from the secret.  Each
+secret is stored as a key/value set (represented in R as a
+named list) and this is equivalent to using <code>[[field]]</code> on
+the return value.  The default, <code>NULL</code>, returns the full set
+of values.</p></dd>
+
+<dt><code>metadata</code></dt><dd><p>Logical, indicating if we should return
+metadata for this secret (lease information etc) as an
+attribute along with the values itself.  Ignored if <code>field</code>
+is specified.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-write"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/write.html'>write()</a></code></h3>
+<p>Write data into the vault.  This can be used to
+write any value that you have permission to write, and can
+also be used as an interface to a version 1 key-value store
+(see <a href='vault_client_kv1.html'>vault_client_kv1</a>.  Similar to the vault CLI
+command <code>vault write</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>write</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>data</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>Path for the secret to write, such as
+<code>/secret/mysecret</code></p></dd>
+
+<dt><code>data</code></dt><dd><p>A named list of values to write into the vault at
+this path.  This <em>replaces</em> any existing values.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-delete"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>delete()</code></h3>
+<p>Delete a value from the vault</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>delete</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The path to delete</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-list"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code></h3>
+<p>List data in the vault at a given path.  This can
+be used to list keys, etc (e.g., at <code>/secret</code>).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>list</span><span class='op'>(</span><span class='va'>path</span>, full_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>The path to list</p></dd>
+
+<dt><code>full_names</code></dt><dd><p>Logical, indicating if full paths (relative
+to the vault root) should be returned.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>A character vector (of zero length if no keys are
+found).  Paths that are "directories" (i.e., that contain
+keys and could themselves be listed) will be returned with a
+trailing forward slash, e.g. <code>path/</code></p>
+<p><hr>
+<a id="method-login"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>login()</code></h3>
+<p>Login to the vault.  This method is more
+complicated than most.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>login</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  method <span class='op'>=</span> <span class='st'>"token"</span>,
+  mount <span class='op'>=</span> <span class='cn'>NULL</span>,
+  renew <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  token_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use_cache <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>...</code></dt><dd><p>Additional named parameters passed through to the
+underlying method</p></dd>
+
+<dt><code>method</code></dt><dd><p>Authentication method to use, as a string.
+Supported values include <code>token</code> (the default), <code>github</code>,
+<code>approle</code> and <code>userpass</code>.</p></dd>
+
+<dt><code>mount</code></dt><dd><p>The mount path for the authentication backend, <em>if
+it has been mounted in a nonstandard location</em>.  If not
+given, then it is assumed that the backend was mounted at a
+path corresponding to the method name.</p></dd>
+
+<dt><code>renew</code></dt><dd><p>Login, even if we appear to hold a valid token.
+If <code>FALSE</code> and we have a token then <code>login</code> does nothing.</p></dd>
+
+<dt><code>quiet</code></dt><dd><p>Suppress some informational messages</p></dd>
+
+<dt><code>token_only</code></dt><dd><p>Logical, indicating that we do not want to
+actually log in, but instead just generate a token and return
+that.  IF given then <code>renew</code> is ignored and we always
+generate a new token.</p></dd>
+
+<dt><code>use_cache</code></dt><dd><p>Logical, indicating if we should look in the
+session cache for a token for this client.  If this is <code>TRUE</code>
+then when we log in we save a copy of the token for this
+session and any subsequent calls to <code>login</code> at this vault
+address that use <code>use_cache = TRUE</code> will be able to use this
+token.  Using cached tokens will make using some
+authentication backends that require authentication with
+external resources (e.g., <code>github</code>) much faster.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-status"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>status()</code></h3>
+<p>Return the status of the vault server, including
+whether it is sealed or not, and the vault server version.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-unwrap"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>unwrap()</code></h3>
+<p>Returns the original response inside the given
+wrapping token. The vault endpoints used by this method
+perform validation checks on the token, returns the original
+value on the wire rather than a JSON string representation of
+it, and ensures that the response is properly audit-logged.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>unwrap</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>Specifies the wrapping token ID</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-wrap_lookup"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>wrap_lookup()</code></h3>
+<p>Look up properties of a wrapping token.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_</span><span class='op'>$</span><span class='fu'>wrap_lookup</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>Specifies the wrapping token ID to lookup</p></dd>
+
+</dl><p></div></p>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

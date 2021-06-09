@@ -40,10 +40,8 @@
 
 
 <meta property="og:title" content="Vault Administration — vault_client_operator" />
-<meta property="og:description" content="Administration commands for vault operators.  Very few of these
-commands should be used without consulting the vault documentation
-as they affect the administration of a vault server, but they are
-included here for completeness." />
+<meta property="og:description" content="Vault Administration
+Vault Administration" />
 
 
 
@@ -75,7 +73,7 @@ included here for completeness." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -135,62 +133,184 @@ included here for completeness." />
     </div>
 
     <div class="ref-description">
-    <p>Administration commands for vault operators.  Very few of these
-commands should be used without consulting the vault documentation
-as they affect the administration of a vault server, but they are
-included here for completeness.</p>
+    <p>Vault Administration</p>
+<p>Vault Administration</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Administration commands for vault operators.  Very few of these
+commands should be used without consulting the vault documentation
+as they affect the administration of a vault server, but they are
+included here for completeness.</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_client_operator</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
+<ul>
+<li><p><a href='#method-new'><code>vault_client_operator$new()</code></a></p></li>
+<li><p><a href='#method-key_status'><code>vault_client_operator$key_status()</code></a></p></li>
+<li><p><a href='#method-is_initialized'><code>vault_client_operator$is_initialized()</code></a></p></li>
+<li><p><a href='#method-init'><code>vault_client_operator$init()</code></a></p></li>
+<li><p><a href='#method-leader_status'><code>vault_client_operator$leader_status()</code></a></p></li>
+<li><p><a href='#method-rekey_status'><code>vault_client_operator$rekey_status()</code></a></p></li>
+<li><p><a href='#method-rekey_start'><code>vault_client_operator$rekey_start()</code></a></p></li>
+<li><p><a href='#method-rekey_cancel'><code>vault_client_operator$rekey_cancel()</code></a></p></li>
+<li><p><a href='#method-rekey_submit'><code>vault_client_operator$rekey_submit()</code></a></p></li>
+<li><p><a href='#method-rotate'><code>vault_client_operator$rotate()</code></a></p></li>
+<li><p><a href='#method-seal'><code>vault_client_operator$seal()</code></a></p></li>
+<li><p><a href='#method-seal_status'><code>vault_client_operator$seal_status()</code></a></p></li>
+<li><p><a href='#method-unseal'><code>vault_client_operator$unseal()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
 
-<dl>
-<dt><code>key_status</code></dt><dd><p>Return information about the current encryption key of Vault.
-  <br /><em>Usage:</em><pre><span class='fu'>key_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>is_initialized</code></dt><dd><p>Returns the initialization status of Vault
-  <br /><em>Usage:</em><pre><span class='fu'>is_initialized</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>init</code></dt><dd><p>This endpoint initializes a new Vault. The Vault must not have been previously initialized.
-  <br /><em>Usage:</em><pre><span class='fu'>init</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>secret_shares</code>:   Integer, specifying the number of shares to split the master key into</p></li>
-<li><p><code>secret_threshold</code>:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares</p></li>
-</ul></p></dd>
-<dt><code>leader_status</code></dt><dd><p>Check the high availability status and current leader of Vault
-  <br /><em>Usage:</em><pre><span class='fu'>leader_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>rekey_status</code></dt><dd><p>Reads the configuration and progress of the current rekey attempt
-  <br /><em>Usage:</em><pre><span class='fu'>rekey_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>rekey_start</code></dt><dd><p>This method begins a new rekey attempt. Only a single rekey attempt can take place at a time, and changing the parameters of a rekey requires cancelling and starting a new rekey, which will also provide a new nonce.
-  <br /><em>Usage:</em><pre><span class='fu'>rekey_start</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>secret_shares</code>:   Integer, specifying the number of shares to split the master key into</p></li>
-<li><p><code>secret_threshold</code>:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares</p></li>
-</ul></p></dd>
-<dt><code>rekey_cancel</code></dt><dd><p>This method cancels any in-progress rekey. This clears the rekey settings as well as any progress made. This must be called to change the parameters of the rekey. Note: verification is still a part of a rekey. If rekeying is cancelled during the verification flow, the current unseal keys remain valid.
-  <br /><em>Usage:</em><pre><span class='fu'>rekey_cancel</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>rekey_submit</code></dt><dd><p>This method is used to enter a single master key share to progress the rekey of the Vault. If the threshold number of master key shares is reached, Vault will complete the rekey. Otherwise, this method must be called multiple times until that threshold is met. The rekey nonce operation must be provided with each call.
-  <br /><em>Usage:</em><pre><span class='fu'>rekey_submit</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>nonce</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>key</code>:   Specifies a single master share key (a string)</p></li>
-<li><p><code>nonce</code>:   Specifies the nonce of the rekey operation (a string)</p></li>
-</ul></p></dd>
-<dt><code>rotate</code></dt><dd><p>This method triggers a rotation of the backend encryption key. This is the key that is used to encrypt data written to the storage backend, and is not provided to operators. This operation is done online. Future values are encrypted with the new key, while old values are decrypted with previous encryption keys.
-  <br /><em>Usage:</em><pre><span class='fu'>rotate</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>seal</code></dt><dd><p>Seal the vault, preventing any access to it.  After the vault is sealed, it must be unsealed for further use.
-  <br /><em>Usage:</em><pre><span class='fu'>seal</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>seal_status</code></dt><dd><p>Check the seal status of a Vault.  This method can be used even when the client is not authenticated with the vault (which will the case for a sealed vault).
-  <br /><em>Usage:</em><pre><span class='fu'>seal_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>unseal</code></dt><dd><p>Submit a portion of a key to unseal the vault.  This method is typically called by multiple different operators to assemble the master key.
-  <br /><em>Usage:</em><pre><span class='fu'>unseal</span><span class='op'>(</span><span class='va'>key</span>, reset <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>key</code>:   The master key share</p></li>
-<li><p><code>reset</code>:   Logical, indicating if the unseal process should start be started again.</p></li>
-</ul></p></dd>
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a <code>vault_client_operator</code> object. Not typically
+called by users.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>api_client</span><span class='op'>)</span></pre><p></div></p>
 
-</dl>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>api_client</code></dt><dd><p>A <a href='vault_api_client.html'>vault_api_client</a> object</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-key_status"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>key_status()</code></h3>
+<p>Return information about the current encryption
+key of Vault.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>key_status</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-is_initialized"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>is_initialized()</code></h3>
+<p>Returns the initialization status of Vault</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>is_initialized</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-init"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>init()</code></h3>
+<p>This endpoint initializes a new Vault. The Vault
+must not have been previously initialized.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>init</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>secret_shares</code></dt><dd><p>Integer, specifying the number of shares
+to split the master key into</p></dd>
+
+<dt><code>secret_threshold</code></dt><dd><p>Integer, specifying the number of
+shares required to reconstruct the master key. This must be
+less than or equal secret_shares</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-leader_status"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>leader_status()</code></h3>
+<p>Check the high availability status and current
+leader of Vault</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>leader_status</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-rekey_status"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rekey_status()</code></h3>
+<p>Reads the configuration and progress of the
+current rekey attempt</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>rekey_status</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-rekey_start"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rekey_start()</code></h3>
+<p>This method begins a new rekey attempt. Only a
+single rekey attempt can take place at a time, and changing
+the parameters of a rekey requires cancelling and starting a
+new rekey, which will also provide a new nonce.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>rekey_start</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>secret_shares</code></dt><dd><p>Integer, specifying the number of shares
+to split the master key into</p></dd>
+
+<dt><code>secret_threshold</code></dt><dd><p>Integer, specifying the number of
+shares required to reconstruct the master key. This must be
+less than or equal secret_shares</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-rekey_cancel"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rekey_cancel()</code></h3>
+<p>This method cancels any in-progress rekey. This
+clears the rekey settings as well as any progress made. This
+must be called to change the parameters of the rekey. Note
+verification is still a part of a rekey. If rekeying is
+cancelled during the verification flow, the current unseal
+keys remain valid.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>rekey_cancel</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-rekey_submit"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rekey_submit()</code></h3>
+<p>This method is used to enter a single master key
+share to progress the rekey of the Vault. If the threshold
+number of master key shares is reached, Vault will complete
+the rekey. Otherwise, this method must be called multiple
+times until that threshold is met. The rekey nonce operation
+must be provided with each call.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>rekey_submit</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>nonce</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>key</code></dt><dd><p>Specifies a single master share key (a string)</p></dd>
+
+<dt><code>nonce</code></dt><dd><p>Specifies the nonce of the rekey operation (a
+string)</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-rotate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rotate()</code></h3>
+<p>This method triggers a rotation of the backend
+encryption key. This is the key that is used to encrypt data
+written to the storage backend, and is not provided to
+operators. This operation is done online. Future values are
+encrypted with the new key, while old values are decrypted
+with previous encryption keys.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>rotate</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-seal"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>seal()</code></h3>
+<p>Seal the vault, preventing any access to it.
+After the vault is sealed, it must be unsealed for further
+use.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>seal</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-seal_status"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>seal_status()</code></h3>
+<p>Check the seal status of a Vault.  This method can
+be used even when the client is not authenticated with the
+vault (which will the case for a sealed vault).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>seal_status</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-unseal"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>unseal()</code></h3>
+<p>Submit a portion of a key to unseal the vault.
+This method is typically called by multiple different
+operators to assemble the master key.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_operator</span><span class='op'>$</span><span class='fu'>unseal</span><span class='op'>(</span><span class='va'>key</span>, reset <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>key</code></dt><dd><p>The master key share</p></dd>
+
+<dt><code>reset</code></dt><dd><p>Logical, indicating if the unseal process should
+start be started again.</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

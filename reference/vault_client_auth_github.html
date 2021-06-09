@@ -40,9 +40,8 @@
 
 
 <meta property="og:title" content="Vault GitHub Authentication Configuration — vault_client_auth_github" />
-<meta property="og:description" content="Interact with vault's GitHub authentication backend.  For more
-details, please see the vault documentation at
-https://www.vaultproject.io/docs/auth/github.html" />
+<meta property="og:description" content="Vault GitHub Authentication Configuration
+Vault GitHub Authentication Configuration" />
 
 
 
@@ -74,7 +73,7 @@ https://www.vaultproject.io/docs/auth/github.html" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -134,54 +133,148 @@ https://www.vaultproject.io/docs/auth/github.html" />
     </div>
 
     <div class="ref-description">
-    <p>Interact with vault's GitHub authentication backend.  For more
-details, please see the vault documentation at
-<a href='https://www.vaultproject.io/docs/auth/github.html'>https://www.vaultproject.io/docs/auth/github.html</a></p>
+    <p>Vault GitHub Authentication Configuration</p>
+<p>Vault GitHub Authentication Configuration</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Interact with vault's GitHub authentication backend.  For more
+details, please see the vault documentation at
+https://www.vaultproject.io/docs/auth/github.html</p>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='vault_client_object.html'>vaultr::vault_client_object</a></code> -&gt; <code>vault_client_auth_github</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
+<ul>
+<li><p><a href='#method-new'><code>vault_client_auth_github$new()</code></a></p></li>
+<li><p><a href='#method-custom_mount'><code>vault_client_auth_github$custom_mount()</code></a></p></li>
+<li><p><a href='#method-configure'><code>vault_client_auth_github$configure()</code></a></p></li>
+<li><p><a href='#method-configuration'><code>vault_client_auth_github$configuration()</code></a></p></li>
+<li><p><a href='#method-write'><code>vault_client_auth_github$write()</code></a></p></li>
+<li><p><a href='#method-read'><code>vault_client_auth_github$read()</code></a></p></li>
+<li><p><a href='#method-login'><code>vault_client_auth_github$login()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-format'><code>vaultr::vault_client_object$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-help'><code>vaultr::vault_client_object$help()</code></a></span></p></li>
+</ul>
+</details>
 
-<dl>
-<dt><code>custom_mount</code></dt><dd><p>Set up a <code>vault_client_auth_github</code> object at a custom mount. For example, suppose you mounted the <code>github</code> authentication backend at <code>/github-myorg</code> you might use <code>gh &lt;- vault$auth$github2$custom_mount("/github-myorg")</code> - this pattern is repeated for other secret and authentication backends.
-  <br /><em>Usage:</em><pre><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>mount</code>:   String, indicating the path that the engine is mounted at.</p></li>
-</ul></p></dd>
-<dt><code>configure</code></dt><dd><p>Configures the connection parameters for GitHub-based authentication.
-  <br /><em>Usage:</em><pre><span class='fu'>configure</span><span class='op'>(</span><span class='va'>organization</span>, base_url <span class='op'>=</span> <span class='cn'>NULL</span>, ttl <span class='op'>=</span> <span class='cn'>NULL</span>, max_ttl <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>organization</code>:   The organization users must be part of (note American spelling).</p></li>
-<li><p><code>base_url</code>:   The API endpoint to use. Useful if you are running GitHub Enterprise or an API-compatible authentication server.</p></li>
-<li><p><code>ttl</code>:   Duration after which authentication will be expired</p></li>
-<li><p><code>max_ttl</code>:   Maximum duration after which authentication will be expired</p></li>
-</ul></p></dd>
-<dt><code>configuration</code></dt><dd><p>Reads the connection parameters for GitHub-based authentication.
-  <br /><em>Usage:</em><pre><span class='fu'>configuration</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
-<dt><code>write</code></dt><dd><p>Write a mapping between a GitHub team or user and a set of vault policies.
-  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span><span class='op'>(</span><span class='va'>team_name</span>, <span class='va'>policies</span>, user <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>team_name</code>:   String, with the GitHub team name</p></li>
-<li><p><code>policies</code>:   A character vector of vault policies that this user or team will have for vault access if they match this team or user.</p></li>
-<li><p><code>user</code>:   Scalar logical - if <code>TRUE</code>, then <code>team_name</code> is interpreted as a <em>user</em> instead.</p></li>
-</ul></p></dd>
-<dt><code>read</code></dt><dd><p>Write a mapping between a GitHub team or user and a set of vault policies.
-  <br /><em>Usage:</em><pre><span class='fu'>read</span><span class='op'>(</span><span class='va'>team_name</span>, user <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>team_name</code>:   String, with the GitHub team name</p></li>
-<li><p><code>user</code>:   Scalar logical - if <code>TRUE</code>, then <code>team_name</code> is interpreted as a <em>user</em> instead.</p></li>
-</ul></p></dd>
-<dt><code>login</code></dt><dd><p>Log into the vault using GitHub authentication.  Normally you would not call this directly but instead use <code>$login</code> with <code>method = "github"</code> and proving the <code>token</code> argument. This function returns a vault token but does not set it as the client token.
-  <br /><em>Usage:</em><pre><span class='fu'>login</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
-  <ul>
-<li><p><code>token</code>:   A GitHub token to authenticate with.</p></li>
-</ul></p></dd>
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Create a <code>vault_client_github</code> object. Not typically
+called by users.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>api_client</span>, <span class='va'>mount</span><span class='op'>)</span></pre><p></div></p>
 
-</dl>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>api_client</code></dt><dd><p>A <a href='vault_api_client.html'>vault_api_client</a> object</p></dd>
+
+<dt><code>mount</code></dt><dd><p>Mount point for the backend</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-custom_mount"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>custom_mount()</code></h3>
+<p>Set up a <code>vault_client_auth_github</code> object at a
+custom mount.  For example, suppose you mounted the <code>github</code>
+authentication backend at <code>/github-myorg</code> you might use <code>gh &lt;- vault$auth$github2$custom_mount("/github-myorg")</code> - this
+pattern is repeated for other secret and authentication
+backends.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>mount</code></dt><dd><p>String, indicating the path that the engine is
+mounted at.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-configure"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>configure()</code></h3>
+<p>Configures the connection parameters for
+GitHub-based authentication.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>configure</span><span class='op'>(</span>
+  <span class='va'>organization</span>,
+  base_url <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>organization</code></dt><dd><p>The organization users must be part of
+(note American spelling).</p></dd>
+
+<dt><code>base_url</code></dt><dd><p>The API endpoint to
+use. Useful if you are running GitHub Enterprise or an
+API-compatible authentication server.</p></dd>
+
+<dt><code>ttl</code></dt><dd><p>Duration after which authentication will be expired</p></dd>
+
+<dt><code>max_ttl</code></dt><dd><p>Maximum duration after which authentication will
+be expired</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-configuration"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>configuration()</code></h3>
+<p>Reads the connection parameters for GitHub-based
+authentication.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>configuration</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-write"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/write.html'>write()</a></code></h3>
+<p>Write a mapping between a GitHub team or user and
+a set of vault policies.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>write</span><span class='op'>(</span><span class='va'>team_name</span>, <span class='va'>policies</span>, user <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>team_name</code></dt><dd><p>String, with the GitHub team name</p></dd>
+
+<dt><code>policies</code></dt><dd><p>A character vector of vault policies that this
+user or team will have for vault access if they match this
+team or user.</p></dd>
+
+<dt><code>user</code></dt><dd><p>Scalar logical - if <code>TRUE</code>, then <code>team_name</code> is
+interpreted as a <em>user</em> instead.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-read"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>read()</code></h3>
+<p>Write a mapping between a GitHub team or user and
+a set of vault policies.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='va'>team_name</span>, user <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>team_name</code></dt><dd><p>String, with the GitHub team name</p></dd>
+
+<dt><code>user</code></dt><dd><p>Scalar logical - if <code>TRUE</code>, then <code>team_name</code> is
+interpreted as a <em>user</em> instead.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-login"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>login()</code></h3>
+<p>Log into the vault using GitHub authentication.
+Normally you would not call this directly but instead use
+<code>$login</code> with <code>method = "github"</code> and proving the <code>token</code>
+argument.  This function returns a vault token but does not
+set it as the client token.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>vault_client_auth_github</span><span class='op'>$</span><span class='fu'>login</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>token</code></dt><dd><p>A GitHub token to authenticate with.</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
