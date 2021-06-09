@@ -39,6 +39,10 @@ vault_client_auth <- R6::R6Class(
     ##' more information.
     userpass = NULL,
 
+    ##' @description Create a `vault_client_auth` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("administer vault's authentication methods")
       private$api_client <- api_client

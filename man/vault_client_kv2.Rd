@@ -109,10 +109,21 @@ if (!is.null(server)) {
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_kv2} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_kv2$new(api_client, mount)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-config"></a>}}
@@ -175,6 +186,8 @@ can be undone using the undelete method.
 default) then the latest version of the secret is deleted.
 Otherwise, \code{version} can be a vector of integer versions to
 delete.}
+
+\item{\code{mount}}{Custom mount path to use for this store (see \code{Details}).}
 }
 \if{html}{\out{</div>}}
 }
@@ -315,11 +328,15 @@ even if a secret does not yet exist, though this requires the
 \item{\code{cas_required}}{Logical, indicating that if If true the key
 will require the cas parameter to be set on all write
 requests (see \code{put}). If \code{FALSE}, the backend's configuration
-will be used.  @param max_versions Integer, indicating the
+will be used.}
+
+\item{\code{max_versions}}{Integer, indicating the
 maximum number of versions to keep per key.  If not set, the
 backend's configured max version is used. Once a key has more
 than the configured allowed versions the oldest version will
-be permanently deleted.  @param mount *mount}
+be permanently deleted.}
+
+\item{\code{mount}}{Custom mount path to use for this store (see \code{Details}).}
 }
 \if{html}{\out{</div>}}
 }

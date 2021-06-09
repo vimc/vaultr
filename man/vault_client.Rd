@@ -21,7 +21,7 @@ error is thrown.  The value of \code{NULL} is the same as
 \item{...}{Additional arguments passed along to the authentication
 method indicated by \code{login}, if used.}
 
-\item{addr}{The value address \emph{including protocol and port},
+\item{addr}{The vault address \emph{including protocol and port},
 e.g., \code{https://vault.example.com:8200}.  If not given, the
 default is the environment variable \code{VAULT_ADDR}, which is
 the same as used by vault's command line client.}
@@ -121,6 +121,28 @@ Rich FitzJohn
 \section{Super class}{
 \code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{auth}}{Authentication backends: \link{vault_client_auth}}
+
+\item{\code{audit}}{Audit methods: \link{vault_client_audit}}
+
+\item{\code{cubbyhole}}{The vault cubbyhole key-value store:
+\link{vault_client_cubbyhole}}
+
+\item{\code{operator}}{Operator methods: \link{vault_client_operator}}
+
+\item{\code{policy}}{Policy methods: \link{vault_client_policy}}
+
+\item{\code{secrets}}{Secret backends: \link{vault_client_secrets}}
+
+\item{\code{token}}{Token methods: \link{vault_client_token}}
+
+\item{\code{tools}}{Vault tools: \link{vault_client_tools}}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -148,10 +170,21 @@ Rich FitzJohn
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a new vault client. Not typically called
+directly, but via the \code{vault_client} method.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$new(addr, tls_config)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{addr}}{The vault address, including protocol and port}
+
+\item{\code{tls_config}}{The TLS confg, if used}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-api"></a>}}

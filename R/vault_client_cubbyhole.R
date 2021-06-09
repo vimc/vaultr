@@ -41,6 +41,10 @@ vault_client_cubbyhole <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_cubbyhole` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Interact with vault's cubbyhole secret backend")
       private$api_client <- api_client

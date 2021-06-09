@@ -43,7 +43,7 @@
 ##' @param ... Additional arguments passed along to the authentication
 ##'   method indicated by \code{login}, if used.
 ##'
-##' @param addr The value address \emph{including protocol and port},
+##' @param addr The vault address \emph{including protocol and port},
 ##'   e.g., \code{https://vault.example.com:8200}.  If not given, the
 ##'   default is the environment variable \code{VAULT_ADDR}, which is
 ##'   the same as used by vault's command line client.
@@ -125,17 +125,37 @@ R6_vault_client <- R6::R6Class(
     api_client = NULL),
 
   public = list(
+    ##' @field auth Authentication backends: [vaultr::vault_client_auth]
     auth = NULL,
+
+    ##' @field audit Audit methods: [vaultr::vault_client_audit]
     audit = NULL,
+
+    ##' @field cubbyhole The vault cubbyhole key-value store:
+    ##'   [vaultr::vault_client_cubbyhole]
     cubbyhole = NULL,
-    kv1 = NULL,
-    kv2 = NULL,
+
+    ##' @field operator Operator methods: [vaultr::vault_client_operator]
     operator = NULL,
+
+    ##' @field policy Policy methods: [vaultr::vault_client_policy]
     policy = NULL,
+
+    ##' @field secrets Secret backends: [vaultr::vault_client_secrets]
     secrets = NULL,
+
+    ##' @field token Token methods: [vaultr::vault_client_token]
     token = NULL,
+
+    ##' @field tools Vault tools: [vaultr::vault_client_tools]
     tools = NULL,
 
+    ##' @description Create a new vault client. Not typically called
+    ##'   directly, but via the `vault_client` method.
+    ##'
+    ##' @param addr The vault address, including protocol and port
+    ##'
+    ##' @param tls_config The TLS confg, if used
     initialize = function(addr, tls_config) {
       super$initialize("core methods for interacting with vault")
       api_client <- vault_api_client$new(addr, tls_config)

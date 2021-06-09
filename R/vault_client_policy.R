@@ -54,6 +54,10 @@ vault_client_policy <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    ##' @description Create a `vault_client_policy` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Interact with policies")
       private$api_client <- api_client

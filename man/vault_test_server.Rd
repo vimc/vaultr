@@ -132,6 +132,9 @@ longer be accurate (read-only).}
 
 \item{\code{keys}}{Key shares from when the vault was initialised
 (read-only).}
+
+\item{\code{cacert}}{Path to the https certificate, if running in
+https mode (read-only).}
 }
 \if{html}{\out{</div>}}
 }
@@ -141,7 +144,6 @@ longer be accurate (read-only).}
 \item \href{#method-new}{\code{vault_server_instance$new()}}
 \item \href{#method-version}{\code{vault_server_instance$version()}}
 \item \href{#method-client}{\code{vault_server_instance$client()}}
-\item \href{#method-finalize}{\code{vault_server_instance$finalize()}}
 \item \href{#method-env}{\code{vault_server_instance$env()}}
 \item \href{#method-export}{\code{vault_server_instance$export()}}
 \item \href{#method-clear_cached_token}{\code{vault_server_instance$clear_cached_token()}}
@@ -160,15 +162,32 @@ longer be accurate (read-only).}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_server_instance} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$new(bin, port, https, init)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{bin}}{Path to the vault binary}
+
+\item{\code{port}}{Port to use}
+
+\item{\code{https}}{Logical, indicating if we should use TLS/https}
+
+\item{\code{init}}{Logical, indicating if we should initialise}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-version"></a>}}
 \if{latex}{\out{\hypertarget{method-version}{}}}
 \subsection{Method \code{version()}}{
+Return the server version, as a \link{numeric_version}
+object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$version()}\if{html}{\out{</div>}}
 }
@@ -178,24 +197,32 @@ longer be accurate (read-only).}
 \if{html}{\out{<a id="method-client"></a>}}
 \if{latex}{\out{\hypertarget{method-client}{}}}
 \subsection{Method \code{client()}}{
+Create a new client that can use this server.  The
+client will be a \link{vault_client} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$client(login = TRUE, quiet = TRUE)}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-finalize"></a>}}
-\if{latex}{\out{\hypertarget{method-finalize}{}}}
-\subsection{Method \code{finalize()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$finalize()}\if{html}{\out{</div>}}
-}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{login}}{Logical, indicating if the client should login to
+the server (default is \code{TRUE}).}
 
+\item{\code{quiet}}{Logical, indicating if informational messages
+should be suppressed.  Default is \code{TRUE}, in contrast with
+most other methods.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-env"></a>}}
 \if{latex}{\out{\hypertarget{method-env}{}}}
 \subsection{Method \code{env()}}{
+Return a named character vector of environment
+variables that can be used to communicate with this vault
+server (\code{VAULT_ADDR}, \code{VAULT_TOKEN}, etc).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$env()}\if{html}{\out{</div>}}
 }
@@ -205,6 +232,9 @@ longer be accurate (read-only).}
 \if{html}{\out{<a id="method-export"></a>}}
 \if{latex}{\out{\hypertarget{method-export}{}}}
 \subsection{Method \code{export()}}{
+Export the variables returned by the \verb{$env()}
+method to the environment.  This makes them available to
+child processes.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$export()}\if{html}{\out{</div>}}
 }
@@ -214,6 +244,8 @@ longer be accurate (read-only).}
 \if{html}{\out{<a id="method-clear_cached_token"></a>}}
 \if{latex}{\out{\hypertarget{method-clear_cached_token}{}}}
 \subsection{Method \code{clear_cached_token()}}{
+Clear any session-cached token for this server.
+This is intended for testing new authentication backends.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$clear_cached_token()}\if{html}{\out{</div>}}
 }
@@ -223,6 +255,7 @@ longer be accurate (read-only).}
 \if{html}{\out{<a id="method-kill"></a>}}
 \if{latex}{\out{\hypertarget{method-kill}{}}}
 \subsection{Method \code{kill()}}{
+Kill the server.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$kill()}\if{html}{\out{</div>}}
 }

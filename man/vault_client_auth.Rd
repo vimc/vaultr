@@ -66,10 +66,19 @@ more information.}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_auth} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_auth$new(api_client)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-backends"></a>}}

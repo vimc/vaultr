@@ -40,6 +40,12 @@ vault_client_auth_github <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_github` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact and configure vault's github support")
       assert_scalar_character(mount)
@@ -64,7 +70,9 @@ vault_client_auth_github <- R6::R6Class(
     ##'   GitHub-based authentication.
     ##'
     ##' @param organization The organization users must be part of
-    ##'   (note American spelling).  base_url The API endpoint to
+    ##'   (note American spelling).
+    ##'
+    ##' @param base_url The API endpoint to
     ##'   use. Useful if you are running GitHub Enterprise or an
     ##'   API-compatible authentication server.
     ##'

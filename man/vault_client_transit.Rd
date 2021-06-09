@@ -84,7 +84,6 @@ if (!is.null(server)) {
 \item \href{#method-hash}{\code{vault_client_transit$hash()}}
 \item \href{#method-hmac}{\code{vault_client_transit$hmac()}}
 \item \href{#method-sign}{\code{vault_client_transit$sign()}}
-\item \href{#method-verify}{\code{vault_client_transit$verify()}}
 \item \href{#method-verify_signature}{\code{vault_client_transit$verify_signature()}}
 \item \href{#method-verify_hmac}{\code{vault_client_transit$verify_hmac()}}
 \item \href{#method-key_backup}{\code{vault_client_transit$key_backup()}}
@@ -104,10 +103,21 @@ if (!is.null(server)) {
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_transit} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_transit$new(api_client, mount)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-custom_mount"></a>}}
@@ -155,6 +165,24 @@ creation.
 \item{\code{name}}{Name for the key.  This will be used in all future
 interactions with the key - the key itself is not returned.}
 
+\item{\code{key_type}}{Specifies the type of key to create.  The default is
+\code{aes256-gcm96}. The currently-supported types are:
+\itemize{
+\item \code{aes256-gcm96}: AES-256 wrapped with GCM using a 96-bit nonce
+size AEAD (symmetric, supports derivation and convergent
+encryption)
+\item \code{chacha20-poly1305}: ChaCha20-Poly1305 AEAD (symmetric,
+supports derivation and convergent encryption)
+\item \code{ed25519}: ED25519 (asymmetric, supports derivation). When
+using derivation, a sign operation with the same context will
+derive the same key and signature; this is a signing analogue
+to \code{convergent_encryption}
+\item \code{ecdsa-p256}: ECDSA using the P-256 elliptic curve
+(asymmetric)
+\item \code{rsa-2048}: RSA with bit size of 2048 (asymmetric)
+\item \code{rsa-4096}: RSA with bit size of 4096 (asymmetric)
+}}
+
 \item{\code{convergent_encryption}}{Logical with default of \code{FALSE}.
 If \code{TRUE}, then the key will support convergent encryption,
 where the same plaintext creates the same ciphertext. This
@@ -174,24 +202,6 @@ set, this cannot be disabled (default is \code{FALSE}).}
 \item{\code{allow_plaintext_backup}}{If set, enables taking backup of
 named key in the plaintext format. Once set, this cannot be
 disabled (default is \code{FALSE}).}
-
-\item{\code{Specifies}}{the type of key to create.  The default is
-\code{aes256-gcm96}. The currently-supported types are:
-\itemize{
-\item \code{aes256-gcm96}: AES-256 wrapped with GCM using a 96-bit nonce
-size AEAD (symmetric, supports derivation and convergent
-encryption)
-\item \code{chacha20-poly1305}: ChaCha20-Poly1305 AEAD (symmetric,
-supports derivation and convergent encryption)
-\item \code{ed25519}: ED25519 (asymmetric, supports derivation). When
-using derivation, a sign operation with the same context will
-derive the same key and signature; this is a signing analogue
-to \code{convergent_encryption}
-\item \code{ecdsa-p256}: ECDSA using the P-256 elliptic curve
-(asymmetric)
-\item \code{rsa-2048}: RSA with bit size of 2048 (asymmetric)
-\item \code{rsa-4096}: RSA with bit size of 4096 (asymmetric)
-}}
 }
 \if{html}{\out{</div>}}
 }
@@ -636,24 +646,6 @@ be a raw vector.}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-verify"></a>}}
-\if{latex}{\out{\hypertarget{method-verify}{}}}
-\subsection{Method \code{verify()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_client_transit$verify(
-  name,
-  data,
-  payload,
-  payload_type,
-  hash_algorithm = NULL,
-  signature_algorithm = NULL,
-  context = NULL,
-  prehashed = FALSE
-)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-verify_signature"></a>}}

@@ -50,10 +50,21 @@ vaultr::vault_client(addr = "https://localhost:8200")$auth$approle
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_approle} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_approle$new(api_client, mount)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-custom_mount"></a>}}
@@ -70,7 +81,7 @@ is repeated for other secret and authentication backends.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{mount:}}{String, indicating the path that the engine is mounted at.}
+\item{\code{mount}}{String, indicating the path that the engine is mounted at.}
 }
 \if{html}{\out{</div>}}
 }

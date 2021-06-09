@@ -38,6 +38,10 @@ vault_client_tools <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_tools` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       private$api_client <- api_client
       super$initialize("General tools provided by vault")

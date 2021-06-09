@@ -29,6 +29,23 @@ if (!is.null(server)) {
 \section{Super class}{
 \code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_secrets}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{cubbyhole}}{The cubbyhole backend:
+\link{vault_client_auth_cubbyhole}}
+
+\item{\code{kv1}}{The version 1 key-value backend:
+\link{vault_client_auth_kv1}}
+
+\item{\code{kv2}}{The version 2 key-value backend:
+\link{vault_client_auth_kv2}}
+
+\item{\code{transit}}{The transit backend:
+\link{vault_client_auth_transit}}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -51,10 +68,19 @@ if (!is.null(server)) {
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_secrets} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_secrets$new(api_client)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-disable"></a>}}

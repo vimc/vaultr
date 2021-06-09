@@ -77,6 +77,10 @@ vault_client_token <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_token` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Interact and configure vault's token support")
       private$api_client <- api_client

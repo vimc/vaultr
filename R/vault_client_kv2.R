@@ -119,6 +119,12 @@ vault_client_kv2 <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_kv2` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact with vault's key/value store (version 2)")
       assert_scalar_character(mount)
@@ -159,6 +165,8 @@ vault_client_kv2 <- R6::R6Class(
     ##'   default) then the latest version of the secret is deleted.
     ##'   Otherwise, `version` can be a vector of integer versions to
     ##'   delete.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     delete = function(path, version = NULL, mount = NULL) {
       path <- private$validate_path(path, mount)
       if (is.null(version)) {
@@ -284,11 +292,15 @@ vault_client_kv2 <- R6::R6Class(
     ##' @param cas_required Logical, indicating that if If true the key
     ##'   will require the cas parameter to be set on all write
     ##'   requests (see `put`). If `FALSE`, the backend's configuration
-    ##'   will be used.  @param max_versions Integer, indicating the
+    ##'   will be used.
+    ##'
+    ##' @param max_versions Integer, indicating the
     ##'   maximum number of versions to keep per key.  If not set, the
     ##'   backend's configured max version is used. Once a key has more
     ##'   than the configured allowed versions the oldest version will
-    ##'   be permanently deleted.  @param mount *mount
+    ##'   be permanently deleted.
+    ##'
+    ##' @param mount Custom mount path to use for this store (see `Details`).
     metadata_put = function(path, cas_required = NULL, max_versions = NULL,
                               mount = NULL) {
       path <- private$validate_path(path, mount)

@@ -19,6 +19,12 @@ vault_client_auth_approle <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_approle` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact and configure vault's AppRole support")
       assert_scalar_character(mount)
@@ -32,7 +38,7 @@ vault_client_auth_approle <- R6::R6Class(
     ##'   vault$auth$approle2$custom_mount("/approle-dev")` - this pattern
     ##'   is repeated for other secret and authentication backends.
     ##'
-    ##' @param mount: String, indicating the path that the engine is mounted at.
+    ##' @param mount String, indicating the path that the engine is mounted at.
     custom_mount = function(mount) {
       vault_client_auth_approle$new(private$api_client, mount)
     },

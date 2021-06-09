@@ -24,11 +24,26 @@ vault_client_secrets <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    ##' @field cubbyhole The cubbyhole backend:
+    ##'   [vaultr::vault_client_auth_cubbyhole]
     cubbyhole = NULL,
+
+    ##' @field kv1 The version 1 key-value backend:
+    ##'   [vaultr::vault_client_auth_kv1]
     kv1 = NULL,
+
+    ##' @field kv2 The version 2 key-value backend:
+    ##'   [vaultr::vault_client_auth_kv2]
     kv2 = NULL,
+
+    ##' @field transit The transit backend:
+    ##'   [vaultr::vault_client_auth_transit]
     transit = NULL,
 
+    ##' @description Create a `vault_client_secrets` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Interact with secret engines")
       private$api_client <- api_client

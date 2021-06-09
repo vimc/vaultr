@@ -38,10 +38,19 @@ vault_api_client <- R6::R6Class(
   cloneable = FALSE,
 
   public = list(
+    ##' @field addr The vault port
     addr = NULL,
+
+    ##' @field base_url The base url (with protocol, hostname and api version)
     base_url = NULL,
+
+    ##' @field tls_config Information used in TLS config, if used
     tls_config = NULL,
+
+    ##' @field token The vault token, if authenticated
     token = NULL,
+
+    ##' @field version The vault server version, once queried
     version = NULL,
 
     ##' @description Create a new api client

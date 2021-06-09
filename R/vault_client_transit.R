@@ -58,11 +58,36 @@ vault_client_transit <- R6::R6Class(
 
   private = list(
     api_client = NULL,
-    mount = NULL
+    mount = NULL,
+
+    verify = function(name, data, payload, payload_type,
+                      hash_algorithm = NULL,
+                      signature_algorithm = NULL,
+                      context = NULL, prehashed = FALSE) {
+      path <- sprintf("/%s/verify/%s",
+                      private$mount, assert_scalar_character(name))
+      payload_type <- match_value(payload_type, c("signature", "hmac"))
+      body <- list(
+        hash_algorithm =
+          hash_algorithm %&&% assert_scalar_integer(hash_algorithm),
+        input = raw_data_input(data),
+        context = context %&&% raw_data_input(context),
+        prehashed = assert_scalar_logical(prehashed),
+        signature_algorithm =
+          signature_algorithm %&&% assert_scalar_integer(signature_algorithm))
+      body[[payload_type]] <- assert_scalar_character(payload)
+      private$api_client$POST(path, body = drop_null(body))$data$valid
+    }
   ),
 
   public = list(
-    initialize = function(api_client, mount) {
+    ##' @description Create a `vault_client_transit` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
+   initialize = function(api_client, mount) {
       super$initialize("Cryptographic functions for data in-transit")
       assert_scalar_character(mount)
       private$mount <- sub("^/", "", mount)
@@ -89,7 +114,7 @@ vault_client_transit <- R6::R6Class(
     ##' @param name Name for the key.  This will be used in all future
     ##'   interactions with the key - the key itself is not returned.
     ##'
-    ##' @param Specifies the type of key to create.  The default is
+    ##' @param key_type Specifies the type of key to create.  The default is
     ##'   `aes256-gcm96`. The currently-supported types are:
     ##'
     ##' * `aes256-gcm96`: AES-256 wrapped with GCM using a 96-bit nonce
@@ -535,25 +560,6 @@ vault_client_transit <- R6::R6Class(
       private$api_client$POST(path, body = drop_null(body))$data$signature
     },
 
-    verify = function(name, data, payload, payload_type,
-                      hash_algorithm = NULL,
-                      signature_algorithm = NULL,
-                      context = NULL, prehashed = FALSE) {
-      path <- sprintf("/%s/verify/%s",
-                      private$mount, assert_scalar_character(name))
-      payload_type <- match_value(payload_type, c("signature", "hmac"))
-      body <- list(
-        hash_algorithm =
-          hash_algorithm %&&% assert_scalar_integer(hash_algorithm),
-        input = raw_data_input(data),
-        context = context %&&% raw_data_input(context),
-        prehashed = assert_scalar_logical(prehashed),
-        signature_algorithm =
-          signature_algorithm %&&% assert_scalar_integer(signature_algorithm))
-      body[[payload_type]] <- assert_scalar_character(payload)
-      private$api_client$POST(path, body = drop_null(body))$data$valid
-    },
-
     ##' @description Determine whether the provided signature is valid
     ##'     for the given data.
     ##'
@@ -578,9 +584,9 @@ vault_client_transit <- R6::R6Class(
     verify_signature = function(name, data, signature, hash_algorithm = NULL,
                                 signature_algorithm = NULL, context = NULL,
                                 prehashed = FALSE) {
-      self$verify(name, data, signature, "signature",
-                  hash_algorithm, signature_algorithm,
-                  context, prehashed)
+      private$verify(name, data, signature, "signature",
+                     hash_algorithm, signature_algorithm,
+                     context, prehashed)
     },
 
     ##' @description Determine whether the provided signature is valid
@@ -607,9 +613,9 @@ vault_client_transit <- R6::R6Class(
     verify_hmac = function(name, data, signature, hash_algorithm = NULL,
                            signature_algorithm = NULL, context = NULL,
                            prehashed = FALSE) {
-      self$verify(name, data, signature, "hmac",
-                  hash_algorithm, signature_algorithm,
-                  context, prehashed)
+      private$verify(name, data, signature, "hmac",
+                     hash_algorithm, signature_algorithm,
+                     context, prehashed)
     },
 
     ##' @description Returns a plaintext backup of a named key. The

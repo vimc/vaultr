@@ -44,6 +44,21 @@ if (!is.null(server)) {
 \section{Super class}{
 \code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_api_client}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{addr}}{The vault port}
+
+\item{\code{base_url}}{The base url (with protocol, hostname and api version)}
+
+\item{\code{tls_config}}{Information used in TLS config, if used}
+
+\item{\code{token}}{The vault token, if authenticated}
+
+\item{\code{version}}{The vault server version, once queried}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

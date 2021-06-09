@@ -47,6 +47,12 @@ vault_client_kv1 <- R6::R6Class(
   ),
 
   public = list(
+    ##' @description Create a `vault_client_kv1` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
+    ##'
+    ##' @param mount Mount point for the backend
     initialize = function(api_client, mount) {
       super$initialize("Interact with vault's key/value store (version 1)")
       private$api_client <- api_client

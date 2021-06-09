@@ -65,10 +65,21 @@ if (!is.null(server)) {
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a \code{vault_client_github} object. Not typically
+called by users.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_github$new(api_client, mount)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{api_client}}{A \link{vault_api_client} object}
+
+\item{\code{mount}}{Mount point for the backend}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-custom_mount"></a>}}
@@ -111,7 +122,9 @@ GitHub-based authentication.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{organization}}{The organization users must be part of
-(note American spelling).  base_url The API endpoint to
+(note American spelling).}
+
+\item{\code{base_url}}{The API endpoint to
 use. Useful if you are running GitHub Enterprise or an
 API-compatible authentication server.}
 

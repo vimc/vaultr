@@ -30,6 +30,10 @@ vault_client_operator <- R6::R6Class(
   private = list(api_client = NULL),
 
   public = list(
+    ##' @description Create a `vault_client_operator` object. Not typically
+    ##'   called by users.
+    ##'
+    ##' @param api_client A [vaultr::vault_api_client] object
     initialize = function(api_client) {
       super$initialize("Administration commands for vault operators")
       private$api_client <- api_client
