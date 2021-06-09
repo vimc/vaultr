@@ -295,7 +295,8 @@ valid for the default lease TTL, or indefinitely if the root
 policy is used.}
 
 \item{\code{wrap_ttl}}{Indicates that the secret should be wrapped.
-This is discussed in \href{https://www.vaultproject.io/docs/concepts/response-wrapping.html}{vault documentation}.
+This is discussed in the vault documentation:
+https://www.vaultproject.io/docs/concepts/response-wrapping.html
 When this option is used, \code{vault} will take the response it
 would have sent to an HTTP client and instead insert it into
 the cubbyhole of a single-use token, returning that

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vault_client.R
 \name{vault_client}
 \alias{vault_client}
-\alias{R6_vault_client}
+\alias{vault_client_}
 \title{Make a vault client}
 \usage{
 vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL)
@@ -139,16 +139,16 @@ Rich FitzJohn
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{R6_vault_client$new()}}
-\item \href{#method-api}{\code{R6_vault_client$api()}}
-\item \href{#method-read}{\code{R6_vault_client$read()}}
-\item \href{#method-write}{\code{R6_vault_client$write()}}
-\item \href{#method-delete}{\code{R6_vault_client$delete()}}
-\item \href{#method-list}{\code{R6_vault_client$list()}}
-\item \href{#method-login}{\code{R6_vault_client$login()}}
-\item \href{#method-status}{\code{R6_vault_client$status()}}
-\item \href{#method-unwrap}{\code{R6_vault_client$unwrap()}}
-\item \href{#method-wrap_lookup}{\code{R6_vault_client$wrap_lookup()}}
+\item \href{#method-new}{\code{vault_client_$new()}}
+\item \href{#method-api}{\code{vault_client_$api()}}
+\item \href{#method-read}{\code{vault_client_$read()}}
+\item \href{#method-write}{\code{vault_client_$write()}}
+\item \href{#method-delete}{\code{vault_client_$delete()}}
+\item \href{#method-list}{\code{vault_client_$list()}}
+\item \href{#method-login}{\code{vault_client_$login()}}
+\item \href{#method-status}{\code{vault_client_$status()}}
+\item \href{#method-unwrap}{\code{vault_client_$unwrap()}}
+\item \href{#method-wrap_lookup}{\code{vault_client_$wrap_lookup()}}
 }
 }
 \if{html}{
@@ -166,7 +166,7 @@ Rich FitzJohn
 Create a new vault client. Not typically called
 directly, but via the \code{vault_client} method.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$new(addr, tls_config)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -186,7 +186,7 @@ directly, but via the \code{vault_client} method.
 Returns an api client object that can be used to
 directly interact with the vault server.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$api()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$api()}\if{html}{\out{</div>}}
 }
 
 }
@@ -200,7 +200,7 @@ be used as an interface to a version 1 key-value store (see
 \link{vault_client_kv1}.  Similar to the vault CLI command
 \verb{vault read}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$read(path, field = NULL, metadata = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$read(path, field = NULL, metadata = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -233,7 +233,7 @@ also be used as an interface to a version 1 key-value store
 (see \link{vault_client_kv1}.  Similar to the vault CLI
 command \verb{vault write}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$write(path, data)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$write(path, data)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -254,7 +254,7 @@ this path.  This \emph{replaces} any existing values.}
 \subsection{Method \code{delete()}}{
 Delete a value from the vault
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$delete(path)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$delete(path)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -272,7 +272,7 @@ Delete a value from the vault
 List data in the vault at a given path.  This can
 be used to list keys, etc (e.g., at \verb{/secret}).
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$list(path, full_names = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$list(path, full_names = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -299,7 +299,7 @@ trailing forward slash, e.g. \verb{path/}
 Login to the vault.  This method is more
 complicated than most.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$login(
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$login(
   ...,
   method = "token",
   mount = NULL,
@@ -354,7 +354,7 @@ external resources (e.g., \code{github}) much faster.}
 Return the status of the vault server, including
 whether it is sealed or not, and the vault server version.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$status()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$status()}\if{html}{\out{</div>}}
 }
 
 }
@@ -368,7 +368,7 @@ perform validation checks on the token, returns the original
 value on the wire rather than a JSON string representation of
 it, and ensures that the response is properly audit-logged.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$unwrap(token)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$unwrap(token)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -385,7 +385,7 @@ it, and ensures that the response is properly audit-logged.
 \subsection{Method \code{wrap_lookup()}}{
 Look up properties of a wrapping token.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{R6_vault_client$wrap_lookup(token)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$wrap_lookup(token)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
