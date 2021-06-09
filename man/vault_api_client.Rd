@@ -47,9 +47,10 @@ if (!is.null(server)) {
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{addr}}{The vault port}
+\item{\code{addr}}{The vault address (with protocol, hostname and port)}
 
-\item{\code{base_url}}{The base url (with protocol, hostname and api version)}
+\item{\code{base_url}}{The base url (with protocol, hostname, port and
+api version path)}
 
 \item{\code{tls_config}}{Information used in TLS config, if used}
 

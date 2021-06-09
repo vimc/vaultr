@@ -38,10 +38,11 @@ vault_api_client <- R6::R6Class(
   cloneable = FALSE,
 
   public = list(
-    ##' @field addr The vault port
+    ##' @field addr The vault address (with protocol, hostname and port)
     addr = NULL,
 
-    ##' @field base_url The base url (with protocol, hostname and api version)
+    ##' @field base_url The base url (with protocol, hostname, port and
+    ##'   api version path)
     base_url = NULL,
 
     ##' @field tls_config Information used in TLS config, if used
