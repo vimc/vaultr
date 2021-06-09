@@ -8,21 +8,29 @@
 
 <title>Vault Low-Level Client — vault_api_client • vaultr</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +38,13 @@
 
 
 
-<meta property="og:title" content="Vault Low-Level Client — vault_api_client" />
 
+<meta property="og:title" content="Vault Low-Level Client — vault_api_client" />
 <meta property="og:description" content="Low-level API client.  This can be used to directly communicate
 with the vault server.  This object will primarily be useful for
 debugging, testing or developing new vault methods, but is
 nonetheless described here." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -50,9 +58,10 @@ nonetheless described here." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -66,7 +75,7 @@ nonetheless described here." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -74,7 +83,7 @@ nonetheless described here." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@ nonetheless described here." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/vimc/vaultr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/vimc/vaultr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@ nonetheless described here." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,217 +135,109 @@ nonetheless described here." />
     </div>
 
     <div class="ref-description">
-    
     <p>Low-level API client.  This can be used to directly communicate
 with the vault server.  This object will primarily be useful for
 debugging, testing or developing new vault methods, but is
 nonetheless described here.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+
+<dl>
 <dt><code>is_authenticated</code></dt><dd><p>Test if the vault client currently holds a vault token.  This method does not verify the token - only test that is present.
-  <br /><em>Usage:</em><pre>is_authenticated()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>is_authenticated</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>set_token</code></dt><dd><p>Set a token within the client
-  <br /><em>Usage:</em><pre>set_token(token, verify = FALSE, quiet = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>set_token</span><span class='op'>(</span><span class='va'>token</span>, verify <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   String, with the new vault client token</p></li>
 <li><p><code>verify</code>:   Logical, indicating if we should test that the token is valid. If <code>TRUE</code>, then we use <code>$verify_token()</code> to test the token before setting it and if it is not valid an error will be thrown and the token not set.</p></li>
 <li><p><code>quiet</code>:   Logical, if <code>TRUE</code>, then informational messages will be suppressed.</p></li>
 </ul></p></dd>
 <dt><code>verify_token</code></dt><dd><p>Test that a token is valid with the vault.  This will call vault's <code>/sys/capabilities-self</code> endpoint with the token provided and check the <code>/sys</code> path.
-  <br /><em>Usage:</em><pre>verify_token(token, quiet = TRUE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>verify_token</span><span class='op'>(</span><span class='va'>token</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   String, with the vault client token to test</p></li>
 <li><p><code>quiet</code>:   Logical, if <code>TRUE</code>, then informational messages will be suppressed.</p></li>
 </ul></p></dd>
 <dt><code>server_version</code></dt><dd><p>Retrieve the vault server version.  This is by default cached within the client for a session.  Will return an R <code>numeric_version</code> object.
-  <br /><em>Usage:</em><pre>server_version(refresh = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>server_version</span><span class='op'>(</span>refresh <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>refresh</code>:   Logical, indicating if the server version information should be refreshed even if known.</p></li>
 </ul></p></dd>
 <dt><code>GET</code></dt><dd><p>Send a <code>GET</code> request to the vault server
-  <br /><em>Usage:</em><pre>GET(path, ...)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>GET</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
 <li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
 </ul></p></dd>
 <dt><code>LIST</code></dt><dd><p>Send a <code>LIST</code> request to the vault server
-  <br /><em>Usage:</em><pre>LIST(path, ...)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>LIST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
 <li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
 </ul></p></dd>
 <dt><code>POST</code></dt><dd><p>Send a <code>POST</code> request to the vault server
-  <br /><em>Usage:</em><pre>POST(path, ...)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>POST</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
 <li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
 </ul></p></dd>
 <dt><code>PUT</code></dt><dd><p>Send a <code>PUT</code> request to the vault server
-  <br /><em>Usage:</em><pre>PUT(path, ...)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>PUT</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
 <li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
 </ul></p></dd>
 <dt><code>DELETE</code></dt><dd><p>Send a <code>DELETE</code> request to the vault server
-  <br /><em>Usage:</em><pre>DELETE(path, ...)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>DELETE</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.</p></li>
 <li><p><code>...</code>:   Additional <code>httr</code>-compatible options.  These will be named parameters or <code>httr</code> "request" objects.</p></li>
 </ul></p></dd>
+
 </dl>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_test_server'>vault_test_server</a></span>(<span class='kw'>if_disabled</span> <span class='kw'>=</span> <span class='no'>message</span>)
-<span class='co'># Ordinarily, we would use the "vault_client" object for</span>
-<span class='co'># high-level access to the vault server</span>
-<span class='no'>client</span> <span class='kw'>&lt;-</span> <span class='no'>server</span>$<span class='fu'>client</span>()
-<span class='no'>client</span>$<span class='fu'>status</span>()</div><div class='output co'>#&gt; $type
-#&gt; [1] "shamir"
-#&gt; 
-#&gt; $initialized
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $sealed
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $t
-#&gt; [1] 1
-#&gt; 
-#&gt; $n
-#&gt; [1] 1
-#&gt; 
-#&gt; $progress
-#&gt; [1] 0
-#&gt; 
-#&gt; $nonce
-#&gt; [1] ""
-#&gt; 
-#&gt; $version
-#&gt; [1] "1.0.0"
-#&gt; 
-#&gt; $migration
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $cluster_name
-#&gt; [1] "vault-cluster-820b3e58"
-#&gt; 
-#&gt; $cluster_id
-#&gt; [1] "51db5544-7103-beeb-9ebd-52ea51bc474e"
-#&gt; 
-#&gt; $recovery_seal
-#&gt; [1] FALSE
-#&gt; </div><div class='input'>
-<span class='co'># The api() method returns the "api client" object:</span>
-<span class='no'>api</span> <span class='kw'>&lt;-</span> <span class='no'>client</span>$<span class='fu'>api</span>()
-<span class='no'>api</span></div><div class='output co'>#&gt; &lt;vault: api_client&gt;
-#&gt;   Commands:
-#&gt;     DELETE(path, ...)
-#&gt;     GET(path, ...)
-#&gt;     LIST(path, ...)
-#&gt;     POST(path, ...)
-#&gt;     PUT(path, ...)
-#&gt;     help()
-#&gt;     is_authenticated()
-#&gt;     request(verb, path, ..., token = self$token)
-#&gt;     server_version(refresh = FALSE)
-#&gt;     set_token(token, verify = FALSE, quiet = FALSE)
-#&gt;     verify_token(token, quiet = TRUE)</div><div class='input'>
-<span class='co'># This allows running arbitrary HTTP requests against the server:</span>
-<span class='no'>api</span>$<span class='fu'>GET</span>(<span class='st'>"/sys/seal-status"</span>)</div><div class='output co'>#&gt; $type
-#&gt; [1] "shamir"
-#&gt; 
-#&gt; $initialized
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $sealed
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $t
-#&gt; [1] 1
-#&gt; 
-#&gt; $n
-#&gt; [1] 1
-#&gt; 
-#&gt; $progress
-#&gt; [1] 0
-#&gt; 
-#&gt; $nonce
-#&gt; [1] ""
-#&gt; 
-#&gt; $version
-#&gt; [1] "1.0.0"
-#&gt; 
-#&gt; $migration
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $cluster_name
-#&gt; [1] "vault-cluster-820b3e58"
-#&gt; 
-#&gt; $cluster_id
-#&gt; [1] "51db5544-7103-beeb-9ebd-52ea51bc474e"
-#&gt; 
-#&gt; $recovery_seal
-#&gt; [1] FALSE
-#&gt; </div><div class='input'>
-<span class='co'># this is how vaultr is internally implemented so anything can</span>
-<span class='co'># be done here, for example following vault's API documentation</span>
-<span class='co'># https://www.vaultproject.io/api/secret/kv/kv-v1.html#sample-request-2</span>
-<span class='no'>api</span>$<span class='fu'>POST</span>(<span class='st'>"/secret/mysecret"</span>, <span class='kw'>body</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"value"</span>))</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='no'>api</span>$<span class='fu'>GET</span>(<span class='st'>"/secret/mysecret"</span>)</div><div class='output co'>#&gt; $request_id
-#&gt; [1] "0acf0af4-20fc-b69b-2694-43122ccf4e70"
-#&gt; 
-#&gt; $lease_id
-#&gt; [1] ""
-#&gt; 
-#&gt; $renewable
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $lease_duration
-#&gt; [1] 2764800
-#&gt; 
-#&gt; $data
-#&gt; $data$key
-#&gt; [1] "value"
-#&gt; 
-#&gt; 
-#&gt; $wrap_info
-#&gt; NULL
-#&gt; 
-#&gt; $warnings
-#&gt; NULL
-#&gt; 
-#&gt; $auth
-#&gt; NULL
-#&gt; </div><div class='input'><span class='no'>api</span>$<span class='fu'>DELETE</span>(<span class='st'>"/secret/mysecret"</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'>
-<span class='co'># cleanup</span>
-<span class='no'>server</span>$<span class='fu'>kill</span>()</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#methods">Methods</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_test_server.html'>vault_test_server</a></span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='co'># Ordinarily, we would use the "vault_client" object for</span>
+  <span class='co'># high-level access to the vault server</span>
+  <span class='va'>client</span> <span class='op'>&lt;-</span> <span class='va'>server</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span>
 
+  <span class='co'># The api() method returns the "api client" object:</span>
+  <span class='va'>api</span> <span class='op'>&lt;-</span> <span class='va'>client</span><span class='op'>$</span><span class='fu'>api</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='va'>api</span>
+
+  <span class='co'># This allows running arbitrary HTTP requests against the server:</span>
+  <span class='va'>api</span><span class='op'>$</span><span class='fu'>GET</span><span class='op'>(</span><span class='st'>"/sys/seal-status"</span><span class='op'>)</span>
+
+  <span class='co'># this is how vaultr is internally implemented so anything can</span>
+  <span class='co'># be done here, for example following vault's API documentation</span>
+  <span class='co'># https://www.vaultproject.io/api/secret/kv/kv-v1.html#sample-request-2</span>
+  <span class='va'>api</span><span class='op'>$</span><span class='fu'>POST</span><span class='op'>(</span><span class='st'>"/secret/mysecret"</span>, body <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>api</span><span class='op'>$</span><span class='fu'>GET</span><span class='op'>(</span><span class='st'>"/secret/mysecret"</span><span class='op'>)</span>
+  <span class='va'>api</span><span class='op'>$</span><span class='fu'>DELETE</span><span class='op'>(</span><span class='st'>"/secret/mysecret"</span><span class='op'>)</span>
+
+  <span class='co'># cleanup</span>
+  <span class='va'>server</span><span class='op'>$</span><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -344,13 +245,16 @@ nonetheless described here.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

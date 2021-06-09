@@ -8,21 +8,29 @@
 
 <title>Key-Value Store (Version 1) — vault_client_kv1 • vaultr</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +38,12 @@
 
 
 
-<meta property="og:title" content="Key-Value Store (Version 1) — vault_client_kv1" />
 
+<meta property="og:title" content="Key-Value Store (Version 1) — vault_client_kv1" />
 <meta property="og:description" content="Interact with vault's version 1 key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
 (see vault_client_kv2 for a richer key-value store)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -49,9 +57,10 @@ for storing simple key-value data without versioning or metadata
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -65,7 +74,7 @@ for storing simple key-value data without versioning or metadata
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -73,7 +82,7 @@ for storing simple key-value data without versioning or metadata
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,11 +108,10 @@ for storing simple key-value data without versioning or metadata
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/vimc/vaultr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/vimc/vaultr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +122,7 @@ for storing simple key-value data without versioning or metadata
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -125,14 +134,13 @@ for storing simple key-value data without versioning or metadata
     </div>
 
     <div class="ref-description">
-    
     <p>Interact with vault's version 1 key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
 (see <code><a href='vault_client_kv2.html'>vault_client_kv2</a></code> for a richer key-value store).</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Up to vault version 0.12.0 this was mounted by default at
@@ -142,82 +150,79 @@ methods on the main <code><a href='vault_client.html'>vault_client</a></code> ob
 <code>$kv1</code> member of the
 <code><a href='vault_client_secrets.html'>secrets</a></code> member of the main
 vault client.</p>
-    
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+
+<dl>
 <dt><code>read</code></dt><dd><p>Read a value from the vault.  This can be used to read any value that you have permission to read in this store.
-  <br /><em>Usage:</em><pre>read(path, field = NULL, metadata = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>read</span><span class='op'>(</span><span class='va'>path</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   Path for the secret to read, such as <code>/secret/mysecret</code></p></li>
 <li><p><code>field</code>:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using <code>[[field]]</code> on the return value. The default, <code>NULL</code>, returns the full set of values.</p></li>
 <li><p><code>metadata</code>:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if <code>field</code> is specified.</p></li>
 </ul></p></dd>
 <dt><code>write</code></dt><dd><p>Write data into the vault.  This can be used to write any value that you have permission to write in this store.
-  <br /><em>Usage:</em><pre>write(path, data)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>data</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   Path for the secret to write, such as <code>/secret/mysecret</code></p></li>
 <li><p><code>data</code>:   A named list of values to write into the vault at this path. This <em>replaces</em> any existing values.</p></li>
 </ul></p></dd>
 <dt><code>list</code></dt><dd><p>List data in the vault at a give path.  This can be used to list keys, etc (e.g., at <code>/secret</code>).
-  <br /><em>Usage:</em><pre>list(path, full_names = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>path</span>, full_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The path to list</p></li>
 <li><p><code>full_names</code>:   Logical, indicating if full paths (relative to the vault root) should be returned.</p></li>
-</ul>
-    <em>Value</em>:
+</ul>  <em>Value</em>:
   A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. <code>path/</code></p></dd>
 <dt><code>delete</code></dt><dd><p>Delete a value from the vault
-  <br /><em>Usage:</em><pre>delete(path)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>delete</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   The path to delete</p></li>
 </ul></p></dd>
 <dt><code>custom_mount</code></dt><dd><p>Set up a <code>vault_client_kv1</code> object at a custom mount.  For example, suppose you mounted another copy of the <code>kv1</code> secret backend at <code>/secret2</code> you might use <code>kv &lt;- vault$secrets$kv1$custom_mount("/secret2")</code> - this pattern is repeated for other secret and authentication backends.
-  <br /><em>Usage:</em><pre>custom_mount(mount)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>mount</code>:   String, indicating the path that the engine is mounted at.</p></li>
 </ul></p></dd>
+
 </dl>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_test_server'>vault_test_server</a></span>(<span class='kw'>if_disabled</span> <span class='kw'>=</span> <span class='no'>message</span>)</div><div class='output co'>#&gt; <span class='message'>...waiting for Vault to start</span></div><div class='input'><span class='no'>client</span> <span class='kw'>&lt;-</span> <span class='no'>server</span>$<span class='fu'>client</span>()
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_test_server.html'>vault_test_server</a></span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>client</span> <span class='op'>&lt;-</span> <span class='va'>server</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'># Write secrets</span>
-<span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/write'>write</a></span>(<span class='st'>"/secret/path/mysecret"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"value"</span>))
+  <span class='co'># Write secrets</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>write</span><span class='op'>(</span><span class='st'>"/secret/path/mysecret"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># List secrets - note the trailing "/" indicates a folder</span>
-<span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"/secret"</span>)</div><div class='output co'>#&gt; [1] "path/"</div><div class='input'><span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"/secret/path"</span>)</div><div class='output co'>#&gt; [1] "mysecret"</div><div class='input'>
-<span class='co'># Read secrets</span>
-<span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'>read</span>(<span class='st'>"/secret/path/mysecret"</span>)</div><div class='output co'>#&gt; $key
-#&gt; [1] "value"
-#&gt; </div><div class='input'><span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'>read</span>(<span class='st'>"/secret/path/mysecret"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"key"</span>)</div><div class='output co'>#&gt; [1] "value"</div><div class='input'>
-<span class='co'># Delete secrets</span>
-<span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'>delete</span>(<span class='st'>"/secret/path/mysecret"</span>)
-<span class='no'>client</span>$<span class='no'>secrets</span>$<span class='no'>kv1</span>$<span class='fu'>read</span>(<span class='st'>"/secret/path/mysecret"</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'>
-<span class='co'># cleanup</span>
-<span class='no'>server</span>$<span class='fu'>kill</span>()</div></pre>
+  <span class='co'># List secrets - note the trailing "/" indicates a folder</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>list</span><span class='op'>(</span><span class='st'>"/secret"</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>list</span><span class='op'>(</span><span class='st'>"/secret/path"</span><span class='op'>)</span>
+
+  <span class='co'># Read secrets</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='st'>"/secret/path/mysecret"</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='st'>"/secret/path/mysecret"</span>, field <span class='op'>=</span> <span class='st'>"key"</span><span class='op'>)</span>
+
+  <span class='co'># Delete secrets</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>delete</span><span class='op'>(</span><span class='st'>"/secret/path/mysecret"</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>secrets</span><span class='op'>$</span><span class='va'>kv1</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='st'>"/secret/path/mysecret"</span><span class='op'>)</span>
+
+  <span class='co'># cleanup</span>
+  <span class='va'>server</span><span class='op'>$</span><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#methods">Methods</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -225,13 +230,16 @@ vault client.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

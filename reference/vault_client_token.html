@@ -8,21 +8,29 @@
 
 <title>Vault Tokens — vault_client_token • vaultr</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Vault Tokens — vault_client_token" />
 
+<meta property="og:title" content="Vault Tokens — vault_client_token" />
 <meta property="og:description" content="Interact with vault's token methods.  This includes support for
 querying, creating and deleting tokens.  Tokens are fundamental to
 the way that vault works, so there are a lot of methods here.  The
@@ -40,7 +48,7 @@ documentation has a page devoted to token concepts and
 another
 with commands that have names very similar to the names used
 here." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -54,9 +62,10 @@ here." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +79,7 @@ here." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -78,7 +87,7 @@ here." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,11 +113,10 @@ here." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/vimc/vaultr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/vimc/vaultr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -119,6 +127,7 @@ here." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -130,7 +139,6 @@ here." />
     </div>
 
     <div class="ref-description">
-    
     <p>Interact with vault's token methods.  This includes support for
 querying, creating and deleting tokens.  Tokens are fundamental to
 the way that vault works, so there are a lot of methods here.  The
@@ -139,14 +147,16 @@ documentation has a page devoted to token concepts</a> and
 <a href='https://www.vaultproject.io/docs/commands/token/index.html'>another
 with commands</a> that have names very similar to the names used
 here.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="token-accessors"><a class="anchor" href="#token-accessors"></a>Token Accessors</h2>
 
     
-    <p>Many of the methods use "token accessors" - whenever a token is
+
+
+<p>Many of the methods use "token accessors" - whenever a token is
 created, an "accessor" is created at the same time.  This is
 another token that can be used to perform limited actions with the
 token such as</p>
@@ -155,43 +165,41 @@ token such as</p>
 <li><p>Look up a token's capabilities on a path</p></li>
 <li><p>Revoke the token</p></li>
 </ul>
-    <p>However, accessors cannot be used to login, nor to retrieve the
+
+<p>However, accessors cannot be used to login, nor to retrieve the
 actual token itself.</p>
-    
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+
+<dl>
 <dt><code>list</code></dt><dd><p>List token accessors, returning a character vector
-  <br /><em>Usage:</em><pre>list()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>capabilities</code></dt><dd><p>Fetch the capabilities of a token on the given paths. The capabilities returned will be derived from the policies that are on the token, and from the policies to which the token is entitled to through the entity and entity's group memberships.
-  <br /><em>Usage:</em><pre>capabilities(path, token)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'><a href='https://rdrr.io/r/base/capabilities.html'>capabilities</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
 <li><p><code>token</code>:   Single token for which capabilities are being queried</p></li>
 </ul></p></dd>
 <dt><code>capabilities_self</code></dt><dd><p>As for the <code>capabilities</code> method, but for the client token used to make the request.
-  <br /><em>Usage:</em><pre>capabilities_self(path)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>capabilities_self</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
 </ul></p></dd>
 <dt><code>capabilities_accessor</code></dt><dd><p>As for the <code>capabilities</code> method, but using a token <em>accessor</em> rather than a token itself.
-  <br /><em>Usage:</em><pre>capabilities_accessor(path, accessor)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>capabilities_accessor</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>path</code>:   Vector of paths on which capabilities are being queried</p></li>
 <li><p><code>accessor</code>:   Accessor of the token for which capabilities are being queried</p></li>
 </ul></p></dd>
 <dt><code>client</code></dt><dd><p>Return the current client token
-  <br /><em>Usage:</em><pre>client()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>create</code></dt><dd><p>Create a new token
-  <br /><em>Usage:</em><pre>create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
-      orphan = FALSE, no_default_policy = FALSE, max_ttl = NULL,
-      display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL,
-      wrap_ttl = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>create</span><span class='op'>(</span>role_name <span class='op'>=</span> <span class='cn'>NULL</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, policies <span class='op'>=</span> <span class='cn'>NULL</span>, meta <span class='op'>=</span> <span class='cn'>NULL</span>,
+      orphan <span class='op'>=</span> <span class='cn'>FALSE</span>, no_default_policy <span class='op'>=</span> <span class='cn'>FALSE</span>, max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+      display_name <span class='op'>=</span> <span class='cn'>NULL</span>, num_uses <span class='op'>=</span> <span class='fl'>0L</span>, period <span class='op'>=</span> <span class='cn'>NULL</span>, ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+      wrap_ttl <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   The name of the token role</p></li>
 <li><p><code>id</code>:   The ID of the client token. Can only be specified by a root token. Otherwise, the token ID is a randomly generated value</p></li>
@@ -208,65 +216,56 @@ actual token itself.</p>
 <li><p><code>wrap_ttl</code>:   Indicates that the secret should be wrapped.  This is discussed in <a href='https://www.vaultproject.io/docs/concepts/response-wrapping.html'>the vault documentation</a>.  When this option is used, <code>vault</code> will take the response it would have sent to an HTTP client and instead insert it into the cubbyhole of a single-use token, returning that single-use token instead. Logically speaking, the response is wrapped by the token, and retrieving it requires an unwrap operation against this token (see the <code>$unwrap</code> method <code><a href='vault_client.html'>vault_client</a></code>).  Must be specified as a valid duration (e.g., <code>1h</code>).</p></li>
 </ul></p></dd>
 <dt><code>lookup</code></dt><dd><p>Returns information about the client token
-  <br /><em>Usage:</em><pre>lookup(token = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>lookup</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   The token to lookup</p></li>
 </ul></p></dd>
 <dt><code>lookup_self</code></dt><dd><p>Returns information about the current client token (as if calling <code>$lookup</code> with the token the client is using.
-  <br /><em>Usage:</em><pre>lookup_self()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>lookup_self</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>lookup_accessor</code></dt><dd><p>Returns information about the client token from the accessor.
-  <br /><em>Usage:</em><pre>lookup_accessor(accessor)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>lookup_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>accessor</code>:   The token accessor to lookup</p></li>
 </ul></p></dd>
 <dt><code>renew</code></dt><dd><p>Renews a lease associated with a token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.
-  <br /><em>Usage:</em><pre>renew(token, increment = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>renew</span><span class='op'>(</span><span class='va'>token</span>, increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   The token to renew</p></li>
 <li><p><code>increment</code>:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., <code>1h</code>).</p></li>
 </ul></p></dd>
 <dt><code>renew_self</code></dt><dd><p>Renews a lease associated with the calling token. This is used to prevent the expiration of a token, and the automatic revocation of it. Token renewal is possible only if there is a lease associated with it.  This is equivalent to calling <code>$renew()</code> with the client token.
-  <br /><em>Usage:</em><pre>renew_self(increment = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>renew_self</span><span class='op'>(</span>increment <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>increment</code>:   An optional requested lease increment can be provided. This increment may be ignored.  If given, it should be a duration (e.g., <code>1h</code>).</p></li>
 </ul></p></dd>
 <dt><code>revoke</code></dt><dd><p>Revokes a token and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.
-  <br /><em>Usage:</em><pre>revoke(token)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>revoke</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   The token to revoke</p></li>
 </ul></p></dd>
 <dt><code>revoke_self</code></dt><dd><p>Revokes the token used to call it and all child tokens. When the token is revoked, all dynamic secrets generated with it are also revoked.  This is equivalent to calling <code>$revoke()</code> with the client token.
-  <br /><em>Usage:</em><pre>revoke_self()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>revoke_self</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>revoke_accessor</code></dt><dd><p>Revoke the token associated with the accessor and all the child tokens. This is meant for purposes where there is no access to token ID but there is need to revoke a token and its children.
-  <br /><em>Usage:</em><pre>revoke_accessor(accessor)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>revoke_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>accessor</code>:   Accessor of the token to revoke.</p></li>
 </ul></p></dd>
 <dt><code>revoke_and_orphan</code></dt><dd><p>Revokes a token but not its child tokens. When the token is revoked, all secrets generated with it are also revoked. All child tokens are orphaned, but can be revoked subsequently using /auth/token/revoke/. This is a root-protected method.
-  <br /><em>Usage:</em><pre>revoke_and_orphan(token)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>revoke_and_orphan</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   The token to revoke</p></li>
 </ul></p></dd>
 <dt><code>role_read</code></dt><dd><p>Fetches the named role configuration.
-  <br /><em>Usage:</em><pre>role_read(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_read</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   The name of the token role.</p></li>
 </ul></p></dd>
 <dt><code>role_list</code></dt><dd><p>List available token roles.
-  <br /><em>Usage:</em><pre>role_list()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>role_list</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>role_write</code></dt><dd><p>Creates (or replaces) the named role. Roles enforce specific behaviour when creating tokens that allow token functionality that is otherwise not available or would require sudo/root privileges to access. Role parameters, when set, override any provided options to the create endpoints. The role name is also included in the token path, allowing all tokens created against a role to be revoked using the <code>/sys/leases/revoke-prefix</code> endpoint.
-  <br /><em>Usage:</em><pre>role_write(role_name, allowed_policies = NULL, disallowed_policies = NULL,
-      orphan = NULL, period = NULL, renewable = NULL, explicit_max_ttl = NULL,
-      path_suffix = NULL, bound_cidrs = NULL, token_type = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_write</span><span class='op'>(</span><span class='va'>role_name</span>, allowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>, disallowed_policies <span class='op'>=</span> <span class='cn'>NULL</span>,
+      orphan <span class='op'>=</span> <span class='cn'>NULL</span>, period <span class='op'>=</span> <span class='cn'>NULL</span>, renewable <span class='op'>=</span> <span class='cn'>NULL</span>, explicit_max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+      path_suffix <span class='op'>=</span> <span class='cn'>NULL</span>, bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span>, token_type <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name for the role - this will be used later to refer to the role (e.g., in <code>$create</code> and other <code>$role_*</code> methods.</p></li>
 <li><p><code>allowed_policies</code>:   Character vector of policies allowed for this role.  If set, tokens can be created with any subset of the policies in this list, rather than the normal semantics of tokens being a subset of the calling token's policies. The parameter is a comma-delimited string of policy names. If at creation time <code>no_default_policy</code> is not set and "default" is not contained in disallowed_policies, the "default" policy will be added to the created token automatically.</p></li>
@@ -280,155 +279,73 @@ actual token itself.</p>
 <li><p><code>token_type</code>:   Specifies the type of tokens that should be returned by the role. If either service or batch is specified, that kind of token will always be returned. If <code>default-service</code>, then <code>service</code> tokens will be returned unless the client requests a batch type token at token creation time. If <code>default-batch</code>, then <code>batch</code> tokens will be returned unless the client requests a service type token at token creation time.</p></li>
 </ul></p></dd>
 <dt><code>role_delete</code></dt><dd><p>Delete a named token role
-  <br /><em>Usage:</em><pre>role_delete(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_delete</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   The name of the role to delete</p></li>
 </ul></p></dd>
 <dt><code>tidy</code></dt><dd><p>Performs some maintenance tasks to clean up invalid entries that may remain in the token store. Generally, running this is not needed unless upgrade notes or support personnel suggest it. This may perform a lot of I/O to the storage method so should be used sparingly.
-  <br /><em>Usage:</em><pre>tidy()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>tidy</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>login</code></dt><dd><p>Unlike other auth backend <code>login</code> methods, this does not actually log in to the vault.  Instead it verifies that a token can be used to communicate with the vault.
-  <br /><em>Usage:</em><pre>login(token = NULL, quiet = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>login</span><span class='op'>(</span>token <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>token</code>:   The token to test</p></li>
 <li><p><code>quiet</code>:   Logical scalar, set to <code>TRUE</code> to suppress informational messages.</p></li>
 </ul></p></dd>
+
 </dl>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_test_server'>vault_test_server</a></span>(<span class='kw'>if_disabled</span> <span class='kw'>=</span> <span class='no'>message</span>)</div><div class='output co'>#&gt; <span class='message'>...waiting for Vault to start</span></div><div class='input'><span class='no'>client</span> <span class='kw'>&lt;-</span> <span class='no'>server</span>$<span class='fu'>client</span>()
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_test_server.html'>vault_test_server</a></span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>client</span> <span class='op'>&lt;-</span> <span class='va'>server</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'># There are lots of token methods here:</span>
-<span class='no'>client</span>$<span class='no'>token</span></div><div class='output co'>#&gt; &lt;vault: token&gt;
-#&gt;   Commands:
-#&gt;     capabilities(path, token)
-#&gt;     capabilities_accessor(path, accessor)
-#&gt;     capabilities_self(path)
-#&gt;     client()
-#&gt;     create(role_name = NULL, id = NULL, policies = NULL, meta = NULL,
-#&gt;         orphan = FALSE, no_default_policy = FALSE, max_ttl = NULL,
-#&gt;         display_name = NULL, num_uses = 0L, period = NULL, ttl = NULL,
-#&gt;         wrap_ttl = NULL)
-#&gt;     help()
-#&gt;     list()
-#&gt;     login(token = NULL, quiet = FALSE)
-#&gt;     lookup(token = NULL)
-#&gt;     lookup_accessor(accessor)
-#&gt;     lookup_self()
-#&gt;     renew(token, increment = NULL)
-#&gt;     renew_self(increment = NULL)
-#&gt;     revoke(token)
-#&gt;     revoke_accessor(accessor)
-#&gt;     revoke_and_orphan(token)
-#&gt;     revoke_self()
-#&gt;     role_delete(role_name)
-#&gt;     role_list()
-#&gt;     role_read(role_name)
-#&gt;     role_write(role_name, allowed_policies = NULL,
-#&gt;         disallowed_policies = NULL, orphan = NULL, period = NULL,
-#&gt;         renewable = NULL, explicit_max_ttl = NULL, path_suffix = NULL,
-#&gt;         bound_cidrs = NULL, token_type = NULL)
-#&gt;     tidy()</div><div class='input'>
-<span class='co'># To demonstrate, it will be useful to create a restricted</span>
-<span class='co'># policy that can only read from the /secret path</span>
-<span class='no'>rules</span> <span class='kw'>&lt;-</span> <span class='st'>'path "secret/*" {policy = "read"}'</span>
-<span class='no'>client</span>$<span class='no'>policy</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/write'>write</a></span>(<span class='st'>"read-secret"</span>, <span class='no'>rules</span>)
-<span class='no'>client</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/write'>write</a></span>(<span class='st'>"/secret/path"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"value"</span>))
+  <span class='co'># There are lots of token methods here:</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>token</span>
 
-<span class='co'># Create a token that has this policy</span>
-<span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='no'>client</span>$<span class='no'>auth</span>$<span class='no'>token</span>$<span class='fu'>create</span>(<span class='kw'>policies</span> <span class='kw'>=</span> <span class='st'>"read-secret"</span>)
-<span class='no'>alice</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_client'>vault_client</a></span>(<span class='kw'>addr</span> <span class='kw'>=</span> <span class='no'>server</span>$<span class='no'>addr</span>)
-<span class='no'>alice</span>$<span class='fu'>login</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"token"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>)</div><div class='output co'>#&gt; <span class='message'>Verifying token</span></div><div class='input'><span class='no'>alice</span>$<span class='fu'>read</span>(<span class='st'>"/secret/path"</span>)</div><div class='output co'>#&gt; $key
-#&gt; [1] "value"
-#&gt; </div><div class='input'>
-<span class='no'>client</span>$<span class='no'>token</span>$<span class='fu'>lookup</span>(<span class='no'>token</span>)</div><div class='output co'>#&gt; $accessor
-#&gt; [1] "3FhZXoh1QlBtXtF4OcPcCzST"
-#&gt; 
-#&gt; $creation_time
-#&gt; [1] 1557927706
-#&gt; 
-#&gt; $creation_ttl
-#&gt; [1] 2764800
-#&gt; 
-#&gt; $display_name
-#&gt; [1] "token"
-#&gt; 
-#&gt; $entity_id
-#&gt; [1] ""
-#&gt; 
-#&gt; $expire_time
-#&gt; [1] "2019-06-16T14:41:46.888758997+01:00"
-#&gt; 
-#&gt; $explicit_max_ttl
-#&gt; [1] 0
-#&gt; 
-#&gt; $id
-#&gt; [1] "s.3It8NrMpkxsPcEW2qi0Qo00H"
-#&gt; 
-#&gt; $issue_time
-#&gt; [1] "2019-05-15T14:41:46.888758847+01:00"
-#&gt; 
-#&gt; $meta
-#&gt; NULL
-#&gt; 
-#&gt; $num_uses
-#&gt; [1] 0
-#&gt; 
-#&gt; $orphan
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $path
-#&gt; [1] "auth/token/create"
-#&gt; 
-#&gt; $policies
-#&gt; [1] "default"     "read-secret"
-#&gt; 
-#&gt; $renewable
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $ttl
-#&gt; [1] 2764799
-#&gt; 
-#&gt; $type
-#&gt; [1] "service"
-#&gt; </div><div class='input'>
-<span class='co'># We can query the capabilities of this token</span>
-<span class='no'>client</span>$<span class='no'>token</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/capabilities'>capabilities</a></span>(<span class='st'>"secret/path"</span>, <span class='no'>token</span>)</div><div class='output co'>#&gt; $`secret/path`
-#&gt; [1] "list" "read"
-#&gt; </div><div class='input'>
-<span class='co'># Tokens are not safe to pass around freely because they *are*</span>
-<span class='co'># the ability to login, but the `token$create` command also</span>
-<span class='co'># provides an accessor:</span>
-<span class='no'>accessor</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>token</span>, <span class='st'>"info"</span>)$<span class='no'>accessor</span>
+  <span class='co'># To demonstrate, it will be useful to create a restricted</span>
+  <span class='co'># policy that can only read from the /secret path</span>
+  <span class='va'>rules</span> <span class='op'>&lt;-</span> <span class='st'>'path "secret/*" {policy = "read"}'</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>policy</span><span class='op'>$</span><span class='fu'>write</span><span class='op'>(</span><span class='st'>"read-secret"</span>, <span class='va'>rules</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='fu'>write</span><span class='op'>(</span><span class='st'>"/secret/path"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># It is not possible to derive the token from the accessor, but</span>
-<span class='co'># we can use the accessor to ask vault what it could do if it</span>
-<span class='co'># did have the token (and do things like revoke the token)</span>
-<span class='no'>client</span>$<span class='no'>token</span>$<span class='fu'>capabilities_accessor</span>(<span class='st'>"secret/path"</span>, <span class='no'>accessor</span>)</div><div class='output co'>#&gt; $`secret/path`
-#&gt; [1] "list" "read"
-#&gt; </div><div class='input'>
-<span class='no'>client</span>$<span class='no'>token</span>$<span class='fu'>revoke_accessor</span>(<span class='no'>accessor</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='no'>client</span>$<span class='no'>token</span>$<span class='fu'>capabilities_accessor</span>(<span class='st'>"secret/path"</span>, <span class='no'>accessor</span>))
+  <span class='co'># Create a token that has this policy</span>
+  <span class='va'>token</span> <span class='op'>&lt;-</span> <span class='va'>client</span><span class='op'>$</span><span class='va'>auth</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>create</span><span class='op'>(</span>policies <span class='op'>=</span> <span class='st'>"read-secret"</span><span class='op'>)</span>
+  <span class='va'>alice</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_client.html'>vault_client</a></span><span class='op'>(</span>addr <span class='op'>=</span> <span class='va'>server</span><span class='op'>$</span><span class='va'>addr</span><span class='op'>)</span>
+  <span class='va'>alice</span><span class='op'>$</span><span class='fu'>login</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"token"</span>, token <span class='op'>=</span> <span class='va'>token</span><span class='op'>)</span>
+  <span class='va'>alice</span><span class='op'>$</span><span class='fu'>read</span><span class='op'>(</span><span class='st'>"/secret/path"</span><span class='op'>)</span>
 
-<span class='co'># cleanup</span>
-<span class='no'>server</span>$<span class='fu'>kill</span>()</div></pre>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>lookup</span><span class='op'>(</span><span class='va'>token</span><span class='op'>)</span>
+
+  <span class='co'># We can query the capabilities of this token</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>capabilities</span><span class='op'>(</span><span class='st'>"secret/path"</span>, <span class='va'>token</span><span class='op'>)</span>
+
+  <span class='co'># Tokens are not safe to pass around freely because they *are*</span>
+  <span class='co'># the ability to login, but the `token$create` command also</span>
+  <span class='co'># provides an accessor:</span>
+  <span class='va'>accessor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>token</span>, <span class='st'>"info"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accessor</span>
+
+  <span class='co'># It is not possible to derive the token from the accessor, but</span>
+  <span class='co'># we can use the accessor to ask vault what it could do if it</span>
+  <span class='co'># did have the token (and do things like revoke the token)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>capabilities_accessor</span><span class='op'>(</span><span class='st'>"secret/path"</span>, <span class='va'>accessor</span><span class='op'>)</span>
+
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>revoke_accessor</span><span class='op'>(</span><span class='va'>accessor</span><span class='op'>)</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='va'>client</span><span class='op'>$</span><span class='va'>token</span><span class='op'>$</span><span class='fu'>capabilities_accessor</span><span class='op'>(</span><span class='st'>"secret/path"</span>, <span class='va'>accessor</span><span class='op'>)</span><span class='op'>)</span>
+
+  <span class='co'># cleanup</span>
+  <span class='va'>server</span><span class='op'>$</span><span class='fu'>kill</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#token-accessors">Token Accessors</a></li>
-
-      <li><a href="#methods">Methods</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -436,13 +353,16 @@ actual token itself.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

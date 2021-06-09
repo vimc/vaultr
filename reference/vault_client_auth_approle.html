@@ -8,21 +8,29 @@
 
 <title>Vault AppRole Authentication Configuration — vault_client_auth_approle • vaultr</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +38,12 @@
 
 
 
-<meta property="og:title" content="Vault AppRole Authentication Configuration — vault_client_auth_approle" />
 
+<meta property="og:title" content="Vault AppRole Authentication Configuration — vault_client_auth_approle" />
 <meta property="og:description" content="Interact with vault's AppRole authentication backend.  For more
 details about this, see the vault documentation at
 https://www.vaultproject.io/docs/auth/approle.html" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -49,9 +57,10 @@ https://www.vaultproject.io/docs/auth/approle.html" />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -65,7 +74,7 @@ https://www.vaultproject.io/docs/auth/approle.html" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -73,7 +82,7 @@ https://www.vaultproject.io/docs/auth/approle.html" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,11 +108,10 @@ https://www.vaultproject.io/docs/auth/approle.html" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/vimc/vaultr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/vimc/vaultr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +122,7 @@ https://www.vaultproject.io/docs/auth/approle.html" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -125,33 +134,32 @@ https://www.vaultproject.io/docs/auth/approle.html" />
     </div>
 
     <div class="ref-description">
-    
     <p>Interact with vault's AppRole authentication backend.  For more
 details about this, see the vault documentation at
 <a href='https://www.vaultproject.io/docs/auth/approle.html'>https://www.vaultproject.io/docs/auth/approle.html</a></p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+
+<dl>
 <dt><code>custom_mount</code></dt><dd><p>Set up a <code>vault_client_auth_approle</code> object at a custom mount. For example, suppose you mounted the <code>approle</code> authentication backend at <code>/approle-dev</code> you might use <code>ar &lt;- vault$auth$approle2$custom_mount("/approle-dev")</code> - this pattern is repeated for other secret and authentication backends.
-  <br /><em>Usage:</em><pre>custom_mount(mount)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>custom_mount</span><span class='op'>(</span><span class='va'>mount</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>mount</code>:   String, indicating the path that the engine is mounted at.</p></li>
 </ul></p></dd>
 <dt><code>role_list</code></dt><dd><p>This endpoint returns a list the existing AppRoles in the method.
-  <br /><em>Usage:</em><pre>role_list()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>role_list</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>role_write</code></dt><dd><p>Creates a new AppRole or updates an existing AppRole. This endpoint supports both create and update capabilities. There can be one or more constraints enabled on the role. It is required to have at least one of them enabled while creating or updating a role.
-  <br /><em>Usage:</em><pre>role_write(role_name, bind_secret_id = NULL, secret_id_bound_cidrs = NULL,
-      token_bound_cidrs = NULL, policies = NULL, secret_id_num_uses = NULL,
-      secret_id_ttl = NULL, token_num_uses = NULL, token_ttl = NULL,
-      token_max_ttl = NULL, period = NULL, enable_local_secret_ids = NULL,
-      token_type = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_write</span><span class='op'>(</span><span class='va'>role_name</span>, bind_secret_id <span class='op'>=</span> <span class='cn'>NULL</span>, secret_id_bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span>,
+      token_bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span>, policies <span class='op'>=</span> <span class='cn'>NULL</span>, secret_id_num_uses <span class='op'>=</span> <span class='cn'>NULL</span>,
+      secret_id_ttl <span class='op'>=</span> <span class='cn'>NULL</span>, token_num_uses <span class='op'>=</span> <span class='cn'>NULL</span>, token_ttl <span class='op'>=</span> <span class='cn'>NULL</span>,
+      token_max_ttl <span class='op'>=</span> <span class='cn'>NULL</span>, period <span class='op'>=</span> <span class='cn'>NULL</span>, enable_local_secret_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
+      token_type <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 <li><p><code>bind_secret_id</code>:   Require secret_id to be presented when logging in using this AppRole (boolean, default is <code>TRUE</code>).</p></li>
@@ -168,33 +176,28 @@ details about this, see the vault documentation at
 <li><p><code>token_type</code>:   The type of token that should be generated via this role. Can be <code>service</code>, <code>batch</code>, or <code>default</code> to use the mount's default (which unless changed will be service tokens).</p></li>
 </ul></p></dd>
 <dt><code>role_read</code></dt><dd><p>Reads the properties of an existing AppRole.
-  <br /><em>Usage:</em><pre>role_read(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_read</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 </ul></p></dd>
 <dt><code>role_delete</code></dt><dd><p>Deletes an existing AppRole from the method.
-  <br /><em>Usage:</em><pre>role_delete(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_delete</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole to delete</p></li>
 </ul></p></dd>
 <dt><code>role_id_read</code></dt><dd><p>Reads the RoleID of an existing AppRole.
-  <br /><em>Usage:</em><pre>role_id_read(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_id_read</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 </ul></p></dd>
 <dt><code>role_id_write</code></dt><dd><p>Updates the RoleID of an existing AppRole to a custom value.
-  <br /><em>Usage:</em><pre>role_id_write(role_name, role_id)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>role_id_write</span><span class='op'>(</span><span class='va'>role_name</span>, <span class='va'>role_id</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole (string)</p></li>
 <li><p><code>role_id</code>:   Value to be set as RoleID (string)</p></li>
 </ul></p></dd>
 <dt><code>secret_id_generate</code></dt><dd><p>Generates and issues a new SecretID on an existing AppRole. Similar to tokens, the response will also contain a <code>secret_id_accessor</code> value which can be used to read the properties of the SecretID without divulging the SecretID itself, and also to delete the SecretID from the AppRole.
-  <br /><em>Usage:</em><pre>secret_id_generate(role_name, metadata = NULL, cidr_list = NULL, token_bound_cidrs = NULL)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>secret_id_generate</span><span class='op'>(</span><span class='va'>role_name</span>, metadata <span class='op'>=</span> <span class='cn'>NULL</span>, cidr_list <span class='op'>=</span> <span class='cn'>NULL</span>, token_bound_cidrs <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole.</p></li>
 <li><p><code>metadata</code>:   Metadata to be tied to the SecretID. This should be a named list of key-value pairs. This metadata will be set on tokens issued with this SecretID, and is logged in audit logs in plaintext.</p></li>
@@ -202,40 +205,38 @@ details about this, see the vault documentation at
 <li><p><code>token_bound_cidrs</code>:   Character vector of CIDR blocks; if set, specifies blocks of IP addresses which can use the auth tokens generated by this SecretID. Overrides any role-set value but must be a subset.</p></li>
 </ul></p></dd>
 <dt><code>secret_id_list</code></dt><dd><p>Lists the accessors of all the SecretIDs issued against the AppRole. This includes the accessors for "custom" SecretIDs as well.
-  <br /><em>Usage:</em><pre>secret_id_list(role_name)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>secret_id_list</span><span class='op'>(</span><span class='va'>role_name</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 </ul></p></dd>
 <dt><code>secret_id_read</code></dt><dd><p>Reads out the properties of a SecretID.
-  <br /><em>Usage:</em><pre>secret_id_read(role_name, secret_id, accessor = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>secret_id_read</span><span class='op'>(</span><span class='va'>role_name</span>, <span class='va'>secret_id</span>, accessor <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 <li><p><code>secret_id</code>:   Secret ID attached to the role</p></li>
 <li><p><code>accessor</code>:   Logical, if <code>TRUE</code>, treat <code>secret_id</code> as an accessor rather than a secret id.</p></li>
 </ul></p></dd>
 <dt><code>secret_id_delete</code></dt><dd><p>Delete an AppRole secret ID
-  <br /><em>Usage:</em><pre>secret_id_delete(role_name, secret_id, accessor = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>secret_id_delete</span><span class='op'>(</span><span class='va'>role_name</span>, <span class='va'>secret_id</span>, accessor <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_name</code>:   Name of the AppRole</p></li>
 <li><p><code>secret_id</code>:   Secret ID attached to the role</p></li>
 <li><p><code>accessor</code>:   Logical, if <code>TRUE</code>, treat <code>secret_id</code> as an accessor rather than a secret id.</p></li>
 </ul></p></dd>
 <dt><code>login</code></dt><dd><p>Log into the vault using AppRole authentication.  Normally you would not call this directly but instead use <code>$login</code> with <code>method = "approle"</code> and proving the <code>role_id</code> and <code>secret_id</code> arguments.  This function returns a vault token but does not set it as the client token.
-  <br /><em>Usage:</em><pre>login(role_id, secret_id)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>login</span><span class='op'>(</span><span class='va'>role_id</span>, <span class='va'>secret_id</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>role_id</code>:   RoleID of the AppRole</p></li>
 <li><p><code>secret_id</code>:   SecretID belonging to AppRole</p></li>
 </ul></p></dd>
+
 </dl>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_client'>vault_client</a></span>(<span class='kw'>addr</span> <span class='kw'>=</span> <span class='st'>"https://localhost:8200"</span>)$<span class='no'>auth</span>$<span class='no'>approle</span></div><div class='output co'>#&gt; &lt;vault: auth_approle&gt;
+<span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_client.html'>vault_client</a></span><span class='op'>(</span>addr <span class='op'>=</span> <span class='st'>"https://localhost:8200"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>auth</span><span class='op'>$</span><span class='va'>approle</span>
+</div><div class='output co'>#&gt; &lt;vault: auth_approle&gt;
 #&gt;   Commands:
 #&gt;     custom_mount(mount)
 #&gt;     help()
@@ -256,17 +257,13 @@ details about this, see the vault documentation at
 #&gt;     secret_id_list(role_name)
 #&gt;     secret_id_read(role_name, secret_id, accessor = FALSE)</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#methods">Methods</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -274,13 +271,16 @@ details about this, see the vault documentation at
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

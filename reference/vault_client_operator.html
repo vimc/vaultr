@@ -8,21 +8,29 @@
 
 <title>Vault Administration — vault_client_operator • vaultr</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +38,13 @@
 
 
 
-<meta property="og:title" content="Vault Administration — vault_client_operator" />
 
+<meta property="og:title" content="Vault Administration — vault_client_operator" />
 <meta property="og:description" content="Administration commands for vault operators.  Very few of these
 commands should be used without consulting the vault documentation
 as they affect the administration of a vault server, but they are
 included here for completeness." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -50,9 +58,10 @@ included here for completeness." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -66,7 +75,7 @@ included here for completeness." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -74,7 +83,7 @@ included here for completeness." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@ included here for completeness." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/vimc/vaultr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/vimc/vaultr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@ included here for completeness." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,124 +135,90 @@ included here for completeness." />
     </div>
 
     <div class="ref-description">
-    
     <p>Administration commands for vault operators.  Very few of these
 commands should be used without consulting the vault documentation
 as they affect the administration of a vault server, but they are
 included here for completeness.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+
+<dl>
 <dt><code>key_status</code></dt><dd><p>Return information about the current encryption key of Vault.
-  <br /><em>Usage:</em><pre>key_status()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>key_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>is_initialized</code></dt><dd><p>Returns the initialization status of Vault
-  <br /><em>Usage:</em><pre>is_initialized()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>is_initialized</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>init</code></dt><dd><p>This endpoint initializes a new Vault. The Vault must not have been previously initialized.
-  <br /><em>Usage:</em><pre>init(secret_shares, secret_threshold)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>init</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>secret_shares</code>:   Integer, specifying the number of shares to split the master key into</p></li>
 <li><p><code>secret_threshold</code>:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares</p></li>
 </ul></p></dd>
 <dt><code>leader_status</code></dt><dd><p>Check the high availability status and current leader of Vault
-  <br /><em>Usage:</em><pre>leader_status()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>leader_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>rekey_status</code></dt><dd><p>Reads the configuration and progress of the current rekey attempt
-  <br /><em>Usage:</em><pre>rekey_status()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>rekey_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>rekey_start</code></dt><dd><p>This method begins a new rekey attempt. Only a single rekey attempt can take place at a time, and changing the parameters of a rekey requires cancelling and starting a new rekey, which will also provide a new nonce.
-  <br /><em>Usage:</em><pre>rekey_start(secret_shares, secret_threshold)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>rekey_start</span><span class='op'>(</span><span class='va'>secret_shares</span>, <span class='va'>secret_threshold</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>secret_shares</code>:   Integer, specifying the number of shares to split the master key into</p></li>
 <li><p><code>secret_threshold</code>:   Integer, specifying the number of shares required to reconstruct the master key. This must be less than or equal secret_shares</p></li>
 </ul></p></dd>
 <dt><code>rekey_cancel</code></dt><dd><p>This method cancels any in-progress rekey. This clears the rekey settings as well as any progress made. This must be called to change the parameters of the rekey. Note: verification is still a part of a rekey. If rekeying is cancelled during the verification flow, the current unseal keys remain valid.
-  <br /><em>Usage:</em><pre>rekey_cancel()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>rekey_cancel</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>rekey_submit</code></dt><dd><p>This method is used to enter a single master key share to progress the rekey of the Vault. If the threshold number of master key shares is reached, Vault will complete the rekey. Otherwise, this method must be called multiple times until that threshold is met. The rekey nonce operation must be provided with each call.
-  <br /><em>Usage:</em><pre>rekey_submit(key, nonce)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>rekey_submit</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>nonce</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>key</code>:   Specifies a single master share key (a string)</p></li>
 <li><p><code>nonce</code>:   Specifies the nonce of the rekey operation (a string)</p></li>
 </ul></p></dd>
 <dt><code>rotate</code></dt><dd><p>This method triggers a rotation of the backend encryption key. This is the key that is used to encrypt data written to the storage backend, and is not provided to operators. This operation is done online. Future values are encrypted with the new key, while old values are decrypted with previous encryption keys.
-  <br /><em>Usage:</em><pre>rotate()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>rotate</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>seal</code></dt><dd><p>Seal the vault, preventing any access to it.  After the vault is sealed, it must be unsealed for further use.
-  <br /><em>Usage:</em><pre>seal()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>seal</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>seal_status</code></dt><dd><p>Check the seal status of a Vault.  This method can be used even when the client is not authenticated with the vault (which will the case for a sealed vault).
-  <br /><em>Usage:</em><pre>seal_status()</pre></p></dd>
+  <br /><em>Usage:</em><pre><span class='fu'>seal_status</span><span class='op'>(</span><span class='op'>)</span></pre></p></dd>
 <dt><code>unseal</code></dt><dd><p>Submit a portion of a key to unseal the vault.  This method is typically called by multiple different operators to assemble the master key.
-  <br /><em>Usage:</em><pre>unseal(key, reset = FALSE)</pre>
-    <em>Arguments:</em>
+  <br /><em>Usage:</em><pre><span class='fu'>unseal</span><span class='op'>(</span><span class='va'>key</span>, reset <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>  <em>Arguments:</em>
   <ul>
 <li><p><code>key</code>:   The master key share</p></li>
 <li><p><code>reset</code>:   Logical, indicating if the unseal process should start be started again.</p></li>
 </ul></p></dd>
+
 </dl>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>vaultr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/vaultr/topics/vault_test_server'>vault_test_server</a></span>(<span class='kw'>if_disabled</span> <span class='kw'>=</span> <span class='no'>message</span>)</div><div class='output co'>#&gt; <span class='message'>...waiting for Vault to start</span></div><div class='input'><span class='no'>client</span> <span class='kw'>&lt;-</span> <span class='no'>server</span>$<span class='fu'>client</span>()
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='fu'>vaultr</span><span class='fu'>::</span><span class='fu'><a href='vault_test_server.html'>vault_test_server</a></span><span class='op'>(</span>if_disabled <span class='op'>=</span> <span class='va'>message</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>vault is not enabled</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>server</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>client</span> <span class='op'>&lt;-</span> <span class='va'>server</span><span class='op'>$</span><span class='fu'>client</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'># Our test server is by default unsealed:</span>
-<span class='no'>client</span>$<span class='fu'>status</span>()$<span class='no'>sealed</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
-<span class='co'># We can seal the vault to prevent all access:</span>
-<span class='no'>client</span>$<span class='no'>operator</span>$<span class='fu'>seal</span>()
-<span class='no'>client</span>$<span class='fu'>status</span>()$<span class='no'>sealed</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='co'># And then unseal it again</span>
-<span class='no'>client</span>$<span class='no'>operator</span>$<span class='fu'>unseal</span>(<span class='no'>server</span>$<span class='no'>keys</span>)</div><div class='output co'>#&gt; $type
-#&gt; [1] "shamir"
-#&gt; 
-#&gt; $initialized
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $sealed
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $t
-#&gt; [1] 1
-#&gt; 
-#&gt; $n
-#&gt; [1] 1
-#&gt; 
-#&gt; $progress
-#&gt; [1] 0
-#&gt; 
-#&gt; $nonce
-#&gt; [1] ""
-#&gt; 
-#&gt; $version
-#&gt; [1] "1.0.0"
-#&gt; 
-#&gt; $migration
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $cluster_name
-#&gt; [1] "vault-cluster-d66783a3"
-#&gt; 
-#&gt; $cluster_id
-#&gt; [1] "b8ff2009-fc48-1492-4abb-efdab4a064ff"
-#&gt; 
-#&gt; $recovery_seal
-#&gt; [1] FALSE
-#&gt; </div><div class='input'><span class='no'>client</span>$<span class='fu'>status</span>()$<span class='no'>sealed</span></div><div class='output co'>#&gt; [1] FALSE</div></pre>
+  <span class='co'># Our test server is by default unsealed:</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sealed</span>
+
+  <span class='co'># We can seal the vault to prevent all access:</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>operator</span><span class='op'>$</span><span class='fu'>seal</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sealed</span>
+
+  <span class='co'># And then unseal it again</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='va'>operator</span><span class='op'>$</span><span class='fu'>unseal</span><span class='op'>(</span><span class='va'>server</span><span class='op'>$</span><span class='va'>keys</span><span class='op'>)</span>
+  <span class='va'>client</span><span class='op'>$</span><span class='fu'>status</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sealed</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#methods">Methods</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -251,13 +226,16 @@ included here for completeness.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
