@@ -180,7 +180,7 @@ vault_client_kv2 <- R6::R6Class(
 
     ##' @description Delete a secret entirely.  Unlike `delete` this
     ##'   operation is irreversible and is more like the `delete`
-    ##'   operation on [`vaultrvault_client_kv1`] stores.
+    ##'   operation on [`vaultr::vault_client_kv1`] stores.
     ##'
     ##' @param path Path to delete
     ##'

@@ -25,19 +25,19 @@ vault_client_secrets <- R6::R6Class(
 
   public = list(
     ##' @field cubbyhole The cubbyhole backend:
-    ##'   [vaultr::vault_client_auth_cubbyhole]
+    ##'   [vaultr::vault_client_cubbyhole]
     cubbyhole = NULL,
 
     ##' @field kv1 The version 1 key-value backend:
-    ##'   [vaultr::vault_client_auth_kv1]
+    ##'   [vaultr::vault_client_kv1]
     kv1 = NULL,
 
     ##' @field kv2 The version 2 key-value backend:
-    ##'   [vaultr::vault_client_auth_kv2]
+    ##'   [vaultr::vault_client_kv2]
     kv2 = NULL,
 
     ##' @field transit The transit backend:
-    ##'   [vaultr::vault_client_auth_transit]
+    ##'   [vaultr::vault_client_transit]
     transit = NULL,
 
     ##' @description Create a `vault_client_secrets` object. Not typically

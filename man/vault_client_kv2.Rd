@@ -198,7 +198,7 @@ delete.}
 \subsection{Method \code{destroy()}}{
 Delete a secret entirely.  Unlike \code{delete} this
 operation is irreversible and is more like the \code{delete}
-operation on \code{\link{vaultrvault_client_kv1}} stores.
+operation on \code{\link{vault_client_kv1}} stores.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_kv2$destroy(path, version, mount = NULL)}\if{html}{\out{</div>}}
 }

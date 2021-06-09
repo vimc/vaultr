@@ -33,16 +33,16 @@ if (!is.null(server)) {
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{cubbyhole}}{The cubbyhole backend:
-\link{vault_client_auth_cubbyhole}}
+\link{vault_client_cubbyhole}}
 
 \item{\code{kv1}}{The version 1 key-value backend:
-\link{vault_client_auth_kv1}}
+\link{vault_client_kv1}}
 
 \item{\code{kv2}}{The version 2 key-value backend:
-\link{vault_client_auth_kv2}}
+\link{vault_client_kv2}}
 
 \item{\code{transit}}{The transit backend:
-\link{vault_client_auth_transit}}
+\link{vault_client_transit}}
 }
 \if{html}{\out{</div>}}
 }
