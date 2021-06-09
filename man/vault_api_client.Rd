@@ -4,126 +4,16 @@
 \alias{vault_api_client}
 \title{Vault Low-Level Client}
 \description{
+Vault Low-Level Client
+
+Vault Low-Level Client
+}
+\details{
 Low-level API client.  This can be used to directly communicate
 with the vault server.  This object will primarily be useful for
 debugging, testing or developing new vault methods, but is
 nonetheless described here.
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{is_authenticated}}{
-  Test if the vault client currently holds a vault token.  This method does not verify the token - only test that is present.
-  \cr\emph{Usage:}\preformatted{is_authenticated()}
-}
-\item{\code{set_token}}{
-  Set a token within the client
-  \cr\emph{Usage:}\preformatted{set_token(token, verify = FALSE, quiet = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   String, with the new vault client token
-    }
-
-    \item{\code{verify}:   Logical, indicating if we should test that the token is valid. If \code{TRUE}, then we use \code{$verify_token()} to test the token before setting it and if it is not valid an error will be thrown and the token not set.
-    }
-
-    \item{\code{quiet}:   Logical, if \code{TRUE}, then informational messages will be suppressed.
-    }
-  }
-}
-\item{\code{verify_token}}{
-  Test that a token is valid with the vault.  This will call vault's \code{/sys/capabilities-self} endpoint with the token provided and check the \code{/sys} path.
-  \cr\emph{Usage:}\preformatted{verify_token(token, quiet = TRUE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{token}:   String, with the vault client token to test
-    }
-
-    \item{\code{quiet}:   Logical, if \code{TRUE}, then informational messages will be suppressed.
-    }
-  }
-}
-\item{\code{server_version}}{
-  Retrieve the vault server version.  This is by default cached within the client for a session.  Will return an R \code{numeric_version} object.
-  \cr\emph{Usage:}\preformatted{server_version(refresh = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{refresh}:   Logical, indicating if the server version information should be refreshed even if known.
-    }
-  }
-}
-\item{\code{GET}}{
-  Send a \code{GET} request to the vault server
-  \cr\emph{Usage:}\preformatted{GET(path, ...)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.
-    }
-
-    \item{\code{...}:   Additional \code{httr}-compatible options.  These will be named parameters or \code{httr} "request" objects.
-    }
-  }
-}
-\item{\code{LIST}}{
-  Send a \code{LIST} request to the vault server
-  \cr\emph{Usage:}\preformatted{LIST(path, ...)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.
-    }
-
-    \item{\code{...}:   Additional \code{httr}-compatible options.  These will be named parameters or \code{httr} "request" objects.
-    }
-  }
-}
-\item{\code{POST}}{
-  Send a \code{POST} request to the vault server
-  \cr\emph{Usage:}\preformatted{POST(path, ...)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.
-    }
-
-    \item{\code{...}:   Additional \code{httr}-compatible options.  These will be named parameters or \code{httr} "request" objects.
-    }
-  }
-}
-\item{\code{PUT}}{
-  Send a \code{PUT} request to the vault server
-  \cr\emph{Usage:}\preformatted{PUT(path, ...)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.
-    }
-
-    \item{\code{...}:   Additional \code{httr}-compatible options.  These will be named parameters or \code{httr} "request" objects.
-    }
-  }
-}
-\item{\code{DELETE}}{
-  Send a \code{DELETE} request to the vault server
-  \cr\emph{Usage:}\preformatted{DELETE(path, ...)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The server path to use.  This is the "interesting" part of the path only, with the server base url and api version information added.
-    }
-
-    \item{\code{...}:   Additional \code{httr}-compatible options.  These will be named parameters or \code{httr} "request" objects.
-    }
-  }
-}
-}
-}
-
 \examples{
 
 server <- vaultr::vault_test_server(if_disabled = message)
@@ -149,5 +39,265 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_api_client}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_api_client$new()}}
+\item \href{#method-request}{\code{vault_api_client$request()}}
+\item \href{#method-is_authenticated}{\code{vault_api_client$is_authenticated()}}
+\item \href{#method-set_token}{\code{vault_api_client$set_token()}}
+\item \href{#method-verify_token}{\code{vault_api_client$verify_token()}}
+\item \href{#method-server_version}{\code{vault_api_client$server_version()}}
+\item \href{#method-GET}{\code{vault_api_client$GET()}}
+\item \href{#method-LIST}{\code{vault_api_client$LIST()}}
+\item \href{#method-POST}{\code{vault_api_client$POST()}}
+\item \href{#method-PUT}{\code{vault_api_client$PUT()}}
+\item \href{#method-DELETE}{\code{vault_api_client$DELETE()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create a new api client
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$new(addr = NULL, tls_config = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{addr}}{Address of the vault server}
+
+\item{\code{tls_config}}{Optional tls config}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-request"></a>}}
+\if{latex}{\out{\hypertarget{method-request}{}}}
+\subsection{Method \code{request()}}{
+Make a request to the api. Typically you should use
+one of the higher-level wrappers, such as \verb{$GET} or \verb{$POST}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$request(verb, path, ..., token = self$token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{verb}}{The HTTP verb to use, as a \code{httr} function (e.g.,
+pass \code{httr::GET} for a \code{GET} request).}
+
+\item{\code{path}}{The request path}
+
+\item{\code{...}}{Additional arguments passed to the \code{httr} function}
+
+\item{\code{token}}{Optional token, overriding the client token}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_authenticated"></a>}}
+\if{latex}{\out{\hypertarget{method-is_authenticated}{}}}
+\subsection{Method \code{is_authenticated()}}{
+Test if the vault client currently holds a vault token.
+This method does not verify the token - only test that is present.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$is_authenticated()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_token"></a>}}
+\if{latex}{\out{\hypertarget{method-set_token}{}}}
+\subsection{Method \code{set_token()}}{
+Set a token within the client
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$set_token(token, verify = FALSE, quiet = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{String, with the new vault client token}
+
+\item{\code{verify}}{Logical, indicating if we should test that the token
+is valid. If \code{TRUE}, then we use \verb{$verify_token()} to test the
+token before setting it and if it is not valid an error will be
+thrown and the token not set.}
+
+\item{\code{quiet}}{Logical, if \code{TRUE}, then informational messages will be
+suppressed.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-verify_token"></a>}}
+\if{latex}{\out{\hypertarget{method-verify_token}{}}}
+\subsection{Method \code{verify_token()}}{
+Test that a token is valid with the vault.
+This will call vault's \verb{/sys/capabilities-self} endpoint with the
+token provided and check the \verb{/sys} path.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$verify_token(token, quiet = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{token}}{String, with the vault client token to test}
+
+\item{\code{quiet}}{Logical, if \code{TRUE}, then informational messages will be
+suppressed}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-server_version"></a>}}
+\if{latex}{\out{\hypertarget{method-server_version}{}}}
+\subsection{Method \code{server_version()}}{
+Retrieve the vault server version.  This is by default
+cached within the client for a session.  Will return an R
+\link{numeric_version} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$server_version(refresh = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{refresh}}{Logical, indicating if the server version information
+should be refreshed even if known.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GET"></a>}}
+\if{latex}{\out{\hypertarget{method-GET}{}}}
+\subsection{Method \code{GET()}}{
+Send a \code{GET} request to the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$GET(path, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.}
+
+\item{\code{...}}{Additional \code{httr}-compatible options.  These will be named
+parameters or \code{httr} "request" objects.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LIST"></a>}}
+\if{latex}{\out{\hypertarget{method-LIST}{}}}
+\subsection{Method \code{LIST()}}{
+Send a \code{LIST} request to the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$LIST(path, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.}
+
+\item{\code{...}}{Additional \code{httr}-compatible options.  These will be named
+parameters or \code{httr} "request" objects.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-POST"></a>}}
+\if{latex}{\out{\hypertarget{method-POST}{}}}
+\subsection{Method \code{POST()}}{
+Send a \code{POST} request to the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$POST(path, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.}
+
+\item{\code{...}}{Additional \code{httr}-compatible options.  These will be named
+parameters or \code{httr} "request" objects.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PUT"></a>}}
+\if{latex}{\out{\hypertarget{method-PUT}{}}}
+\subsection{Method \code{PUT()}}{
+Send a \code{PUT} request to the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$PUT(path, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.}
+
+\item{\code{...}}{Additional \code{httr}-compatible options.  These will be named
+parameters or \code{httr} "request" objects.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DELETE"></a>}}
+\if{latex}{\out{\hypertarget{method-DELETE}{}}}
+\subsection{Method \code{DELETE()}}{
+Send a \code{DELETE} request to the vault server
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$DELETE(path, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The server path to use.  This is the "interesting"
+part of the path only, with the server base url and api version
+information added.}
+
+\item{\code{...}}{Additional \code{httr}-compatible options.  These will be named
+parameters or \code{httr} "request" objects.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

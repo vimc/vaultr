@@ -25,8 +25,6 @@
 ##' so use with care.  It is intended \emph{only} for use in automated
 ##' testing environments.
 ##'
-##' @template vault_server_instance
-##'
 ##' @section Warning:
 ##'
 ##' Starting a server in test mode must \emph{not} be used for

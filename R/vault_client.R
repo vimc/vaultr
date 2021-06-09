@@ -115,7 +115,7 @@ vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
 }
 
 
-
+##' @rdname vault_client
 R6_vault_client <- R6::R6Class(
   "vault_client",
   inherit = vault_client_object,

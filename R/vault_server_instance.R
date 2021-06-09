@@ -1,4 +1,4 @@
-##' @rdname server_manager
+##' @rdname vault_test_server
 vault_server_instance <- R6::R6Class(
   "vault_server_instance",
   inherit = vault_client_object,

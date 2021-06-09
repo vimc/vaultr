@@ -4,46 +4,15 @@
 \alias{vault_client_tools}
 \title{Vault Tools}
 \description{
+Vault Tools
+
+Vault Tools
+}
+\details{
 Interact with vault's cryptographic tools.  This provides support
 for high-quality random numbers and cryptographic hashes.  This
 functionality is also available through the transit secret engine.
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{random}}{
-  Generates high-quality random bytes of the specified length.  This is totally independent of R's random number stream and provides random numbers suitable for cryptographic purposes.
-  \cr\emph{Usage:}\preformatted{random(bytes = 32, format = "hex")}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{bytes}:   Number of bytes to generate (as an integer)
-    }
-
-    \item{\code{format}:   The output format to produce; must be one of \code{hex} (a single hex string such as \code{d1189e2f83b72ab6}), \code{base64} (a single base64 encoded string such as \code{8TDJekY0mYs=}) or \code{raw} (a raw vector of length \code{bytes}).
-    }
-  }
-}
-\item{\code{hash}}{
-  Generates a cryptographic hash of given data using the specified algorithm.
-  \cr\emph{Usage:}\preformatted{hash(data, algorithm = NULL, format = "hex")}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{data}:   A raw vector of data to hash.  To generate a raw vector from an R object, one option is to use \code{unserialize(x, NULL)} but be aware that version information may be included. Alternatively, for a string, one might use \code{charToRaw}.
-    }
-
-    \item{\code{algorithm}:   A string indicating the hash algorithm to use.  The exact set of supported algorithms may depend by vault server version, but as of version 1.0.0 vault supports \code{sha2-224}, \code{sha2-256}, \code{sha2-384} and \code{sha2-512}.  The default is \code{sha2-256}.
-    }
-
-    \item{\code{format}:   The format of the output - must be one of \code{hex} or \code{base64}.
-    }
-  }
-}
-}
-}
-
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
@@ -66,5 +35,88 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_tools}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_tools$new()}}
+\item \href{#method-random}{\code{vault_client_tools$random()}}
+\item \href{#method-hash}{\code{vault_client_tools$hash()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_tools$new(api_client)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-random"></a>}}
+\if{latex}{\out{\hypertarget{method-random}{}}}
+\subsection{Method \code{random()}}{
+Generates high-quality random bytes of the
+specified length.  This is totally independent of R's random
+number stream and provides random numbers suitable for
+cryptographic purposes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_tools$random(bytes = 32, format = "hex")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{bytes}}{Number of bytes to generate (as an integer)}
+
+\item{\code{format}}{The output format to produce; must be one of
+\code{hex} (a single hex string such as \code{d1189e2f83b72ab6}),
+\code{base64} (a single base64 encoded string such as
+\verb{8TDJekY0mYs=}) or \code{raw} (a raw vector of length \code{bytes}).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-hash"></a>}}
+\if{latex}{\out{\hypertarget{method-hash}{}}}
+\subsection{Method \code{hash()}}{
+Generates a cryptographic hash of given data using
+the specified algorithm.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_tools$hash(data, algorithm = NULL, format = "hex")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A raw vector of data to hash.  To generate a raw
+vector from an R object, one option is to use \code{unserialize(x, NULL)} but be aware that version information may be included.
+Alternatively, for a string, one might use \code{charToRaw}.}
+
+\item{\code{algorithm}}{A string indicating the hash algorithm to use.
+The exact set of supported algorithms may depend by vault
+server version, but as of version 1.0.0 vault supports
+\code{sha2-224}, \code{sha2-256}, \code{sha2-384} and \code{sha2-512}.  The
+default is \code{sha2-256}.}
+
+\item{\code{format}}{The format of the output - must be one of \code{hex}
+or \code{base64}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

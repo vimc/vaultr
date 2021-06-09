@@ -4,6 +4,11 @@
 \alias{vault_client_cubbyhole}
 \title{Cubbyhole secret store}
 \description{
+Cubbyhole secret store
+
+Cubbyhole secret store
+}
+\details{
 Interact with vault's cubbyhole key-value store.  This is useful
 for storing simple key-value data without versioning or metadata
 (c.f. \code{\link{vault_client_kv2}}) that is scoped to your
@@ -11,68 +16,6 @@ current token only and not accessible to anyone else.  For more
 details please see the vault documentation
 \url{https://www.vaultproject.io/docs/secrets/cubbyhole/index.html}
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{read}}{
-  Read a value from your cubbyhole
-  \cr\emph{Usage:}\preformatted{read(path, field = NULL, metadata = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to read, such as \code{/cubbyhole/mysecret}
-    }
-
-    \item{\code{field}:   Optional field to read from the secret.  Each secret is stored as a key/value set (represented in R as a named list) and this is equivalent to using \code{[[field]]} on the return value. The default, \code{NULL}, returns the full set of values.
-    }
-
-    \item{\code{metadata}:   Logical, indicating if we should return metadata for this secret (lease information etc) as an attribute along with the values itself.  Ignored if \code{field} is specified.
-    }
-  }
-}
-\item{\code{write}}{
-  Write data into your cubbyhole.
-  \cr\emph{Usage:}\preformatted{write(path, data)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   Path for the secret to write, such as \code{/cubbyhole/mysecret}
-    }
-
-    \item{\code{data}:   A named list of values to write into the vault at this path. This \emph{replaces} any existing values.
-    }
-  }
-}
-\item{\code{list}}{
-  List data in the vault at a give path.  This can be used to list keys, etc (e.g., at \code{/cubbyhole}).
-  \cr\emph{Usage:}\preformatted{list(path, full_names = FALSE)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to list
-    }
-
-    \item{\code{full_names}:   Logical, indicating if full paths (relative to the vault root) should be returned.
-    }
-  }
-
-  \emph{Value}:
-  A character vector (of zero length if no keys are found).  Paths that are "directories" (i.e., that contain keys and could themselves be listed) will be returned with a trailing forward slash, e.g. \code{path/}
-}
-\item{\code{delete}}{
-  Delete a value from the vault
-  \cr\emph{Usage:}\preformatted{delete(path)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{path}:   The path to delete
-    }
-  }
-}
-}
-}
-
 \examples{
 
 server <- vaultr::vault_test_server(if_disabled = message)
@@ -94,5 +37,129 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_cubbyhole}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_cubbyhole$new()}}
+\item \href{#method-read}{\code{vault_client_cubbyhole$read()}}
+\item \href{#method-write}{\code{vault_client_cubbyhole$write()}}
+\item \href{#method-list}{\code{vault_client_cubbyhole$list()}}
+\item \href{#method-delete}{\code{vault_client_cubbyhole$delete()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_cubbyhole$new(api_client)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-read"></a>}}
+\if{latex}{\out{\hypertarget{method-read}{}}}
+\subsection{Method \code{read()}}{
+Read a value from your cubbyhole
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_cubbyhole$read(path, field = NULL, metadata = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to read, such as
+\verb{/cubbyhole/mysecret}}
+
+\item{\code{field}}{Optional field to read from the secret.  Each
+secret is stored as a key/value set (represented in R as a
+named list) and this is equivalent to using \verb{[[field]]}
+on the return value.  The default, \code{NULL}, returns the
+full set of values.}
+
+\item{\code{metadata}}{Logical, indicating if we should return
+metadata for this secret (lease information etc) as an
+attribute along with the values itself.  Ignored if
+\code{field} is specified.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-write"></a>}}
+\if{latex}{\out{\hypertarget{method-write}{}}}
+\subsection{Method \code{write()}}{
+Write data into your cubbyhole.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_cubbyhole$write(path, data)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Path for the secret to write, such as
+\verb{/cubbyhole/mysecret}}
+
+\item{\code{data}}{A named list of values to write into the vault at
+this path.  This \emph{replaces} any existing values.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+List data in the vault at a give path.  This can
+be used to list keys, etc (e.g., at \verb{/cubbyhole}).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_cubbyhole$list(path, full_names = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to list}
+
+\item{\code{full_names}}{Logical, indicating if full paths (relative
+to the vault root) should be returned.}
+
+\item{\code{value}}{A character vector (of zero length if no keys are
+found).  Paths that are "directories" (i.e., that contain
+keys and could themselves be listed) will be returned with
+a trailing forward slash, e.g. \verb{path/}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-delete}{}}}
+\subsection{Method \code{delete()}}{
+Delete a value from the vault
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_cubbyhole$delete(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to delete}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

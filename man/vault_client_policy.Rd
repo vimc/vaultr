@@ -4,54 +4,15 @@
 \alias{vault_client_policy}
 \title{Vault Policy Configuration}
 \description{
+Vault Policy Configuration
+
+Vault Policy Configuration
+}
+\details{
 Interact with vault's policies.  To get started, you may want to
 read up on policies as described in the vault manual, here:
 \url{https://www.vaultproject.io/docs/concepts/policies.html}
 }
-\section{Methods}{
-
-
-\describe{
-\item{\code{delete}}{
-  This endpoint deletes the policy with the given name. This will immediately affect all users associated with this policy.
-  \cr\emph{Usage:}\preformatted{delete(name)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{name}:   Specifies the name of the policy to delete.
-    }
-  }
-}
-\item{\code{list}}{
-  Lists all configured policies.
-  \cr\emph{Usage:}\preformatted{list()}
-}
-\item{\code{read}}{
-  Retrieve the policy body for the named policy
-  \cr\emph{Usage:}\preformatted{read(name)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{name}:   Specifies the name of the policy to retrieve
-    }
-  }
-}
-\item{\code{write}}{
-  Create or update a policy.  Once a policy is updated, it takes effect immediately to all associated users.
-  \cr\emph{Usage:}\preformatted{write(name, rules)}
-
-  \emph{Arguments:}
-  \itemize{
-    \item{\code{name}:   Name of the policy to update
-    }
-
-    \item{\code{rules}:   Specifies the policy document.  This is a string in \href{https://learn.hashicorp.com/vault/identity-access-management/iam-policies}{HashiCorp configuration language}.  At present this must be read in as a single string (not a character vector of strings); future versions of vaultr may allow more flexible specification such as \code{@filename}.
-    }
-  }
-}
-}
-}
-
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
 if (!is.null(server)) {
@@ -93,5 +54,106 @@ if (!is.null(server)) {
 
   # cleanup
   server$kill()
+}
+}
+\section{Super class}{
+\code{\link[vaultr:vault_client_object]{vaultr::vault_client_object}} -> \code{vault_client_policy}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{vault_client_policy$new()}}
+\item \href{#method-delete}{\code{vault_client_policy$delete()}}
+\item \href{#method-list}{\code{vault_client_policy$list()}}
+\item \href{#method-read}{\code{vault_client_policy$read()}}
+\item \href{#method-write}{\code{vault_client_policy$write()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_policy$new(api_client)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-delete}{}}}
+\subsection{Method \code{delete()}}{
+This endpoint deletes the policy with the given
+name. This will immediately affect all users associated with
+this policy.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_policy$delete(name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Specifies the name of the policy to delete.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-list"></a>}}
+\if{latex}{\out{\hypertarget{method-list}{}}}
+\subsection{Method \code{list()}}{
+Lists all configured policies.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_policy$list()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-read"></a>}}
+\if{latex}{\out{\hypertarget{method-read}{}}}
+\subsection{Method \code{read()}}{
+Retrieve the policy body for the named policy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_policy$read(name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Specifies the name of the policy to retrieve}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-write"></a>}}
+\if{latex}{\out{\hypertarget{method-write}{}}}
+\subsection{Method \code{write()}}{
+Create or update a policy.  Once a policy is
+updated, it takes effect immediately to all associated users.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_policy$write(name, rules)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of the policy to update}
+
+\item{\code{rules}}{Specifies the policy document.  This is a string
+in "HashiCorp configuration language".  At present this must
+be read in as a single string (not a character vector of
+strings); future versions of vaultr may allow more flexible
+specification such as \verb{@filename}}
+}
+\if{html}{\out{</div>}}
+}
 }
 }
