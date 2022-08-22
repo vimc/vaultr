@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - vimc-6719-confirm
   pull_request:
     branches:
       - main
