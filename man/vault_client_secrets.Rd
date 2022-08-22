@@ -49,24 +49,24 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_secrets$new()}}
-\item \href{#method-disable}{\code{vault_client_secrets$disable()}}
-\item \href{#method-enable}{\code{vault_client_secrets$enable()}}
-\item \href{#method-list}{\code{vault_client_secrets$list()}}
-\item \href{#method-move}{\code{vault_client_secrets$move()}}
+\item \href{#method-vault_client_secrets-new}{\code{vault_client_secrets$new()}}
+\item \href{#method-vault_client_secrets-disable}{\code{vault_client_secrets$disable()}}
+\item \href{#method-vault_client_secrets-enable}{\code{vault_client_secrets$enable()}}
+\item \href{#method-vault_client_secrets-list}{\code{vault_client_secrets$list()}}
+\item \href{#method-vault_client_secrets-move}{\code{vault_client_secrets$move()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_secrets-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_secrets-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_secrets} object. Not typically
 called by users.
@@ -83,8 +83,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-disable"></a>}}
-\if{latex}{\out{\hypertarget{method-disable}{}}}
+\if{html}{\out{<a id="method-vault_client_secrets-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_secrets-disable}{}}}
 \subsection{Method \code{disable()}}{
 Disable a previously-enabled secret engine
 \subsection{Usage}{
@@ -100,8 +100,8 @@ Disable a previously-enabled secret engine
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-enable"></a>}}
-\if{latex}{\out{\hypertarget{method-enable}{}}}
+\if{html}{\out{<a id="method-vault_client_secrets-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_secrets-enable}{}}}
 \subsection{Method \code{enable()}}{
 Enable a secret backend in the vault server
 \subsection{Usage}{
@@ -132,8 +132,8 @@ is used to select between \link{vault_client_kv1} and
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_secrets-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_secrets-list}{}}}
 \subsection{Method \code{list()}}{
 List enabled secret engines
 \subsection{Usage}{
@@ -150,8 +150,8 @@ wanted.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-move"></a>}}
-\if{latex}{\out{\hypertarget{method-move}{}}}
+\if{html}{\out{<a id="method-vault_client_secrets-move"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_secrets-move}{}}}
 \subsection{Method \code{move()}}{
 Move the path that a secret engine is mounted at
 \subsection{Usage}{

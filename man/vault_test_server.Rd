@@ -142,26 +142,26 @@ https mode (read-only).}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_server_instance$new()}}
-\item \href{#method-version}{\code{vault_server_instance$version()}}
-\item \href{#method-client}{\code{vault_server_instance$client()}}
-\item \href{#method-env}{\code{vault_server_instance$env()}}
-\item \href{#method-export}{\code{vault_server_instance$export()}}
-\item \href{#method-clear_cached_token}{\code{vault_server_instance$clear_cached_token()}}
-\item \href{#method-kill}{\code{vault_server_instance$kill()}}
+\item \href{#method-vault_server_instance-new}{\code{vault_server_instance$new()}}
+\item \href{#method-vault_server_instance-version}{\code{vault_server_instance$version()}}
+\item \href{#method-vault_server_instance-client}{\code{vault_server_instance$client()}}
+\item \href{#method-vault_server_instance-env}{\code{vault_server_instance$env()}}
+\item \href{#method-vault_server_instance-export}{\code{vault_server_instance$export()}}
+\item \href{#method-vault_server_instance-clear_cached_token}{\code{vault_server_instance$clear_cached_token()}}
+\item \href{#method-vault_server_instance-kill}{\code{vault_server_instance$kill()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_server_instance} object. Not typically
 called by users.
@@ -184,8 +184,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-version"></a>}}
-\if{latex}{\out{\hypertarget{method-version}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-version"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-version}{}}}
 \subsection{Method \code{version()}}{
 Return the server version, as a \link{numeric_version}
 object.
@@ -195,8 +195,8 @@ object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-client"></a>}}
-\if{latex}{\out{\hypertarget{method-client}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-client"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-client}{}}}
 \subsection{Method \code{client()}}{
 Create a new client that can use this server.  The
 client will be a \link{vault_client} object.
@@ -218,8 +218,8 @@ most other methods.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-env"></a>}}
-\if{latex}{\out{\hypertarget{method-env}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-env"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-env}{}}}
 \subsection{Method \code{env()}}{
 Return a named character vector of environment
 variables that can be used to communicate with this vault
@@ -230,8 +230,8 @@ server (\code{VAULT_ADDR}, \code{VAULT_TOKEN}, etc).
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-export"></a>}}
-\if{latex}{\out{\hypertarget{method-export}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-export"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-export}{}}}
 \subsection{Method \code{export()}}{
 Export the variables returned by the \verb{$env()}
 method to the environment.  This makes them available to
@@ -242,8 +242,8 @@ child processes.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clear_cached_token"></a>}}
-\if{latex}{\out{\hypertarget{method-clear_cached_token}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-clear_cached_token"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-clear_cached_token}{}}}
 \subsection{Method \code{clear_cached_token()}}{
 Clear any session-cached token for this server.
 This is intended for testing new authentication backends.
@@ -253,8 +253,8 @@ This is intended for testing new authentication backends.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-kill"></a>}}
-\if{latex}{\out{\hypertarget{method-kill}{}}}
+\if{html}{\out{<a id="method-vault_server_instance-kill"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_server_instance-kill}{}}}
 \subsection{Method \code{kill()}}{
 Kill the server.
 \subsection{Usage}{

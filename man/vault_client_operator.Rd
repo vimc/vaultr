@@ -38,32 +38,32 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_operator$new()}}
-\item \href{#method-key_status}{\code{vault_client_operator$key_status()}}
-\item \href{#method-is_initialized}{\code{vault_client_operator$is_initialized()}}
-\item \href{#method-init}{\code{vault_client_operator$init()}}
-\item \href{#method-leader_status}{\code{vault_client_operator$leader_status()}}
-\item \href{#method-rekey_status}{\code{vault_client_operator$rekey_status()}}
-\item \href{#method-rekey_start}{\code{vault_client_operator$rekey_start()}}
-\item \href{#method-rekey_cancel}{\code{vault_client_operator$rekey_cancel()}}
-\item \href{#method-rekey_submit}{\code{vault_client_operator$rekey_submit()}}
-\item \href{#method-rotate}{\code{vault_client_operator$rotate()}}
-\item \href{#method-seal}{\code{vault_client_operator$seal()}}
-\item \href{#method-seal_status}{\code{vault_client_operator$seal_status()}}
-\item \href{#method-unseal}{\code{vault_client_operator$unseal()}}
+\item \href{#method-vault_client_operator-new}{\code{vault_client_operator$new()}}
+\item \href{#method-vault_client_operator-key_status}{\code{vault_client_operator$key_status()}}
+\item \href{#method-vault_client_operator-is_initialized}{\code{vault_client_operator$is_initialized()}}
+\item \href{#method-vault_client_operator-init}{\code{vault_client_operator$init()}}
+\item \href{#method-vault_client_operator-leader_status}{\code{vault_client_operator$leader_status()}}
+\item \href{#method-vault_client_operator-rekey_status}{\code{vault_client_operator$rekey_status()}}
+\item \href{#method-vault_client_operator-rekey_start}{\code{vault_client_operator$rekey_start()}}
+\item \href{#method-vault_client_operator-rekey_cancel}{\code{vault_client_operator$rekey_cancel()}}
+\item \href{#method-vault_client_operator-rekey_submit}{\code{vault_client_operator$rekey_submit()}}
+\item \href{#method-vault_client_operator-rotate}{\code{vault_client_operator$rotate()}}
+\item \href{#method-vault_client_operator-seal}{\code{vault_client_operator$seal()}}
+\item \href{#method-vault_client_operator-seal_status}{\code{vault_client_operator$seal_status()}}
+\item \href{#method-vault_client_operator-unseal}{\code{vault_client_operator$unseal()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_operator} object. Not typically
 called by users.
@@ -80,8 +80,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_status"></a>}}
-\if{latex}{\out{\hypertarget{method-key_status}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-key_status"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-key_status}{}}}
 \subsection{Method \code{key_status()}}{
 Return information about the current encryption
 key of Vault.
@@ -91,8 +91,8 @@ key of Vault.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_initialized"></a>}}
-\if{latex}{\out{\hypertarget{method-is_initialized}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-is_initialized"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-is_initialized}{}}}
 \subsection{Method \code{is_initialized()}}{
 Returns the initialization status of Vault
 \subsection{Usage}{
@@ -101,8 +101,8 @@ Returns the initialization status of Vault
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-init"></a>}}
-\if{latex}{\out{\hypertarget{method-init}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-init"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-init}{}}}
 \subsection{Method \code{init()}}{
 This endpoint initializes a new Vault. The Vault
 must not have been previously initialized.
@@ -124,8 +124,8 @@ less than or equal secret_shares}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-leader_status"></a>}}
-\if{latex}{\out{\hypertarget{method-leader_status}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-leader_status"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-leader_status}{}}}
 \subsection{Method \code{leader_status()}}{
 Check the high availability status and current
 leader of Vault
@@ -135,8 +135,8 @@ leader of Vault
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rekey_status"></a>}}
-\if{latex}{\out{\hypertarget{method-rekey_status}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-rekey_status"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-rekey_status}{}}}
 \subsection{Method \code{rekey_status()}}{
 Reads the configuration and progress of the
 current rekey attempt
@@ -146,8 +146,8 @@ current rekey attempt
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rekey_start"></a>}}
-\if{latex}{\out{\hypertarget{method-rekey_start}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-rekey_start"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-rekey_start}{}}}
 \subsection{Method \code{rekey_start()}}{
 This method begins a new rekey attempt. Only a
 single rekey attempt can take place at a time, and changing
@@ -171,8 +171,8 @@ less than or equal secret_shares}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rekey_cancel"></a>}}
-\if{latex}{\out{\hypertarget{method-rekey_cancel}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-rekey_cancel"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-rekey_cancel}{}}}
 \subsection{Method \code{rekey_cancel()}}{
 This method cancels any in-progress rekey. This
 clears the rekey settings as well as any progress made. This
@@ -186,8 +186,8 @@ keys remain valid.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rekey_submit"></a>}}
-\if{latex}{\out{\hypertarget{method-rekey_submit}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-rekey_submit"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-rekey_submit}{}}}
 \subsection{Method \code{rekey_submit()}}{
 This method is used to enter a single master key
 share to progress the rekey of the Vault. If the threshold
@@ -211,8 +211,8 @@ string)}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rotate"></a>}}
-\if{latex}{\out{\hypertarget{method-rotate}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-rotate"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-rotate}{}}}
 \subsection{Method \code{rotate()}}{
 This method triggers a rotation of the backend
 encryption key. This is the key that is used to encrypt data
@@ -226,8 +226,8 @@ with previous encryption keys.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-seal"></a>}}
-\if{latex}{\out{\hypertarget{method-seal}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-seal"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-seal}{}}}
 \subsection{Method \code{seal()}}{
 Seal the vault, preventing any access to it.
 After the vault is sealed, it must be unsealed for further
@@ -238,8 +238,8 @@ use.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-seal_status"></a>}}
-\if{latex}{\out{\hypertarget{method-seal_status}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-seal_status"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-seal_status}{}}}
 \subsection{Method \code{seal_status()}}{
 Check the seal status of a Vault.  This method can
 be used even when the client is not authenticated with the
@@ -250,8 +250,8 @@ vault (which will the case for a sealed vault).
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-unseal"></a>}}
-\if{latex}{\out{\hypertarget{method-unseal}{}}}
+\if{html}{\out{<a id="method-vault_client_operator-unseal"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_operator-unseal}{}}}
 \subsection{Method \code{unseal()}}{
 Submit a portion of a key to unseal the vault.
 This method is typically called by multiple different

@@ -23,32 +23,32 @@ vaultr::vault_client(addr = "https://localhost:8200")$auth$approle
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_auth_approle$new()}}
-\item \href{#method-custom_mount}{\code{vault_client_auth_approle$custom_mount()}}
-\item \href{#method-role_list}{\code{vault_client_auth_approle$role_list()}}
-\item \href{#method-role_write}{\code{vault_client_auth_approle$role_write()}}
-\item \href{#method-role_read}{\code{vault_client_auth_approle$role_read()}}
-\item \href{#method-role_delete}{\code{vault_client_auth_approle$role_delete()}}
-\item \href{#method-role_id_read}{\code{vault_client_auth_approle$role_id_read()}}
-\item \href{#method-role_id_write}{\code{vault_client_auth_approle$role_id_write()}}
-\item \href{#method-secret_id_generate}{\code{vault_client_auth_approle$secret_id_generate()}}
-\item \href{#method-secret_id_list}{\code{vault_client_auth_approle$secret_id_list()}}
-\item \href{#method-secret_id_read}{\code{vault_client_auth_approle$secret_id_read()}}
-\item \href{#method-secret_id_delete}{\code{vault_client_auth_approle$secret_id_delete()}}
-\item \href{#method-login}{\code{vault_client_auth_approle$login()}}
+\item \href{#method-vault_client_auth_approle-new}{\code{vault_client_auth_approle$new()}}
+\item \href{#method-vault_client_auth_approle-custom_mount}{\code{vault_client_auth_approle$custom_mount()}}
+\item \href{#method-vault_client_auth_approle-role_list}{\code{vault_client_auth_approle$role_list()}}
+\item \href{#method-vault_client_auth_approle-role_write}{\code{vault_client_auth_approle$role_write()}}
+\item \href{#method-vault_client_auth_approle-role_read}{\code{vault_client_auth_approle$role_read()}}
+\item \href{#method-vault_client_auth_approle-role_delete}{\code{vault_client_auth_approle$role_delete()}}
+\item \href{#method-vault_client_auth_approle-role_id_read}{\code{vault_client_auth_approle$role_id_read()}}
+\item \href{#method-vault_client_auth_approle-role_id_write}{\code{vault_client_auth_approle$role_id_write()}}
+\item \href{#method-vault_client_auth_approle-secret_id_generate}{\code{vault_client_auth_approle$secret_id_generate()}}
+\item \href{#method-vault_client_auth_approle-secret_id_list}{\code{vault_client_auth_approle$secret_id_list()}}
+\item \href{#method-vault_client_auth_approle-secret_id_read}{\code{vault_client_auth_approle$secret_id_read()}}
+\item \href{#method-vault_client_auth_approle-secret_id_delete}{\code{vault_client_auth_approle$secret_id_delete()}}
+\item \href{#method-vault_client_auth_approle-login}{\code{vault_client_auth_approle$login()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_approle} object. Not typically
 called by users.
@@ -67,8 +67,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_auth_approle} object at a
 custom mount. For example, suppose you mounted the \code{approle}
@@ -87,8 +87,8 @@ is repeated for other secret and authentication backends.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_list"></a>}}
-\if{latex}{\out{\hypertarget{method-role_list}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_list}{}}}
 \subsection{Method \code{role_list()}}{
 This endpoint returns a list the existing AppRoles in the method.
 \subsection{Usage}{
@@ -97,8 +97,8 @@ This endpoint returns a list the existing AppRoles in the method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_write"></a>}}
-\if{latex}{\out{\hypertarget{method-role_write}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_write}{}}}
 \subsection{Method \code{role_write()}}{
 Creates a new AppRole or updates an existing AppRole. This
 endpoint supports both create and update capabilities. There can
@@ -179,8 +179,8 @@ tokens).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_read"></a>}}
-\if{latex}{\out{\hypertarget{method-role_read}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_read}{}}}
 \subsection{Method \code{role_read()}}{
 Reads the properties of an existing AppRole.
 \subsection{Usage}{
@@ -196,8 +196,8 @@ Reads the properties of an existing AppRole.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_delete"></a>}}
-\if{latex}{\out{\hypertarget{method-role_delete}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_delete}{}}}
 \subsection{Method \code{role_delete()}}{
 Deletes an existing AppRole from the method.
 \subsection{Usage}{
@@ -213,8 +213,8 @@ Deletes an existing AppRole from the method.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_id_read"></a>}}
-\if{latex}{\out{\hypertarget{method-role_id_read}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_id_read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_id_read}{}}}
 \subsection{Method \code{role_id_read()}}{
 Reads the RoleID of an existing AppRole.
 \subsection{Usage}{
@@ -230,8 +230,8 @@ Reads the RoleID of an existing AppRole.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_id_write"></a>}}
-\if{latex}{\out{\hypertarget{method-role_id_write}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-role_id_write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-role_id_write}{}}}
 \subsection{Method \code{role_id_write()}}{
 Updates the RoleID of an existing AppRole to a
 custom value.
@@ -250,8 +250,8 @@ custom value.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-secret_id_generate"></a>}}
-\if{latex}{\out{\hypertarget{method-secret_id_generate}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-secret_id_generate"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-secret_id_generate}{}}}
 \subsection{Method \code{secret_id_generate()}}{
 Generates and issues a new SecretID on an existing
 AppRole. Similar to tokens, the response will also contain a
@@ -292,8 +292,8 @@ value but must be a subset.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-secret_id_list"></a>}}
-\if{latex}{\out{\hypertarget{method-secret_id_list}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-secret_id_list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-secret_id_list}{}}}
 \subsection{Method \code{secret_id_list()}}{
 Lists the accessors of all the SecretIDs issued
 against the AppRole. This includes the accessors for "custom"
@@ -311,8 +311,8 @@ SecretIDs as well.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-secret_id_read"></a>}}
-\if{latex}{\out{\hypertarget{method-secret_id_read}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-secret_id_read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-secret_id_read}{}}}
 \subsection{Method \code{secret_id_read()}}{
 Reads out the properties of a SecretID.
 \subsection{Usage}{
@@ -337,8 +337,8 @@ accessor rather than a secret id.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-secret_id_delete"></a>}}
-\if{latex}{\out{\hypertarget{method-secret_id_delete}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-secret_id_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-secret_id_delete}{}}}
 \subsection{Method \code{secret_id_delete()}}{
 Delete an AppRole secret ID
 \subsection{Usage}{
@@ -363,8 +363,8 @@ accessor rather than a secret id.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-login"></a>}}
-\if{latex}{\out{\hypertarget{method-login}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_approle-login"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_approle-login}{}}}
 \subsection{Method \code{login()}}{
 Log into the vault using AppRole authentication.
 Normally you would not call this directly but instead use

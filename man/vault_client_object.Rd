@@ -24,14 +24,14 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_object$new()}}
-\item \href{#method-format}{\code{vault_client_object$format()}}
-\item \href{#method-help}{\code{vault_client_object$help()}}
+\item \href{#method-vault_client_object-new}{\code{vault_client_object$new()}}
+\item \href{#method-vault_client_object-format}{\code{vault_client_object$format()}}
+\item \href{#method-vault_client_object-help}{\code{vault_client_object$help()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_object-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_object-new}{}}}
 \subsection{Method \code{new()}}{
 Construct an object
 \subsection{Usage}{
@@ -47,8 +47,8 @@ Construct an object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-vault_client_object-format"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_object-format}{}}}
 \subsection{Method \code{format()}}{
 Format method, overriding the R6 default
 \subsection{Usage}{
@@ -65,8 +65,8 @@ a brief (one line) format.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-vault_client_object-help"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_object-help}{}}}
 \subsection{Method \code{help()}}{
 Display help for this object
 \subsection{Usage}{

@@ -67,41 +67,41 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_transit$new()}}
-\item \href{#method-custom_mount}{\code{vault_client_transit$custom_mount()}}
-\item \href{#method-key_create}{\code{vault_client_transit$key_create()}}
-\item \href{#method-key_read}{\code{vault_client_transit$key_read()}}
-\item \href{#method-key_list}{\code{vault_client_transit$key_list()}}
-\item \href{#method-key_delete}{\code{vault_client_transit$key_delete()}}
-\item \href{#method-key_update}{\code{vault_client_transit$key_update()}}
-\item \href{#method-key_rotate}{\code{vault_client_transit$key_rotate()}}
-\item \href{#method-key_export}{\code{vault_client_transit$key_export()}}
-\item \href{#method-data_encrypt}{\code{vault_client_transit$data_encrypt()}}
-\item \href{#method-data_decrypt}{\code{vault_client_transit$data_decrypt()}}
-\item \href{#method-data_rewrap}{\code{vault_client_transit$data_rewrap()}}
-\item \href{#method-datakey_create}{\code{vault_client_transit$datakey_create()}}
-\item \href{#method-random}{\code{vault_client_transit$random()}}
-\item \href{#method-hash}{\code{vault_client_transit$hash()}}
-\item \href{#method-hmac}{\code{vault_client_transit$hmac()}}
-\item \href{#method-sign}{\code{vault_client_transit$sign()}}
-\item \href{#method-verify_signature}{\code{vault_client_transit$verify_signature()}}
-\item \href{#method-verify_hmac}{\code{vault_client_transit$verify_hmac()}}
-\item \href{#method-key_backup}{\code{vault_client_transit$key_backup()}}
-\item \href{#method-key_restore}{\code{vault_client_transit$key_restore()}}
-\item \href{#method-key_trim}{\code{vault_client_transit$key_trim()}}
+\item \href{#method-vault_client_transit-new}{\code{vault_client_transit$new()}}
+\item \href{#method-vault_client_transit-custom_mount}{\code{vault_client_transit$custom_mount()}}
+\item \href{#method-vault_client_transit-key_create}{\code{vault_client_transit$key_create()}}
+\item \href{#method-vault_client_transit-key_read}{\code{vault_client_transit$key_read()}}
+\item \href{#method-vault_client_transit-key_list}{\code{vault_client_transit$key_list()}}
+\item \href{#method-vault_client_transit-key_delete}{\code{vault_client_transit$key_delete()}}
+\item \href{#method-vault_client_transit-key_update}{\code{vault_client_transit$key_update()}}
+\item \href{#method-vault_client_transit-key_rotate}{\code{vault_client_transit$key_rotate()}}
+\item \href{#method-vault_client_transit-key_export}{\code{vault_client_transit$key_export()}}
+\item \href{#method-vault_client_transit-data_encrypt}{\code{vault_client_transit$data_encrypt()}}
+\item \href{#method-vault_client_transit-data_decrypt}{\code{vault_client_transit$data_decrypt()}}
+\item \href{#method-vault_client_transit-data_rewrap}{\code{vault_client_transit$data_rewrap()}}
+\item \href{#method-vault_client_transit-datakey_create}{\code{vault_client_transit$datakey_create()}}
+\item \href{#method-vault_client_transit-random}{\code{vault_client_transit$random()}}
+\item \href{#method-vault_client_transit-hash}{\code{vault_client_transit$hash()}}
+\item \href{#method-vault_client_transit-hmac}{\code{vault_client_transit$hmac()}}
+\item \href{#method-vault_client_transit-sign}{\code{vault_client_transit$sign()}}
+\item \href{#method-vault_client_transit-verify_signature}{\code{vault_client_transit$verify_signature()}}
+\item \href{#method-vault_client_transit-verify_hmac}{\code{vault_client_transit$verify_hmac()}}
+\item \href{#method-vault_client_transit-key_backup}{\code{vault_client_transit$key_backup()}}
+\item \href{#method-vault_client_transit-key_restore}{\code{vault_client_transit$key_restore()}}
+\item \href{#method-vault_client_transit-key_trim}{\code{vault_client_transit$key_trim()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_transit} object. Not typically
 called by users.
@@ -120,8 +120,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_transit} object at a custom
 mount.  For example, suppose you mounted the \code{transit} secret
@@ -142,8 +142,8 @@ mounted at.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_create"></a>}}
-\if{latex}{\out{\hypertarget{method-key_create}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_create"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_create}{}}}
 \subsection{Method \code{key_create()}}{
 Create a new named encryption key of the specified
 type. The values set here cannot be changed after key
@@ -207,8 +207,8 @@ disabled (default is \code{FALSE}).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_read"></a>}}
-\if{latex}{\out{\hypertarget{method-key_read}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_read}{}}}
 \subsection{Method \code{key_read()}}{
 Read information about a previously generated key.
 The returned object shows the creation time of each key
@@ -229,8 +229,8 @@ standard format for the type.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_list"></a>}}
-\if{latex}{\out{\hypertarget{method-key_list}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_list}{}}}
 \subsection{Method \code{key_list()}}{
 List names of all keys
 \subsection{Usage}{
@@ -239,8 +239,8 @@ List names of all keys
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_delete"></a>}}
-\if{latex}{\out{\hypertarget{method-key_delete}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_delete}{}}}
 \subsection{Method \code{key_delete()}}{
 Delete a key by name.  It will no longer be
 possible to decrypt any data encrypted with the named
@@ -260,8 +260,8 @@ the \code{deletion_allowed} tunable must be set using
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_update"></a>}}
-\if{latex}{\out{\hypertarget{method-key_update}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_update"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_update}{}}}
 \subsection{Method \code{key_update()}}{
 This method allows tuning configuration values for
 a given key. (These values are returned during a read
@@ -313,8 +313,8 @@ disabled.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_rotate"></a>}}
-\if{latex}{\out{\hypertarget{method-key_rotate}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_rotate"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_rotate}{}}}
 \subsection{Method \code{key_rotate()}}{
 Rotates the version of the named key. After
 rotation, new plaintext requests will be encrypted with the
@@ -335,8 +335,8 @@ encryption and decryption operations.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_export"></a>}}
-\if{latex}{\out{\hypertarget{method-key_export}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_export"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_export}{}}}
 \subsection{Method \code{key_export()}}{
 Export the named key. If version is specified, the
 specific version will be returned. If latest is provided as
@@ -373,8 +373,8 @@ version is set to latest, the current key will be returned}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_encrypt"></a>}}
-\if{latex}{\out{\hypertarget{method-data_encrypt}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-data_encrypt"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-data_encrypt}{}}}
 \subsection{Method \code{data_encrypt()}}{
 This endpoint encrypts the provided plaintext
 using the named key.
@@ -407,8 +407,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_decrypt"></a>}}
-\if{latex}{\out{\hypertarget{method-data_decrypt}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-data_decrypt"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-data_decrypt}{}}}
 \subsection{Method \code{data_decrypt()}}{
 Decrypts the provided ciphertext using the named
 key.
@@ -433,8 +433,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_rewrap"></a>}}
-\if{latex}{\out{\hypertarget{method-data_rewrap}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-data_rewrap"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-data_rewrap}{}}}
 \subsection{Method \code{data_rewrap()}}{
 Rewraps the provided ciphertext using the latest
 version of the named key. Because this never returns
@@ -471,8 +471,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-datakey_create"></a>}}
-\if{latex}{\out{\hypertarget{method-datakey_create}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-datakey_create"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-datakey_create}{}}}
 \subsection{Method \code{datakey_create()}}{
 This endpoint generates a new high-entropy key and
 the value encrypted with the named key. Optionally return the
@@ -506,8 +506,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-random"></a>}}
-\if{latex}{\out{\hypertarget{method-random}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-random"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-random}{}}}
 \subsection{Method \code{random()}}{
 Generates high-quality random bytes of the
 specified length.  This is totally independent of R's random
@@ -531,8 +531,8 @@ cryptographic purposes.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-hash"></a>}}
-\if{latex}{\out{\hypertarget{method-hash}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-hash"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-hash}{}}}
 \subsection{Method \code{hash()}}{
 Generates a cryptographic hash of given data using
 the specified algorithm.
@@ -560,8 +560,8 @@ or \code{base64}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-hmac"></a>}}
-\if{latex}{\out{\hypertarget{method-hmac}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-hmac"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-hmac}{}}}
 \subsection{Method \code{hmac()}}{
 This endpoint returns the digest of given data
 using the specified hash algorithm and the named key. The key
@@ -595,8 +595,8 @@ use. Currently-supported algorithms are \code{sha2-224},
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sign"></a>}}
-\if{latex}{\out{\hypertarget{method-sign}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-sign"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-sign}{}}}
 \subsection{Method \code{sign()}}{
 Returns the cryptographic signature of the given
 data using the named key and the specified hash
@@ -647,8 +647,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-verify_signature"></a>}}
-\if{latex}{\out{\hypertarget{method-verify_signature}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-verify_signature"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-verify_signature}{}}}
 \subsection{Method \code{verify_signature()}}{
 Determine whether the provided signature is valid
 for the given data.
@@ -690,8 +690,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-verify_hmac"></a>}}
-\if{latex}{\out{\hypertarget{method-verify_hmac}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-verify_hmac"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-verify_hmac}{}}}
 \subsection{Method \code{verify_hmac()}}{
 Determine whether the provided signature is valid
 for the given data.
@@ -733,8 +733,8 @@ be a raw vector.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_backup"></a>}}
-\if{latex}{\out{\hypertarget{method-key_backup}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_backup"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_backup}{}}}
 \subsection{Method \code{key_backup()}}{
 Returns a plaintext backup of a named key. The
 backup contains all the configuration data and keys of all
@@ -753,8 +753,8 @@ endpoint can be used with \verb{$key_restore} to restore the key.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_restore"></a>}}
-\if{latex}{\out{\hypertarget{method-key_restore}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_restore"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_restore}{}}}
 \subsection{Method \code{key_restore()}}{
 Restores the backup as a named key. This will
 restore the key configurations and all the versions of the
@@ -779,8 +779,8 @@ proceed even if a key by this name already exists.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-key_trim"></a>}}
-\if{latex}{\out{\hypertarget{method-key_trim}{}}}
+\if{html}{\out{<a id="method-vault_client_transit-key_trim"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_transit-key_trim}{}}}
 \subsection{Method \code{key_trim()}}{
 This endpoint trims older key versions setting a
 minimum version for the keyring. Once trimmed, previous

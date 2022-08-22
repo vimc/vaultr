@@ -42,24 +42,24 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_audit$new()}}
-\item \href{#method-list}{\code{vault_client_audit$list()}}
-\item \href{#method-enable}{\code{vault_client_audit$enable()}}
-\item \href{#method-disable}{\code{vault_client_audit$disable()}}
-\item \href{#method-hash}{\code{vault_client_audit$hash()}}
+\item \href{#method-vault_client_audit-new}{\code{vault_client_audit$new()}}
+\item \href{#method-vault_client_audit-list}{\code{vault_client_audit$list()}}
+\item \href{#method-vault_client_audit-enable}{\code{vault_client_audit$enable()}}
+\item \href{#method-vault_client_audit-disable}{\code{vault_client_audit$disable()}}
+\item \href{#method-vault_client_audit-hash}{\code{vault_client_audit$hash()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_audit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_audit-new}{}}}
 \subsection{Method \code{new()}}{
 Create an audit object
 \subsection{Usage}{
@@ -75,8 +75,8 @@ Create an audit object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_audit-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_audit-list}{}}}
 \subsection{Method \code{list()}}{
 List active audit devices.  Returns a \link{data.frame}
 of names, paths and descriptions of active audit devices.
@@ -86,8 +86,8 @@ of names, paths and descriptions of active audit devices.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-enable"></a>}}
-\if{latex}{\out{\hypertarget{method-enable}{}}}
+\if{html}{\out{<a id="method-vault_client_audit-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_audit-enable}{}}}
 \subsection{Method \code{enable()}}{
 This endpoint enables a new audit device at the
 supplied path.
@@ -117,8 +117,8 @@ as the path.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-disable"></a>}}
-\if{latex}{\out{\hypertarget{method-disable}{}}}
+\if{html}{\out{<a id="method-vault_client_audit-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_audit-disable}{}}}
 \subsection{Method \code{disable()}}{
 Disable an audit device
 \subsection{Usage}{
@@ -134,8 +134,8 @@ Disable an audit device
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-hash"></a>}}
-\if{latex}{\out{\hypertarget{method-hash}{}}}
+\if{html}{\out{<a id="method-vault_client_audit-hash"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_audit-hash}{}}}
 \subsection{Method \code{hash()}}{
 The \code{hash} method is used to calculate the hash of the
 data used by an audit device's hash function and salt. This can be

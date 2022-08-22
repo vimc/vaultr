@@ -139,29 +139,29 @@ Rich FitzJohn
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_$new()}}
-\item \href{#method-api}{\code{vault_client_$api()}}
-\item \href{#method-read}{\code{vault_client_$read()}}
-\item \href{#method-write}{\code{vault_client_$write()}}
-\item \href{#method-delete}{\code{vault_client_$delete()}}
-\item \href{#method-list}{\code{vault_client_$list()}}
-\item \href{#method-login}{\code{vault_client_$login()}}
-\item \href{#method-status}{\code{vault_client_$status()}}
-\item \href{#method-unwrap}{\code{vault_client_$unwrap()}}
-\item \href{#method-wrap_lookup}{\code{vault_client_$wrap_lookup()}}
+\item \href{#method-vault_client-new}{\code{vault_client_$new()}}
+\item \href{#method-vault_client-api}{\code{vault_client_$api()}}
+\item \href{#method-vault_client-read}{\code{vault_client_$read()}}
+\item \href{#method-vault_client-write}{\code{vault_client_$write()}}
+\item \href{#method-vault_client-delete}{\code{vault_client_$delete()}}
+\item \href{#method-vault_client-list}{\code{vault_client_$list()}}
+\item \href{#method-vault_client-login}{\code{vault_client_$login()}}
+\item \href{#method-vault_client-status}{\code{vault_client_$status()}}
+\item \href{#method-vault_client-unwrap}{\code{vault_client_$unwrap()}}
+\item \href{#method-vault_client-wrap_lookup}{\code{vault_client_$wrap_lookup()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new vault client. Not typically called
 directly, but via the \code{vault_client} method.
@@ -180,8 +180,8 @@ directly, but via the \code{vault_client} method.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-api"></a>}}
-\if{latex}{\out{\hypertarget{method-api}{}}}
+\if{html}{\out{<a id="method-vault_client-api"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-api}{}}}
 \subsection{Method \code{api()}}{
 Returns an api client object that can be used to
 directly interact with the vault server.
@@ -191,8 +191,8 @@ directly interact with the vault server.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-read"></a>}}
-\if{latex}{\out{\hypertarget{method-read}{}}}
+\if{html}{\out{<a id="method-vault_client-read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-read}{}}}
 \subsection{Method \code{read()}}{
 Read a value from the vault.  This can be used to
 read any value that you have permission to read, and can also
@@ -224,8 +224,8 @@ is specified.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-write"></a>}}
-\if{latex}{\out{\hypertarget{method-write}{}}}
+\if{html}{\out{<a id="method-vault_client-write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-write}{}}}
 \subsection{Method \code{write()}}{
 Write data into the vault.  This can be used to
 write any value that you have permission to write, and can
@@ -249,8 +249,8 @@ this path.  This \emph{replaces} any existing values.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-delete"></a>}}
-\if{latex}{\out{\hypertarget{method-delete}{}}}
+\if{html}{\out{<a id="method-vault_client-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-delete}{}}}
 \subsection{Method \code{delete()}}{
 Delete a value from the vault
 \subsection{Usage}{
@@ -266,8 +266,8 @@ Delete a value from the vault
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-list}{}}}
 \subsection{Method \code{list()}}{
 List data in the vault at a given path.  This can
 be used to list keys, etc (e.g., at \verb{/secret}).
@@ -293,8 +293,8 @@ trailing forward slash, e.g. \verb{path/}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-login"></a>}}
-\if{latex}{\out{\hypertarget{method-login}{}}}
+\if{html}{\out{<a id="method-vault_client-login"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-login}{}}}
 \subsection{Method \code{login()}}{
 Login to the vault.  This method is more
 complicated than most.
@@ -348,8 +348,8 @@ external resources (e.g., \code{github}) much faster.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-status"></a>}}
-\if{latex}{\out{\hypertarget{method-status}{}}}
+\if{html}{\out{<a id="method-vault_client-status"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-status}{}}}
 \subsection{Method \code{status()}}{
 Return the status of the vault server, including
 whether it is sealed or not, and the vault server version.
@@ -359,8 +359,8 @@ whether it is sealed or not, and the vault server version.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-unwrap"></a>}}
-\if{latex}{\out{\hypertarget{method-unwrap}{}}}
+\if{html}{\out{<a id="method-vault_client-unwrap"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-unwrap}{}}}
 \subsection{Method \code{unwrap()}}{
 Returns the original response inside the given
 wrapping token. The vault endpoints used by this method
@@ -380,8 +380,8 @@ it, and ensures that the response is properly audit-logged.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-wrap_lookup"></a>}}
-\if{latex}{\out{\hypertarget{method-wrap_lookup}{}}}
+\if{html}{\out{<a id="method-vault_client-wrap_lookup"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client-wrap_lookup}{}}}
 \subsection{Method \code{wrap_lookup()}}{
 Look up properties of a wrapping token.
 \subsection{Usage}{

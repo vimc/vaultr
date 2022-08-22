@@ -43,22 +43,22 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_tools$new()}}
-\item \href{#method-random}{\code{vault_client_tools$random()}}
-\item \href{#method-hash}{\code{vault_client_tools$hash()}}
+\item \href{#method-vault_client_tools-new}{\code{vault_client_tools$new()}}
+\item \href{#method-vault_client_tools-random}{\code{vault_client_tools$random()}}
+\item \href{#method-vault_client_tools-hash}{\code{vault_client_tools$hash()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_tools-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_tools-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_tools} object. Not typically
 called by users.
@@ -75,8 +75,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-random"></a>}}
-\if{latex}{\out{\hypertarget{method-random}{}}}
+\if{html}{\out{<a id="method-vault_client_tools-random"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_tools-random}{}}}
 \subsection{Method \code{random()}}{
 Generates high-quality random bytes of the
 specified length.  This is totally independent of R's random
@@ -100,8 +100,8 @@ cryptographic purposes.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-hash"></a>}}
-\if{latex}{\out{\hypertarget{method-hash}{}}}
+\if{html}{\out{<a id="method-vault_client_tools-hash"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_tools-hash}{}}}
 \subsection{Method \code{hash()}}{
 Generates a cryptographic hash of given data using
 the specified algorithm.
