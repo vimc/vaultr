@@ -63,30 +63,30 @@ api version path)}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_api_client$new()}}
-\item \href{#method-request}{\code{vault_api_client$request()}}
-\item \href{#method-is_authenticated}{\code{vault_api_client$is_authenticated()}}
-\item \href{#method-set_token}{\code{vault_api_client$set_token()}}
-\item \href{#method-verify_token}{\code{vault_api_client$verify_token()}}
-\item \href{#method-server_version}{\code{vault_api_client$server_version()}}
-\item \href{#method-GET}{\code{vault_api_client$GET()}}
-\item \href{#method-LIST}{\code{vault_api_client$LIST()}}
-\item \href{#method-POST}{\code{vault_api_client$POST()}}
-\item \href{#method-PUT}{\code{vault_api_client$PUT()}}
-\item \href{#method-DELETE}{\code{vault_api_client$DELETE()}}
+\item \href{#method-vault_api_client-new}{\code{vault_api_client$new()}}
+\item \href{#method-vault_api_client-request}{\code{vault_api_client$request()}}
+\item \href{#method-vault_api_client-is_authenticated}{\code{vault_api_client$is_authenticated()}}
+\item \href{#method-vault_api_client-set_token}{\code{vault_api_client$set_token()}}
+\item \href{#method-vault_api_client-verify_token}{\code{vault_api_client$verify_token()}}
+\item \href{#method-vault_api_client-server_version}{\code{vault_api_client$server_version()}}
+\item \href{#method-vault_api_client-GET}{\code{vault_api_client$GET()}}
+\item \href{#method-vault_api_client-LIST}{\code{vault_api_client$LIST()}}
+\item \href{#method-vault_api_client-POST}{\code{vault_api_client$POST()}}
+\item \href{#method-vault_api_client-PUT}{\code{vault_api_client$PUT()}}
+\item \href{#method-vault_api_client-DELETE}{\code{vault_api_client$DELETE()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_api_client-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new api client
 \subsection{Usage}{
@@ -104,8 +104,8 @@ Create a new api client
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-request"></a>}}
-\if{latex}{\out{\hypertarget{method-request}{}}}
+\if{html}{\out{<a id="method-vault_api_client-request"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-request}{}}}
 \subsection{Method \code{request()}}{
 Make a request to the api. Typically you should use
 one of the higher-level wrappers, such as \verb{$GET} or \verb{$POST}.
@@ -129,8 +129,8 @@ pass \code{httr::GET} for a \code{GET} request).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_authenticated"></a>}}
-\if{latex}{\out{\hypertarget{method-is_authenticated}{}}}
+\if{html}{\out{<a id="method-vault_api_client-is_authenticated"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-is_authenticated}{}}}
 \subsection{Method \code{is_authenticated()}}{
 Test if the vault client currently holds a vault token.
 This method does not verify the token - only test that is present.
@@ -140,8 +140,8 @@ This method does not verify the token - only test that is present.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_token"></a>}}
-\if{latex}{\out{\hypertarget{method-set_token}{}}}
+\if{html}{\out{<a id="method-vault_api_client-set_token"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-set_token}{}}}
 \subsection{Method \code{set_token()}}{
 Set a token within the client
 \subsection{Usage}{
@@ -165,8 +165,8 @@ suppressed.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-verify_token"></a>}}
-\if{latex}{\out{\hypertarget{method-verify_token}{}}}
+\if{html}{\out{<a id="method-vault_api_client-verify_token"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-verify_token}{}}}
 \subsection{Method \code{verify_token()}}{
 Test that a token is valid with the vault.
 This will call vault's \verb{/sys/capabilities-self} endpoint with the
@@ -187,8 +187,8 @@ suppressed}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-server_version"></a>}}
-\if{latex}{\out{\hypertarget{method-server_version}{}}}
+\if{html}{\out{<a id="method-vault_api_client-server_version"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-server_version}{}}}
 \subsection{Method \code{server_version()}}{
 Retrieve the vault server version.  This is by default
 cached within the client for a session.  Will return an R
@@ -207,8 +207,8 @@ should be refreshed even if known.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-GET"></a>}}
-\if{latex}{\out{\hypertarget{method-GET}{}}}
+\if{html}{\out{<a id="method-vault_api_client-GET"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-GET}{}}}
 \subsection{Method \code{GET()}}{
 Send a \code{GET} request to the vault server
 \subsection{Usage}{
@@ -229,8 +229,8 @@ parameters or \code{httr} "request" objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LIST"></a>}}
-\if{latex}{\out{\hypertarget{method-LIST}{}}}
+\if{html}{\out{<a id="method-vault_api_client-LIST"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-LIST}{}}}
 \subsection{Method \code{LIST()}}{
 Send a \code{LIST} request to the vault server
 \subsection{Usage}{
@@ -251,8 +251,8 @@ parameters or \code{httr} "request" objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-POST"></a>}}
-\if{latex}{\out{\hypertarget{method-POST}{}}}
+\if{html}{\out{<a id="method-vault_api_client-POST"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-POST}{}}}
 \subsection{Method \code{POST()}}{
 Send a \code{POST} request to the vault server
 \subsection{Usage}{
@@ -273,8 +273,8 @@ parameters or \code{httr} "request" objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PUT"></a>}}
-\if{latex}{\out{\hypertarget{method-PUT}{}}}
+\if{html}{\out{<a id="method-vault_api_client-PUT"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-PUT}{}}}
 \subsection{Method \code{PUT()}}{
 Send a \code{PUT} request to the vault server
 \subsection{Usage}{
@@ -295,8 +295,8 @@ parameters or \code{httr} "request" objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-DELETE"></a>}}
-\if{latex}{\out{\hypertarget{method-DELETE}{}}}
+\if{html}{\out{<a id="method-vault_api_client-DELETE"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_api_client-DELETE}{}}}
 \subsection{Method \code{DELETE()}}{
 Send a \code{DELETE} request to the vault server
 \subsection{Usage}{

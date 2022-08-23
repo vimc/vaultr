@@ -44,26 +44,26 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_auth_github$new()}}
-\item \href{#method-custom_mount}{\code{vault_client_auth_github$custom_mount()}}
-\item \href{#method-configure}{\code{vault_client_auth_github$configure()}}
-\item \href{#method-configuration}{\code{vault_client_auth_github$configuration()}}
-\item \href{#method-write}{\code{vault_client_auth_github$write()}}
-\item \href{#method-read}{\code{vault_client_auth_github$read()}}
-\item \href{#method-login}{\code{vault_client_auth_github$login()}}
+\item \href{#method-vault_client_auth_github-new}{\code{vault_client_auth_github$new()}}
+\item \href{#method-vault_client_auth_github-custom_mount}{\code{vault_client_auth_github$custom_mount()}}
+\item \href{#method-vault_client_auth_github-configure}{\code{vault_client_auth_github$configure()}}
+\item \href{#method-vault_client_auth_github-configuration}{\code{vault_client_auth_github$configuration()}}
+\item \href{#method-vault_client_auth_github-write}{\code{vault_client_auth_github$write()}}
+\item \href{#method-vault_client_auth_github-read}{\code{vault_client_auth_github$read()}}
+\item \href{#method-vault_client_auth_github-login}{\code{vault_client_auth_github$login()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_github} object. Not typically
 called by users.
@@ -82,8 +82,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_auth_github} object at a
 custom mount.  For example, suppose you mounted the \code{github}
@@ -104,8 +104,8 @@ mounted at.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-configure"></a>}}
-\if{latex}{\out{\hypertarget{method-configure}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-configure"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-configure}{}}}
 \subsection{Method \code{configure()}}{
 Configures the connection parameters for
 GitHub-based authentication.
@@ -137,8 +137,8 @@ be expired}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-configuration"></a>}}
-\if{latex}{\out{\hypertarget{method-configuration}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-configuration"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-configuration}{}}}
 \subsection{Method \code{configuration()}}{
 Reads the connection parameters for GitHub-based
 authentication.
@@ -148,8 +148,8 @@ authentication.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-write"></a>}}
-\if{latex}{\out{\hypertarget{method-write}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-write}{}}}
 \subsection{Method \code{write()}}{
 Write a mapping between a GitHub team or user and
 a set of vault policies.
@@ -173,8 +173,8 @@ interpreted as a \emph{user} instead.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-read"></a>}}
-\if{latex}{\out{\hypertarget{method-read}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-read}{}}}
 \subsection{Method \code{read()}}{
 Write a mapping between a GitHub team or user and
 a set of vault policies.
@@ -194,8 +194,8 @@ interpreted as a \emph{user} instead.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-login"></a>}}
-\if{latex}{\out{\hypertarget{method-login}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_github-login"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_github-login}{}}}
 \subsection{Method \code{login()}}{
 Log into the vault using GitHub authentication.
 Normally you would not call this directly but instead use

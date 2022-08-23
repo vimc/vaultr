@@ -34,16 +34,20 @@ special strings that indicate that the string refers to a vault
 secret.  This function resolves those secrets.
 }
 \details{
-For each element of the data, if a string matches the form:\preformatted{  VAULT:<path to secret>:<field>
-}
+For each element of the data, if a string matches the form:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  VAULT:<path to secret>:<field>
+}\if{html}{\out{</div>}}
 
 then it will be treated as a vault secret and resolved.  The
 \verb{<path to get>} will be something like
 \verb{/secret/path/password} and the \verb{<field>} the name of a
 field in the key/value data stored at that path.  For example,
 suppose you have the data \code{list(username = "alice", password = "s3cret!")} stored at \verb{/secret/database/user}, then the
-string\preformatted{  VAULT:/secret/database/user:password
-}
+string
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  VAULT:/secret/database/user:password
+}\if{html}{\out{</div>}}
 
 would refer to the value \verb{s3cret!}
 }

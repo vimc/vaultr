@@ -25,9 +25,11 @@ objects that themselves contain more methods and objects, creating
 a nested tree of functionality.
 
 From any object, online help is available via the help method, for
-example\preformatted{client <- vaultr::vault_client()
+example
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{client <- vaultr::vault_client()
 client$secrets$transit$help()
-}
+}\if{html}{\out{</div>}}
 
 For testing packages that rely on vault, there is support for
 creating temporary vault servers; see \code{vaultr::vault_test_server}

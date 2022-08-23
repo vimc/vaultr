@@ -84,41 +84,41 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_token$new()}}
-\item \href{#method-list}{\code{vault_client_token$list()}}
-\item \href{#method-capabilities}{\code{vault_client_token$capabilities()}}
-\item \href{#method-capabilities_self}{\code{vault_client_token$capabilities_self()}}
-\item \href{#method-capabilities_accessor}{\code{vault_client_token$capabilities_accessor()}}
-\item \href{#method-client}{\code{vault_client_token$client()}}
-\item \href{#method-create}{\code{vault_client_token$create()}}
-\item \href{#method-lookup}{\code{vault_client_token$lookup()}}
-\item \href{#method-lookup_self}{\code{vault_client_token$lookup_self()}}
-\item \href{#method-lookup_accessor}{\code{vault_client_token$lookup_accessor()}}
-\item \href{#method-renew}{\code{vault_client_token$renew()}}
-\item \href{#method-renew_self}{\code{vault_client_token$renew_self()}}
-\item \href{#method-revoke}{\code{vault_client_token$revoke()}}
-\item \href{#method-revoke_self}{\code{vault_client_token$revoke_self()}}
-\item \href{#method-revoke_accessor}{\code{vault_client_token$revoke_accessor()}}
-\item \href{#method-revoke_and_orphan}{\code{vault_client_token$revoke_and_orphan()}}
-\item \href{#method-role_read}{\code{vault_client_token$role_read()}}
-\item \href{#method-role_list}{\code{vault_client_token$role_list()}}
-\item \href{#method-role_write}{\code{vault_client_token$role_write()}}
-\item \href{#method-role_delete}{\code{vault_client_token$role_delete()}}
-\item \href{#method-tidy}{\code{vault_client_token$tidy()}}
-\item \href{#method-login}{\code{vault_client_token$login()}}
+\item \href{#method-vault_client_token-new}{\code{vault_client_token$new()}}
+\item \href{#method-vault_client_token-list}{\code{vault_client_token$list()}}
+\item \href{#method-vault_client_token-capabilities}{\code{vault_client_token$capabilities()}}
+\item \href{#method-vault_client_token-capabilities_self}{\code{vault_client_token$capabilities_self()}}
+\item \href{#method-vault_client_token-capabilities_accessor}{\code{vault_client_token$capabilities_accessor()}}
+\item \href{#method-vault_client_token-client}{\code{vault_client_token$client()}}
+\item \href{#method-vault_client_token-create}{\code{vault_client_token$create()}}
+\item \href{#method-vault_client_token-lookup}{\code{vault_client_token$lookup()}}
+\item \href{#method-vault_client_token-lookup_self}{\code{vault_client_token$lookup_self()}}
+\item \href{#method-vault_client_token-lookup_accessor}{\code{vault_client_token$lookup_accessor()}}
+\item \href{#method-vault_client_token-renew}{\code{vault_client_token$renew()}}
+\item \href{#method-vault_client_token-renew_self}{\code{vault_client_token$renew_self()}}
+\item \href{#method-vault_client_token-revoke}{\code{vault_client_token$revoke()}}
+\item \href{#method-vault_client_token-revoke_self}{\code{vault_client_token$revoke_self()}}
+\item \href{#method-vault_client_token-revoke_accessor}{\code{vault_client_token$revoke_accessor()}}
+\item \href{#method-vault_client_token-revoke_and_orphan}{\code{vault_client_token$revoke_and_orphan()}}
+\item \href{#method-vault_client_token-role_read}{\code{vault_client_token$role_read()}}
+\item \href{#method-vault_client_token-role_list}{\code{vault_client_token$role_list()}}
+\item \href{#method-vault_client_token-role_write}{\code{vault_client_token$role_write()}}
+\item \href{#method-vault_client_token-role_delete}{\code{vault_client_token$role_delete()}}
+\item \href{#method-vault_client_token-tidy}{\code{vault_client_token$tidy()}}
+\item \href{#method-vault_client_token-login}{\code{vault_client_token$login()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_token-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_token} object. Not typically
 called by users.
@@ -135,8 +135,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_token-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-list}{}}}
 \subsection{Method \code{list()}}{
 List token accessors, returning a character vector
 \subsection{Usage}{
@@ -145,8 +145,8 @@ List token accessors, returning a character vector
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-capabilities"></a>}}
-\if{latex}{\out{\hypertarget{method-capabilities}{}}}
+\if{html}{\out{<a id="method-vault_client_token-capabilities"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-capabilities}{}}}
 \subsection{Method \code{capabilities()}}{
 Fetch the capabilities of a token on the given
 paths. The capabilities returned will be derived from the
@@ -170,8 +170,8 @@ queried}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-capabilities_self"></a>}}
-\if{latex}{\out{\hypertarget{method-capabilities_self}{}}}
+\if{html}{\out{<a id="method-vault_client_token-capabilities_self"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-capabilities_self}{}}}
 \subsection{Method \code{capabilities_self()}}{
 As for the \code{capabilities} method, but for the
 client token used to make the request.
@@ -189,8 +189,8 @@ queried}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-capabilities_accessor"></a>}}
-\if{latex}{\out{\hypertarget{method-capabilities_accessor}{}}}
+\if{html}{\out{<a id="method-vault_client_token-capabilities_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-capabilities_accessor}{}}}
 \subsection{Method \code{capabilities_accessor()}}{
 As for the \code{capabilities} method, but using a
 token \emph{accessor} rather than a token itself.
@@ -211,19 +211,19 @@ are being queried}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-client"></a>}}
-\if{latex}{\out{\hypertarget{method-client}{}}}
+\if{html}{\out{<a id="method-vault_client_token-client"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-client}{}}}
 \subsection{Method \code{client()}}{
-\preformatted{Return the current client token
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Return the current client token
+}\if{html}{\out{</div>}}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_token$client()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-create"></a>}}
-\if{latex}{\out{\hypertarget{method-create}{}}}
+\if{html}{\out{<a id="method-vault_client_token-create"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-create}{}}}
 \subsection{Method \code{create()}}{
 Create a new token
 \subsection{Usage}{
@@ -310,8 +310,8 @@ duration (e.g., \verb{1h}).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-lookup"></a>}}
-\if{latex}{\out{\hypertarget{method-lookup}{}}}
+\if{html}{\out{<a id="method-vault_client_token-lookup"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-lookup}{}}}
 \subsection{Method \code{lookup()}}{
 Returns information about the client token
 \subsection{Usage}{
@@ -327,8 +327,8 @@ Returns information about the client token
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-lookup_self"></a>}}
-\if{latex}{\out{\hypertarget{method-lookup_self}{}}}
+\if{html}{\out{<a id="method-vault_client_token-lookup_self"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-lookup_self}{}}}
 \subsection{Method \code{lookup_self()}}{
 Returns information about the current client token
 (as if calling \verb{$lookup} with the token the client is using.
@@ -338,8 +338,8 @@ Returns information about the current client token
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-lookup_accessor"></a>}}
-\if{latex}{\out{\hypertarget{method-lookup_accessor}{}}}
+\if{html}{\out{<a id="method-vault_client_token-lookup_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-lookup_accessor}{}}}
 \subsection{Method \code{lookup_accessor()}}{
 Returns information about the client token from
 the accessor.
@@ -356,8 +356,8 @@ the accessor.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-renew"></a>}}
-\if{latex}{\out{\hypertarget{method-renew}{}}}
+\if{html}{\out{<a id="method-vault_client_token-renew"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-renew}{}}}
 \subsection{Method \code{renew()}}{
 Renews a lease associated with a token. This is
 used to prevent the expiration of a token, and the automatic
@@ -380,8 +380,8 @@ be a duration (e.g., \verb{1h}).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-renew_self"></a>}}
-\if{latex}{\out{\hypertarget{method-renew_self}{}}}
+\if{html}{\out{<a id="method-vault_client_token-renew_self"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-renew_self}{}}}
 \subsection{Method \code{renew_self()}}{
 Renews a lease associated with the calling
 token. This is used to prevent the expiration of a token, and
@@ -403,8 +403,8 @@ be a duration (e.g., \verb{1h}).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-revoke"></a>}}
-\if{latex}{\out{\hypertarget{method-revoke}{}}}
+\if{html}{\out{<a id="method-vault_client_token-revoke"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-revoke}{}}}
 \subsection{Method \code{revoke()}}{
 Revokes a token and all child tokens. When the
 token is revoked, all dynamic secrets generated with it are
@@ -422,8 +422,8 @@ also revoked.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-revoke_self"></a>}}
-\if{latex}{\out{\hypertarget{method-revoke_self}{}}}
+\if{html}{\out{<a id="method-vault_client_token-revoke_self"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-revoke_self}{}}}
 \subsection{Method \code{revoke_self()}}{
 Revokes the token used to call it and all child
 tokens. When the token is revoked, all dynamic secrets
@@ -435,8 +435,8 @@ calling \verb{$revoke()} with the client token.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-revoke_accessor"></a>}}
-\if{latex}{\out{\hypertarget{method-revoke_accessor}{}}}
+\if{html}{\out{<a id="method-vault_client_token-revoke_accessor"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-revoke_accessor}{}}}
 \subsection{Method \code{revoke_accessor()}}{
 Revoke the token associated with the accessor and
 all the child tokens. This is meant for purposes where there
@@ -455,8 +455,8 @@ and its children.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-revoke_and_orphan"></a>}}
-\if{latex}{\out{\hypertarget{method-revoke_and_orphan}{}}}
+\if{html}{\out{<a id="method-vault_client_token-revoke_and_orphan"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-revoke_and_orphan}{}}}
 \subsection{Method \code{revoke_and_orphan()}}{
 Revokes a token but not its child tokens. When the
 token is revoked, all secrets generated with it are also
@@ -476,8 +476,8 @@ root-protected method.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_read"></a>}}
-\if{latex}{\out{\hypertarget{method-role_read}{}}}
+\if{html}{\out{<a id="method-vault_client_token-role_read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-role_read}{}}}
 \subsection{Method \code{role_read()}}{
 Fetches the named role configuration.
 \subsection{Usage}{
@@ -493,8 +493,8 @@ Fetches the named role configuration.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_list"></a>}}
-\if{latex}{\out{\hypertarget{method-role_list}{}}}
+\if{html}{\out{<a id="method-vault_client_token-role_list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-role_list}{}}}
 \subsection{Method \code{role_list()}}{
 List available token roles.
 \subsection{Usage}{
@@ -503,8 +503,8 @@ List available token roles.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_write"></a>}}
-\if{latex}{\out{\hypertarget{method-role_write}{}}}
+\if{html}{\out{<a id="method-vault_client_token-role_write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-role_write}{}}}
 \subsection{Method \code{role_write()}}{
 Creates (or replaces) the named role. Roles
 enforce specific behaviour when creating tokens that allow
@@ -608,8 +608,8 @@ at token creation time.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-role_delete"></a>}}
-\if{latex}{\out{\hypertarget{method-role_delete}{}}}
+\if{html}{\out{<a id="method-vault_client_token-role_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-role_delete}{}}}
 \subsection{Method \code{role_delete()}}{
 Delete a named token role
 \subsection{Usage}{
@@ -625,8 +625,8 @@ Delete a named token role
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-tidy"></a>}}
-\if{latex}{\out{\hypertarget{method-tidy}{}}}
+\if{html}{\out{<a id="method-vault_client_token-tidy"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-tidy}{}}}
 \subsection{Method \code{tidy()}}{
 Performs some maintenance tasks to clean up
 invalid entries that may remain in the token
@@ -639,8 +639,8 @@ of I/O to the storage method so should be used sparingly.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-login"></a>}}
-\if{latex}{\out{\hypertarget{method-login}{}}}
+\if{html}{\out{<a id="method-vault_client_token-login"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_token-login}{}}}
 \subsection{Method \code{login()}}{
 Unlike other auth backend \code{login} methods, this
 does not actually log in to the vault.  Instead it verifies

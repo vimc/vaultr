@@ -22,13 +22,17 @@ you try and read values from any vault path, but similar to other
 secret and auth backends which accept arguments like
 \code{-mount-point}.  So if the \code{kv2} store is mounted at
 \verb{/project-secrets} for example, with a vault client
-\code{vault} one could write\preformatted{vault$secrets$kv2$get("/project-secrets/mysecret",
-                      mount = "project-secrets")
-}
+\code{vault} one could write
 
-or\preformatted{kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{vault$secrets$kv2$get("/project-secrets/mysecret",
+                      mount = "project-secrets")
+}\if{html}{\out{</div>}}
+
+or
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{kv2 <- vault$secrets$kv2$custom_mount("project-secrets")
 kv2$get("mysecret")
-}
+}\if{html}{\out{</div>}}
 
 If the leading part of of a path to secret within a \code{kv2}
 store does not match the mount point, \code{vaultr} will throw an
@@ -77,31 +81,31 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_kv2$new()}}
-\item \href{#method-config}{\code{vault_client_kv2$config()}}
-\item \href{#method-custom_mount}{\code{vault_client_kv2$custom_mount()}}
-\item \href{#method-delete}{\code{vault_client_kv2$delete()}}
-\item \href{#method-destroy}{\code{vault_client_kv2$destroy()}}
-\item \href{#method-get}{\code{vault_client_kv2$get()}}
-\item \href{#method-list}{\code{vault_client_kv2$list()}}
-\item \href{#method-metadata_get}{\code{vault_client_kv2$metadata_get()}}
-\item \href{#method-metadata_put}{\code{vault_client_kv2$metadata_put()}}
-\item \href{#method-metadata_delete}{\code{vault_client_kv2$metadata_delete()}}
-\item \href{#method-put}{\code{vault_client_kv2$put()}}
-\item \href{#method-undelete}{\code{vault_client_kv2$undelete()}}
+\item \href{#method-vault_client_kv2-new}{\code{vault_client_kv2$new()}}
+\item \href{#method-vault_client_kv2-config}{\code{vault_client_kv2$config()}}
+\item \href{#method-vault_client_kv2-custom_mount}{\code{vault_client_kv2$custom_mount()}}
+\item \href{#method-vault_client_kv2-delete}{\code{vault_client_kv2$delete()}}
+\item \href{#method-vault_client_kv2-destroy}{\code{vault_client_kv2$destroy()}}
+\item \href{#method-vault_client_kv2-get}{\code{vault_client_kv2$get()}}
+\item \href{#method-vault_client_kv2-list}{\code{vault_client_kv2$list()}}
+\item \href{#method-vault_client_kv2-metadata_get}{\code{vault_client_kv2$metadata_get()}}
+\item \href{#method-vault_client_kv2-metadata_put}{\code{vault_client_kv2$metadata_put()}}
+\item \href{#method-vault_client_kv2-metadata_delete}{\code{vault_client_kv2$metadata_delete()}}
+\item \href{#method-vault_client_kv2-put}{\code{vault_client_kv2$put()}}
+\item \href{#method-vault_client_kv2-undelete}{\code{vault_client_kv2$undelete()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_kv2} object. Not typically
 called by users.
@@ -120,8 +124,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-config"></a>}}
-\if{latex}{\out{\hypertarget{method-config}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-config"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-config}{}}}
 \subsection{Method \code{config()}}{
 Fetch the configuration for this \code{kv2} store.
 Returns a named list of values, the contents of which will
@@ -139,8 +143,8 @@ depend on the vault version.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_kv2} object at a custom
 mount.  For example, suppose you mounted another copy of the
@@ -160,8 +164,8 @@ mounted at.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-delete"></a>}}
-\if{latex}{\out{\hypertarget{method-delete}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-delete}{}}}
 \subsection{Method \code{delete()}}{
 Delete a secret from the vault.  This marks the
 version as deleted and will stop it from being returned from
@@ -187,8 +191,8 @@ delete.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-destroy"></a>}}
-\if{latex}{\out{\hypertarget{method-destroy}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-destroy"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-destroy}{}}}
 \subsection{Method \code{destroy()}}{
 Delete a secret entirely.  Unlike \code{delete} this
 operation is irreversible and is more like the \code{delete}
@@ -211,8 +215,8 @@ integers (this is required)}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-get"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-get}{}}}
 \subsection{Method \code{get()}}{
 Read a secret from the vault
 \subsection{Usage}{
@@ -251,8 +255,8 @@ is specified.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-list}{}}}
 \subsection{Method \code{list()}}{
 List data in the vault at a give path.  This can
 be used to list keys, etc (e.g., at \verb{/secret}).
@@ -279,8 +283,8 @@ trailing forward slash, e.g. \verb{path/}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-metadata_get"></a>}}
-\if{latex}{\out{\hypertarget{method-metadata_get}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-metadata_get"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-metadata_get}{}}}
 \subsection{Method \code{metadata_get()}}{
 Read secret metadata and versions at the specified
 path
@@ -299,8 +303,8 @@ path
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-metadata_put"></a>}}
-\if{latex}{\out{\hypertarget{method-metadata_put}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-metadata_put"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-metadata_put}{}}}
 \subsection{Method \code{metadata_put()}}{
 Update metadata for a secret.  This is allowed
 even if a secret does not yet exist, though this requires the
@@ -336,8 +340,8 @@ be permanently deleted.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-metadata_delete"></a>}}
-\if{latex}{\out{\hypertarget{method-metadata_delete}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-metadata_delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-metadata_delete}{}}}
 \subsection{Method \code{metadata_delete()}}{
 This method permanently deletes the key metadata
 and all version data for the specified key. All version
@@ -357,8 +361,8 @@ history will be removed.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-put"></a>}}
-\if{latex}{\out{\hypertarget{method-put}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-put"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-put}{}}}
 \subsection{Method \code{put()}}{
 Create or update a secret in this store.
 \subsection{Usage}{
@@ -387,8 +391,8 @@ specified in the cas parameter.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-undelete"></a>}}
-\if{latex}{\out{\hypertarget{method-undelete}{}}}
+\if{html}{\out{<a id="method-vault_client_kv2-undelete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv2-undelete}{}}}
 \subsection{Method \code{undelete()}}{
 Undeletes the data for the provided version and
 path in the key-value store. This restores the data, allowing

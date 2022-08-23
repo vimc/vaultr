@@ -51,25 +51,25 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_kv1$new()}}
-\item \href{#method-custom_mount}{\code{vault_client_kv1$custom_mount()}}
-\item \href{#method-read}{\code{vault_client_kv1$read()}}
-\item \href{#method-write}{\code{vault_client_kv1$write()}}
-\item \href{#method-list}{\code{vault_client_kv1$list()}}
-\item \href{#method-delete}{\code{vault_client_kv1$delete()}}
+\item \href{#method-vault_client_kv1-new}{\code{vault_client_kv1$new()}}
+\item \href{#method-vault_client_kv1-custom_mount}{\code{vault_client_kv1$custom_mount()}}
+\item \href{#method-vault_client_kv1-read}{\code{vault_client_kv1$read()}}
+\item \href{#method-vault_client_kv1-write}{\code{vault_client_kv1$write()}}
+\item \href{#method-vault_client_kv1-list}{\code{vault_client_kv1$list()}}
+\item \href{#method-vault_client_kv1-delete}{\code{vault_client_kv1$delete()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_kv1} object. Not typically
 called by users.
@@ -88,8 +88,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_kv1} object at a custom
 mount.  For example, suppose you mounted another copy of the
@@ -109,8 +109,8 @@ mounted at.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-read"></a>}}
-\if{latex}{\out{\hypertarget{method-read}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-read}{}}}
 \subsection{Method \code{read()}}{
 Read a value from the vault.  This can be used to
 read any value that you have permission to read in this
@@ -140,8 +140,8 @@ is specified.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-write"></a>}}
-\if{latex}{\out{\hypertarget{method-write}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-write}{}}}
 \subsection{Method \code{write()}}{
 Write data into the vault.  This can be used to
 write any value that you have permission to write in this
@@ -163,8 +163,8 @@ this path.  This \emph{replaces} any existing values.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-list}{}}}
 \subsection{Method \code{list()}}{
 List data in the vault at a give path.  This can
 be used to list keys, etc (e.g., at \verb{/secret}).
@@ -189,8 +189,8 @@ trailing forward slash, e.g. \verb{path/}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-delete"></a>}}
-\if{latex}{\out{\hypertarget{method-delete}{}}}
+\if{html}{\out{<a id="method-vault_client_kv1-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_kv1-delete}{}}}
 \subsection{Method \code{delete()}}{
 Delete a value from the vault
 \subsection{Usage}{

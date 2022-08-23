@@ -47,28 +47,28 @@ if (!is.null(server)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{vault_client_auth_userpass$new()}}
-\item \href{#method-custom_mount}{\code{vault_client_auth_userpass$custom_mount()}}
-\item \href{#method-write}{\code{vault_client_auth_userpass$write()}}
-\item \href{#method-read}{\code{vault_client_auth_userpass$read()}}
-\item \href{#method-delete}{\code{vault_client_auth_userpass$delete()}}
-\item \href{#method-update_password}{\code{vault_client_auth_userpass$update_password()}}
-\item \href{#method-update_policies}{\code{vault_client_auth_userpass$update_policies()}}
-\item \href{#method-list}{\code{vault_client_auth_userpass$list()}}
-\item \href{#method-login}{\code{vault_client_auth_userpass$login()}}
+\item \href{#method-vault_client_auth_userpass-new}{\code{vault_client_auth_userpass$new()}}
+\item \href{#method-vault_client_auth_userpass-custom_mount}{\code{vault_client_auth_userpass$custom_mount()}}
+\item \href{#method-vault_client_auth_userpass-write}{\code{vault_client_auth_userpass$write()}}
+\item \href{#method-vault_client_auth_userpass-read}{\code{vault_client_auth_userpass$read()}}
+\item \href{#method-vault_client_auth_userpass-delete}{\code{vault_client_auth_userpass$delete()}}
+\item \href{#method-vault_client_auth_userpass-update_password}{\code{vault_client_auth_userpass$update_password()}}
+\item \href{#method-vault_client_auth_userpass-update_policies}{\code{vault_client_auth_userpass$update_policies()}}
+\item \href{#method-vault_client_auth_userpass-list}{\code{vault_client_auth_userpass$list()}}
+\item \href{#method-vault_client_auth_userpass-login}{\code{vault_client_auth_userpass$login()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format">}\href{../../vaultr/html/vault_client_object.html#method-format}{\code{vaultr::vault_client_object$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help">}\href{../../vaultr/html/vault_client_object.html#method-help}{\code{vaultr::vault_client_object$help()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="format"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-format'><code>vaultr::vault_client_object$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="vaultr" data-topic="vault_client_object" data-id="help"><a href='../../vaultr/html/vault_client_object.html#method-vault_client_object-help'><code>vaultr::vault_client_object$help()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-new"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-new}{}}}
 \subsection{Method \code{new()}}{
 Create a \code{vault_client_userpass} object. Not typically
 called by users.
@@ -87,8 +87,8 @@ called by users.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-custom_mount"></a>}}
-\if{latex}{\out{\hypertarget{method-custom_mount}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-custom_mount"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-custom_mount}{}}}
 \subsection{Method \code{custom_mount()}}{
 Set up a \code{vault_client_auth_userpass} object at a
 custom mount.  For example, suppose you mounted the
@@ -109,8 +109,8 @@ backends.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-write"></a>}}
-\if{latex}{\out{\hypertarget{method-write}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-write"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-write}{}}}
 \subsection{Method \code{write()}}{
 Create or update a user.
 \subsection{Usage}{
@@ -146,8 +146,8 @@ within the range of the specified CIDR(s).}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-read"></a>}}
-\if{latex}{\out{\hypertarget{method-read}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-read"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-read}{}}}
 \subsection{Method \code{read()}}{
 Reads the properties of an existing username.
 \subsection{Usage}{
@@ -163,8 +163,8 @@ Reads the properties of an existing username.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-delete"></a>}}
-\if{latex}{\out{\hypertarget{method-delete}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-delete"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-delete}{}}}
 \subsection{Method \code{delete()}}{
 Delete a user
 \subsection{Usage}{
@@ -180,8 +180,8 @@ Delete a user
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-update_password"></a>}}
-\if{latex}{\out{\hypertarget{method-update_password}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-update_password"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-update_password}{}}}
 \subsection{Method \code{update_password()}}{
 Update password for a user
 \subsection{Usage}{
@@ -199,8 +199,8 @@ Update password for a user
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-update_policies"></a>}}
-\if{latex}{\out{\hypertarget{method-update_policies}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-update_policies"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-update_policies}{}}}
 \subsection{Method \code{update_policies()}}{
 Update vault policies for a user
 \subsection{Usage}{
@@ -218,8 +218,8 @@ Update vault policies for a user
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-list"></a>}}
-\if{latex}{\out{\hypertarget{method-list}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-list"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-list}{}}}
 \subsection{Method \code{list()}}{
 List users known to vault
 \subsection{Usage}{
@@ -228,8 +228,8 @@ List users known to vault
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-login"></a>}}
-\if{latex}{\out{\hypertarget{method-login}{}}}
+\if{html}{\out{<a id="method-vault_client_auth_userpass-login"></a>}}
+\if{latex}{\out{\hypertarget{method-vault_client_auth_userpass-login}{}}}
 \subsection{Method \code{login()}}{
 Log into the vault using username/password
 authentication.  Normally you would not call this directly
