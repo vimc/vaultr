@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   packages: packages.html
   vaultr: vaultr.html
-last_built: 2021-06-09T13:52Z
+last_built: 2022-08-23T10:18Z
 

@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/vaultr.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/vimc/vaultr/">
+  <a href="https://github.com/vimc/vaultr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -86,18 +82,18 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Using vaultr in packages</h1>
-                        <h4 class="author">Rich FitzJohn</h4>
+                        <h4 data-toc-skip class="author">Rich FitzJohn</h4>
             
-            <h4 class="date">2018-12-10</h4>
+            <h4 data-toc-skip class="date">2018-12-10</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/vimc/vaultr/blob/master/vignettes/packages.Rmd"><code>vignettes/packages.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/vimc/vaultr/blob/HEAD/vignettes/packages.Rmd" class="external-link"><code>vignettes/packages.Rmd</code></a></small>
       <div class="hidden name"><code>packages.Rmd</code></div>
 
     </div>
 
     
     
-<p><code>vaultr</code> includes some machinery for using <code>vault</code> and <code>vaultr</code> within packages, and within tests in particular. They are designed to work well with <a href="https://cran.r-project.org/package=testthat"><code>testthat</code></a> but should be easily adapted to work with any other testing framework.</p>
+<p><code>vaultr</code> includes some machinery for using <code>vault</code> and <code>vaultr</code> within packages, and within tests in particular. They are designed to work well with <a href="https://cran.r-project.org/package=testthat" class="external-link"><code>testthat</code></a> but should be easily adapted to work with any other testing framework.</p>
 <p>In order to use this, you must set some environment variables:</p>
 <ul>
 <li>
@@ -114,10 +110,10 @@
 </ul>
 <p>To install the test server, run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server_install</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server_install</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>To create a vault server, run:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>As soon as <code>srv</code> goes out of scope and is garbage collected, the vault server will be stopped. So keep <code>srv</code> within the scope of your tests.</p>
 <p>This object contains</p>
 <ul>
@@ -128,58 +124,58 @@
 <li>
 <code>keys</code>: a vector of unseal keys</li>
 </ul>
-<p>By default the <code>vault</code> server is stared in <a href="https://www.vaultproject.io/docs/concepts/dev-server.html">“Dev” server mode</a> in which we run with http (not https), a single unseal key and in-memory storage. <strong>It is not suited for any production use</strong>.</p>
+<p>By default the <code>vault</code> server is stared in <a href="https://www.vaultproject.io/docs/concepts/dev-server.html" class="external-link">“Dev” server mode</a> in which we run with http (not https), a single unseal key and in-memory storage. <strong>It is not suited for any production use</strong>.</p>
 <p>You can create clients using <code><a href="../reference/vault_client.html">vaultr::vault_client()</a></code> and passing in appropriate parameters, but it may be more convenient to use <code>srv$client()</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span>
-<span class="va">vault</span></code></pre></div>
-<pre><code>## &lt;vault: base&gt;
-##   Command groups:
-##     audit: Interact with vault's audit devices
-##     auth: administer vault's authentication methods
-##     kv1: Interact with vault's key/value store (version 1)
-##     kv2: Interact with vault's key/value store (version 2)
-##     lease: Interact with leases
-##     operator: Administration commands for vault operators
-##     policy: Interact with policies
-##     secrets: Interact with secret engines
-##     token: Interact and configure vault's token support
-##     tools: General tools provided by vault
-##   Commands:
-##     api()
-##     delete(path)
-##     list(path, full_names = FALSE)
-##     login(..., method = "token", mount = NULL, renew = FALSE,
-##         quiet = FALSE, token_only = FALSE, use_cache = TRUE)
-##     read(path, field = NULL, metadata = FALSE)
-##     status()
-##     write(path, data)</code></pre>
+<code class="sourceCode R"><span><span class="va">vault</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">vault</span></span></code></pre></div>
+<pre><code><span><span class="co">## &lt;vault: base&gt;</span></span>
+<span><span class="co">##   Command groups:</span></span>
+<span><span class="co">##     audit: Interact with vault's audit devices</span></span>
+<span><span class="co">##     auth: administer vault's authentication methods</span></span>
+<span><span class="co">##     kv1: Interact with vault's key/value store (version 1)</span></span>
+<span><span class="co">##     kv2: Interact with vault's key/value store (version 2)</span></span>
+<span><span class="co">##     lease: Interact with leases</span></span>
+<span><span class="co">##     operator: Administration commands for vault operators</span></span>
+<span><span class="co">##     policy: Interact with policies</span></span>
+<span><span class="co">##     secrets: Interact with secret engines</span></span>
+<span><span class="co">##     token: Interact and configure vault's token support</span></span>
+<span><span class="co">##     tools: General tools provided by vault</span></span>
+<span><span class="co">##   Commands:</span></span>
+<span><span class="co">##     api()</span></span>
+<span><span class="co">##     delete(path)</span></span>
+<span><span class="co">##     list(path, full_names = FALSE)</span></span>
+<span><span class="co">##     login(..., method = "token", mount = NULL, renew = FALSE,</span></span>
+<span><span class="co">##         quiet = FALSE, token_only = FALSE, use_cache = TRUE)</span></span>
+<span><span class="co">##     read(path, field = NULL, metadata = FALSE)</span></span>
+<span><span class="co">##     status()</span></span>
+<span><span class="co">##     write(path, data)</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></code></pre></div>
-<pre><code>## character(0)</code></pre>
+<code class="sourceCode R"><span><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## character(0)</span></span></code></pre>
 <p>By default the client is logged in, but you can pass <code>login = FALSE</code> to create a client that needs to log in:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span>login <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vault</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span>login <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error: Have not authenticated against vault</code></pre>
+<code class="sourceCode R"><span><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error: Have not authenticated against vault</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span><span class="op">$</span><span class="fu">login</span><span class="op">(</span>token <span class="op">=</span> <span class="va">srv</span><span class="op">$</span><span class="va">token</span><span class="op">)</span></code></pre></div>
-<pre><code>## Verifying token</code></pre>
+<code class="sourceCode R"><span><span class="va">vault</span><span class="op">$</span><span class="fu">login</span><span class="op">(</span>token <span class="op">=</span> <span class="va">srv</span><span class="op">$</span><span class="va">token</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Verifying token</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></code></pre></div>
-<pre><code>## character(0)</code></pre>
+<code class="sourceCode R"><span><span class="va">vault</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## character(0)</span></span></code></pre>
 <p>You can use <code>$export</code> to export appropriate environment variables to connect to your vault:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">srv</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"VAULT_ADDR"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "http://127.0.0.1:18202"</code></pre>
+<code class="sourceCode R"><span><span class="va">srv</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"VAULT_ADDR"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "http://127.0.0.1:18202"</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"VAULT_TOKEN"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "f53074fe-4cee-63a6-7862-e60b7f1740c5"</code></pre>
-<div id="handling-lack-of-vault-gracefully" class="section level2">
-<h2 class="hasAnchor">
-<a href="#handling-lack-of-vault-gracefully" class="anchor"></a>Handling lack of vault gracefully</h2>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"VAULT_TOKEN"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "f53074fe-4cee-63a6-7862-e60b7f1740c5"</span></span></code></pre>
+<div class="section level2">
+<h2 id="handling-lack-of-vault-gracefully">Handling lack of vault gracefully<a class="anchor" aria-label="anchor" href="#handling-lack-of-vault-gracefully"></a>
+</h2>
 <p>The <code><a href="../reference/vault_test_server.html">vaultr::vault_test_server</a></code> function takes an argument <code>if_disabled</code> which is a callback function that will be called on failure to start a vault server. This could be for reasons such as:</p>
 <ul>
 <li>the user has not opted in by setting <code>VAULTR_TEST_SERVER_BIN_PATH</code>
@@ -187,9 +183,9 @@
 <li>the binary is not in place</li>
 <li>a port could not be opened</li>
 </ul>
-<p>By default this calls <code><a href="https://testthat.r-lib.org/reference/skip.html">testthat::skip</a></code>, which interactively will appear to cause an error but if called within a <code>test_that</code> block in a test will gracefully skip a test</p>
+<p>By default this calls <code><a href="https://testthat.r-lib.org/reference/skip.html" class="external-link">testthat::skip</a></code>, which interactively will appear to cause an error but if called within a <code>test_that</code> block in a test will gracefully skip a test</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span><span class="st">"VAULTR_TEST_SERVER_BIN_PATH"</span> <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"VAULTR_TEST_SERVER_BIN_PATH"</span> <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>srv &lt;-<span class="st"> </span>vaultr<span class="op">::</span><span class="kw">vault_test_server</span>()</span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="co">## Error: vault is not enabled</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a></span>
@@ -198,30 +194,30 @@
 <span id="cb19-6"><a href="#cb19-6"></a></span>
 <span id="cb19-7"><a href="#cb19-7"></a><span class="st">```</span><span class="dt">r</span></span>
 <span id="cb19-8"><a href="#cb19-8"></a><span class="dt">srv &lt;- vaultr::vault_test_server(if_disabled = message)</span></span></code></pre></div>
-<pre><code>## vault is not enabled</code></pre>
+<pre><code><span><span class="co">## vault is not enabled</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">srv</span></code></pre></div>
-<pre><code>## NULL</code></pre>
+<code class="sourceCode R"><span><span class="va">srv</span></span></code></pre></div>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>With that approach, you might wrap vault-requiring tests with</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">srv</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># ... vault requiring code here ...</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">srv</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># ... vault requiring code here ...</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>All together (and assuming <code>testthat</code>), use of vault within tests might look like this example from the <code>vaultr</code> tests:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">test_that</span><span class="op">(</span><span class="st">"list"</span>, <span class="op">{</span>
-  <span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="va">cl</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/a"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/b/c"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/b/d/e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b/"</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span>, <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"secret/a"</span>, <span class="st">"secret/b/"</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret/b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d/"</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret/b"</span>, <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"secret/b/c"</span>, <span class="st">"secret/b/d/"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"list"</span>, <span class="op">{</span></span>
+<span>  <span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">cl</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/a"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/b/c"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">cl</span><span class="op">$</span><span class="fu">write</span><span class="op">(</span><span class="st">"secret/b/d/e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b/"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret"</span>, <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"secret/a"</span>, <span class="st">"secret/b/"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret/b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d/"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_setequal</span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span><span class="st">"secret/b"</span>, <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"secret/b/c"</span>, <span class="st">"secret/b/d/"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p>If you use one vault per test, as here, there’s no need to clean up - we can assume that the vault is empty at the start of the test block and not worry about cleanup at the end. If vault is not enabled this test will be skipped over gracefully.</p>
 </div>
   </div>
@@ -237,11 +233,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Rich FitzJohn, Robert Ashton, Wes Hinsley.</p>
+  <p></p>
+<p>Developed by Rich FitzJohn, Robert Ashton, Wes Hinsley.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -249,6 +247,8 @@
 
   
 
+
+  
 
   </body>
 </html>
