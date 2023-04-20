@@ -5,7 +5,7 @@
 \alias{vault_client_}
 \title{Make a vault client}
 \usage{
-vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL)
+vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL, headers)
 }
 \arguments{
 \item{login}{Login method.  Specify a string to be passed along as
@@ -133,6 +133,8 @@ Rich FitzJohn
 \item{\code{token}}{Token methods: \link{vault_client_token}}
 
 \item{\code{tools}}{Vault tools: \link{vault_client_tools}}
+
+\item{\code{headers}}{Set http headers for requests, eg \code{namespace}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -166,7 +168,7 @@ Rich FitzJohn
 Create a new vault client. Not typically called
 directly, but via the \code{vault_client} method.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config, headers)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -50,6 +50,10 @@
 ##'   to the environment variable `VAULT_CAPATH`, which is the
 ##'   same as vault's command line client.
 ##'
+##' @param headers Optional HTTP headers to include in all requests.
+##'   This is useful to set the vault namespace, e.g 
+##'   `httr::add_headers("X-Vault-Namespace" = "my_namespace/")`
+##'
 ##' @export
 ##' @author Rich FitzJohn
 ##' @examples
@@ -101,8 +105,8 @@
 ##'
 ##'   client$delete("/secret/users/alice")
 ##' }
-vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
-  client <- vault_client_$new(addr, tls_config)
+vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL, headers) {
+  client <- vault_client_$new(addr, tls_config, headers)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
     client$login(..., method = method)
@@ -145,6 +149,9 @@ vault_client_ <- R6::R6Class(
 
     ##' @field tools Vault tools: [vaultr::vault_client_tools]
     tools = NULL,
+    
+    ##' @field headers Set http headers for requests, eg `namespace`.
+    headers = NULL,
 
     ##' @description Create a new vault client. Not typically called
     ##'   directly, but via the `vault_client` method.
@@ -152,9 +159,11 @@ vault_client_ <- R6::R6Class(
     ##' @param addr The vault address, including protocol and port
     ##'
     ##' @param tls_config The TLS config, if used
-    initialize = function(addr, tls_config) {
+    ##' 
+    ##' @param headers HTTP headers to include in all request
+    initialize = function(addr, tls_config, headers) {
       super$initialize("core methods for interacting with vault")
-      api_client <- vault_api_client$new(addr, tls_config)
+      api_client <- vault_api_client$new(addr, tls_config, headers)
 
       private$api_client <- api_client
 

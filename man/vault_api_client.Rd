@@ -57,6 +57,8 @@ api version path)}
 \item{\code{token}}{The vault token, if authenticated}
 
 \item{\code{version}}{The vault server version, once queried}
+
+\item{\code{headers}}{HTTP headers to include in all requests}
 }
 \if{html}{\out{</div>}}
 }
@@ -90,7 +92,7 @@ api version path)}
 \subsection{Method \code{new()}}{
 Create a new api client
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$new(addr = NULL, tls_config = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$new(addr = NULL, tls_config = NULL, headers)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

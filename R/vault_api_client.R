@@ -53,17 +53,23 @@ vault_api_client <- R6::R6Class(
 
     ##' @field version The vault server version, once queried
     version = NULL,
+    
+    ##' @field headers HTTP headers to include in all requests
+    headers = NULL,
 
     ##' @description Create a new api client
     ##'
     ##' @param addr Address of the vault server
     ##'
     ##' @param tls_config Optional TLS config
-    initialize = function(addr = NULL, tls_config = NULL) {
+    ##' 
+    ##' @param headers Optional headers to include in all HTTP requests
+    initialize = function(addr = NULL, tls_config = NULL, headers) {
       super$initialize("Low-level API client")
       self$addr <- vault_addr(addr)
       self$base_url <- vault_base_url(self$addr, "/v1")
       self$tls_config <- vault_tls_config(tls_config)
+      self$headers <- vault_headers(headers)
     },
 
     ##' @description Make a request to the api. Typically you should use
@@ -79,7 +85,7 @@ vault_api_client <- R6::R6Class(
     ##' @param token Optional token, overriding the client token
     request = function(verb, path, ..., token = self$token) {
       vault_request(verb, self$base_url, self$tls_config, token,
-                    path, ...)
+                    path, ..., self$headers)
     },
 
     ##' @description Test if the vault client currently holds a vault token.
@@ -124,6 +130,7 @@ vault_api_client <- R6::R6Class(
       res <- tryCatch(
         vault_request(httr::POST, self$base_url, self$tls_config, token,
                       "/sys/capabilities-self",
+                      self$headers,
                       body = list(path = "/sys")),
         error = identity)
       success <- !inherits(res, "error")
@@ -238,6 +245,11 @@ vault_addr <- function(addr) {
 vault_base_url <- function(addr, api_prefix) {
   assert_scalar_character(api_prefix)
   paste0(addr, api_prefix)
+}
+
+vault_headers <- function(headers) {
+  print("hello vault_headers")
+  headers
 }
 
 
