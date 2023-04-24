@@ -50,14 +50,12 @@
 ##'   to the environment variable `VAULT_CAPATH`, which is the
 ##'   same as vault's command line client.
 ##'
-##' @param namespace A [vault
-##'   namespace](https://developer.hashicorp.com/vault/tutorials/enterprise/namespaces),
-##'   when using enterprise vault. If given, then this must a string,
-##'   and your vault must support namespaces, which is an enterprise
-##'   feature. If the environment variable `VAULT_NAMESPACE` is set,
-##'   we use that namespace when `NULL` is provided as an argument
-##'   (this is the same variable as used by vault's command line
-##'   client).
+##' @param namespace A vault namespace, when using enterprise
+##'   vault. If given, then this must a string, and your vault must
+##'   support namespaces, which is an enterprise feature. If the
+##'   environment variable `VAULT_NAMESPACE` is set, we use that
+##'   namespace when `NULL` is provided as an argument (this is the
+##'   same variable as used by vault's command line client).
 ##'
 ##' @export
 ##' @author Rich FitzJohn
