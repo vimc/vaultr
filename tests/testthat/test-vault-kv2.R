@@ -224,7 +224,7 @@ test_that("mount validation", {
 
   cl$secrets$enable("kv", "secret2", version = 2)
   kv <- cl$secrets$kv2$custom_mount("secret2")
-  wait_kv_upgrade(kv, p)
+  wait_kv_upgrade(kv, "secret2")
 
   expect_error(
     kv$list("/secret"),
