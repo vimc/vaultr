@@ -83,11 +83,11 @@ secret and auth backends which accept arguments like
 <code>-mount-point</code>.  So if the <code>kv2</code> store is mounted at
 <code>/project-secrets</code> for example, with a vault client
 <code>vault</code> one could write</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>vault<span class="op">$</span>secrets<span class="op">$</span>kv2<span class="op">$</span><span class="kw">get</span>(<span class="st">"/project-secrets/mysecret"</span>,</span>
-<span id="cb1-2"><a href="#cb1-2"></a>                      <span class="dt">mount =</span> <span class="st">"project-secrets"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vault<span class="sc">$</span>secrets<span class="sc">$</span>kv2<span class="sc">$</span><span class="fu">get</span>(<span class="st">"/project-secrets/mysecret"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mount =</span> <span class="st">"project-secrets"</span>)</span></code></pre><p></p></div>
 <p>or</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>kv2 &lt;-<span class="st"> </span>vault<span class="op">$</span>secrets<span class="op">$</span>kv2<span class="op">$</span><span class="kw">custom_mount</span>(<span class="st">"project-secrets"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>kv2<span class="op">$</span><span class="kw">get</span>(<span class="st">"mysecret"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kv2 <span class="ot">&lt;-</span> vault<span class="sc">$</span>secrets<span class="sc">$</span>kv2<span class="sc">$</span><span class="fu">custom_mount</span>(<span class="st">"project-secrets"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kv2<span class="sc">$</span><span class="fu">get</span>(<span class="st">"mysecret"</span>)</span></code></pre><p></p></div>
 <p>If the leading part of of a path to secret within a <code>kv2</code>
 store does not match the mount point, <code>vaultr</code> will throw an
 error.  This approach results in more predictable error messages,
@@ -515,7 +515,7 @@ deleted with <code>$delete</code> but not with <code>$destroy</code>.</p><div cl
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
