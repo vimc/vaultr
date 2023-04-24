@@ -1,4 +1,4 @@
-vault_request <- function(verb, url, verify, token, path, ...,
+vault_request <- function(verb, url, verify, token, namespace, path, ...,
                           body = NULL, wrap_ttl = NULL,
                           to_json = TRUE,
                           allow_missing_token = FALSE) {
@@ -7,11 +7,14 @@ vault_request <- function(verb, url, verify, token, path, ...,
   } else if (!allow_missing_token) {
     stop("Have not authenticated against vault", call. = FALSE)
   }
+  if (!is.null(namespace)) {
+    namespace <- httr::add_headers("X-Vault-Namespace" = namespace)
+  }
   if (!is.null(wrap_ttl)) {
     assert_is_duration(wrap_ttl)
     wrap_ttl <- httr::add_headers("X-Vault-Wrap-TTL" = wrap_ttl)
   }
-  res <- verb(paste0(url, prepare_path(path)), verify, token,
+  res <- verb(paste0(url, prepare_path(path)), verify, token, namespace,
               httr::accept_json(), wrap_ttl,
               body = body, encode = "json", ...)
   vault_client_response(res, to_json)

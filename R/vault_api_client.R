@@ -48,6 +48,9 @@ vault_api_client <- R6::R6Class(
     ##' @field tls_config Information used in TLS config, if used
     tls_config = NULL,
 
+    ##' @field namespace The vault namespace, if used
+    namespace = NULL,
+
     ##' @field token The vault token, if authenticated
     token = NULL,
 
@@ -59,11 +62,14 @@ vault_api_client <- R6::R6Class(
     ##' @param addr Address of the vault server
     ##'
     ##' @param tls_config Optional TLS config
-    initialize = function(addr = NULL, tls_config = NULL) {
+    ##'
+    ##' @param namespace Optional namespace
+    initialize = function(addr = NULL, tls_config = NULL, namespace = NULL) {
       super$initialize("Low-level API client")
       self$addr <- vault_addr(addr)
       self$base_url <- vault_base_url(self$addr, "/v1")
       self$tls_config <- vault_tls_config(tls_config)
+      self$namespace <- vault_namespace(namespace)
     },
 
     ##' @description Make a request to the api. Typically you should use
@@ -78,7 +84,12 @@ vault_api_client <- R6::R6Class(
     ##'
     ##' @param token Optional token, overriding the client token
     request = function(verb, path, ..., token = self$token) {
-      vault_request(verb, self$base_url, self$tls_config, token,
+      ## According to the docs there are some sys paths here that need
+      ## the namespace dropped (or unset), but most are ones that we
+      ## don't expect vaultr to interact with:
+      ## https://developer.hashicorp.com/vault/docs/enterprise/namespaces
+      ## - see "Root only API Paths"
+      vault_request(verb, self$base_url, self$tls_config, token, self$namespace,
                     path, ...)
     },
 
@@ -123,7 +134,7 @@ vault_api_client <- R6::R6Class(
       }
       res <- tryCatch(
         vault_request(httr::POST, self$base_url, self$tls_config, token,
-                      "/sys/capabilities-self",
+                      self$namespace, "/sys/capabilities-self",
                       body = list(path = "/sys")),
         error = identity)
       success <- !inherits(res, "error")
@@ -232,6 +243,19 @@ vault_addr <- function(addr) {
     stop("Expected an http or https url for vault addr")
   }
   addr
+}
+
+
+vault_namespace <- function(namespace) {
+  if (is.null(namespace)) {
+    namespace <- Sys.getenv("VAULT_NAMESPACE", NA_character_)
+    if (is.na(namespace)) {
+      namespace <- NULL
+    }
+  } else {
+    assert_scalar_character(namespace)
+  }
+  namespace
 }
 
 
