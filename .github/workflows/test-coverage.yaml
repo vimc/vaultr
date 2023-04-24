@@ -32,7 +32,8 @@ jobs:
         run: echo "VAULTR_TEST_SERVER_BIN_PATH=$GITHUB_WORKSPACE/.vault" >> $GITHUB_ENV
 
       - name: Test coverage
-        env: VAULTR_TEST_GITHUB_PAT: ${{ secrets.VAULTR_TEST_GITHUB_PAT }}
+        env:
+          VAULTR_TEST_GITHUB_PAT: ${{ secrets.VAULTR_TEST_GITHUB_PAT }}
         run: |
           covr::codecov(
             quiet = FALSE,
