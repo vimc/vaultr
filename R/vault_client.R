@@ -51,7 +51,7 @@
 ##'   same as vault's command line client.
 ##'
 ##' @param namespace A vault namespace, when using enterprise
-##'   vault. If given, then this must a string, and your vault must
+##'   vault. If given, then this must be a string, and your vault must
 ##'   support namespaces, which is an enterprise feature. If the
 ##'   environment variable `VAULT_NAMESPACE` is set, we use that
 ##'   namespace when `NULL` is provided as an argument (this is the
