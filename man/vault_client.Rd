@@ -39,7 +39,7 @@ to the environment variable \code{VAULT_CAPATH}, which is the
 same as vault's command line client.}
 
 \item{namespace}{A vault namespace, when using enterprise
-vault. If given, then this must a string, and your vault must
+vault. If given, then this must be a string, and your vault must
 support namespaces, which is an enterprise feature. If the
 environment variable \code{VAULT_NAMESPACE} is set, we use that
 namespace when \code{NULL} is provided as an argument (this is the
