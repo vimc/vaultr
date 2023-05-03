@@ -50,6 +50,13 @@
 ##'   to the environment variable `VAULT_CAPATH`, which is the
 ##'   same as vault's command line client.
 ##'
+##' @param namespace A vault namespace, when using enterprise
+##'   vault. If given, then this must be a string, and your vault must
+##'   support namespaces, which is an enterprise feature. If the
+##'   environment variable `VAULT_NAMESPACE` is set, we use that
+##'   namespace when `NULL` is provided as an argument (this is the
+##'   same variable as used by vault's command line client).
+##'
 ##' @export
 ##' @author Rich FitzJohn
 ##' @examples
@@ -101,8 +108,9 @@
 ##'
 ##'   client$delete("/secret/users/alice")
 ##' }
-vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL) {
-  client <- vault_client_$new(addr, tls_config)
+vault_client <- function(login = FALSE, ..., addr = NULL, tls_config = NULL,
+                         namespace = NULL) {
+  client <- vault_client_$new(addr, tls_config, namespace)
   method <- vault_client_login_method(login)
   if (!is.null(method)) {
     client$login(..., method = method)
@@ -152,9 +160,11 @@ vault_client_ <- R6::R6Class(
     ##' @param addr The vault address, including protocol and port
     ##'
     ##' @param tls_config The TLS config, if used
-    initialize = function(addr, tls_config) {
+    ##'
+    ##' @param namespace The namespace, if used
+    initialize = function(addr, tls_config, namespace) {
       super$initialize("core methods for interacting with vault")
-      api_client <- vault_api_client$new(addr, tls_config)
+      api_client <- vault_api_client$new(addr, tls_config, namespace)
 
       private$api_client <- api_client
 

@@ -1,3 +1,7 @@
+## 1.1.2
+
+* Support for vault [namespaces](https://developer.hashicorp.com/vault/tutorials/enterprise/namespaces) on enterprise versions of vault
+
 ## 1.0.4
 
 * `vaultr::vault_resolve_secrets` (and `$read` in the kv1 secrets engine) provide more information about what was being read at the point of failure (VIMC-3437)

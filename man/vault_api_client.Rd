@@ -54,6 +54,8 @@ api version path)}
 
 \item{\code{tls_config}}{Information used in TLS config, if used}
 
+\item{\code{namespace}}{The vault namespace, if used}
+
 \item{\code{token}}{The vault token, if authenticated}
 
 \item{\code{version}}{The vault server version, once queried}
@@ -90,7 +92,7 @@ api version path)}
 \subsection{Method \code{new()}}{
 Create a new api client
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$new(addr = NULL, tls_config = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_api_client$new(addr = NULL, tls_config = NULL, namespace = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -99,6 +101,8 @@ Create a new api client
 \item{\code{addr}}{Address of the vault server}
 
 \item{\code{tls_config}}{Optional TLS config}
+
+\item{\code{namespace}}{Optional namespace}
 }
 \if{html}{\out{</div>}}
 }

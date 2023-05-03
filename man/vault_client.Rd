@@ -5,7 +5,13 @@
 \alias{vault_client_}
 \title{Make a vault client}
 \usage{
-vault_client(login = FALSE, ..., addr = NULL, tls_config = NULL)
+vault_client(
+  login = FALSE,
+  ...,
+  addr = NULL,
+  tls_config = NULL,
+  namespace = NULL
+)
 }
 \arguments{
 \item{login}{Login method.  Specify a string to be passed along as
@@ -31,6 +37,13 @@ can be left blank.  However, if your vault server uses a
 self-signed certificate you will need to provide this.  Defaults
 to the environment variable \code{VAULT_CAPATH}, which is the
 same as vault's command line client.}
+
+\item{namespace}{A vault namespace, when using enterprise
+vault. If given, then this must be a string, and your vault must
+support namespaces, which is an enterprise feature. If the
+environment variable \code{VAULT_NAMESPACE} is set, we use that
+namespace when \code{NULL} is provided as an argument (this is the
+same variable as used by vault's command line client).}
 }
 \description{
 Make a vault client.  This must be done before accessing the
@@ -166,7 +179,7 @@ Rich FitzJohn
 Create a new vault client. Not typically called
 directly, but via the \code{vault_client} method.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_client_$new(addr, tls_config, namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -175,6 +188,8 @@ directly, but via the \code{vault_client} method.
 \item{\code{addr}}{The vault address, including protocol and port}
 
 \item{\code{tls_config}}{The TLS config, if used}
+
+\item{\code{namespace}}{The namespace, if used}
 }
 \if{html}{\out{</div>}}
 }
