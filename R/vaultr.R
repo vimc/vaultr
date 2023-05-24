@@ -2,7 +2,7 @@
 ##' wrappers for HashiCorp's [vault server](https://vaultproject.io).
 ##' The package wraps most of the high-level API, and includes support
 ##' for authentication via a number of backends (tokens, username and
-##' password, github, and "AppRole"), as well as a number of secrets
+##' password, github, ldap and "AppRole"), as well as a number of secrets
 ##' engines (two key-value stores, vault's cubbyhole and the transit
 ##' backend for encryption-as-a-service).
 ##'
