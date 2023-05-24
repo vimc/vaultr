@@ -92,6 +92,7 @@ vault$auth
 ## <vault: auth>
 ##   Command groups:
 ##     approle: Interact and configure vault's AppRole support
+##     ldap: Interact and configure vault's ldap support
 ##     github: Interact and configure vault's github support
 ##     token: Interact and configure vault's token support
 ##     userpass: Interact and configure vault's userpass support
