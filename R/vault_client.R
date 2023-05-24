@@ -254,7 +254,7 @@ vault_client_ <- R6::R6Class(
     ##'
     ##' @param method Authentication method to use, as a string.
     ##'   Supported values include `token` (the default), `github`,
-    ##'   `approle` and `userpass`.
+    ##'   `approle`, `ldap` and `userpass`.
     ##'
     ##' @param mount The mount path for the authentication backend, *if
     ##'   it has been mounted in a nonstandard location*.  If not
