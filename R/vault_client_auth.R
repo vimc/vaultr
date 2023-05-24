@@ -26,6 +26,11 @@ vault_client_auth <- R6::R6Class(
     ##'   [`vaultr::vault_client_auth_approle`] for more information.
     approle = NULL,
 
+    ##' @field ldap Interact with vault's ldap based
+    ##' authentication.  See [`vaultr::vault_client_auth_ldap`] for
+    ##' more information.
+    ldap = NULL,
+
     ##' @field github Interact with vault's GitHub authentication.  See
     ##'   [`vaultr::vault_client_auth_github`] for more information.
     github = NULL,
@@ -59,6 +64,9 @@ vault_client_auth <- R6::R6Class(
       add_const_member(
         self, "approle",
         vault_client_auth_approle$new(private$api_client, "approle"))
+      add_const_member(
+        self, "ldap",
+        vault_client_auth_ldap$new(private$api_client, "ldap"))
     },
 
     ##' @description Return a character vector of supported
