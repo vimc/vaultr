@@ -2,15 +2,20 @@
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![codecov.io](https://codecov.io/github/vimc/vaultr/coverage.svg?branch=master)](https://app.codecov.io/github/vimc/vaultr?branch=master)
-[![](http://www.r-pkg.org/badges/version/vaultr)](https://cran.r-project.org/package=vaultr)
 [![R-CMD-check](https://github.com/vimc/vaultr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/vimc/vaultr/actions/workflows/R-CMD-check.yaml)
-)[![CodeFactor](https://www.codefactor.io/repository/github/vimc/vaultr/badge)](https://www.codefactor.io/repository/github/vimc/vaultr)
+[![codecov.io](https://codecov.io/github/vimc/vaultr/coverage.svg?branch=master)](https://app.codecov.io/github/vimc/vaultr?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/vimc/vaultr/badge)](https://www.codefactor.io/repository/github/vimc/vaultr)
+[![](http://www.r-pkg.org/badges/version/vaultr)](https://cran.r-project.org/package=vaultr)
 <!-- badges: end -->
 
-API client for [vault](https://www.vaultproject.io/).
+Interact with [HashiCorp's vault](https://www.vaultproject.io/), to securely use secrets from R.  This package wraps the [vault http API](https://www.vaultproject.io/api/index.html) to allow secrets to be accessed from R.  Secrets might be passwords, tokens, certificates or any other sensitive data.
 
-Vault provides a platform for distributing secrets across machines.  This package wraps the [vault http API](https://www.vaultproject.io/api/index.html) to allow secrets to be accessed from R.  Secrets might be passwords, tokens, certificates or any other sensitive data.
+* Authenticate with several different providers (token, username and password, GitHub, LDAP, and "approle")
+* Read and write secrets into vault using its key-value stores (version 1 or 2), cubbyhole and in-transit "encryption-as-a-service"
+* Inspect and work with vault tokens
+* Read, write and update vault policies
+* Allows a degree of access to operator maintenance
+* Work with vault's audit devices
 
 ## Usage
 
@@ -72,16 +77,15 @@ To install our internally released version (which might be ahead of CRAN) via dr
 
 
 ```r
-# install.packages("drat") # (if needed)
-drat:::add("vimc")
-install.packages("vaultr")
+install.packages(
+  "vaultr",
+  repos = c("https://vimc.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 or install the bleeding edge with
 
 ```r
-# install.packages("devtools") # (if needed)
-devtools::install_gitub("vimc/vaultr", upgrade = FALSE)
+remotes::install_gitub("vimc/vaultr", upgrade = FALSE)
 ```
 
 ## License
