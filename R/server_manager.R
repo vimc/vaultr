@@ -131,7 +131,7 @@ vault_test_server_install <- function(path = NULL, quiet = FALSE,
   dir_create(path)
   dest <- file.path(path, vault_exe_filename(platform))
   if (file.exists(dest)) {
-    message("vault already installed at ", dest)
+    message_quietly("vault already installed at ", dest, quiet = quiet)
   } else {
     vault_install(path, quiet, version, platform)
   }
@@ -245,9 +245,7 @@ vault_server_wait <- function(test, process, timeout = 5, poll = 0.05,
       err <- paste(readLines(process$get_error_file()), collapse = "\n")
       stop("vault has died:\n", err)
     }
-    if (!quiet) {
-      message("...waiting for Vault to start")
-    }
+    message_quietly("...waiting for Vault to start", quiet = quiet)
     Sys.sleep(poll)
   }
 }
@@ -373,7 +371,7 @@ vault_exe_filename <- function(platform = vault_platform()) {
 vault_install <- function(dest, quiet, version, platform = vault_platform()) {
   dest_bin <- file.path(dest, vault_exe_filename(platform))
   if (!file.exists(dest_bin)) {
-    message(sprintf("installing vault to '%s'", dest))
+    message_quietly(sprintf("installing vault to '%s'", dest), quiet = quiet)
     url <- vault_url(version, platform)
     zip <- download_file(url, quiet = quiet)
     tmp <- tempfile()

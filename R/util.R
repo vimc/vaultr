@@ -201,3 +201,10 @@ file_copy <- function(..., overwrite = TRUE) {
   }
   ok
 }
+
+
+message_quietly <- function(..., quiet) {
+  if (!quiet) {
+    message(...)
+  }
+}

@@ -15,7 +15,8 @@ test_that("basic auth", {
            list(password = "password", policies = "admins"))
   cl2$login(method = "userpass",
             username = "rich",
-            password = "password")
+            password = "password",
+            quiet = TRUE)
 
   expect_equal(cl$list("auth/userpass/users"), "rich")
 })
@@ -41,7 +42,7 @@ test_that("userpass", {
   expect_type(token, "character")
 
   cl2 <- srv$client(login = FALSE)
-  expect_error(cl2$login(token = token), NA)
+  expect_error(cl2$login(token = token, quiet = TRUE), NA)
 })
 
 
@@ -70,7 +71,7 @@ test_that("login", {
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(method = "userpass",
-            username = "rich", password = "pass")
+            username = "rich", password = "pass", quiet = TRUE)
 })
 
 
@@ -81,10 +82,10 @@ test_that("request password", {
     message(prompt)
     "pass"
   })
-  expect_equal(userpass_data("user", NULL),
-               list(username = "user", password = "pass"))
-  expect_message(userpass_data("user", NULL),
-                 "Password for 'user': ")
+  res <- testthat::evaluate_promise(userpass_data("user", NULL))
+  expect_equal(res$result, list(username = "user", password = "pass"))
+  expect_equal(res$messages, "Password for 'user': \n")
+
   expect_equal(userpass_data("user", "other"),
                list(username = "user", password = "other"))
   expect_silent(userpass_data("user", "other"))
@@ -154,7 +155,7 @@ test_that("create with policy", {
   token <- cl$auth$userpass$login("rich", "pass")$client_token
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   expect_true("standard" %in% cl2$token$lookup_self()$policies)
 
   ## Can we read and write where expected:
@@ -181,7 +182,7 @@ test_that("update policy", {
   token <- cl$auth$userpass$login("rich", "pass")$client_token
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   expect_true("standard" %in% cl2$token$lookup_self()$policies)
 
   ## Can we read and write where expected:
@@ -216,6 +217,6 @@ test_that("login, custom mount", {
 
   cl2 <- srv$client(login = FALSE)
   cl2$login(username = "rich", password = "pass",
-            method = "userpass", mount = path)
+            method = "userpass", mount = path, quiet = TRUE)
   expect_equal(cl2$token$lookup_self()$meta$username, "rich")
 })

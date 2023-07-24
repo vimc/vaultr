@@ -71,7 +71,7 @@ test_that("custom mount", {
 
 
 test_that("error messages when failing to read", {
-  srv <- vaultr::vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$write("/secret/users/alice", list(password = "ALICE"))
   cl$write("/secret/users/bob", list(password = "BOB"))
@@ -84,7 +84,7 @@ test_that("error messages when failing to read", {
   token <- cl$token$create(policies = "read-secret-alice")
 
   cl2 <- srv$client(FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   expect_equal(cl2$read("/secret/users/alice", "password"), "ALICE")
   expect_error(cl2$read("/secret/users/bob", "password"),
                "While reading secret/users/bob:",

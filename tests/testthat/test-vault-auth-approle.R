@@ -38,7 +38,7 @@ test_that("approle auth", {
   expect_type(token, "character")
 
   cl2 <- srv$client(login = FALSE)
-  expect_error(cl2$login(token = token), NA)
+  expect_error(cl2$login(token = token, quiet = TRUE), NA)
 })
 
 
@@ -74,7 +74,8 @@ test_that("full login", {
   cl2 <- srv$client(login = FALSE)
   cl2$login(method = "approle",
             role_id = role_id,
-            secret_id = secret$id)
+            secret_id = secret$id,
+            quiet = TRUE)
   expect_equal(cl2$read("/secret/test"), list(a = 1))
   expect_error(cl2$write("/secret/test", list(a = 2)))
 })

@@ -38,7 +38,7 @@ test_that("create token", {
   res <- cl$token$create(ttl = "1h")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res)
+  cl2$login(token = res, quiet = TRUE)
 })
 
 
@@ -70,7 +70,7 @@ test_that("revoke", {
   res <- cl$token$create(ttl = "1h")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res)
+  cl2$login(token = res, quiet = TRUE)
   cl2$write("/secret/foo", list(a = 1))
 
   cl$token$revoke(res)
@@ -84,7 +84,7 @@ test_that("revoke-self", {
 
   token <- cl$token$create()
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$revoke_self()
   expect_error(cl2$write("/secret/foo", list(a = 1)))
 })
@@ -98,7 +98,7 @@ test_that("revoke-accessor", {
   ac <- cl$token$lookup(token)$accessor
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$revoke_accessor(ac)
   expect_error(cl2$write("/secret/foo", list(a = 1)))
 })
@@ -111,7 +111,7 @@ test_that("revoke-and-orphan", {
   res1 <- cl$token$create()
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res1)
+  cl2$login(token = res1, quiet = TRUE)
   cl2$write("/secret/foo", list(a = 1))
 
   res2 <- cl2$token$create()
@@ -150,7 +150,7 @@ test_that("renew-self", {
 
   token <- cl$token$create(ttl = "1h")
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$renew_self("100h")
 
   ttl <- cl$token$lookup(token)$ttl

@@ -38,7 +38,8 @@ test_that("response wrapping example", {
   info <- cl_app$wrap_lookup(token)
 
   response <- cl_app$unwrap(token)
-  cl_app$login(method = "token", token = response$auth$client_token)
+  cl_app$login(method = "token", token = response$auth$client_token,
+               quiet = TRUE)
   expect_equal(cl_app$read("/secret/dev/mysecret"),
                list(a = 1))
 
