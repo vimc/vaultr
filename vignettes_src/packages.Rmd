@@ -100,6 +100,7 @@ Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = NA_character_)
 ```r
 srv <- vaultr::vault_test_server()
 ## Error: vault is not enabled
+```
 
 
 Alternatively, provide your own handler:

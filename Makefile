@@ -29,9 +29,6 @@ check:
 check_all:
 	VAULTR_TEST_SERVER_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
 
-vignettes_src/%.Rmd: vignettes_src/%.R
-	${RSCRIPT} -e 'library(sowsear); sowsear("$<", output="$@")'
-
 vignettes/vaultr.Rmd: vignettes_src/vaultr.Rmd
 	cd vignettes_src && Rscript -e 'knitr::knit("vaultr.Rmd")'
 	mv vignettes_src/vaultr.md $@
