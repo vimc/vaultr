@@ -1,7 +1,7 @@
 ---
 title: "vaultr"
 author: "Rich FitzJohn"
-date: "2019-05-13"
+date: "2023-07-24"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaultr}
@@ -34,10 +34,8 @@ Sys.getenv(c("VAULT_ADDR", "VAULT_TOKEN", "VAULTR_AUTH_METHOD"))
 ```
 
 ```
-##                             VAULT_ADDR
-##               "http://127.0.0.1:18200"
-##                            VAULT_TOKEN
-## "e52f3694-4eca-aa7d-148e-8940713dd907"
+##                             VAULT_ADDR                            VAULT_TOKEN
+##               "http://127.0.0.1:18200" "bed9a42c-27a4-51ab-c205-f9c720be5913"
 ##                     VAULTR_AUTH_METHOD
 ##                                "token"
 ```
@@ -257,7 +255,7 @@ cl <- vaultr::vault_client(login = "github")
 ```
 
 ```
-## ok, duration: 2764800 s (~32d)
+## Error: GET https://api.github.com/user: 401 Requires authentication []
 ```
 
 ```r
@@ -274,4 +272,8 @@ vault address)
 
 ```r
 cl <- vaultr::vault_client(login = "github")
+```
+
+```
+## Error: GET https://api.github.com/user: 401 Requires authentication []
 ```
