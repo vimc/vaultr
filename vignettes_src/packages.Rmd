@@ -24,9 +24,6 @@ In order to use this, you must set some environment variables:
   port number can be selected - we'll create servers *starting* at
   this port number and incrementing - see below for details)
 
-In addition, because this requires installation of a binary from a
-website, this is not run on CRAN.
-
 To create a vault server, run:
 ``` {r }
 srv <- vaultr::vault_test_server()
@@ -140,3 +137,7 @@ If you use one vault per test, as here, there's no need to clean up
 - we can assume that the vault is empty at the start of the test
 block and not worry about cleanup at the end.  If vault is not
 enabled this test will be skipped over gracefully.
+
+## Installing vault
+
+To develop your package, you will need vault installed; please see [the official vault docs](https://developer.hashicorp.com/vault/docs/install) for this.  If you use github actions, please check the vault source code's actions for a suitable set of lines to include to automatically install vault within this environment.

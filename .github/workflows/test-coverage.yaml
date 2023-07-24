@@ -23,6 +23,11 @@ jobs:
         with:
           use-public-rspm: true
 
+      - uses: eLco/setup-vault@v1
+
+      - name: Set env
+        run: echo "VAULTR_TEST_SERVER_BIN_PATH=$(which vault)" >> $GITHUB_ENV
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr

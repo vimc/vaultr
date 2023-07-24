@@ -3,5 +3,4 @@
 export(vault_client)
 export(vault_resolve_secrets)
 export(vault_test_server)
-export(vault_test_server_install)
 importFrom(R6,R6Class)

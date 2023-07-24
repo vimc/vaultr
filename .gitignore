@@ -7,3 +7,5 @@ inst/doc
 .vault
 .vault-env
 docs
+/doc/
+/Meta/

@@ -1,11 +1,7 @@
-RSCRIPT = Rscript --no-init-file
+RSCRIPT = Rscript
 
 test:
-	VAULTR_TEST_SERVER_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e 'library(methods); devtools::test()'
-
-
-autodoc:
-	./scripts/autodoc.R
+	${RSCRIPT} -e 'library(methods); devtools::test()'
 
 roxygen:
 	@mkdir -p man
@@ -13,12 +9,6 @@ roxygen:
 
 install:
 	R CMD INSTALL .
-
-install_vault:
-	VAULTR_TEST_SERVER_INSTALL=true inst/server/install-server.R .vault
-
-uninstall_vault:
-	rm -rf .vault
 
 build:
 	R CMD build .

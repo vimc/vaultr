@@ -10,23 +10,6 @@
 ##' the server, but this is not strictly needed.  See below for
 ##' methods to control the server instance.
 ##'
-##' The function `vault_test_server_install` will install a test
-##' server, but *only* if the user sets the following environmental
-##' variables:
-##'
-##' * `VAULTR_TEST_SERVER_INSTALL` to `"true"` to opt in to the
-##'   download.
-##'
-##' * `VAULTR_TEST_SERVER_BIN_PATH` to the directory where the binary
-##'   should be downloaded to.
-##'
-##' * `NOT_CRAN` to `"true"` to indicate this is not running on CRAN
-##'   as it requires installation of a binary from a website.
-##'
-##' This will download a ~100MB binary from https://vaultproject.io
-##' so use with care.  It is intended *only* for use in automated
-##' testing environments.
-##'
 ##' @section Warning:
 ##'
 ##' Starting a server in test mode must *not* be used for production
@@ -35,16 +18,6 @@
 ##'   lacks any of the features required to make vault secure.  Please
 ##'   see https://www.vaultproject.io/docs/concepts/dev-server.html
 ##'   for more information
-##'
-##' @section Warning:
-##'
-##' The `vault_test_server_install` function will download a
-##'   binary from HashiCorp in order to use a vault server.  Use this
-##'   function with care.  The download will happen from
-##'   https://releases.hashicorp.com/vault (over https).  This
-##'   function is primarily designed to be used from continuous
-##'   integration services only and for local use you are strongly
-##'   recommended to curate your own installations.
 ##'
 ##' @title Control a test vault server
 ##'
@@ -95,47 +68,6 @@ vault_test_server <- function(https = FALSE, init = TRUE,
                               if_disabled = testthat::skip,
                               quiet = FALSE) {
   global_vault_server_manager()$new_server(https, init, if_disabled, quiet)
-}
-
-
-##' @rdname vault_test_server
-##'
-##' @param quiet Suppress progress bars on install
-##'
-##' @param path Path in which to install vault test server. Leave as
-##'   `NULL` to use the `VAULTR_TEST_SERVER_BIN_PATH` environment
-##'   variable.
-##'
-##' @param version Version of vault to install
-##'
-##' @param platform For testing, overwrite the platform vault is being
-##'   installed on, with either "windows", "darwin" or "linux".
-##'
-##' @export
-vault_test_server_install <- function(path = NULL, quiet = FALSE,
-                                      version = "1.0.0",
-                                      platform = vault_platform()) {
-  if (!identical(Sys.getenv("NOT_CRAN"), "true")) {
-    stop("Do not run this on CRAN")
-  }
-  if (!identical(Sys.getenv("VAULTR_TEST_SERVER_INSTALL"), "true")) {
-    stop("Please read the documentation for vault_test_server_install")
-  }
-  if (is.null(path)) {
-    path <- Sys_getenv("VAULTR_TEST_SERVER_BIN_PATH", NULL)
-    if (is.null(path)) {
-      stop("VAULTR_TEST_SERVER_BIN_PATH is not set")
-    }
-  }
-
-  dir_create(path)
-  dest <- file.path(path, vault_exe_filename(platform))
-  if (file.exists(dest)) {
-    message_quietly("vault already installed at ", dest, quiet = quiet)
-  } else {
-    vault_install(path, quiet, version, platform)
-  }
-  invisible(dest)
 }
 
 
@@ -365,22 +297,4 @@ vault_exe_filename <- function(platform = vault_platform()) {
   } else {
     "vault"
   }
-}
-
-
-vault_install <- function(dest, quiet, version, platform = vault_platform()) {
-  dest_bin <- file.path(dest, vault_exe_filename(platform))
-  if (!file.exists(dest_bin)) {
-    message_quietly(sprintf("installing vault to '%s'", dest), quiet = quiet)
-    url <- vault_url(version, platform)
-    zip <- download_file(url, quiet = quiet)
-    tmp <- tempfile()
-    dir_create(tmp)
-    utils::unzip(zip, exdir = tmp)
-    file_copy(file.path(tmp, vault_exe_filename(platform)), dest_bin)
-    unlink(tmp, recursive = TRUE)
-    file.remove(zip)
-    Sys.chmod(dest_bin, "755")
-  }
-  invisible(dest_bin)
 }
