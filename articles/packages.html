@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.3</span>
       </span>
     </div>
 
@@ -214,27 +214,25 @@ interactively will appear to cause an error but if called within a
 <code>test_that</code> block in a test will gracefully skip a test</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"VAULTR_TEST_SERVER_BIN_PATH"</span> <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>srv <span class="ot">&lt;-</span> vaultr<span class="sc">::</span><span class="fu">vault_test_server</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Error: vault is not enabled</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Alternatively, provide your own handler<span class="sc">:</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">```</span><span class="at">r</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="at">srv &lt;- vaultr::vault_test_server(if_disabled = message)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">## Error: vault is not enabled</span></span></code></pre></div>
+<p>Alternatively, provide your own handler:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span>if_disabled <span class="op">=</span> <span class="va">message</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## vault is not enabled</span></span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srv</span></span></code></pre></div>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>With that approach, you might wrap vault-requiring tests with</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">srv</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># ... vault requiring code here ...</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>All together (and assuming <code>testthat</code>), use of vault
 within tests might look like this example from the <code>vaultr</code>
 tests:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"list"</span>, <span class="op">{</span></span>
 <span>  <span class="va">srv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vault_test_server.html">vault_test_server</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="va">cl</span> <span class="op">&lt;-</span> <span class="va">srv</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span></span>
