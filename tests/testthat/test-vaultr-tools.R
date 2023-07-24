@@ -1,5 +1,5 @@
 test_that("random", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res <- cl$tools$random()
@@ -15,7 +15,7 @@ test_that("random", {
 
 
 test_that("hash", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   data <- charToRaw("hello vault")

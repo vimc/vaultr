@@ -7,7 +7,7 @@ test_that("cache", {
 
 ## integration tests:
 test_that("invalidation is handled gracefully", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
@@ -98,7 +98,7 @@ test_that("delete", {
 
 
 test_that("token_only skips cache", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
@@ -115,7 +115,7 @@ test_that("token_only skips cache", {
 
 
 test_that("token_only works with no cache", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")

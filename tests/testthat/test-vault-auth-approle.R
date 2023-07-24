@@ -1,5 +1,5 @@
 test_that("approle", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -13,7 +13,7 @@ test_that("approle", {
 
 
 test_that("approle auth", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -43,7 +43,7 @@ test_that("approle auth", {
 
 
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("approle", path = "approle2")
@@ -57,7 +57,7 @@ test_that("custom mount", {
 
 
 test_that("full login", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
   cl$write("/secret/test", list(a = 1))
@@ -81,7 +81,7 @@ test_that("full login", {
 
 
 test_that("role delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -96,7 +96,7 @@ test_that("role delete", {
 
 
 test_that("role set id", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -111,7 +111,7 @@ test_that("role set id", {
 
 
 test_that("secret id list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -129,7 +129,7 @@ test_that("secret id list", {
 
 
 test_that("secret id read", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 
@@ -148,7 +148,7 @@ test_that("secret id read", {
 
 
 test_that("secret id delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("approle")
 

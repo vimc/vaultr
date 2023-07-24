@@ -1,5 +1,5 @@
 test_that("secrets", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_s3_class(cl$secrets, "vault_client_secrets")
   d <- cl$secrets$list()
@@ -12,7 +12,7 @@ test_that("secrets", {
 
 
 test_that("enable/disable a secret engine", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$secrets$enable("kv", version = 2)
   d <- cl$secrets$list()
@@ -25,7 +25,7 @@ test_that("enable/disable a secret engine", {
 
 
 test_that("move a secret engine", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   p1 <- rand_str(10)
   p2 <- rand_str(10)

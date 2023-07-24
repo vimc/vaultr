@@ -1,5 +1,5 @@
 test_that("rekey", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ans <- cl$operator$rekey_start(5, 3)
@@ -33,7 +33,7 @@ test_that("rekey", {
 
 
 test_that("cancel rekey", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ans <- cl$operator$rekey_start(5, 3)
@@ -49,7 +49,7 @@ test_that("cancel rekey", {
 
 test_that("init", {
   skip_on_os("windows")
-  srv <- vault_test_server(https = TRUE, init = FALSE)
+  srv <- test_vault_test_server(https = TRUE, init = FALSE)
   cl <- srv$client(login = FALSE)
 
   dat <- cl$operator$init(5, 3)
@@ -69,7 +69,7 @@ test_that("init", {
 
 
 test_that("seal", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_false(cl$operator$seal_status()$sealed)
@@ -79,7 +79,7 @@ test_that("seal", {
 
 
 test_that("rotate", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   d1 <- cl$operator$key_status()
@@ -92,7 +92,7 @@ test_that("rotate", {
 
 
 test_that("leader status", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   d <- cl$operator$leader_status()

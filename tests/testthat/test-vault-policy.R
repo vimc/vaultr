@@ -1,5 +1,5 @@
 test_that("read policy", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ## There's not much we can take from this one yet - this gets a
@@ -10,7 +10,7 @@ test_that("read policy", {
 
 
 test_that("write_policy", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   rules <- paste('path "secret/*" {',

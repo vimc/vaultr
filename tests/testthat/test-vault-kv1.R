@@ -1,5 +1,5 @@
 test_that("basic write/read", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   data <- list(key = rand_str(10))
@@ -14,7 +14,7 @@ test_that("basic write/read", {
 
 
 test_that("read non-existant data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_null(cl$read("secret/missing"))
@@ -27,7 +27,7 @@ test_that("read non-existant data", {
 
 
 test_that("delete data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$write("secret/a", list(key = 1))
@@ -38,7 +38,7 @@ test_that("delete data", {
 
 
 test_that("list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$write("secret/a", list(key = 1))
@@ -53,7 +53,7 @@ test_that("list", {
 
 
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   mount <- "/secret1"

@@ -6,7 +6,12 @@
 \alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{
-vault_test_server(https = FALSE, init = TRUE, if_disabled = testthat::skip)
+vault_test_server(
+  https = FALSE,
+  init = TRUE,
+  if_disabled = testthat::skip,
+  quiet = FALSE
+)
 
 vault_test_server_install(
   path = NULL,
@@ -29,11 +34,11 @@ not enabled.  The default, designed to be used within tests, is
 \code{testthat::skip}.  Alternatively, inspect the
 \verb{$enabled} property of the returned object.}
 
+\item{quiet}{Suppress progress bars on install}
+
 \item{path}{Path in which to install vault test server. Leave as
 \code{NULL} to use the \code{VAULTR_TEST_SERVER_BIN_PATH} environment
 variable.}
-
-\item{quiet}{Suppress progress bars on install}
 
 \item{version}{Version of vault to install}
 
@@ -166,7 +171,7 @@ https mode (read-only).}
 Create a \code{vault_server_instance} object. Not typically
 called by users.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$new(bin, port, https, init)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{vault_server_instance$new(bin, port, https, init, quiet = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -179,6 +184,8 @@ called by users.
 \item{\code{https}}{Logical, indicating if we should use TLS/https}
 
 \item{\code{init}}{Logical, indicating if we should initialise}
+
+\item{\code{quiet}}{Logical, indicating if startup should be quiet}
 }
 \if{html}{\out{</div>}}
 }

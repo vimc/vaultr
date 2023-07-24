@@ -1,5 +1,5 @@
 test_that("basic auth", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("userpass", "user / password based auth")
   d <- cl$auth$list()
@@ -22,7 +22,7 @@ test_that("basic auth", {
 
 
 test_that("userpass", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
@@ -46,7 +46,7 @@ test_that("userpass", {
 
 
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", path = "userpass2")
@@ -60,7 +60,7 @@ test_that("custom mount", {
 
 
 test_that("login", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$client()
@@ -103,7 +103,7 @@ test_that("request password, level 2", {
 
 
 test_that("update password", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
@@ -116,7 +116,7 @@ test_that("update password", {
 
 
 test_that("update policies", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
@@ -129,7 +129,7 @@ test_that("update policies", {
 
 
 test_that("delete user", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
@@ -141,7 +141,7 @@ test_that("delete user", {
 
 
 test_that("create with policy", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
@@ -169,7 +169,7 @@ test_that("create with policy", {
 
 
 test_that("update policy", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$policy$write("standard", 'path "secret/a/*" {\n  policy = "write"\n}')
@@ -196,7 +196,7 @@ test_that("update policy", {
 
 
 test_that("disable", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("userpass", "user / password based auth")
@@ -207,7 +207,7 @@ test_that("disable", {
 
 
 test_that("login, custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   path <- "userpass2"

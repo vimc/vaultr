@@ -1,5 +1,5 @@
 test_that("capabilities-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$token$capabilities_self("/secret"),
                list("/secret" = "root"))
@@ -11,7 +11,7 @@ test_that("capabilities-self", {
 
 
 test_that("capabilities-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_equal(
@@ -21,7 +21,7 @@ test_that("capabilities-self", {
 
 
 test_that("capabilities-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   ac <- cl$token$lookup_self()$accessor
 
@@ -32,7 +32,7 @@ test_that("capabilities-accessor", {
 
 
 test_that("create token", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res <- cl$token$create(ttl = "1h")
@@ -43,7 +43,7 @@ test_that("create token", {
 
 
 test_that("lookup", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$client()
@@ -54,7 +54,7 @@ test_that("lookup", {
 
 
 test_that("lookup-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   ac <- cl$token$lookup_self()$accessor
 
@@ -64,7 +64,7 @@ test_that("lookup-accessor", {
 
 
 test_that("revoke", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res <- cl$token$create(ttl = "1h")
@@ -79,7 +79,7 @@ test_that("revoke", {
 
 
 test_that("revoke-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create()
@@ -91,7 +91,7 @@ test_that("revoke-self", {
 
 
 test_that("revoke-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create()
@@ -105,7 +105,7 @@ test_that("revoke-accessor", {
 
 
 test_that("revoke-and-orphan", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res1 <- cl$token$create()
@@ -124,14 +124,14 @@ test_that("revoke-and-orphan", {
 
 
 test_that("revoke-and-orphan", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_null(cl$token$tidy())
 })
 
 
 test_that("renew", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res1 <- cl$token$create(ttl = "1h")
@@ -145,7 +145,7 @@ test_that("renew", {
 
 
 test_that("renew-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create(ttl = "1h")
@@ -159,14 +159,14 @@ test_that("renew-self", {
 
 
 test_that("access via auth", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$auth$token, cl$token)
 })
 
 
 test_that("login: incorrect args", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   token <- srv$token
   ## Can't detect these errors by string because they're R's
@@ -183,14 +183,14 @@ test_that("login: incorrect args", {
 
 
 test_that("token list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_true(cl$token$lookup_self()$accessor %in% cl$token$list())
 })
 
 
 test_that("role write", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$policy$write("read-a", 'path "secret/a/*" {\n  policy = "read"}')
@@ -206,7 +206,7 @@ test_that("role write", {
 
 
 test_that("role delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$token$role_write("nomad")
@@ -217,14 +217,14 @@ test_that("role delete", {
 
 
 test_that("role list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$token$role_list(), character(0))
 })
 
 
 test_that("login", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   t <- fake_token()
   expect_error(cl$token$login(t),

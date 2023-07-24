@@ -1,5 +1,5 @@
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit", path = "transit2")
@@ -11,7 +11,7 @@ test_that("custom mount", {
 
 
 test_that("basic key create/list/update/delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -29,7 +29,7 @@ test_that("basic key create/list/update/delete", {
 
 
 test_that("key rotate", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -42,7 +42,7 @@ test_that("key rotate", {
 
 
 test_that("encrypt data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -59,7 +59,7 @@ test_that("encrypt data", {
 
 
 test_that("rewrap data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -81,7 +81,7 @@ test_that("rewrap data", {
 
 
 test_that("datakey", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -99,7 +99,7 @@ test_that("datakey", {
 
 ## duplicated tests from tools
 test_that("random", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$secrets$enable("transit")
   transit <- cl$secrets$transit
@@ -117,7 +117,7 @@ test_that("random", {
 
 
 test_that("hash", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$secrets$enable("transit")
   transit <- cl$secrets$transit
@@ -151,7 +151,7 @@ test_that("hash", {
 
 
 test_that("hmac", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -167,7 +167,7 @@ test_that("hmac", {
 
 
 test_that("sign", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -183,7 +183,7 @@ test_that("sign", {
 
 
 test_that("backup", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -202,7 +202,7 @@ test_that("backup", {
 
 
 test_that("export", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -218,7 +218,7 @@ test_that("export", {
 
 
 test_that("key trim", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   skip_if_vault_before("1.0.0", srv, "/transit/keys/:name/trim",
                        "Key trimming")
   cl <- srv$client()
@@ -247,7 +247,7 @@ test_that("key trim", {
 
 
 test_that("key derivation: encrypt/decrypt", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -266,7 +266,7 @@ test_that("key derivation: encrypt/decrypt", {
 
 
 test_that("key derivation: rewrap", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -293,7 +293,7 @@ test_that("key derivation: rewrap", {
 
 
 test_that("key derivation: datakey", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")
@@ -309,7 +309,7 @@ test_that("key derivation: datakey", {
 
 
 test_that("key derivation: sign/verify", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit")

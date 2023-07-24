@@ -1,5 +1,5 @@
 test_that("auth", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_s3_class(cl$auth, "vault_client_auth")
   d <- cl$auth$list()
@@ -11,7 +11,7 @@ test_that("auth", {
 
 
 test_that("introspect methods", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_setequal(cl$auth$backends(),

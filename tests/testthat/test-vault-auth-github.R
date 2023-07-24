@@ -1,5 +1,5 @@
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("github", path = "github2")
@@ -13,7 +13,7 @@ test_that("custom mount", {
 
 
 test_that("github set policy: group", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("github")
   cl$auth$github$configure(organization = "vimc")
@@ -25,7 +25,7 @@ test_that("github set policy: group", {
 
 
 test_that("github set policy: group", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("github")
   cl$auth$github$configure(organization = "vimc")
@@ -47,7 +47,7 @@ test_that("github auth", {
   skip_if_no_internet()
   gh_token <- vaultr_test_github_pat()
 
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ## Set up a basic policy:
@@ -98,7 +98,7 @@ test_that("github token", {
 
 
 test_that("missing github token", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ## Configure github:

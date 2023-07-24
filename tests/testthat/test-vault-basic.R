@@ -1,5 +1,5 @@
 test_that("read/write/list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   path <- sprintf("/secret/%s/key1", rand_str(10))
@@ -16,7 +16,7 @@ test_that("read/write/list", {
 
 
 test_that("status", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   status <- cl$status()
 
@@ -26,7 +26,7 @@ test_that("status", {
 
 
 test_that("re-login", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_null(cl$login(method = "impossible"))
   expect_error(cl$login(method = "impossible", renew = TRUE),
@@ -35,7 +35,7 @@ test_that("re-login", {
 
 
 test_that("format", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
 
   str <- withr::with_options(list(width = 80), cl$format())

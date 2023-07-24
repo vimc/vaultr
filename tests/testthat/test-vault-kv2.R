@@ -1,5 +1,5 @@
 test_that("basic set/get", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -23,7 +23,7 @@ test_that("basic set/get", {
 
 
 test_that("config", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -39,7 +39,7 @@ test_that("config", {
 
 
 test_that("versions", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -63,7 +63,7 @@ test_that("versions", {
 
 
 test_that("delete latest version", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -88,7 +88,7 @@ test_that("delete latest version", {
 
 
 test_that("delete multiple versions", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -113,7 +113,7 @@ test_that("delete multiple versions", {
 
 
 test_that("list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -136,7 +136,7 @@ test_that("list", {
 
 
 test_that("undelete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -157,7 +157,7 @@ test_that("undelete", {
 
 
 test_that("destroy", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -178,7 +178,7 @@ test_that("destroy", {
 
 
 test_that("metadata put", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -197,7 +197,7 @@ test_that("metadata put", {
 
 
 test_that("metadata delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   p <- rand_str(10)
@@ -217,7 +217,7 @@ test_that("metadata delete", {
 
 
 test_that("mount validation", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("kv", "secret2", version = 2)
@@ -234,7 +234,7 @@ test_that("mount validation", {
 
 
 test_that("put+cas", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("kv", "secret2", version = 2)

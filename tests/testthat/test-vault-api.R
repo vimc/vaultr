@@ -1,5 +1,5 @@
 test_that("vault api client rejects unauthenticated attempts", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   api <- cl$api()
 
@@ -30,7 +30,7 @@ test_that("error fallback", {
 
 
 test_that("token validation", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   api <- cl$api()
 
@@ -44,7 +44,7 @@ test_that("token validation", {
 
 test_that("skip ssl validation", {
   skip_on_os("windows")
-  srv <- vault_test_server(https = TRUE)
+  srv <- test_vault_test_server(https = TRUE)
 
   cl1 <- vault_client(addr = srv$addr, tls_config = FALSE)
   cl1$login(token = srv$token, quiet = TRUE)

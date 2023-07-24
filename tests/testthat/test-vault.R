@@ -1,5 +1,5 @@
 test_that("api", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$write("/secret/a", list(key = 1))

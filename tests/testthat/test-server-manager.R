@@ -147,7 +147,7 @@ test_that("vault_platform", {
 
 
 test_that("env", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   env <- srv$env()
   expect_equal(env[["VAULT_ADDR"]], srv$addr)
   expect_equal(env[["VAULT_TOKEN"]], srv$token)
@@ -169,7 +169,7 @@ test_that("env", {
 
 
 test_that("clear tokens", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   vault_env$cache$clear()
 
   cl <- srv$client()

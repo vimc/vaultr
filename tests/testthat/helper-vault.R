@@ -5,6 +5,12 @@ skip_if_no_vaultr_test_github_pat <- function() {
   testthat::skip("No access token set")
 }
 
+
+test_vault_test_server <- function(..., quiet = TRUE) {
+  skip_on_cran()
+  vault_test_server(..., quiet = quiet)
+}
+
 has_vaultr_test_github_pat <- function() {
   nzchar(vaultr_test_github_pat())
 }

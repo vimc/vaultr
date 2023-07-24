@@ -39,7 +39,7 @@ test_that("free_port: failure", {
 
 
 test_that("free_port: used", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   expect_false(check_port(srv$port))
 })
 
