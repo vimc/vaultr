@@ -210,9 +210,10 @@ vault_server_manager <- R6::R6Class(
       } else {
         tryCatch(
           vault_server_instance$new(self$bin, self$new_port(), https, init),
-          error = function(e)
+          error = function(e) {
             testthat::skip(paste("vault server failed to start:",
-                                 e$message)))
+                                 e$message))
+          })
       }
     }
   ))

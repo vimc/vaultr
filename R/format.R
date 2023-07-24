@@ -11,9 +11,9 @@ vault_client_format <- function(object, brief, name, description) {
   if (any(is_obj)) {
     objs <- c(
       "  Command groups:",
-      vcapply(nms[is_obj], function(x)
-        sprintf("    %s: %s", x, object[[x]]$format(TRUE)),
-        USE.NAMES = FALSE))
+      vcapply(nms[is_obj], function(x) {
+        sprintf("    %s: %s", x, object[[x]]$format(TRUE))
+      }, USE.NAMES = FALSE))
   } else {
     objs <- NULL
   }

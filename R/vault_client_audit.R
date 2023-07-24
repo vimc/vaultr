@@ -48,8 +48,9 @@ vault_client_audit <- R6::R6Class(
     list = function() {
       dat <- private$api_client$GET("/sys/audit")
       cols <- c("path", "type", "description")
-      ret <- lapply(cols, function(v)
-        vcapply(dat$data, "[[", v, USE.NAMES = FALSE))
+      ret <- lapply(cols, function(v) {
+        vcapply(dat$data, "[[", v, USE.NAMES = FALSE)
+      })
       names(ret) <- cols
       as.data.frame(ret, stringsAsFactors = FALSE, check.names = FALSE)
     },

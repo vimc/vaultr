@@ -92,8 +92,9 @@ vault_client_auth <- R6::R6Class(
       cols <- c("type", "accessor", "description")
       ## TODO: later versions include config etc
 
-      ret <- lapply(cols, function(v)
-        vapply(dat$data, "[[", "", v, USE.NAMES = FALSE))
+      ret <- lapply(cols, function(v) {
+        vapply(dat$data, "[[", "", v, USE.NAMES = FALSE)
+      })
       names(ret) <- cols
 
       ## TODO: empty strings here might be better as NA
