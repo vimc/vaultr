@@ -141,4 +141,21 @@ enabled this test will be skipped over gracefully.
 
 ## Installing vault
 
-To develop your package, you will need vault installed; please see [the official vault docs](https://developer.hashicorp.com/vault/docs/install) for this.  If you use github actions, please check the vault source code's actions for a suitable set of lines to include to automatically install vault within this environment.
+To develop your package, you will need vault installed; please see [the official vault docs](https://developer.hashicorp.com/vault/docs/install) for this.
+
+If you use github actions, you can follow the same approach as `vaultr` itself; add the environment variables `VAULTR_TEST_SERVER_BIN_PATH` and `VAULTR_TEST_SERVER_PORT`:
+
+```yaml
+    env:
+      ...
+      VAULTR_TEST_SERVER_BIN_PATH: auto
+      VAULTR_TEST_SERVER_PORT: 18200
+```
+
+then use the [`eLco/setup-vault`](https://github.com/marketplace/actions/setup-vault-cli) action to install a suitable vault binary:
+
+```yaml
+      - uses: eLco/setup-vault@v1
+```
+
+See [the `vaultr` actions](https://github.com/vimc/vaultr/blob/master/.github/workflows/R-CMD-check.yaml) for full details.
