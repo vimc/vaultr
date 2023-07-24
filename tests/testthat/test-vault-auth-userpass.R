@@ -1,5 +1,3 @@
-context("vault: auth: userpass")
-
 test_that("basic auth", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -40,7 +38,7 @@ test_that("userpass", {
   expect_error(cl$auth$userpass$login("rich", "wrong"))
   expect_silent(auth <- cl$auth$userpass$login("rich", "pass"))
   token <- auth$client_token
-  expect_is(token, "character")
+  expect_type(token, "character")
 
   cl2 <- srv$client(login = FALSE)
   expect_error(cl2$login(token = token), NA)
@@ -53,7 +51,7 @@ test_that("custom mount", {
 
   cl$auth$enable("userpass", path = "userpass2")
   up <- cl$auth$userpass$custom_mount("userpass2")
-  expect_is(up, "vault_client_auth_userpass")
+  expect_s3_class(up, "vault_client_auth_userpass")
 
   up$write("rich", "pass")
   expect_equal(up$read("rich")$policies, character(0))
@@ -165,8 +163,8 @@ test_that("create with policy", {
 
   ## Are we forbidden where expected:
   err <- tryCatch(cl2$write("secret/b", list(value = 1)), error = identity)
-  expect_is(err, "vault_error")
-  expect_is(err, "vault_forbidden")
+  expect_s3_class(err, "vault_error")
+  expect_s3_class(err, "vault_forbidden")
 })
 
 
@@ -192,8 +190,8 @@ test_that("update policy", {
 
   ## Are we forbidden where expected:
   err <- tryCatch(cl2$write("secret/b", list(value = 1)), error = identity)
-  expect_is(err, "vault_error")
-  expect_is(err, "vault_forbidden")
+  expect_s3_class(err, "vault_error")
+  expect_s3_class(err, "vault_forbidden")
 })
 
 
@@ -204,7 +202,7 @@ test_that("disable", {
   cl$auth$enable("userpass", "user / password based auth")
   cl$auth$disable("userpass")
   err <- tryCatch(cl$auth$userpass$write("rich", "pass"), error = identity)
-  expect_is(err, "vault_invalid_path")
+  expect_s3_class(err, "vault_invalid_path")
 })
 
 

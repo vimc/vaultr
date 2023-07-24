@@ -1,5 +1,3 @@
-context("vault: auth: approle")
-
 test_that("approle", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -26,10 +24,10 @@ test_that("approle auth", {
   expect_equal(ar$role_list(), role_name)
 
   d <- ar$role_read(role_name)
-  expect_is(d, "list")
+  expect_type(d, "list")
 
   role_id <- ar$role_id_read(role_name)
-  expect_is(role_id, "character")
+  expect_type(role_id, "character")
   expect_equal(length(role_id), 1L)
 
   secret <- ar$secret_id_generate(role_name)
@@ -37,7 +35,7 @@ test_that("approle auth", {
   auth <- ar$login(role_id, secret$id)
 
   token <- auth$client_token
-  expect_is(token, "character")
+  expect_type(token, "character")
 
   cl2 <- srv$client(login = FALSE)
   expect_error(cl2$login(token = token), NA)
@@ -50,10 +48,10 @@ test_that("custom mount", {
 
   cl$auth$enable("approle", path = "approle2")
   ar <- cl$auth$approle$custom_mount("approle2")
-  expect_is(ar, "vault_client_auth_approle")
+  expect_s3_class(ar, "vault_client_auth_approle")
 
   ar$role_write("server")
-  expect_is(ar$role_read("server"), "list")
+  expect_type(ar$role_read("server"), "list")
   expect_error(cl$auth$approle$role_read("server"))
 })
 

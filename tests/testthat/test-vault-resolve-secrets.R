@@ -1,5 +1,3 @@
-context("resolve-secrets")
-
 test_that("vault secrets can be resolved", {
   srv <- vaultr::vault_test_server()
   cl <- srv$client()

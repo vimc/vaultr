@@ -61,6 +61,9 @@
 ##'   `testthat::skip`.  Alternatively, inspect the
 ##'   `$enabled` property of the returned object.
 ##'
+##' @param quiet Logical, indicating if startup should be quiet and
+##'   not print messages
+##'
 ##' @export
 ##' @rdname vault_test_server
 ##' @aliases vault_server_instance
@@ -89,8 +92,9 @@
 ##'   tryCatch(client$status(), error = function(e) message(e$message))
 ##' }
 vault_test_server <- function(https = FALSE, init = TRUE,
-                              if_disabled = testthat::skip) {
-  global_vault_server_manager()$new_server(https, init, if_disabled)
+                              if_disabled = testthat::skip,
+                              quiet = FALSE) {
+  global_vault_server_manager()$new_server(https, init, if_disabled, quiet)
 }
 
 
@@ -204,12 +208,14 @@ vault_server_manager <- R6::R6Class(
     },
 
     new_server = function(https = FALSE, init = TRUE,
-                          if_disabled = testthat::skip) {
+                          if_disabled = testthat::skip,
+                          quiet = FALSE) {
       if (!self$enabled) {
         if_disabled("vault is not enabled")
       } else {
         tryCatch(
-          vault_server_instance$new(self$bin, self$new_port(), https, init),
+          vault_server_instance$new(self$bin, self$new_port(), https, init,
+                                    quiet),
           error = function(e) {
             testthat::skip(paste("vault server failed to start:",
                                  e$message))
@@ -227,7 +233,8 @@ fake_token <- function() {
 }
 
 
-vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
+vault_server_wait <- function(test, process, timeout = 5, poll = 0.05,
+                              quiet = FALSE) {
   t1 <- Sys.time() + timeout
   repeat {
     ok <- tryCatch(test(), error = function(e) FALSE)
@@ -238,13 +245,15 @@ vault_server_wait <- function(test, process, timeout = 5, poll = 0.05) {
       err <- paste(readLines(process$get_error_file()), collapse = "\n")
       stop("vault has died:\n", err)
     }
-    message("...waiting for Vault to start")
+    if (!quiet) {
+      message("...waiting for Vault to start")
+    }
     Sys.sleep(poll)
   }
 }
 
 
-vault_server_start_dev <- function(bin, port) {
+vault_server_start_dev <- function(bin, port, quiet) {
   token <- fake_token()
   args <- c("server", "-dev",
             sprintf("-dev-listen-address=127.0.0.1:%s", port),
@@ -258,7 +267,7 @@ vault_server_start_dev <- function(bin, port) {
   addr <- sprintf("http://127.0.0.1:%d", port)
 
   cl <- vault_client(addr = addr)
-  vault_server_wait(cl$operator$is_initialized, process)
+  vault_server_wait(cl$operator$is_initialized, process, quiet = quiet)
   on.exit()
 
   for (i in 1:5) {
@@ -292,7 +301,7 @@ vault_server_start_dev <- function(bin, port) {
 }
 
 
-vault_server_start_https <- function(bin, port, init) {
+vault_server_start_https <- function(bin, port, init, quiet) {
   ## Create a server configuration:
   config_path <- system.file("server", package = "vaultr", mustWork = TRUE)
   cfg <- readLines(file.path(config_path, "vault-tls.hcl"))
@@ -314,7 +323,8 @@ vault_server_start_https <- function(bin, port, init) {
   ## Here, our test function is a bit different because we're not
   ## expecting the server to be *initialised*, just to be ready to
   ## accept connections
-  vault_server_wait(function() !cl$operator$is_initialized(), process)
+  vault_server_wait(function() !cl$operator$is_initialized(), process,
+                    quiet = quiet)
 
   if (init) {
     res <- cl$operator$init(5, 3) # 5 / 3 key split

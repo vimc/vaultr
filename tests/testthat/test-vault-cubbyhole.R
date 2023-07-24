@@ -1,5 +1,3 @@
-context("vault: cubbyhole")
-
 test_that("basic set/get/list/del", {
   srv <- vault_test_server()
   cl <- srv$client()

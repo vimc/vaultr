@@ -1,6 +1,3 @@
-context("vault: policy")
-
-
 test_that("read policy", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -8,7 +5,7 @@ test_that("read policy", {
   ## There's not much we can take from this one yet - this gets a
   ## better test after we start *writing* policies
   rules <- cl$policy$read("default")
-  expect_is(rules, "character")
+  expect_type(rules, "character")
 })
 
 

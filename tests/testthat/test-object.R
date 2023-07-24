@@ -1,5 +1,3 @@
-context("object")
-
 test_that("format", {
   x <- vault_client_object$new("my description")
   private <- environment(x$initialize)$private

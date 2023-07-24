@@ -1,6 +1,3 @@
-context("vault: basic")
-
-
 test_that("read/write/list", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -23,7 +20,7 @@ test_that("status", {
   cl <- srv$client()
   status <- cl$status()
 
-  expect_is(status, "list")
+  expect_type(status, "list")
   expect_equal(status$progress, 0L)
 })
 

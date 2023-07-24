@@ -1,5 +1,3 @@
-context("server manager")
-
 test_that("safeguards for install", {
   skip_on_cran()
 

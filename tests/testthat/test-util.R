@@ -1,5 +1,3 @@
-context("util")
-
 test_that("Sys_getenv", {
   expect_null(Sys_getenv("VAULTR_NONEXISTANT"))
 

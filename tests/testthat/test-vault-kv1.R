@@ -1,6 +1,3 @@
-context("vault: kv")
-
-
 test_that("basic write/read", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -12,7 +9,7 @@ test_that("basic write/read", {
   expect_equal(cl$read(path), data)
   expect_equal(cl$read(path, "key"), data$key)
   res <- cl$read(path, metadata = TRUE)
-  expect_is(attr(res, "metadata"), "list")
+  expect_type(attr(res, "metadata"), "list")
 })
 
 

@@ -1,5 +1,3 @@
-context("vault")
-
 test_that("api", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -7,7 +5,7 @@ test_that("api", {
   cl$write("/secret/a", list(key = 1))
 
   api <- cl$api()
-  expect_is(api, "vault_api_client")
+  expect_s3_class(api, "vault_api_client")
   expect_null(api$namespace)
   ## Unauthenticated route:
   expect_equal(api$GET("/sys/seal-status"),

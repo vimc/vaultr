@@ -1,6 +1,3 @@
-context("vault: token")
-
-
 test_that("capabilities-self", {
   srv <- vault_test_server()
   cl <- srv$client()

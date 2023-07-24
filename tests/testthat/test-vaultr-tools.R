@@ -1,5 +1,3 @@
-context("vault: auth")
-
 test_that("random", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -11,7 +9,7 @@ test_that("random", {
   expect_equal(nchar(res), 44)
 
   res <- cl$tools$random(format = "raw")
-  expect_is(res, "raw")
+  expect_type(res, "raw")
   expect_equal(length(res), 32)
 })
 

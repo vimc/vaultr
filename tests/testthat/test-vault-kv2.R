@@ -1,5 +1,3 @@
-context("vault: kv2")
-
 test_that("basic set/get", {
   srv <- vault_test_server()
   cl <- srv$client()
@@ -14,7 +12,7 @@ test_that("basic set/get", {
   data <- list(key = rand_str(10))
   meta <- kv$put(path, data)
 
-  expect_is(meta, "list")
+  expect_type(meta, "list")
   expect_equal(meta$version, 1L)
 
   expect_equal(kv$get(path), data)
@@ -34,7 +32,7 @@ test_that("config", {
   wait_kv_upgrade(kv, p)
 
   config <- kv$config(p)
-  expect_is(config, "list")
+  expect_type(config, "list")
   expect_equal(config$cas_required, FALSE)
   expect_equal(config$max_versions, 0)
 })

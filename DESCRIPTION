@@ -35,3 +35,4 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

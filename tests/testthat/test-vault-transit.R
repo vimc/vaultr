@@ -1,15 +1,12 @@
-context("secret: transit")
-
-
 test_that("custom mount", {
   srv <- vault_test_server()
   cl <- srv$client()
 
   cl$secrets$enable("transit", path = "transit2")
   tr <- cl$secrets$transit$custom_mount("transit2")
-  expect_is(tr, "vault_client_transit")
+  expect_s3_class(tr, "vault_client_transit")
 
-  expect_is(tr$random(format = "raw"), "raw")
+  expect_type(tr$random(format = "raw"), "raw")
 })
 
 
@@ -24,7 +21,7 @@ test_that("basic key create/list/update/delete", {
   expect_equal(transit$key_list(), "test")
   transit$key_update("test", deletion_allowed = TRUE)
   info <- transit$key_read("test")
-  expect_is(info, "list")
+  expect_type(info, "list")
   expect_true(info$deletion_allowed)
   expect_null(transit$key_delete("test"))
   expect_equal(transit$key_list(), character(0))
@@ -56,7 +53,7 @@ test_that("encrypt data", {
   cyphertext <- transit$data_encrypt("test", charToRaw(plaintext))
 
   res <- transit$data_decrypt("test", cyphertext)
-  expect_is(res, "raw")
+  expect_type(res, "raw")
   expect_identical(res, charToRaw(plaintext))
 })
 
@@ -114,7 +111,7 @@ test_that("random", {
   expect_equal(nchar(res), 44)
 
   res <- transit$random(format = "raw")
-  expect_is(res, "raw")
+  expect_type(res, "raw")
   expect_equal(length(res), 32)
 })
 
@@ -197,7 +194,7 @@ test_that("backup", {
   cyphertext <- transit$data_encrypt("test", plaintext)
 
   key <- transit$key_backup("test")
-  expect_is(key, "character")
+  expect_type(key, "character")
 
   transit$key_restore("restored", key)
   expect_identical(transit$data_decrypt("restored", cyphertext), plaintext)
@@ -214,7 +211,7 @@ test_that("export", {
 
 
   k <- transit$key_export("test", "encryption-key", NULL)
-  expect_is(k, "character")
+  expect_type(k, "character")
   expect_equal(transit$key_export("test", "encryption-key", 1),
                setNames(list(k), "1"))
 })

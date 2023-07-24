@@ -1,6 +1,3 @@
-context("vault: audit")
-
-
 test_that("audit", {
   srv <- vault_test_server()
   cl <- srv$client()

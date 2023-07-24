@@ -1,12 +1,10 @@
-context("vault: auth: github")
-
 test_that("custom mount", {
   srv <- vault_test_server()
   cl <- srv$client()
 
   cl$auth$enable("github", path = "github2")
   gh <- cl$auth$github$custom_mount("github2")
-  expect_is(gh, "vault_client_auth_github")
+  expect_s3_class(gh, "vault_client_auth_github")
 
   gh$configure(organization = "vimc")
   expect_equal(gh$configuration()$organization, "vimc")
@@ -76,8 +74,8 @@ test_that("github auth", {
 
   ## Are we forbidden where expected:
   err <- tryCatch(cl2$write("secret/b", list(value = 1)), error = identity)
-  expect_is(err, "vault_error")
-  expect_is(err, "vault_forbidden")
+  expect_s3_class(err, "vault_error")
+  expect_s3_class(err, "vault_forbidden")
 })
 
 

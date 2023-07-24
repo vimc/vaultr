@@ -1,9 +1,7 @@
-context("cache")
-
 test_that("cache", {
   cache <- token_cache$new()
-  expect_is(cache, "token_cache")
-  expect_is(vault_env$cache, "token_cache")
+  expect_s3_class(cache, "token_cache")
+  expect_s3_class(vault_env$cache, "token_cache")
 })
 
 
@@ -127,7 +125,7 @@ test_that("token_only works with no cache", {
 
   t <- cl2$login(username = "rich", password = "pass", method = "userpass",
                  token_only = TRUE)
-  expect_is(t, "character")
+  expect_type(t, "character")
   expect_null(cl2$token$client())
   expect_null(vault_env$cache$get(cl2$api()))
 })
