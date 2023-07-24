@@ -73,12 +73,6 @@ vault_arg <- function(x, name, mode = "character") {
   x %||% Sys_getenv(name, NULL, mode)
 }
 
-download_file <- function(url, path = tempfile(), quiet = FALSE) {
-  r <- httr::GET(url, httr::write_disk(path), if (!quiet) httr::progress())
-  httr::stop_for_status(r)
-  path
-}
-
 
 drop_null <- function(x) {
   x[!vlapply(x, is.null)]
@@ -184,22 +178,6 @@ raw_data_input <- function(data, name = deparse(substitute(data))) {
     stop(sprintf("Expected raw data for '%s'", name), call. = FALSE)
   }
   encode64(data)
-}
-
-
-dir_create <- function(path) {
-  p <- dir.create(path, FALSE, TRUE)
-  if (!isTRUE(is_directory(path))) {
-    stop(sprintf("Failed to create directory '%s'", path))
-  }
-}
-
-file_copy <- function(..., overwrite = TRUE) {
-  ok <- file.copy(..., overwrite = overwrite)
-  if (any(!ok)) {
-    stop("Error copying files")
-  }
-  ok
 }
 
 

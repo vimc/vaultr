@@ -285,12 +285,6 @@ vault_platform <- function(sysname = Sys.info()[["sysname"]]) {
          stop("Unknown sysname"))
 }
 
-
-vault_url <- function(version, platform = vault_platform(), arch = "amd64") {
-  sprintf("https://releases.hashicorp.com/vault/%s/vault_%s_%s_%s.zip",
-          version, version, platform, arch)
-}
-
 vault_exe_filename <- function(platform = vault_platform()) {
   if (platform == "windows") {
     "vault.exe"

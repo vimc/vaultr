@@ -127,3 +127,10 @@ test_that("skip if server does not come up", {
   expect_s3_class(err, "skip")
   expect_match(err$message, "vault server failed to start")
 })
+
+
+test_that("correct exe on different platforms", {
+  expect_equal(vault_exe_filename("windows"), "vault.exe")
+  expect_equal(vault_exe_filename("linux"), "vault")
+  expect_equal(vault_exe_filename("darwin"), "vault")
+})
