@@ -41,6 +41,10 @@ if (!is.null(server)) {
 \item{\code{userpass}}{Interact with vault's username/password based
 authentication.  See \code{\link{vault_client_auth_userpass}} for
 more information.}
+
+\item{\code{ldap}}{Interact with vault's LDAP based
+authentication.  See \code{\link{vault_client_auth_ldap}} for
+more information.}
 }
 \if{html}{\out{</div>}}
 }
@@ -133,7 +137,7 @@ server.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{type}}{The type of authentication backend (e.g.,
-\code{userpass}, \code{github})}
+\code{userpass}, \code{github}, \code{ldap})}
 
 \item{\code{description}}{Human-friendly description of the backend;
 will be returned by \verb{$list()}}

@@ -34,7 +34,7 @@
 ##'   error is thrown.  The value of `NULL` is the same as
 ##'   `TRUE` but does not throw an error if
 ##'   `VAULTR_AUTH_METHOD` is not set.  Supported methods are
-##'   `token`, `github` and `userpass`.
+##'   `token`, `github` `ldap`, and `userpass`.
 ##'
 ##' @param ... Additional arguments passed along to the authentication
 ##'   method indicated by `login`, if used.
@@ -254,7 +254,7 @@ vault_client_ <- R6::R6Class(
     ##'
     ##' @param method Authentication method to use, as a string.
     ##'   Supported values include `token` (the default), `github`,
-    ##'   `approle` and `userpass`.
+    ##'   `approle`, `ldap`, and `userpass`.
     ##'
     ##' @param mount The mount path for the authentication backend, *if
     ##'   it has been mounted in a nonstandard location*.  If not

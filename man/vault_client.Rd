@@ -22,7 +22,7 @@ using a default method specified by the environment variable
 error is thrown.  The value of \code{NULL} is the same as
 \code{TRUE} but does not throw an error if
 \code{VAULTR_AUTH_METHOD} is not set.  Supported methods are
-\code{token}, \code{github} and \code{userpass}.}
+\code{token}, \code{github} \code{ldap}, and \code{userpass}.}
 
 \item{...}{Additional arguments passed along to the authentication
 method indicated by \code{login}, if used.}
@@ -333,7 +333,7 @@ underlying method}
 
 \item{\code{method}}{Authentication method to use, as a string.
 Supported values include \code{token} (the default), \code{github},
-\code{approle} and \code{userpass}.}
+\code{approle}, \code{ldap}, and \code{userpass}.}
 
 \item{\code{mount}}{The mount path for the authentication backend, \emph{if
 it has been mounted in a nonstandard location}.  If not

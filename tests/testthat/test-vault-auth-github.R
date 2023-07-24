@@ -24,7 +24,7 @@ test_that("github set policy: group", {
 })
 
 
-test_that("github set policy: group", {
+test_that("github set policy: user", {
   srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("github")
