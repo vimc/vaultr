@@ -91,7 +91,7 @@ vault_server_manager_bin <- function() {
     return(NULL)
   }
   if (identical(path, "auto")) {
-    path <- unname(Sys.which(path))
+    path <- unname(Sys.which("vault"))
     if (!nzchar(path)) {
       return(NULL)
     }

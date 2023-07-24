@@ -17,7 +17,7 @@ check:
 	_R_CHECK_CRAN_INCOMING_=FALSE make check_all
 
 check_all:
-	VAULTR_TEST_SERVER_BIN_PATH=${PWD}/.vault ${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
+	${RSCRIPT} -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual'))"
 
 vignettes/vaultr.Rmd: vignettes_src/vaultr.Rmd
 	cd vignettes_src && Rscript -e 'knitr::knit("vaultr.Rmd")'
