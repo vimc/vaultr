@@ -69,3 +69,13 @@ test_that("copy failure", {
                "Error copying files")
   expect_equal(readLines(path2), "b")
 })
+
+
+test_that("format lease", {
+  expect_equal(pretty_lease(10),
+               "ok, duration: 10 s (10s)")
+  expect_equal(pretty_lease(1000),
+               "ok, duration: 1000 s (~17m)")
+  expect_equal(pretty_lease(10000),
+               "ok, duration: 10000 s (~3h)")
+})

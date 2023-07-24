@@ -183,3 +183,17 @@ test_that("clear tokens", {
   srv$clear_cached_token()
   expect_equal(vault_env$cache$list(), character(0))
 })
+
+
+test_that("skip if server does not come up", {
+  testthat::skip_on_cran()
+  testthat::skip_on_os("windows")
+  tmp <- withr::local_tempfile()
+  file.create(tmp)
+  port <- vault_server_manager_port() + 20
+  mgr <- vault_server_manager$new(tmp, port)
+  err <- tryCatch(mgr$new_server(),
+                  condition = identity)
+  expect_s3_class(err, "skip")
+  expect_match(err$message, "vault server failed to start")
+})
