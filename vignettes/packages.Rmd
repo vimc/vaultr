@@ -4,7 +4,7 @@ author: "Rich FitzJohn"
 date: "2023-07-24"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{packages}
+  %\VignetteIndexEntry{Using vaultr in packages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
