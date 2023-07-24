@@ -32,8 +32,9 @@ not print messages}
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH}
-to point at the directory containing the vault binary.
+server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
+point at the directory containing the vault binary, to the binary
+itself, or to the value \code{auto} to try and find it on your \code{PATH}.
 }
 \details{
 Once created with \code{vault_test_server}, a server will stay

@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      VAULTR_TEST_SERVER_INSTALL: true
+      VAULTR_TEST_SERVER_BIN_PATH: auto
       VAULTR_TEST_SERVER_PORT: 18200
 
     steps:
@@ -25,16 +25,10 @@ jobs:
 
       - uses: eLco/setup-vault@v1
 
-      - name: Set env
-        run: echo "VAULTR_TEST_SERVER_BIN_PATH=$(which vault)" >> $GITHUB_ENV
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr
           needs: coverage
-
-      - name: Set env
-        run: echo "VAULTR_TEST_SERVER_BIN_PATH=$GITHUB_WORKSPACE/.vault" >> $GITHUB_ENV
 
       - name: Test coverage
         # We should re-enable an environment variable here

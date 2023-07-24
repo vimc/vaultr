@@ -14,12 +14,6 @@ test_that("safeguards for run", {
   })
 
   path <- tempfile()
-  file.create(path)
-  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
-    expect_null(vault_server_manager_bin())
-  })
-
-  path <- tempfile()
   dir.create(path)
   withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
     expect_null(vault_server_manager_bin())
@@ -40,6 +34,40 @@ test_that("safeguards for run", {
   })
   withr::with_envvar(c(VAULTR_TEST_SERVER_PORT = "port"), {
     expect_error(vault_server_manager_port(), "Invalid port 'port'")
+  })
+})
+
+
+test_that("allow use of directory containing a file vault", {
+  path <- withr::local_tempdir()
+  exe <- file.path(path, vault_exe_filename())
+  file.create(exe)
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = path), {
+    expect_equal(vault_server_manager_bin(),
+                 normalizePath(exe))
+  })
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = exe), {
+    expect_equal(vault_server_manager_bin(),
+                 normalizePath(exe))
+  })
+})
+
+
+test_that("use value found by which if requested", {
+  skip_if_not_installed("mockery")
+  path <- withr::local_tempdir()
+  exe <- file.path(path, vault_exe_filename())
+  file.create(exe)
+
+  mock_which <- mockery::mock(setNames(exe, "vault"), "")
+  mockery::stub(vault_server_manager_bin, "Sys.which", mock_which)
+
+  withr::with_envvar(c(VAULTR_TEST_SERVER_BIN_PATH = "auto"), {
+    ## First mock call finds path
+    expect_equal(vault_server_manager_bin(),
+                 normalizePath(exe))
+    ## Second mock call does not
+    expect_null(vault_server_manager_bin())
   })
 })
 

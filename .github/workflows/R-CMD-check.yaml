@@ -27,7 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      VAULTR_TEST_SERVER_INSTALL: true
+      VAULTR_TEST_SERVER_BIN_PATH: auto
       VAULTR_TEST_SERVER_PORT: 18200
 
     steps:
@@ -42,9 +42,6 @@ jobs:
           use-public-rspm: true
 
       - uses: eLco/setup-vault@v1
-
-      - name: Set env
-        run: echo "VAULTR_TEST_SERVER_BIN_PATH=$(dirname $(which vault))" >> $GITHUB_ENV
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

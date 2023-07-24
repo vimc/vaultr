@@ -1,7 +1,8 @@
 ##' Control a server for use with testing.  This is designed to be
 ##' used only by other packages that wish to run tests against a vault
-##' server.  You will need to set `VAULTR_TEST_SERVER_BIN_PATH`
-##' to point at the directory containing the vault binary.
+##' server.  You will need to set `VAULTR_TEST_SERVER_BIN_PATH` to
+##' point at the directory containing the vault binary, to the binary
+##' itself, or to the value `auto` to try and find it on your `PATH`.
 ##'
 ##' Once created with `vault_test_server`, a server will stay
 ##' alive for as long as the R process is alive *or* until the
@@ -89,10 +90,20 @@ vault_server_manager_bin <- function() {
   if (is.null(path)) {
     return(NULL)
   }
-  if (!file.exists(path) || !is_directory(path)) {
+  if (identical(path, "auto")) {
+    path <- unname(Sys.which(path))
+    if (!nzchar(path)) {
+      return(NULL)
+    }
+  }
+  if (!file.exists(path)) {
     return(NULL)
   }
-  bin <- file.path(path, vault_exe_filename())
+  if (is_directory(path)) {
+    bin <- file.path(path, vault_exe_filename())
+  } else {
+    bin <- path
+  }
   if (!file.exists(bin)) {
     return(NULL)
   }

@@ -17,8 +17,9 @@ should be easily adapted to work with any other testing framework.
 
 In order to use this, you must set some environment variables:
 
-* `VAULTR_TEST_SERVER_BIN_PATH` must be set to a *directory* where
-  the `vault` binary can be found.
+* `VAULTR_TEST_SERVER_BIN_PATH` must be set to a directory where
+  the `vault` binary can be found, the path to the vault executable,
+  or to the string `auto` to find vault on the `PATH`
 * `VAULTR_TEST_SERVER_PORT` can be set to the port where we start
   creating vault servers (by default this is 18200 but any high
   port number can be selected - we'll create servers *starting* at
