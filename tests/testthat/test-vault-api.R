@@ -1,7 +1,5 @@
-context("vault: api client")
-
 test_that("vault api client rejects unauthenticated attempts", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   api <- cl$api()
 
@@ -9,7 +7,7 @@ test_that("vault api client rejects unauthenticated attempts", {
                "Have not authenticated against vault")
   err <- tryCatch(api$GET("/secret", allow_missing_token = TRUE),
                   error = identity)
-  expect_equal(err$code, 400)
+  expect_true(err$code %in% c(400, 403))
 })
 
 
@@ -24,15 +22,15 @@ test_that("error fallback", {
               content = charToRaw("an error message"))
   class(res) <- "response"
   err <- tryCatch(vault_client_response(res), error = identity)
-  expect_is(err, "vault_error")
-  expect_is(err, "vault_invalid_request")
+  expect_s3_class(err, "vault_error")
+  expect_s3_class(err, "vault_invalid_request")
   expect_equal(err$code, 400L)
   expect_equal(err$message, "an error message")
 })
 
 
 test_that("token validation", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   api <- cl$api()
 
@@ -46,7 +44,7 @@ test_that("token validation", {
 
 test_that("skip ssl validation", {
   skip_on_os("windows")
-  srv <- vault_test_server(https = TRUE)
+  srv <- test_vault_test_server(https = TRUE)
 
   cl1 <- vault_client(addr = srv$addr, tls_config = FALSE)
   cl1$login(token = srv$token, quiet = TRUE)

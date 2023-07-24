@@ -43,7 +43,9 @@ vault_server_instance <- R6::R6Class(
     ##' @param https Logical, indicating if we should use TLS/https
     ##'
     ##' @param init Logical, indicating if we should initialise
-    initialize = function(bin, port, https, init) {
+    ##'
+    ##' @param quiet Logical, indicating if startup should be quiet
+    initialize = function(bin, port, https, init, quiet = FALSE) {
       super$initialize("Vault server instance")
       assert_scalar_integer(port)
       self$port <- port
@@ -51,9 +53,9 @@ vault_server_instance <- R6::R6Class(
       bin <- normalizePath(bin, mustWork = TRUE)
       if (https) {
         assert_scalar_logical(init)
-        dat <- vault_server_start_https(bin, self$port, init)
+        dat <- vault_server_start_https(bin, self$port, init, quiet)
       } else {
-        dat <- vault_server_start_dev(bin, self$port)
+        dat <- vault_server_start_dev(bin, self$port, quiet)
       }
 
       private$process <- dat$process

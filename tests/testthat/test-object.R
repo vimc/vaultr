@@ -1,5 +1,3 @@
-context("object")
-
 test_that("format", {
   x <- vault_client_object$new("my description")
   private <- environment(x$initialize)$private
@@ -21,10 +19,12 @@ test_that("help: base class", {
 
 
 test_that("help: derived class", {
-  x <- R6::R6Class("other",
-                   inherit = vault_client_object,
-                   public = list(initialize = function()
-                     super$initialize("description")))$new()
+  other <- R6::R6Class(
+    "other",
+    inherit = vault_client_object,
+    public = list(
+      initialize = function() super$initialize("description")))
+  x <- other$new()
   mock_help <- mockery::mock(NULL)
   mockery::stub(x$help, "utils::help", mock_help)
   x$help()

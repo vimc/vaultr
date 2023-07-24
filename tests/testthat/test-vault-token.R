@@ -1,8 +1,5 @@
-context("vault: token")
-
-
 test_that("capabilities-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$token$capabilities_self("/secret"),
                list("/secret" = "root"))
@@ -14,7 +11,7 @@ test_that("capabilities-self", {
 
 
 test_that("capabilities-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_equal(
@@ -24,7 +21,7 @@ test_that("capabilities-self", {
 
 
 test_that("capabilities-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   ac <- cl$token$lookup_self()$accessor
 
@@ -35,18 +32,18 @@ test_that("capabilities-accessor", {
 
 
 test_that("create token", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res <- cl$token$create(ttl = "1h")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res)
+  cl2$login(token = res, quiet = TRUE)
 })
 
 
 test_that("lookup", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$client()
@@ -57,7 +54,7 @@ test_that("lookup", {
 
 
 test_that("lookup-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   ac <- cl$token$lookup_self()$accessor
 
@@ -67,13 +64,13 @@ test_that("lookup-accessor", {
 
 
 test_that("revoke", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res <- cl$token$create(ttl = "1h")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res)
+  cl2$login(token = res, quiet = TRUE)
   cl2$write("/secret/foo", list(a = 1))
 
   cl$token$revoke(res)
@@ -82,39 +79,39 @@ test_that("revoke", {
 
 
 test_that("revoke-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create()
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$revoke_self()
   expect_error(cl2$write("/secret/foo", list(a = 1)))
 })
 
 
 test_that("revoke-accessor", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create()
   ac <- cl$token$lookup(token)$accessor
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$revoke_accessor(ac)
   expect_error(cl2$write("/secret/foo", list(a = 1)))
 })
 
 
 test_that("revoke-and-orphan", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res1 <- cl$token$create()
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = res1)
+  cl2$login(token = res1, quiet = TRUE)
   cl2$write("/secret/foo", list(a = 1))
 
   res2 <- cl2$token$create()
@@ -127,14 +124,14 @@ test_that("revoke-and-orphan", {
 
 
 test_that("revoke-and-orphan", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_null(cl$token$tidy())
 })
 
 
 test_that("renew", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   res1 <- cl$token$create(ttl = "1h")
@@ -148,12 +145,12 @@ test_that("renew", {
 
 
 test_that("renew-self", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   token <- cl$token$create(ttl = "1h")
   cl2 <- srv$client(login = FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   cl2$token$renew_self("100h")
 
   ttl <- cl$token$lookup(token)$ttl
@@ -162,14 +159,14 @@ test_that("renew-self", {
 
 
 test_that("access via auth", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$auth$token, cl$token)
 })
 
 
 test_that("login: incorrect args", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client(login = FALSE)
   token <- srv$token
   ## Can't detect these errors by string because they're R's
@@ -186,14 +183,14 @@ test_that("login: incorrect args", {
 
 
 test_that("token list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_true(cl$token$lookup_self()$accessor %in% cl$token$list())
 })
 
 
 test_that("role write", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$policy$write("read-a", 'path "secret/a/*" {\n  policy = "read"}')
@@ -209,7 +206,7 @@ test_that("role write", {
 
 
 test_that("role delete", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$token$role_write("nomad")
@@ -220,14 +217,14 @@ test_that("role delete", {
 
 
 test_that("role list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   expect_equal(cl$token$role_list(), character(0))
 })
 
 
 test_that("login", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   t <- fake_token()
   expect_error(cl$token$login(t),

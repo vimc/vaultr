@@ -111,8 +111,9 @@ vault_client_secrets <- R6::R6Class(
       }
       dat <- private$api_client$GET("/sys/mounts")
       cols <- c("type", "accessor", "description")
-      ret <- lapply(cols, function(v)
-        vapply(dat$data, "[[", "", v, USE.NAMES = FALSE))
+      ret <- lapply(cols, function(v) {
+        vcapply(dat$data, "[[", v, USE.NAMES = FALSE)
+      })
       names(ret) <- cols
       as.data.frame(c(list(path = names(dat$data)), ret),
                     stringsAsFactors = FALSE, check.names = FALSE)

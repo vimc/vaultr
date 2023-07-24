@@ -1,8 +1,5 @@
-context("vault: kv")
-
-
 test_that("basic write/read", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   data <- list(key = rand_str(10))
@@ -12,12 +9,12 @@ test_that("basic write/read", {
   expect_equal(cl$read(path), data)
   expect_equal(cl$read(path, "key"), data$key)
   res <- cl$read(path, metadata = TRUE)
-  expect_is(attr(res, "metadata"), "list")
+  expect_type(attr(res, "metadata"), "list")
 })
 
 
 test_that("read non-existant data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_null(cl$read("secret/missing"))
@@ -30,7 +27,7 @@ test_that("read non-existant data", {
 
 
 test_that("delete data", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$write("secret/a", list(key = 1))
@@ -41,7 +38,7 @@ test_that("delete data", {
 
 
 test_that("list", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$write("secret/a", list(key = 1))
@@ -56,7 +53,7 @@ test_that("list", {
 
 
 test_that("custom mount", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   mount <- "/secret1"
@@ -74,7 +71,7 @@ test_that("custom mount", {
 
 
 test_that("error messages when failing to read", {
-  srv <- vaultr::vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$write("/secret/users/alice", list(password = "ALICE"))
   cl$write("/secret/users/bob", list(password = "BOB"))
@@ -87,7 +84,7 @@ test_that("error messages when failing to read", {
   token <- cl$token$create(policies = "read-secret-alice")
 
   cl2 <- srv$client(FALSE)
-  cl2$login(token = token)
+  cl2$login(token = token, quiet = TRUE)
   expect_equal(cl2$read("/secret/users/alice", "password"), "ALICE")
   expect_error(cl2$read("/secret/users/bob", "password"),
                "While reading secret/users/bob:",

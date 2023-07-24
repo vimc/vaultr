@@ -1,7 +1,5 @@
-context("vault: cubbyhole")
-
 test_that("basic set/get/list/del", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   expect_equal(cl$secrets$cubbyhole$list("/cubbyhole"), character(0))
@@ -27,7 +25,7 @@ test_that("basic set/get/list/del", {
 
 ## https://learn.hashicorp.com/vault/secrets-management/sm-cubbyhole
 test_that("response wrapping example", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   ## create an apps policy - I have mucked this up
@@ -40,7 +38,8 @@ test_that("response wrapping example", {
   info <- cl_app$wrap_lookup(token)
 
   response <- cl_app$unwrap(token)
-  cl_app$login(method = "token", token = response$auth$client_token)
+  cl_app$login(method = "token", token = response$auth$client_token,
+               quiet = TRUE)
   expect_equal(cl_app$read("/secret/dev/mysecret"),
                list(a = 1))
 

@@ -314,9 +314,7 @@ vault_client_ <- R6::R6Class(
                                      use_cache && !token_only)
         if (is.null(token)) {
           data <- auth$login(...)
-          if (!quiet) {
-            message(pretty_lease(data$lease_duration))
-          }
+          message_quietly(pretty_lease(data$lease_duration), quiet = quiet)
           token <- data$client_token
           if (!token_only) {
             vault_env$cache$set(private$api_client, token, use_cache)

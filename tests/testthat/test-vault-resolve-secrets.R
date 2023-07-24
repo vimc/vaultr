@@ -1,7 +1,5 @@
-context("resolve-secrets")
-
 test_that("vault secrets can be resolved", {
-  srv <- vaultr::vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$write("/secret/users/alice", list(password = "ALICE"))
   cl$write("/secret/users/bob", list(password = "BOB"))
@@ -20,19 +18,24 @@ test_that("vault secrets can be resolved", {
                  "Vault token was not found")
   })
   withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = "fake"), {
-    expect_error(vault_resolve_secrets(x, addr = config$vault_server),
-                 "Token login failed with error")
+    expect_error(
+      suppressMessages(vault_resolve_secrets(x, addr = config$vault_server)),
+      "Token login failed with error")
   })
 
   withr::with_envvar(c(VAULTR_AUTH_METHOD = "token", VAULT_TOKEN = srv$token), {
-    expect_equal(vault_resolve_secrets(x, addr = config$vault_server),
-                 list(name = "alice", password = "ALICE"))
-    expect_equal(vault_resolve_secrets(unlist(x), addr = config$vault_server),
-                 list(name = "alice", password = "ALICE"))
+    expect_equal(
+      suppressMessages(vault_resolve_secrets(x, addr = config$vault_server)),
+      list(name = "alice", password = "ALICE"))
+    expect_equal(
+      suppressMessages(
+        vault_resolve_secrets(unlist(x), addr = config$vault_server)),
+      list(name = "alice", password = "ALICE"))
   })
 
   withr::with_envvar(c(VAULTR_AUTH_METHOD = NA_character_), {
-    args <- list(login = "token", token = srv$token, addr = config$vault_server)
+    args <- list(login = "token", token = srv$token,
+                 addr = config$vault_server, quiet = TRUE)
     expect_equal(vault_resolve_secrets(x, vault_args = args),
                  list(name = "alice", password = "ALICE"))
     expect_error(
@@ -43,7 +46,7 @@ test_that("vault secrets can be resolved", {
 
 
 test_that("Provide better error messages when failing to read", {
-  srv <- vaultr::vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   cl$write("/secret/users/alice", list(password = "ALICE"))
   cl$write("/secret/users/bob", list(password = "BOB"))
@@ -58,7 +61,7 @@ test_that("Provide better error messages when failing to read", {
   x <- list(alice = "VAULT:/secret/users/alice:password",
             bob = "VAULT:/secret/users/bob:password")
 
-  args <- list(login = "token", token = token, addr = srv$addr)
+  args <- list(login = "token", token = token, addr = srv$addr, quiet = TRUE)
   expect_error(
     vault_resolve_secrets(x, vault_args = args),
     "While reading secret/users/bob:",

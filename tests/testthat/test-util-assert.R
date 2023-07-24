@@ -1,5 +1,3 @@
-context("util (assert)")
-
 test_that("assert_scalar", {
   object <- 1:5
   expect_error(assert_scalar(object), "'object' must be a scalar")

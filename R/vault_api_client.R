@@ -129,9 +129,7 @@ vault_api_client <- R6::R6Class(
     ##' @param quiet Logical, if `TRUE`, then informational messages will be
     ##'   suppressed
     verify_token = function(token, quiet = TRUE) {
-      if (!quiet) {
-        message("Verifying token")
-      }
+      message_quietly("Verifying token", quiet = quiet)
       res <- tryCatch(
         vault_request(httr::POST, self$base_url, self$tls_config, token,
                       self$namespace, "/sys/capabilities-self",

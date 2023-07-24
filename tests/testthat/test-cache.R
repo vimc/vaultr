@@ -1,28 +1,28 @@
-context("cache")
-
 test_that("cache", {
   cache <- token_cache$new()
-  expect_is(cache, "token_cache")
-  expect_is(vault_env$cache, "token_cache")
+  expect_s3_class(cache, "token_cache")
+  expect_s3_class(vault_env$cache, "token_cache")
 })
 
 
 ## integration tests:
 test_that("invalidation is handled gracefully", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
   cl$auth$userpass$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(username = "rich", password = "pass", method = "userpass")
+  cl2$login(username = "rich", password = "pass", method = "userpass",
+            quiet = TRUE)
 
   expect_equal(vault_env$cache$list(), cl$api()$addr)
   expect_equal(vault_env$cache$get(cl$api()), cl2$api()$token)
 
   cl3 <- srv$client(login = FALSE)
-  cl3$login(username = "rich", password = "pass", method = "userpass")
+  cl3$login(username = "rich", password = "pass", method = "userpass",
+            quiet = TRUE)
   expect_equal(cl3$api()$token, cl2$api()$token)
   expect_false(cl3$api()$token == cl$api()$token)
 
@@ -32,7 +32,8 @@ test_that("invalidation is handled gracefully", {
 
   ## Next login gets fresh token:
   cl4 <- srv$client(login = FALSE)
-  cl4$login(username = "rich", password = "pass", method = "userpass")
+  cl4$login(username = "rich", password = "pass", method = "userpass",
+            quiet = TRUE)
   expect_false(cl4$api()$token == cl$api()$token)
   expect_false(cl4$api()$token == cl2$api()$token)
 })
@@ -100,24 +101,25 @@ test_that("delete", {
 
 
 test_that("token_only skips cache", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
   cl$auth$userpass$write("rich", "pass")
 
   cl2 <- srv$client(login = FALSE)
-  cl2$login(username = "rich", password = "pass", method = "userpass")
+  cl2$login(username = "rich", password = "pass", method = "userpass",
+            quiet = TRUE)
 
   t <- cl2$login(username = "rich", password = "pass", method = "userpass",
-                 token_only = TRUE)
+                 token_only = TRUE, quiet = TRUE)
   expect_false(t == cl2$token$client())
   expect_equal(vault_env$cache$get(cl2$api()), cl2$token$client())
 })
 
 
 test_that("token_only works with no cache", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
   vault_env$cache$clear()
   cl$auth$enable("userpass", "user / password based auth")
@@ -126,8 +128,8 @@ test_that("token_only works with no cache", {
   cl2 <- srv$client(login = FALSE)
 
   t <- cl2$login(username = "rich", password = "pass", method = "userpass",
-                 token_only = TRUE)
-  expect_is(t, "character")
+                 token_only = TRUE, quiet = TRUE)
+  expect_type(t, "character")
   expect_null(cl2$token$client())
   expect_null(vault_env$cache$get(cl2$api()))
 })

@@ -1,8 +1,5 @@
-context("vault: audit")
-
-
 test_that("audit", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   d <- cl$audit$list()
@@ -13,7 +10,7 @@ test_that("audit", {
 
 
 test_that("enable/disable", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   path <- tempfile()
@@ -33,7 +30,7 @@ test_that("enable/disable", {
 
 
 test_that("calculate hash", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   cl <- srv$client()
 
   cl$audit$enable("file", options = list(file_path = tempfile()))

@@ -1,5 +1,3 @@
-context("server manager")
-
 test_that("safeguards for install", {
   skip_on_cran()
 
@@ -62,7 +60,7 @@ test_that("reinstall", {
   writeLines("vault executable", dest)
   res <- withr::with_envvar(vars, {
     expect_message(vault_test_server_install(path = path,
-                                             quiet = TRUE),
+                                             quiet = FALSE),
                  "vault already installed at")
   })
 
@@ -149,7 +147,7 @@ test_that("vault_platform", {
 
 
 test_that("env", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   env <- srv$env()
   expect_equal(env[["VAULT_ADDR"]], srv$addr)
   expect_equal(env[["VAULT_TOKEN"]], srv$token)
@@ -171,16 +169,31 @@ test_that("env", {
 
 
 test_that("clear tokens", {
-  srv <- vault_test_server()
+  srv <- test_vault_test_server()
   vault_env$cache$clear()
 
   cl <- srv$client()
   cl$auth$enable("userpass")
   cl$auth$userpass$write("alice", "password")
   cl2 <- srv$client(login = FALSE)
-  cl2$login(method = "userpass", username = "alice", password = "password")
+  cl2$login(method = "userpass", username = "alice", password = "password",
+            quiet = TRUE)
 
   expect_equal(vault_env$cache$list(), srv$addr)
   srv$clear_cached_token()
   expect_equal(vault_env$cache$list(), character(0))
+})
+
+
+test_that("skip if server does not come up", {
+  testthat::skip_on_cran()
+  testthat::skip_on_os("windows")
+  tmp <- withr::local_tempfile()
+  file.create(tmp)
+  port <- vault_server_manager_port() + 20
+  mgr <- vault_server_manager$new(tmp, port)
+  err <- tryCatch(mgr$new_server(),
+                  condition = identity)
+  expect_s3_class(err, "skip")
+  expect_match(err$message, "vault server failed to start")
 })
