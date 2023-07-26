@@ -34,7 +34,7 @@
 ##'   error is thrown.  The value of `NULL` is the same as
 ##'   `TRUE` but does not throw an error if
 ##'   `VAULTR_AUTH_METHOD` is not set.  Supported methods are
-##'   `token`, `github` `ldap`, and `userpass`.
+##'   `token`, `github`, `approle`, `ldap`, and `userpass`.
 ##'
 ##' @param ... Additional arguments passed along to the authentication
 ##'   method indicated by `login`, if used.
