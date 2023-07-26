@@ -1,4 +1,4 @@
-## 1.1.4
+## 1.1.5
 
 * Support for authentication with LDAP (#42)
 
