@@ -3,7 +3,6 @@
 \name{vault_test_server}
 \alias{vault_test_server}
 \alias{vault_server_instance}
-\alias{vault_test_server_install}
 \title{Control a test vault server}
 \usage{
 vault_test_server(
@@ -11,13 +10,6 @@ vault_test_server(
   init = TRUE,
   if_disabled = testthat::skip,
   quiet = FALSE
-)
-
-vault_test_server_install(
-  path = NULL,
-  quiet = FALSE,
-  version = "1.0.0",
-  platform = vault_platform()
 )
 }
 \arguments{
@@ -34,22 +26,15 @@ not enabled.  The default, designed to be used within tests, is
 \code{testthat::skip}.  Alternatively, inspect the
 \verb{$enabled} property of the returned object.}
 
-\item{quiet}{Suppress progress bars on install}
-
-\item{path}{Path in which to install vault test server. Leave as
-\code{NULL} to use the \code{VAULTR_TEST_SERVER_BIN_PATH} environment
-variable.}
-
-\item{version}{Version of vault to install}
-
-\item{platform}{For testing, overwrite the platform vault is being
-installed on, with either "windows", "darwin" or "linux".}
+\item{quiet}{Logical, indicating if startup should be quiet and
+not print messages}
 }
 \description{
 Control a server for use with testing.  This is designed to be
 used only by other packages that wish to run tests against a vault
-server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH}
-to point at the directory containing the vault binary.
+server.  You will need to set \code{VAULTR_TEST_SERVER_BIN_PATH} to
+point at the directory containing the vault binary, to the binary
+itself, or to the value \code{auto} to try and find it on your \code{PATH}.
 }
 \details{
 Once created with \code{vault_test_server}, a server will stay
@@ -58,22 +43,6 @@ alive for as long as the R process is alive \emph{or} until the
 garbage collected.  Calling \verb{$kill()} will explicitly stop
 the server, but this is not strictly needed.  See below for
 methods to control the server instance.
-
-The function \code{vault_test_server_install} will install a test
-server, but \emph{only} if the user sets the following environmental
-variables:
-\itemize{
-\item \code{VAULTR_TEST_SERVER_INSTALL} to \code{"true"} to opt in to the
-download.
-\item \code{VAULTR_TEST_SERVER_BIN_PATH} to the directory where the binary
-should be downloaded to.
-\item \code{NOT_CRAN} to \code{"true"} to indicate this is not running on CRAN
-as it requires installation of a binary from a website.
-}
-
-This will download a ~100MB binary from https://vaultproject.io
-so use with care.  It is intended \emph{only} for use in automated
-testing environments.
 }
 \section{Warning}{
 
@@ -84,16 +53,6 @@ under any circumstances.  As the name suggests,
 lacks any of the features required to make vault secure.  Please
 see https://www.vaultproject.io/docs/concepts/dev-server.html
 for more information
-
-
-
-The \code{vault_test_server_install} function will download a
-binary from HashiCorp in order to use a vault server.  Use this
-function with care.  The download will happen from
-https://releases.hashicorp.com/vault (over https).  This
-function is primarily designed to be used from continuous
-integration services only and for local use you are strongly
-recommended to curate your own installations.
 }
 
 \examples{

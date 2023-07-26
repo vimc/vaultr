@@ -19,6 +19,8 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      VAULTR_TEST_SERVER_BIN_PATH: auto
+      VAULTR_TEST_SERVER_PORT: 18200
     permissions:
       contents: write
     steps:
@@ -29,6 +31,8 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
+
+      - uses: eLco/setup-vault@v1
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

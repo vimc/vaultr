@@ -1,7 +1,7 @@
 ---
 title: "Using vaultr in packages"
 author: "Rich FitzJohn"
-date: "2018-12-10"
+date: "2023-07-23"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{packages}
@@ -17,25 +17,13 @@ should be easily adapted to work with any other testing framework.
 
 In order to use this, you must set some environment variables:
 
-* `VAULTR_TEST_SERVER_BIN_PATH` must be set to a *directory* where
-  the `vault` binary can be found.
+* `VAULTR_TEST_SERVER_BIN_PATH` must be set to a directory where
+  the `vault` binary can be found, the path to the vault executable,
+  or to the string `auto` to find vault on the `PATH`
 * `VAULTR_TEST_SERVER_PORT` can be set to the port where we start
   creating vault servers (by default this is 18200 but any high
   port number can be selected - we'll create servers *starting* at
   this port number and incrementing - see below for details)
-* `NOT_CRAN` must be set to `"true"` as this cannot be run on CRAN 
-as it requires installation of a binary from a website.
-
-For first time setup you need to install a test server. To do this set
-an additional environmental variable:
-
-* `VAULTR_TEST_SERVER_INSTALL` to `"true"`.
-
-To install the test server, run:
-
-```r
-vaultr::vault_test_server_install()
-```
 
 To create a vault server, run:
 
@@ -68,13 +56,10 @@ vault
 ```
 
 ```
-## <vault: base>
+## <vault: client>
 ##   Command groups:
 ##     audit: Interact with vault's audit devices
 ##     auth: administer vault's authentication methods
-##     kv1: Interact with vault's key/value store (version 1)
-##     kv2: Interact with vault's key/value store (version 2)
-##     lease: Interact with leases
 ##     operator: Administration commands for vault operators
 ##     policy: Interact with policies
 ##     secrets: Interact with secret engines
@@ -83,11 +68,14 @@ vault
 ##   Commands:
 ##     api()
 ##     delete(path)
+##     help()
 ##     list(path, full_names = FALSE)
 ##     login(..., method = "token", mount = NULL, renew = FALSE,
 ##         quiet = FALSE, token_only = FALSE, use_cache = TRUE)
 ##     read(path, field = NULL, metadata = FALSE)
 ##     status()
+##     unwrap(token)
+##     wrap_lookup(token)
 ##     write(path, data)
 ```
 
@@ -140,7 +128,7 @@ Sys.getenv("VAULT_ADDR")
 ```
 
 ```
-## [1] "http://127.0.0.1:18202"
+## [1] "http://127.0.0.1:18200"
 ```
 
 ```r
@@ -148,7 +136,7 @@ Sys.getenv("VAULT_TOKEN")
 ```
 
 ```
-## [1] "f53074fe-4cee-63a6-7862-e60b7f1740c5"
+## [1] "52e834be-c370-9bb7-7f24-a65b5b822931"
 ```
 
 ## Handling lack of vault gracefully
@@ -175,6 +163,7 @@ Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = NA_character_)
 srv <- vaultr::vault_test_server()
 ## Error: vault is not enabled
 ```
+
 
 Alternatively, provide your own handler:
 
@@ -225,3 +214,24 @@ If you use one vault per test, as here, there's no need to clean up
 - we can assume that the vault is empty at the start of the test
 block and not worry about cleanup at the end.  If vault is not
 enabled this test will be skipped over gracefully.
+
+## Installing vault
+
+To develop your package, you will need vault installed; please see [the official vault docs](https://developer.hashicorp.com/vault/docs/install) for this.
+
+If you use github actions, you can follow the same approach as `vaultr` itself; add the environment variables `VAULTR_TEST_SERVER_BIN_PATH` and `VAULTR_TEST_SERVER_PORT`:
+
+```yaml
+    env:
+      ...
+      VAULTR_TEST_SERVER_BIN_PATH: auto
+      VAULTR_TEST_SERVER_PORT: 18200
+```
+
+then use the [`eLco/setup-vault`](https://github.com/marketplace/actions/setup-vault-cli) action to install a suitable vault binary:
+
+```yaml
+      - uses: eLco/setup-vault@v1
+```
+
+See [the `vaultr` actions](https://github.com/vimc/vaultr/blob/master/.github/workflows/R-CMD-check.yaml) for full details.
