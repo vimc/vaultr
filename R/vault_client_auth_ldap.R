@@ -33,13 +33,15 @@
 ##'   root$auth$ldap$write("scientists", "default")
 ##'
 ##'   # Create a new client and login with this user:
-##'   newton <- vaultr::vault_client(addr = server$addr)
-##'   # it is not recommended to login with the password like this as
+##'   newton <- vaultr::vault_client(
+##'     addr = server$addr,
+##'     login = "ldap",
+##'     username = "newton",
+##'     password = "password")
+##'
+##'   # (it is not recommended to login with the password like this as
 ##'   # it will end up in the command history, but in interactive use
-##'   # you will be prompted securely for password
-##'   newton$login(method = "ldap",
-##'                username = "newton",
-##'                password = "password")
+##'   # you will be prompted securely for password)
 ##'
 ##'   # Isaac Newton has now logged in and has only "default" policies
 ##'   newton$auth$token$lookup_self()$policies
