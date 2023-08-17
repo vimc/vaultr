@@ -48,9 +48,9 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Move real vignettes
-        run: |
-          cp vignettes_src/* vignettes
+      # - name: Move real vignettes
+      #   run: |
+      #     cp vignettes_src/* vignettes
 
       - uses: r-lib/actions/check-r-package@v2
         with:
