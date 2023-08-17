@@ -15,6 +15,7 @@ reference:
       - vault_client_auth
       - vault_client_auth_approle
       - vault_client_auth_github
+      - vault_client_auth_ldap
       - vault_client_auth_userpass
 
   - title: Secret backends
