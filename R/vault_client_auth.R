@@ -39,6 +39,11 @@ vault_client_auth <- R6::R6Class(
     ##' more information.
     userpass = NULL,
 
+    ##' @field ldap Interact with vault's LDAP based
+    ##' authentication.  See [`vaultr::vault_client_auth_ldap`] for
+    ##' more information.
+    ldap = NULL,
+
     ##' @description Create a `vault_client_auth` object. Not typically
     ##'   called by users.
     ##'
@@ -56,6 +61,9 @@ vault_client_auth <- R6::R6Class(
       add_const_member(
         self, "userpass",
         vault_client_auth_userpass$new(private$api_client, "userpass"))
+      add_const_member(
+        self, "ldap",
+        vault_client_auth_ldap$new(private$api_client, "ldap"))
       add_const_member(
         self, "approle",
         vault_client_auth_approle$new(private$api_client, "approle"))
@@ -106,7 +114,7 @@ vault_client_auth <- R6::R6Class(
     ##'   server.
     ##'
     ##' @param type The type of authentication backend (e.g.,
-    ##'   `userpass`, `github`)
+    ##'   `userpass`, `github`, `ldap`)
     ##'
     ##' @param description Human-friendly description of the backend;
     ##'   will be returned by `$list()`

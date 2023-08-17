@@ -15,5 +15,5 @@ test_that("introspect methods", {
   cl <- srv$client()
 
   expect_setequal(cl$auth$backends(),
-                  c("token", "github", "userpass", "approle"))
+                  c("token", "github", "ldap", "userpass", "approle"))
 })

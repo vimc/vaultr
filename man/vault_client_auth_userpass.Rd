@@ -28,12 +28,16 @@ if (!is.null(server)) {
   root$auth$userpass$write("alice", "p4ssw0rd")
 
   # Create a new client and login with this user:
-  alice <- vaultr::vault_client(addr = server$addr)
-  # it is not recommended to login with the password like this as
+  alice <- vaultr::vault_client(
+    addr = server$addr,
+    login = "userpass",
+    username = "alice",
+    password = "p4ssw0rd")
+
+  # (it is not recommended to login with the password like this as
   # it will end up in the command history, but in interactive use
-  # you will be prompted securely for password
-  alice$login(method = "userpass",
-              username = "alice", password = "p4ssw0rd")
+  # you will be prompted securely for password)
+
   # Alice has now logged in and has only "default" policies
   alice$auth$token$lookup_self()$policies
 

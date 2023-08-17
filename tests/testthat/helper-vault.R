@@ -1,4 +1,8 @@
 skip_if_no_vaultr_test_github_pat <- function() {
+  if (tolower(Sys.info()[["sysname"]]) == "darwin") {
+    # Fails with rate limit issues, quite tedious.
+    testthat::skip_on_ci()
+  }
   if (has_vaultr_test_github_pat()) {
     return(invisible(TRUE))
   }

@@ -1,3 +1,7 @@
+## 1.1.5
+
+* Support for authentication with LDAP (#42)
+
 ## 1.1.2
 
 * Support for vault [namespaces](https://developer.hashicorp.com/vault/tutorials/enterprise/namespaces) on enterprise versions of vault
