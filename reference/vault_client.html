@@ -20,7 +20,7 @@ arguments override these defaults."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ using a default method specified by the environment variable
 error is thrown.  The value of <code>NULL</code> is the same as
 <code>TRUE</code> but does not throw an error if
 <code>VAULTR_AUTH_METHOD</code> is not set.  Supported methods are
-<code>token</code>, <code>github</code> and <code>userpass</code>.</p></dd>
+<code>token</code>, <code>github</code>, <code>approle</code>, <code>ldap</code>, and <code>userpass</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -372,7 +372,7 @@ underlying method</p></dd>
 <dt><code>method</code></dt>
 <dd><p>Authentication method to use, as a string.
 Supported values include <code>token</code> (the default), <code>github</code>,
-<code>approle</code> and <code>userpass</code>.</p></dd>
+<code>approle</code>, <code>ldap</code>, and <code>userpass</code>.</p></dd>
 
 
 <dt><code>mount</code></dt>

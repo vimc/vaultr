@@ -18,7 +18,7 @@ Vault Authentication Configuration"><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vaultr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
       </span>
     </div>
 
@@ -96,6 +96,12 @@ Vault Authentication Configuration"><!-- mathjax --><script src="https://cdnjs.c
 <dt><code>userpass</code></dt>
 <dd><p>Interact with vault's username/password based
 authentication.  See <code><a href="vault_client_auth_userpass.html">vault_client_auth_userpass</a></code> for
+more information.</p></dd>
+
+
+<dt><code>ldap</code></dt>
+<dd><p>Interact with vault's LDAP based
+authentication.  See <code><a href="vault_client_auth_ldap.html">vault_client_auth_ldap</a></code> for
 more information.</p></dd>
 
 
@@ -179,7 +185,7 @@ server.</p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>type</code></dt>
 <dd><p>The type of authentication backend (e.g.,
-<code>userpass</code>, <code>github</code>)</p></dd>
+<code>userpass</code>, <code>github</code>, <code>ldap</code>)</p></dd>
 
 
 <dt><code>description</code></dt>
@@ -224,6 +230,7 @@ method. Defaults to be the same as <code>type</code>.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="fu">vaultr</span><span class="fu">::</span><span class="fu"><a href="vault_test_server.html">vault_test_server</a></span><span class="op">(</span>if_disabled <span class="op">=</span> <span class="va">message</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ...waiting for Vault to start</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ...waiting for Vault to start</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">server</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">client</span> <span class="op">&lt;-</span> <span class="va">server</span><span class="op">$</span><span class="fu">client</span><span class="op">(</span><span class="op">)</span></span></span>

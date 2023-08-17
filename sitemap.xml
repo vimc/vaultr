@@ -19,6 +19,9 @@
     <loc>/authors.html</loc>
   </url>
   <url>
+    <loc>/development.html</loc>
+  </url>
+  <url>
     <loc>/index.html</loc>
   </url>
   <url>
@@ -44,6 +47,9 @@
   </url>
   <url>
     <loc>/reference/vault_client_auth_github.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vault_client_auth_ldap.html</loc>
   </url>
   <url>
     <loc>/reference/vault_client_auth_userpass.html</loc>
