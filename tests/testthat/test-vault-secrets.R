@@ -27,8 +27,8 @@ test_that("enable/disable a secret engine", {
 test_that("move a secret engine", {
   srv <- test_vault_test_server()
   cl <- srv$client()
-  p1 <- rand_str(10)
-  p2 <- rand_str(10)
+  p1 <- "oldpath"
+  p2 <- "newpath"
   cl$secrets$enable("kv", p1, version = 2)
   cl$secrets$move(p1, p2)
   d <- cl$secrets$list()
