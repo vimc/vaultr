@@ -52,7 +52,7 @@ under any circumstances.  As the name suggests,
 \code{vault_test_server} is a server suitable for \emph{tests} only and
 lacks any of the features required to make vault secure.  Please
 see
-\link{https://www.vaultproject.io/docs/concepts/dev-server.html}(the
+\link{https://developer.hashicorp.com/vault/docs/concepts/dev-server}(the
 official Vault documentation on development servers) for more
 information.
 }
