@@ -50,11 +50,10 @@ methods to control the server instance.
 Starting a server in test mode must \emph{not} be used for production
 under any circumstances.  As the name suggests,
 \code{vault_test_server} is a server suitable for \emph{tests} only and
-lacks any of the features required to make vault secure.  Please
-see
-\link{https://developer.hashicorp.com/vault/docs/concepts/dev-server}(the
-official Vault documentation on development servers) for more
-information.
+lacks any of the features required to make vault secure.  For
+more information, please see the the official Vault
+documentation on development servers:
+https://developer.hashicorp.com/vault/docs/concepts/dev-server
 }
 
 \examples{

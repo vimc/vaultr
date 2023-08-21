@@ -2,7 +2,7 @@
 ##' can be used to configure users based on their presence or group
 ##' membership in an LDAP server.  For more information, please see
 ##' the vault documentation
-##' https://www.vaultproject.io/docs/auth/ldap.html
+##' https://developer.hashicorp.com/vault/docs/auth/ldap
 ##'
 ##' @title Vault LDAP Authentication Configuration
 ##' @name vault_client_auth_ldap

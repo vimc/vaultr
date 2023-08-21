@@ -11,7 +11,7 @@ Vault GitHub Authentication Configuration
 \details{
 Interact with vault's GitHub authentication backend.  For more
 details, please see the vault documentation at
-https://www.vaultproject.io/docs/auth/github.html
+https://developer.hashicorp.com/vault/docs/auth/github
 }
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)

@@ -1,6 +1,6 @@
 ##' Interact with vault's GitHub authentication backend.  For more
 ##' details, please see the vault documentation at
-##' https://www.vaultproject.io/docs/auth/github.html
+##' https://developer.hashicorp.com/vault/docs/auth/github
 ##'
 ##' @title Vault GitHub Authentication Configuration
 ##' @name vault_client_auth_github

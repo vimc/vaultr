@@ -16,11 +16,10 @@
 ##' Starting a server in test mode must *not* be used for production
 ##'   under any circumstances.  As the name suggests,
 ##'   `vault_test_server` is a server suitable for *tests* only and
-##'   lacks any of the features required to make vault secure.  Please
-##'   see
-##'   [https://developer.hashicorp.com/vault/docs/concepts/dev-server](the
-##'   official Vault documentation on development servers) for more
-##'   information.
+##'   lacks any of the features required to make vault secure.  For
+##'   more information, please see the the official Vault
+##'   documentation on development servers:
+##'   https://developer.hashicorp.com/vault/docs/concepts/dev-server
 ##'
 ##' @title Control a test vault server
 ##'
@@ -225,7 +224,7 @@ vault_server_start_dev <- function(bin, port, quiet) {
     Sys.sleep(0.5) # nocov
   }
 
-  ## See https://www.vaultproject.io/docs/secrets/kv/kv-v2.html#setup
+  ## See https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2#setup
   ##
   ## > when running a dev-mode server, the v2 kv secrets engine is
   ## > enabled by default at the path secret/ (for non-dev servers, it

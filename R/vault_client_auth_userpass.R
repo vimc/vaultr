@@ -2,7 +2,7 @@
 ##' This backend can be used to configure basic username+password
 ##' authentication, suitable for human users.  For more information,
 ##' please see the vault documentation
-##' https://www.vaultproject.io/docs/auth/userpass.html
+##' https://developer.hashicorp.com/vault/docs/auth/userpass
 ##'
 ##' @title Vault Username/Password Authentication Configuration
 ##' @name vault_client_auth_userpass

@@ -2,7 +2,7 @@
 ##' for storing simple key-value data that can be versioned and for
 ##' storing metadata alongside the secrets (see
 ##' [vaultr::vault_client_kv1] for a simpler key-value store, and see
-##' https://www.vaultproject.io/docs/secrets/kv/kv-v2.html for
+##' https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2 for
 ##' detailed information about this secret store.
 ##'
 ##' A `kv2` store can be mounted anywhere, so all methods accept

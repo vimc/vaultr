@@ -3,7 +3,7 @@
 ##' (c.f. [vaultr::vault_client_kv2]) that is scoped to your
 ##' current token only and not accessible to anyone else.  For more
 ##' details please see the vault documentation
-##' https://www.vaultproject.io/docs/secrets/cubbyhole/index.html
+##' https://developer.hashicorp.com/vault/docs/secrets/cubbyhole
 ##'
 ##' @title Cubbyhole secret store
 ##' @name vault_client_cubbyhole
