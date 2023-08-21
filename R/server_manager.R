@@ -17,8 +17,10 @@
 ##'   under any circumstances.  As the name suggests,
 ##'   `vault_test_server` is a server suitable for *tests* only and
 ##'   lacks any of the features required to make vault secure.  Please
-##'   see https://www.vaultproject.io/docs/concepts/dev-server.html
-##'   for more information
+##'   see
+##'   [https://www.vaultproject.io/docs/concepts/dev-server.html](the
+##'   official Vault documentation on development servers) for more
+##'   information.
 ##'
 ##' @title Control a test vault server
 ##'

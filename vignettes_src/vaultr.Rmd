@@ -19,10 +19,6 @@ local({
   cl$policy$write("basic", 'path "secret/*" {\n  policy = "read"}')
   cl$auth$enable("userpass")
   cl$auth$userpass$write("alice", "p4ssw0rd", "basic")
-  cl$auth$enable("github")
-  cl$auth$github$configure(organization = "vimc")
-  cl$auth$github$write("robots", "basic")
-  Sys.setenv("VAULT_AUTH_GITHUB_TOKEN" = Sys.getenv("VAULTR_TEST_GITHUB_PAT"))
 })
 ```
 
@@ -161,25 +157,26 @@ cl <- vaultr::vault_client(login = "userpass", username = "alice")
 
 ### GitHub (`github`)
 
-Assume vault has been configured to support
+Assuming that vault has been configured to support
 [GitHub](https://www.vaultproject.io/docs/auth/github.html), and
 that the environment variable `VAULT_AUTH_GITHUB_TOKEN` contains a
 personal access token for a team that has been configured to have
-vault access.
+vault access, then you can log in with github:
 
-``` {r include = FALSE}
-srv$clear_cached_token()
-```
-
-This time login is a little slower because vault has to talk with
-GitHub to verify the user:
-``` {r }
-cl <- vaultr::vault_client(login = "github")
-cl$read("secret/webserver")
-```
-
-Subsequent logins are cached within a session though (based on the
-vault address)
-``` {r }
+```r
 cl <- vaultr::vault_client(login = "github")
 ```
+
+See `?vault_client_auth_github` for details.
+
+### LDAP (`ldap`)
+
+If your organisation uses LDAP and has configured vault to enable that at the server level, you can login using that by passing login = "ldap" along with your username:
+
+```r
+cl <- vaultr::vault_client(login = "ldap", username = "alice")
+## Password for 'alice': ********
+## ok, duration: 2764800 s (~32d)
+```
+
+This will authenticate with the LDAP server, and generate an appropriate token.  See `?vault_client_auth_ldap` for details.

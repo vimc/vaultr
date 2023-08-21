@@ -1,7 +1,7 @@
 ---
 title: "vaultr"
 author: "Rich FitzJohn"
-date: "2023-07-24"
+date: "2023-08-21"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaultr}
@@ -35,7 +35,7 @@ Sys.getenv(c("VAULT_ADDR", "VAULT_TOKEN", "VAULTR_AUTH_METHOD"))
 
 ```
 ##                             VAULT_ADDR                            VAULT_TOKEN
-##               "http://127.0.0.1:18200" "bed9a42c-27a4-51ab-c205-f9c720be5913"
+##               "http://127.0.0.1:18200" "94738a1d-9fe8-46e3-04e4-287c00faea7b"
 ##                     VAULTR_AUTH_METHOD
 ##                                "token"
 ```
@@ -91,6 +91,7 @@ vault$auth
 ##   Command groups:
 ##     approle: Interact and configure vault's AppRole support
 ##     github: Interact and configure vault's github support
+##     ldap: Interact and configure vault's LDAP support
 ##     token: Interact and configure vault's token support
 ##     userpass: Interact and configure vault's userpass support
 ##   Commands:
@@ -239,41 +240,26 @@ cl <- vaultr::vault_client(login = "userpass", username = "alice")
 
 ### GitHub (`github`)
 
-Assume vault has been configured to support
+Assuming that vault has been configured to support
 [GitHub](https://www.vaultproject.io/docs/auth/github.html), and
 that the environment variable `VAULT_AUTH_GITHUB_TOKEN` contains a
 personal access token for a team that has been configured to have
-vault access.
-
-
-
-This time login is a little slower because vault has to talk with
-GitHub to verify the user:
+vault access, then you can log in with github:
 
 ```r
 cl <- vaultr::vault_client(login = "github")
 ```
 
-```
-## Error: GET https://api.github.com/user: 401 Requires authentication []
-```
+See `?vault_client_auth_github` for details.
+
+### LDAP (`ldap`)
+
+If your organisation uses LDAP and has configured vault to enable that at the server level, you can login using that by passing login = "ldap" along with your username:
 
 ```r
-cl$read("secret/webserver")
+cl <- vaultr::vault_client(login = "ldap", username = "alice")
+## Password for 'alice': ********
+## ok, duration: 2764800 s (~32d)
 ```
 
-```
-## $password
-## [1] "horsestaple"
-```
-
-Subsequent logins are cached within a session though (based on the
-vault address)
-
-```r
-cl <- vaultr::vault_client(login = "github")
-```
-
-```
-## Error: GET https://api.github.com/user: 401 Requires authentication []
-```
+This will authenticate with the LDAP server, and generate an appropriate token.  See `?vault_client_auth_ldap` for details.

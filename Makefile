@@ -43,10 +43,7 @@ README.md: README.Rmd
 	rm -f $@.bak
 
 pkgdown:
-	./scripts/pkgdown
-
-website: pkgdown
-	./scripts/update_web.sh
+	Rscript -e 'pkgdown::build_site()'
 
 manual:
 	R CMD Rd2pdf --no-clean .

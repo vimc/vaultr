@@ -85,7 +85,7 @@ Install `vaultr` from CRAN with
 install.packages("vaultr")
 ```
 
-To install our internally released version (which might be ahead of CRAN) via drat, use
+To install our internally released version (which might be ahead of CRAN) via r-universe, use
 
 
 ```r
