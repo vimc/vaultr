@@ -39,6 +39,7 @@ test_that("safeguards for run", {
 
 
 test_that("allow use of directory containing a file vault", {
+  skip_if_no_vault_bin()
   path <- withr::local_tempdir()
   exe <- file.path(path, vault_exe_filename())
   file.create(exe)
@@ -54,6 +55,7 @@ test_that("allow use of directory containing a file vault", {
 
 
 test_that("use value found by which if requested", {
+  skip_if_no_vault_bin()
   skip_if_not_installed("mockery")
   path <- withr::local_tempdir()
   exe <- file.path(path, vault_exe_filename())

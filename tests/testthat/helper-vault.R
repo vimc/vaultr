@@ -41,6 +41,15 @@ skip_if_no_internet <- function() {
 }
 
 
+skip_if_no_vault_bin <- function() {
+  path <- vault_server_manager_bin()
+  if (is.null(path)) {
+    testthat::skip("vault bin path not found")
+  }
+  testthat::skip_on_cran()
+}
+
+
 skip_if_vault_before <- function(required, server, api, description) {
   have <- server$version()
   if (have < required) {
