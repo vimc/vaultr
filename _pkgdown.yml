@@ -1,3 +1,8 @@
+url: https://vaccineimpact.org/vaultr/
+
+template:
+  bootstrap: 5
+
 reference:
   - title: High level functions
     desc: The main functions called in the package
