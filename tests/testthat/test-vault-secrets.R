@@ -30,9 +30,12 @@ test_that("move a secret engine", {
   p1 <- "oldpath"
   p2 <- "newpath"
   cl$secrets$enable("kv", p1, version = 2)
+  # On CI, these tests are being flakey, and it's not at all obvious
+  # why; it could be a race condition so adding a little sleep here to see.
+  Sys.sleep(1)
   cl$secrets$move(p1, p2)
+  Sys.sleep(1)
   d <- cl$secrets$list()
-  cl$secrets$disable(p2)
   expect_true(paste0(p2, "/") %in% d$path)
   expect_false(paste0(p1, "/") %in% d$path)
 })
