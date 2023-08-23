@@ -4,11 +4,12 @@ This file contains (hopefully) useful information for developing `vaultr`.
 
 ## Running all the tests
 
-Set two environment variables
+Set three environment variables before loading the package:
 
 ```
 VAULTR_TEST_SERVER_PORT=18200
-VAULTR_TEST_SERVER_BIN_PATH=/usr/bin
+VAULTR_TEST_SERVER_BIN_PATH=/usr/bin  (or "C:/Program Files/Vault/")
+NOT_CRAN=true
 ```
 
 With these set, and the package loaded with `pkgload::load_all()` you should now be able to run
