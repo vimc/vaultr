@@ -4,7 +4,7 @@
 ##' transit secrets engine can also sign and verify data; generate
 ##' hashes and HMACs of data; and act as a source of random bytes.
 ##' See
-##' https://developer.hashicorp.com/vault/docs/secrets/cubbyhole
+##' https://developer.hashicorp.com/vault/docs/secrets/transit
 ##' for an introduction to the capabilities of the `transit`
 ##' engine.
 ##'

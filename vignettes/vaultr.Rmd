@@ -241,7 +241,7 @@ cl <- vaultr::vault_client(login = "userpass", username = "alice")
 ### GitHub (`github`)
 
 Assuming that vault has been configured to support
-[GitHub](https://www.vaultproject.io/docs/auth/github.html), and
+[GitHub](https://developer.hashicorp.com/vault/docs/auth/github), and
 that the environment variable `VAULT_AUTH_GITHUB_TOKEN` contains a
 personal access token for a team that has been configured to have
 vault access, then you can log in with github:
