@@ -29,6 +29,4 @@
 ##' and the "packages" vignette.
 ##'
 ##' @title Vault Client for Secrets and Sensitive Data
-##' @name vaultr
-##' @docType package
-NULL
+"_PACKAGE"

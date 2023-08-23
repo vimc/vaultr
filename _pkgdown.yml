@@ -1,0 +1,58 @@
+url: https://vaccineimpact.org/vaultr/
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: High level functions
+    desc: The main functions called in the package
+    contents:
+      - vault_client
+      - vault_resolve_secrets
+
+  - title: Authentication backends
+    desc: >-
+      Different ways of logging into the vault, typically you just
+      need to use the `$login()` method (or `login` argument to
+      `vault_client`), but you can also configure these authentication
+      backends here.
+    contents:
+      - vault_client_auth
+      - vault_client_auth_approle
+      - vault_client_auth_github
+      - vault_client_auth_ldap
+      - vault_client_auth_userpass
+
+  - title: Secret backends
+    desc: >-
+      Different ways of storing and retrieving secrets from the
+      vault. Which of these you want to use depends on how your vault
+      instance has been configured.
+    contents:
+      - vault_client_secrets
+      - vault_client_kv1
+      - vault_client_kv2
+      - vault_client_cubbyhole
+      - vault_client_transit
+
+  - title: Vault administration
+    desc: >-
+      Perform administrative tasks for a vault server
+    contents:
+      - vault_client_audit
+      - vault_client_operator
+      - vault_client_policy
+      - vault_client_token
+      - vault_client_tools
+
+  - title: Using vault objects
+    desc: Common documentation for all the above objects
+    contents:
+      - vaultr
+      - vault_client_object
+      - vault_api_client
+
+  - title: Testing
+    desc: 'Support for testing (see also `vignette("packages")`)'
+    contents:
+      - vault_test_server

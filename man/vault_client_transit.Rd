@@ -15,7 +15,7 @@ encrypting arbitrary data without storing it in the vault - like
 transit secrets engine can also sign and verify data; generate
 hashes and HMACs of data; and act as a source of random bytes.
 See
-https://www.vaultproject.io/docs/secrets/transit/index.html
+https://developer.hashicorp.com/vault/docs/secrets/transit
 for an introduction to the capabilities of the \code{transit}
 engine.
 }

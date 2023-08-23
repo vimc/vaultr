@@ -13,9 +13,9 @@ Interact with vault's token methods.  This includes support for
 querying, creating and deleting tokens.  Tokens are fundamental to
 the way that vault works, so there are a lot of methods here.  The
 vault documentation has a page devoted to token concepts:
-https://www.vaultproject.io/docs/concepts/tokens.html. There is
-also a page with commands:
-https://www.vaultproject.io/docs/commands/token/index.html - these
+https://developer.hashicorp.com/vault/docs/concepts/tokens - there
+is also a page with commands:
+https://developer.hashicorp.com/vault/docs/commands/token - these
 have names very similar to the names used here.
 }
 \section{Token Accessors}{
@@ -296,7 +296,7 @@ policy is used.}
 
 \item{\code{wrap_ttl}}{Indicates that the secret should be wrapped.
 This is discussed in the vault documentation:
-https://www.vaultproject.io/docs/concepts/response-wrapping.html
+https://developer.hashicorp.com/vault/docs/concepts/response-wrapping
 When this option is used, \code{vault} will take the response it
 would have sent to an HTTP client and instead insert it into
 the cubbyhole of a single-use token, returning that

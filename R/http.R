@@ -26,12 +26,9 @@ vault_client_response <- function(res, to_json = TRUE) {
   if (code >= 400 && code < 600) {
     if (response_is_json(res)) {
       dat <- response_to_json(res)
-      ## TODO: this section is a bit out of sync with
-      ## https://www.vaultproject.io/api/overview.html#error-response
-      ## which mentions errors but not warnings
+      ## https://developer.hashicorp.com/vault/api-docs#error-response
       errors <- list_to_character(dat$errors)
-      warnings <- list_to_character(dat$warnings)
-      text <- paste(c(errors, warnings), collapse = "\n")
+      text <- paste(errors, collapse = "\n")
     } else {
       errors <- NULL
       text <- trimws(httr::content(res, "text", encoding = "UTF-8"))

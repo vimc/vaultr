@@ -39,6 +39,8 @@ test_that("safeguards for run", {
 
 
 test_that("allow use of directory containing a file vault", {
+  skip_on_cran()
+  skip_if_no_vault_bin()
   path <- withr::local_tempdir()
   exe <- file.path(path, vault_exe_filename())
   file.create(exe)
@@ -54,6 +56,8 @@ test_that("allow use of directory containing a file vault", {
 
 
 test_that("use value found by which if requested", {
+  skip_on_cran()
+  skip_if_no_vault_bin()
   skip_if_not_installed("mockery")
   path <- withr::local_tempdir()
   exe <- file.path(path, vault_exe_filename())
@@ -73,6 +77,7 @@ test_that("use value found by which if requested", {
 
 
 test_that("disabled server manager", {
+  skip_on_cran()
   res <- vault_server_manager$new(NULL)
   expect_false(res$enabled)
   expect_equal(res$new_server(if_disabled = identity),
@@ -83,6 +88,7 @@ test_that("disabled server manager", {
 
 
 test_that("timeout catch", {
+  skip_on_cran()
   test <- function() FALSE
   path <- tempfile()
   txt <- c("information about the process",
@@ -97,6 +103,7 @@ test_that("timeout catch", {
 
 
 test_that("vault_platform", {
+  skip_on_cran()
   expect_equal(vault_platform("Darwin"), "darwin")
   expect_equal(vault_platform("Windows"), "windows")
   expect_equal(vault_platform("Linux"), "linux")
@@ -158,6 +165,7 @@ test_that("skip if server does not come up", {
 
 
 test_that("correct exe on different platforms", {
+  skip_on_cran()
   expect_equal(vault_exe_filename("windows"), "vault.exe")
   expect_equal(vault_exe_filename("linux"), "vault")
   expect_equal(vault_exe_filename("darwin"), "vault")

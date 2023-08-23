@@ -1,5 +1,5 @@
 ##' Interact with vault's audit devices.  For more details, see
-##' https://www.vaultproject.io/docs/audit/
+##' https://developer.hashicorp.com/vault/docs/audit
 ##'
 ##' @title Vault Audit Devices
 ##' @name vault_client_audit

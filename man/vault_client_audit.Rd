@@ -10,7 +10,7 @@ Vault Audit Devices
 }
 \details{
 Interact with vault's audit devices.  For more details, see
-https://www.vaultproject.io/docs/audit/
+https://developer.hashicorp.com/vault/docs/audit
 }
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)

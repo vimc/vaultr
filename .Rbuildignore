@@ -14,3 +14,5 @@
 ^\.github$
 ^\.lintr$
 ^development\.md$
+^_pkgdown\.yml$
+^docs$

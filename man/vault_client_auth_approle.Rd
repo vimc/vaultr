@@ -11,7 +11,7 @@ Vault AppRole Authentication Configuration
 \details{
 Interact with vault's AppRole authentication backend.  For more
 details about this, see the vault documentation at
-https://www.vaultproject.io/docs/auth/approle.html
+https://developer.hashicorp.com/vault/docs/auth/approle
 }
 \examples{
 

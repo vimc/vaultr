@@ -1,10 +1,10 @@
 ---
 title: "Using vaultr in packages"
 author: "Rich FitzJohn"
-date: "2023-07-23"
+date: "2023-07-24"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{packages}
+  %\VignetteIndexEntry{Using vaultr in packages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -29,6 +29,10 @@ To create a vault server, run:
 
 ```r
 srv <- vaultr::vault_test_server()
+```
+
+```
+## ...waiting for Vault to start
 ```
 
 As soon as `srv` goes out of scope and is garbage collected, the
@@ -136,7 +140,7 @@ Sys.getenv("VAULT_TOKEN")
 ```
 
 ```
-## [1] "52e834be-c370-9bb7-7f24-a65b5b822931"
+## [1] "e0113699-c4ce-4620-9dc8-28b4c5fa5eef"
 ```
 
 ## Handling lack of vault gracefully

@@ -1,4 +1,5 @@
 test_that("custom mount", {
+  skip_if_no_vaultr_test_github_pat()
   srv <- test_vault_test_server()
   cl <- srv$client()
 
@@ -13,6 +14,7 @@ test_that("custom mount", {
 
 
 test_that("github set policy: group", {
+  skip_if_no_vaultr_test_github_pat()
   srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("github")
@@ -25,6 +27,7 @@ test_that("github set policy: group", {
 
 
 test_that("github set policy: user", {
+  skip_if_no_vaultr_test_github_pat()
   srv <- test_vault_test_server()
   cl <- srv$client()
   cl$auth$enable("github")

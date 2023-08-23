@@ -11,16 +11,17 @@ Vault GitHub Authentication Configuration
 \details{
 Interact with vault's GitHub authentication backend.  For more
 details, please see the vault documentation at
-https://www.vaultproject.io/docs/auth/github.html
+https://developer.hashicorp.com/vault/docs/auth/github
 }
 \examples{
 server <- vaultr::vault_test_server(if_disabled = message)
-if (!is.null(server)) {
+token <- Sys.getenv("VAULT_TEST_AUTH_GITHUB_TOKEN")
+if (!is.null(server) && nzchar(token)) {
   client <- server$client()
 
   client$auth$enable("github")
-  # To enable login for members of the organisation "vimc":
-  client$auth$github$configure(organization = "vimc")
+  # To enable login for members of the organisation "example":
+  client$auth$github$configure(organization = "example")
   # To map members of the "robots" team *within* that organisation
   # to the "defaut" policy:
   client$auth$github$write("development", "default")

@@ -4,7 +4,7 @@
 ##' transit secrets engine can also sign and verify data; generate
 ##' hashes and HMACs of data; and act as a source of random bytes.
 ##' See
-##' https://www.vaultproject.io/docs/secrets/transit/index.html
+##' https://developer.hashicorp.com/vault/docs/secrets/transit
 ##' for an introduction to the capabilities of the `transit`
 ##' engine.
 ##'
@@ -668,7 +668,7 @@ vault_client_transit <- R6::R6Class(
       assert_vault_version("0.11.4", private$api_client, path,
                            "transit key trim")
       ## TODO: this differs from the spec here:
-      ## https://www.vaultproject.io/api/secret/transit/index.html#trim-key
+      ## https://developer.hashicorp.com/vault/api-docs/secret/transit#trim-key
       ## (claims min_version)
       body <- list(min_available_version = assert_scalar_integer(min_version))
       private$api_client$POST(path, body = body)
