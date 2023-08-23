@@ -27,7 +27,8 @@ vault_client_response <- function(res, to_json = TRUE) {
     if (response_is_json(res)) {
       dat <- response_to_json(res)
       ## https://developer.hashicorp.com/vault/api-docs#error-response
-      text <- paste(list_to_character(dat$errors), collapse = "\n")
+      errors <- list_to_character(dat$errors)
+      text <- paste(errors, collapse = "\n")
     } else {
       errors <- NULL
       text <- trimws(httr::content(res, "text", encoding = "UTF-8"))
