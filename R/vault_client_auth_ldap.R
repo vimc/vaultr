@@ -96,7 +96,7 @@ vault_client_auth_ldap <- R6::R6Class(
     ##'   "Configure LDAP") for the list of accepted parameters here
     ##'   via the dots argument; these are passed through directly
     ##'   (with the exception of `url` which is the only required
-    ##'   parameter and for which contatenation of multiple values is
+    ##'   parameter and for which concatenation of multiple values is
     ##'   done for you.
     ##'
     ##' @param url The LDAP server to connect to. Examples:
