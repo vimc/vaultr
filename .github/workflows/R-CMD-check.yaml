@@ -52,6 +52,9 @@ jobs:
         run: |
           cp vignettes_src/* vignettes
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
