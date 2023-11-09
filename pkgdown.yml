@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   packages: packages.html
   vaultr: vaultr.html
-last_built: 2023-11-09T11:16Z
+last_built: 2023-11-09T12:53Z
 urls:
   reference: https://vaccineimpact.org/vaultr/reference
   article: https://vaccineimpact.org/vaultr/articles
