@@ -91,13 +91,17 @@ rm(list = "server_manager", envir = vaultr:::vault_env)
 By default this calls `testthat::skip`, which interactively will
 appear to cause an error but if called within a `test_that` block
 in a test will gracefully skip a test
+
+```{r, include = FALSE}
+.vaultr_test_server_bin_path <- Sys.getenv("VAULTR_TEST_SERVER_BIN_PATH")
+```
+
 ``` {r }
 Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = NA_character_)
 ```
 
-```r
+```{r, error = TRUE}
 srv <- vaultr::vault_test_server()
-## Error: vault is not enabled
 ```
 
 
@@ -105,6 +109,10 @@ Alternatively, provide your own handler:
 ``` {r }
 srv <- vaultr::vault_test_server(if_disabled = message)
 srv
+```
+
+```{r, include = FALSE}
+Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = .vaultr_test_server_bin_path)
 ```
 
 With that approach, you might wrap vault-requiring tests with
