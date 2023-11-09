@@ -84,41 +84,22 @@ failure to start a vault server.  This could be for reasons such as:
 * the binary is not in place
 * a port could not be opened
 
-``` {r include = FALSE}
-rm(list = "server_manager", envir = vaultr:::vault_env)
-```
-
 By default this calls `testthat::skip`, which interactively will
 appear to cause an error but if called within a `test_that` block
 in a test will gracefully skip a test
-
-```{r, include = FALSE}
-.vaultr_test_server_bin_path <- Sys.getenv("VAULTR_TEST_SERVER_BIN_PATH")
-```
-
-``` {r }
-Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = NA_character_)
-```
-
-<!-- can't use error=TRUE on the block here, as testthat::skip() still fails the vignette build -->
 
 ```r
 srv <- vaultr::vault_test_server()
 ## Error: vault is not enabled
 ```
 
-
 Alternatively, provide your own handler:
-``` {r }
+
+```r
 srv <- vaultr::vault_test_server(if_disabled = message)
-srv
 ```
 
-```{r, include = FALSE}
-Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = .vaultr_test_server_bin_path)
-```
-
-With that approach, you might wrap vault-requiring tests with
+In this case, `vaultr::vault_test_server` will return `NULL` and you might wrap vault-requiring tests with:
 
 ```r
 if (!is.null(srv)) {
