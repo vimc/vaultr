@@ -139,7 +139,7 @@ See the official docs
 "Configure LDAP") for the list of accepted parameters here
 via the dots argument; these are passed through directly
 (with the exception of \code{url} which is the only required
-parameter and for which contatenation of multiple values is
+parameter and for which concatenation of multiple values is
 done for you.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{vault_client_auth_ldap$configure(url, ...)}\if{html}{\out{</div>}}
