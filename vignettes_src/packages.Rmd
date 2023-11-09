@@ -100,8 +100,11 @@ in a test will gracefully skip a test
 Sys.setenv("VAULTR_TEST_SERVER_BIN_PATH" = NA_character_)
 ```
 
-```{r, error = TRUE}
+<!-- can't use error=TRUE on the block here, as testthat::skip() still fails the vignette build -->
+
+```r
 srv <- vaultr::vault_test_server()
+## Error: vault is not enabled
 ```
 
 
