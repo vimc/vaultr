@@ -1,7 +1,7 @@
 ---
 title: "vaultr"
 author: "Rich FitzJohn"
-date: "2023-08-21"
+date: "2023-11-09"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaultr}
@@ -35,7 +35,7 @@ Sys.getenv(c("VAULT_ADDR", "VAULT_TOKEN", "VAULTR_AUTH_METHOD"))
 
 ```
 ##                             VAULT_ADDR                            VAULT_TOKEN
-##               "http://127.0.0.1:18200" "94738a1d-9fe8-46e3-04e4-287c00faea7b"
+##               "http://127.0.0.1:18200" "1cd28503-0d1d-cb1d-80ce-30d3bfeb2e31"
 ##                     VAULTR_AUTH_METHOD
 ##                                "token"
 ```
